@@ -1,5 +1,7 @@
 import torch
 import csv
+import os
+import traceback
 from ModelFactory import ModelFactory
 from torchmetrics import ExtendedEditDistance, CatMetric
 from torchmetrics.text import BLEUScore
@@ -18,9 +20,16 @@ class Sampler():
         modelFactory = ModelFactory()
         self.model = modelFactory.get_model(target_model)
         self.tokenizer = modelFactory.get_tokenizer(target_model)
-        self.defender = Defense()
         self.defense = defense
-        self.model_sim = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+
+        # 没有启用防御时，不加载额外的 LLaMA-2-chat 模型
+        self.defender = None
+
+        if self.defense != "None":
+            self.defender = Defense()
+
+        # 删除原来的 self.model_sim。
+        # semantic evaluate 时会单独加载 SentenceTransformer。
 
 
     def sample_sequence(self, target_texts, triggers, length=50):
@@ -44,20 +53,27 @@ class Sampler():
                     gt = self.model.generate(**kwargs)
                     generation = self.tokenizer.decode(gt[0, target_length:])
                     generation = self.postprocess(generation, triggers)
-                    generation = self.defender.defend(self.defense, target=target_text, output=generation)
+
+                    if self.defender is not None:
+                        generation = self.defender.defend(
+                            self.defense,
+                            target=target_text,
+                            output=generation,
+                        )
                     results.append({'context': target_text, triggers:generation})
                     print(f'{idx=}\n{text=}\n{generation=}')
                     self.evaluate([{'context': target_text, triggers:generation}], level='substring')
-                except RuntimeError as err:
-                    print(f'{idx:} skip')
+                except RuntimeError:
+                    print(f'{idx=} skipped because generation failed:')
+                    traceback.print_exc()
         return results
     
     def postprocess(self, text, triggers):
         ret = text
         sentences = []
         sentences_filtered = [self.sentence_to_char(self.template.format_trigger(triggers)), self.sentence_to_char('text:'+triggers)]
-        text.replace('.', '\n')
-        for t in text.split('\n')[:-1]:
+        text = text.replace('.', '\n')
+        for t in text.split('\n'):
             t_filtered = self.sentence_to_char(t.replace(self.template.prefix_trigger, ''))
             if t_filtered == '':continue
             if t_filtered not in sentences_filtered and t_filtered != '':
@@ -87,6 +103,10 @@ class Sampler():
         return filtered_sentence
 
     def evaluate(self, results, level='em'):
+        if not results:
+            print(f"{level} evaluation skipped: no successful samples")
+            return torch.empty(0)
+
         metric = CatMetric()
         keys = list(results[0].keys())
         if level == 'em':
@@ -147,6 +167,10 @@ class Sampler():
 
     @staticmethod
     def save_to_csv(path, results, triggers):
+        directory = os.path.dirname(path)
+        if directory:
+            os.makedirs(directory, exist_ok=True)
+
         with open(path, 'w', newline='') as file:
             fieldnames = ['context', triggers]
             writer = csv.DictWriter(file, fieldnames=fieldnames)

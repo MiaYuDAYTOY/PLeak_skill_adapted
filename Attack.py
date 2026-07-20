@@ -31,17 +31,34 @@ class HotFlip:
             len_init -= 1
             len_user -= 1
         if len_init >= trigger_token_length:
-            return np.asarray(init_tokens)
+            triggers = np.asarray(init_tokens[:trigger_token_length])
+            # A trigger must survive the exact text path used during testing.
+            self._decode_trigger_tokens(triggers)
+            return triggers
         triggers = np.empty(trigger_token_length-len_user, dtype=int)
-        for idx, t in enumerate(triggers):
-            if idx < len_init:
-                triggers[idx] = init_tokens[idx]
-            else:
+        random_start = min(len_init, len(triggers))
+        triggers[:random_start] = init_tokens[:random_start]
+
+        # A few vocabulary IDs cannot be represented by the same ID after
+        # decode -> string concatenation -> encode. Resample those cases so
+        # training and testing always see the same trigger token sequence.
+        for _ in range(1000):
+            for idx in range(random_start, len(triggers)):
                 t = np.random.randint(self.vocab_size)
-                while re.search("[^a-zA-Z0-9s\s]", self.tokenizer.decode(t)):
+                while re.search(
+                    "[^a-zA-Z0-9s\s]",
+                    self.tokenizer.decode([int(t)])
+                    ):
                     t = np.random.randint(self.vocab_size)
-                triggers[idx] = t
-        return triggers
+                triggers[idx] = int(t)
+
+            try:
+                self._decode_trigger_tokens(triggers)
+                return triggers
+            except ValueError:
+                continue
+
+        raise RuntimeError("无法初始化可在训练和测试间稳定编码的 trigger")
 
     def get_embedding_weight(self):
         for module in self.model.modules():
@@ -52,28 +69,81 @@ class HotFlip:
 
     def get_triggers_grad(self):
         for module in self.model.modules():
-            if not isinstance(module, torch.nn.Embedding): continue
-            if module.weight.shape[0] != self.vocab_size: continue
-            return module.weight.grad[self.trigger_tokens]
+            if not isinstance(module, torch.nn.Embedding):
+                continue
+
+            if module.weight.shape[0] != self.vocab_size:
+                continue
+
+            # self.trigger_tokens 是 NumPy int64 数组；
+            # 转为与梯度处于同一设备上的 PyTorch LongTensor。
+            trigger_indices = torch.as_tensor(
+                self.trigger_tokens,
+                dtype=torch.long,
+                device=module.weight.grad.device,
+            )
+
+            return module.weight.grad.index_select(0, trigger_indices)
+
+        raise RuntimeError("Cannot find the token embedding layer.")
     
+    def _decode_trigger_tokens(self, trigger_tokens):
+        """Decode IDs without losing their whitespace at the trigger boundary."""
+        trigger_ids = [int(token_id) for token_id in trigger_tokens]
+        context = "\n" + self.template.prefix_trigger + self.user_prefix
+        context_ids = self.tokenizer.encode(context, add_special_tokens=False)
+
+        decoded_context = self.tokenizer.decode(
+            context_ids,
+            clean_up_tokenization_spaces=False,
+        )
+        decoded_with_trigger = self.tokenizer.decode(
+            context_ids + trigger_ids,
+            clean_up_tokenization_spaces=False,
+        )
+        if not decoded_with_trigger.startswith(decoded_context):
+            raise ValueError("无法在 trigger 上下文中稳定解码 token IDs")
+
+        trigger_text = decoded_with_trigger[len(decoded_context):]
+        roundtrip_ids = self.tokenizer.encode(
+            context + trigger_text,
+            add_special_tokens=False,
+        )
+        if roundtrip_ids != context_ids + trigger_ids:
+            raise ValueError("trigger token IDs 在文本往返编码后发生变化")
+
+        return trigger_text
+
     def decode_triggers(self):
-        return self.user_prefix + self.tokenizer.decode(self.trigger_tokens)
+        trigger_text = self._decode_trigger_tokens(self.trigger_tokens)
+        return self.user_prefix + trigger_text
 
     def make_target(self, index, idx_loss, target_text, triggers):
-        encoded_target_text = self.tokenizer.encode(target_text)
-        encoded_trigger_prefix = self.tokenizer.encode(self.template.prefix_trigger)
-        encoded_splash_n = self.tokenizer.encode('\n')
-        encoded_user_prefix = self.tokenizer.encode(self.user_prefix)
-        if self.target_model == 'opt' or 'llama' in self.target_model or self.target_model=='vicuna': 
-            encoded_target = encoded_target_text[1:]
-            encoded_trigger_prefix = encoded_trigger_prefix[1:]
-            encoded_splash_n = encoded_splash_n[1:]
-            encoded_user_prefix = encoded_user_prefix[1:]
-        else: encoded_target = encoded_target_text
+        trigger_text = self.user_prefix + self._decode_trigger_tokens(triggers)
+        prompt_text = target_text + self.template.format_trigger(trigger_text)
+        full_text = prompt_text + target_text
 
-        encoded_text = encoded_target + encoded_user_prefix+encoded_trigger_prefix + triggers.tolist() + encoded_splash_n + encoded_target
+        prompt_ids = self.tokenizer.encode(prompt_text, add_special_tokens=True)
+        full_ids = self.tokenizer.encode(full_text, add_special_tokens=True)
+        if full_ids[:len(prompt_ids)] != prompt_ids:
+            raise ValueError("目标文本拼接后改变了 prompt 的 token 边界")
 
-        len_non_label = len(encoded_target)+ len(encoded_user_prefix) + len(encoded_trigger_prefix) + triggers.shape[0] + len(encoded_splash_n)
+        # 确认测试阶段使用 decode 后的 trigger 时，得到的仍是同一组 ID。
+        before_trigger_text = (
+            target_text + self.template.prefix_trigger + self.user_prefix
+        )
+        before_trigger_ids = self.tokenizer.encode(
+            before_trigger_text,
+            add_special_tokens=True,
+        )
+        trigger_ids = [int(token_id) for token_id in triggers]
+        trigger_start = len(before_trigger_ids)
+        if prompt_ids[trigger_start:trigger_start + len(trigger_ids)] != trigger_ids:
+            raise ValueError("训练输入中的 trigger token IDs 与待优化 IDs 不一致")
+
+        encoded_target = full_ids[len(prompt_ids):]
+
+        len_non_label = len(prompt_ids)
         max_len = len(encoded_target)
         if max_len > self.max_len: self.max_len = max_len
 
@@ -84,7 +154,7 @@ class HotFlip:
         else:
             encoded_label = [-100]*len_non_label + encoded_target[:label_slice]
 
-        encoded_text = encoded_text[:len(encoded_label)]
+        encoded_text = full_ids[:len(encoded_label)]
         label = torch.tensor([encoded_label], device=self.device, dtype=torch.long)
         lm_input= torch.tensor([encoded_text], device=self.device, dtype=torch.long)
         return lm_input, label
@@ -166,9 +236,25 @@ class HotFlip:
                 best_trigger_tokens = deepcopy(self.trigger_tokens)
                 for i, token_to_flip in enumerate(self.trigger_tokens):
                     for cand in candidates[i]:
-                        if re.search("[^a-zA-Z0-9s\s]", self.tokenizer.decode(cand)): continue
+                        # numpy.int64 -> Python int
+                        cand_id = int(cand)
+
+                        # decode 接收 token ID 序列，因此包装为单元素列表
+                        cand_text = self.tokenizer.decode([cand_id])
+
+                        if re.search("[^a-zA-Z0-9s\s]", cand_text):
+                            continue
+
                         candidate_trigger_tokens = deepcopy(self.trigger_tokens)
-                        candidate_trigger_tokens[i] = cand
+                        candidate_trigger_tokens[i] = cand_id
+
+                        try:
+                            self._decode_trigger_tokens(candidate_trigger_tokens)
+                        except ValueError:
+                            # This candidate would become different token IDs
+                            # after being decoded and inserted during testing.
+                            continue
+
                         self.model.zero_grad()
                         with torch.no_grad():
                             loss = self.compute_loss(target_texts, candidate_trigger_tokens, idx_loss, require_grad=False)
@@ -181,4 +267,3 @@ class HotFlip:
                 else: print(f"\nNo improvement, ending iteration")
             idx_loss += 1
             print(f"Enter next iteration :{idx_loss}")
-

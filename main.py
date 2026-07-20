@@ -1,3 +1,5 @@
+import gc
+import json
 from Attack import HotFlip
 from Sampler import Sampler
 import random
@@ -20,7 +22,7 @@ token_length = int(sys.argv[2])
 shadow_model = sys.argv[3]
 target_model = sys.argv[4]
 train_num = int(sys.argv[5])
-test_num = 1000
+test_num = 100
 
 dataFactory = DataFactory()
 trainset = dataFactory.get_dataset(dataset, train=True, num=train_num)
@@ -29,13 +31,34 @@ attack = HotFlip(trigger_token_length=token_length, shadow_model=shadow_model, t
 attack.replace_triggers(trainset)
 
 triggers = attack.decode_triggers()
+trigger_token_ids = [int(token_id) for token_id in attack.trigger_tokens]
 
+os.makedirs('results', exist_ok=True)
+result_stem = f'{dataset}_{token_length}_{shadow_model}_{target_model}_{train_num}'
+trigger_ids_path = f'results/{result_stem}.trigger_ids.json'
+with open(trigger_ids_path, 'w', encoding='utf-8') as file:
+    json.dump(trigger_token_ids, file)
+
+print(f'Trigger token IDs saved to: {trigger_ids_path}')
+
+# 释放攻击阶段的梯度和模型
+attack.model.zero_grad(set_to_none=True)
 del attack
-torch.cuda.empty_cache() 
 
-sampler = Sampler(target_model=target_model, template=testset.template)
+gc.collect()
+torch.cuda.empty_cache()
+
+if torch.cuda.is_available():
+    torch.cuda.ipc_collect()
+
+print("GPU memory released; loading target model...")
+
+sampler = Sampler(
+    target_model=target_model,
+    template=testset.template
+)
 results = sampler.sample_sequence(testset, triggers=triggers)
-Sampler.save_to_csv(f'results/{dataset}_{token_length}_{target_model}_{model}_{train_num}.csv', results, triggers)
+Sampler.save_to_csv(f'results/{result_stem}.csv', results, triggers)
 
 sampler.evaluate(results, level='substring')
 sampler.evaluate(results, level='em')

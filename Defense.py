@@ -1,6 +1,4 @@
 import re
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
-import torch
 # from torchmetrics.text import Perplexity
 from evaluate import load
 from torcheval.metrics.text import Perplexity
@@ -10,8 +8,6 @@ class Defense:
         self._register_alias('None', self.no_defense)
         self._register_alias('Filter', self.filter_based)
         self._register_alias('Detector', self.detector_based)
-        self.tokenizer = AutoTokenizer.from_pretrained('meta-llama/Llama-2-7b-chat-hf')
-        self.model = AutoModelForCausalLM.from_pretrained('meta-llama/Llama-2-7b-chat-hf', device_map="auto", load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16).eval()
 
 
     def _register_alias(self, name, creator):
