@@ -1,614 +1,0 @@
-/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
-  torch.utils._pytree._register_pytree_node(
-/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
-  torch.utils._pytree._register_pytree_node(
-Downloading readme: 0.00B [00:00, ?B/s]Downloading readme: 7.62kB [00:00, 9.27kB/s]Downloading readme: 7.62kB [00:00, 9.26kB/s]
-Downloading and preparing dataset None/plain_text to /root/autodl-tmp/huggingface/datasets/parquet/plain_text-3b381eecc0ae5755/0.0.0/14a00e99c0d15a23649d0db8944380ac81082d4b021f398733dd84f3a6c569a7...
-Downloading data files:   0%|          | 0/2 [00:00<?, ?it/s]
-Downloading data:   0%|          | 0.00/14.5M [00:00<?, ?B/s][A
-Downloading data:   0%|          | 1.02k/14.5M [00:00<2:07:20, 1.89kB/s][A
-Downloading data:   0%|          | 33.8k/14.5M [00:00<04:14, 56.7kB/s]  [A
-Downloading data:   0%|          | 66.6k/14.5M [00:01<05:01, 47.7kB/s][A
-Downloading data:   1%|          | 130k/14.5M [00:01<02:46, 86.0kB/s] [A
-Downloading data:   1%|          | 179k/14.5M [00:02<02:18, 103kB/s] [A
-Downloading data:   1%|▏         | 196k/14.5M [00:02<02:41, 88.1kB/s][A
-Downloading data:   2%|▏         | 245k/14.5M [00:03<02:39, 89.2kB/s][A
-Downloading data:   2%|▏         | 278k/14.5M [00:03<02:15, 105kB/s] [A
-Downloading data:   2%|▏         | 294k/14.5M [00:03<02:08, 111kB/s][A
-Downloading data:   2%|▏         | 310k/14.5M [00:03<03:14, 72.7kB/s][A
-Downloading data:   2%|▏         | 343k/14.5M [00:04<02:50, 82.7kB/s][A
-Downloading data:   3%|▎         | 375k/14.5M [00:04<02:12, 106kB/s] [A
-Downloading data:   3%|▎         | 391k/14.5M [00:04<03:13, 72.7kB/s][A
-Downloading data:   3%|▎         | 408k/14.5M [00:05<03:24, 68.7kB/s][A
-Downloading data:   3%|▎         | 440k/14.5M [00:05<03:02, 76.9kB/s][A
-Downloading data:   3%|▎         | 457k/14.5M [00:05<02:44, 85.0kB/s][A
-Downloading data:   3%|▎         | 473k/14.5M [00:05<03:06, 75.0kB/s][A
-Downloading data:   3%|▎         | 489k/14.5M [00:06<03:12, 72.4kB/s][A
-Downloading data:   4%|▎         | 522k/14.5M [00:06<02:44, 84.8kB/s][A
-Downloading data:   4%|▍         | 552k/14.5M [00:07<03:56, 58.8kB/s][A
-Downloading data:   4%|▍         | 616k/14.5M [00:07<02:12, 104kB/s] [A
-Downloading data:   4%|▍         | 633k/14.5M [00:07<02:35, 88.9kB/s][A
-Downloading data:   4%|▍         | 649k/14.5M [00:08<03:07, 73.6kB/s][A
-Downloading data:   5%|▍         | 682k/14.5M [00:08<02:59, 76.8kB/s][A
-Downloading data:   5%|▍         | 698k/14.5M [00:08<02:47, 81.9kB/s][A
-Downloading data:   5%|▍         | 715k/14.5M [00:08<03:06, 73.8kB/s][A
-Downloading data:   5%|▌         | 745k/14.5M [00:09<02:53, 78.9kB/s][A
-Downloading data:   5%|▌         | 762k/14.5M [00:10<04:45, 47.9kB/s][A
-Downloading data:   6%|▌         | 844k/14.5M [00:10<02:42, 83.6kB/s][A
-Downloading data:   6%|▌         | 894k/14.5M [00:11<02:27, 91.9kB/s][A
-Downloading data:   6%|▋         | 910k/14.5M [00:11<02:54, 77.8kB/s][A
-Downloading data:   6%|▋         | 927k/14.5M [00:11<02:38, 85.1kB/s][A
-Downloading data:   7%|▋         | 943k/14.5M [00:11<02:28, 90.9kB/s][A
-Downloading data:   7%|▋         | 976k/14.5M [00:12<02:45, 81.3kB/s][A
-Downloading data:   7%|▋         | 1.01M/14.5M [00:12<03:05, 72.6kB/s][A
-Downloading data:   7%|▋         | 1.04M/14.5M [00:13<02:55, 76.3kB/s][A
-Downloading data:   7%|▋         | 1.05M/14.5M [00:13<03:08, 71.0kB/s][A
-Downloading data:   8%|▊         | 1.09M/14.5M [00:13<02:27, 90.5kB/s][A
-Downloading data:   8%|▊         | 1.10M/14.5M [00:14<04:15, 52.3kB/s][A
-Downloading data:   8%|▊         | 1.15M/14.5M [00:14<02:46, 79.9kB/s][A
-Downloading data:   8%|▊         | 1.17M/14.5M [00:14<02:37, 84.2kB/s][A
-Downloading data:   8%|▊         | 1.19M/14.5M [00:15<04:08, 53.3kB/s][A
-Downloading data:   8%|▊         | 1.20M/14.5M [00:15<03:32, 62.3kB/s][A
-Downloading data:   8%|▊         | 1.22M/14.5M [00:16<03:45, 58.7kB/s][A
-Downloading data:   9%|▊         | 1.23M/14.5M [00:16<04:01, 54.9kB/s][A
-Downloading data:   9%|▊         | 1.25M/14.5M [00:16<03:24, 64.5kB/s][A
-Downloading data:   9%|▉         | 1.30M/14.5M [00:16<02:37, 83.7kB/s][A
-Downloading data:   9%|▉         | 1.32M/14.5M [00:17<02:23, 91.4kB/s][A
-Downloading data:   9%|▉         | 1.33M/14.5M [00:17<02:22, 92.2kB/s][A
-Downloading data:   9%|▉         | 1.35M/14.5M [00:17<03:01, 72.1kB/s][A
-Downloading data:  10%|▉         | 1.38M/14.5M [00:17<02:27, 88.8kB/s][A
-Downloading data:  10%|▉         | 1.40M/14.5M [00:18<02:30, 86.7kB/s][A
-Downloading data:  10%|▉         | 1.42M/14.5M [00:18<02:50, 76.4kB/s][A
-Downloading data:  10%|▉         | 1.43M/14.5M [00:18<03:06, 69.9kB/s][A
-Downloading data:  10%|█         | 1.48M/14.5M [00:18<02:15, 96.0kB/s][A
-Downloading data:  10%|█         | 1.50M/14.5M [00:19<02:38, 81.6kB/s][A
-Downloading data:  11%|█         | 1.55M/14.5M [00:19<01:49, 118kB/s] [A
-Downloading data:  11%|█         | 1.56M/14.5M [00:19<02:06, 102kB/s][A
-Downloading data:  11%|█         | 1.58M/14.5M [00:19<02:05, 103kB/s][A
-Downloading data:  11%|█         | 1.60M/14.5M [00:20<01:56, 111kB/s][A
-Downloading data:  11%|█▏        | 1.63M/14.5M [00:20<02:40, 79.8kB/s][A
-Downloading data:  12%|█▏        | 1.68M/14.5M [00:21<02:38, 80.5kB/s][A
-Downloading data:  12%|█▏        | 1.71M/14.5M [00:21<02:36, 81.2kB/s][A
-Downloading data:  12%|█▏        | 1.76M/14.5M [00:21<01:53, 112kB/s] [A
-Downloading data:  12%|█▏        | 1.78M/14.5M [00:21<01:51, 114kB/s][A
-Downloading data:  12%|█▏        | 1.79M/14.5M [00:22<01:51, 114kB/s][A
-Downloading data:  13%|█▎        | 1.81M/14.5M [00:22<01:47, 118kB/s][A
-Downloading data:  13%|█▎        | 1.84M/14.5M [00:22<01:57, 107kB/s][A
-Downloading data:  13%|█▎        | 1.87M/14.5M [00:22<01:37, 129kB/s][A
-Downloading data:  13%|█▎        | 1.89M/14.5M [00:22<01:43, 122kB/s][A
-Downloading data:  13%|█▎        | 1.92M/14.5M [00:23<01:32, 136kB/s][A
-Downloading data:  13%|█▎        | 1.94M/14.5M [00:23<01:47, 117kB/s][A
-Downloading data:  14%|█▍        | 1.99M/14.5M [00:23<01:40, 124kB/s][A
-Downloading data:  14%|█▍        | 2.04M/14.5M [00:24<02:02, 101kB/s][A
-Downloading data:  15%|█▍        | 2.14M/14.5M [00:24<01:17, 159kB/s][A
-Downloading data:  15%|█▍        | 2.15M/14.5M [00:24<01:18, 156kB/s][A
-Downloading data:  15%|█▌        | 2.19M/14.5M [00:24<01:13, 168kB/s][A
-Downloading data:  15%|█▌        | 2.23M/14.5M [00:25<01:23, 146kB/s][A
-Downloading data:  16%|█▌        | 2.27M/14.5M [00:25<01:36, 126kB/s][A
-Downloading data:  16%|█▌        | 2.30M/14.5M [00:26<02:26, 83.2kB/s][A
-Downloading data:  16%|█▋        | 2.37M/14.5M [00:26<01:52, 107kB/s] [A
-Downloading data:  17%|█▋        | 2.43M/14.5M [00:26<01:19, 151kB/s][A
-Downloading data:  17%|█▋        | 2.46M/14.5M [00:27<01:16, 157kB/s][A
-Downloading data:  17%|█▋        | 2.49M/14.5M [00:27<01:19, 151kB/s][A
-Downloading data:  17%|█▋        | 2.51M/14.5M [00:27<01:21, 146kB/s][A
-Downloading data:  18%|█▊        | 2.53M/14.5M [00:27<01:47, 111kB/s][A
-Downloading data:  18%|█▊        | 2.61M/14.5M [00:28<01:09, 170kB/s][A
-Downloading data:  18%|█▊        | 2.63M/14.5M [00:28<01:43, 114kB/s][A
-Downloading data:  19%|█▊        | 2.69M/14.5M [00:28<01:18, 151kB/s][A
-Downloading data:  19%|█▉        | 2.71M/14.5M [00:29<02:01, 96.4kB/s][A
-Downloading data:  19%|█▉        | 2.76M/14.5M [00:29<01:36, 121kB/s] [A
-Downloading data:  19%|█▉        | 2.81M/14.5M [00:29<01:17, 151kB/s][A
-Downloading data:  20%|█▉        | 2.83M/14.5M [00:29<01:17, 150kB/s][A
-Downloading data:  20%|█▉        | 2.85M/14.5M [00:30<02:14, 86.0kB/s][A
-Downloading data:  20%|██        | 2.91M/14.5M [00:30<01:23, 138kB/s] [A
-Downloading data:  20%|██        | 2.94M/14.5M [00:30<01:29, 129kB/s][A
-Downloading data:  20%|██        | 2.96M/14.5M [00:31<01:27, 132kB/s][A
-Downloading data:  21%|██        | 2.99M/14.5M [00:31<01:23, 137kB/s][A
-Downloading data:  21%|██        | 3.01M/14.5M [00:31<01:20, 142kB/s][A
-Downloading data:  21%|██        | 3.02M/14.5M [00:31<01:38, 116kB/s][A
-Downloading data:  21%|██        | 3.04M/14.5M [00:31<01:34, 120kB/s][A
-Downloading data:  21%|██        | 3.07M/14.5M [00:32<01:39, 114kB/s][A
-Downloading data:  21%|██▏       | 3.09M/14.5M [00:32<02:05, 90.6kB/s][A
-Downloading data:  21%|██▏       | 3.10M/14.5M [00:32<02:11, 86.3kB/s][A
-Downloading data:  22%|██▏       | 3.14M/14.5M [00:32<01:52, 101kB/s] [A
-Downloading data:  22%|██▏       | 3.17M/14.5M [00:32<01:30, 125kB/s][A
-Downloading data:  22%|██▏       | 3.18M/14.5M [00:33<01:49, 103kB/s][A
-Downloading data:  22%|██▏       | 3.20M/14.5M [00:33<02:01, 92.7kB/s][A
-Downloading data:  22%|██▏       | 3.23M/14.5M [00:33<01:35, 118kB/s] [A
-Downloading data:  23%|██▎       | 3.27M/14.5M [00:33<01:20, 139kB/s][A
-Downloading data:  23%|██▎       | 3.28M/14.5M [00:33<01:21, 138kB/s][A
-Downloading data:  23%|██▎       | 3.32M/14.5M [00:34<01:27, 127kB/s][A
-Downloading data:  23%|██▎       | 3.33M/14.5M [00:34<01:52, 98.8kB/s][A
-Downloading data:  23%|██▎       | 3.35M/14.5M [00:34<01:48, 102kB/s] [A
-Downloading data:  23%|██▎       | 3.40M/14.5M [00:34<01:12, 153kB/s][A
-Downloading data:  24%|██▎       | 3.42M/14.5M [00:34<01:22, 134kB/s][A
-Downloading data:  24%|██▎       | 3.43M/14.5M [00:35<01:28, 125kB/s][A
-Downloading data:  24%|██▍       | 3.45M/14.5M [00:35<01:24, 130kB/s][A
-Downloading data:  24%|██▍       | 3.46M/14.5M [00:35<02:04, 88.1kB/s][A
-Downloading data:  24%|██▍       | 3.51M/14.5M [00:36<01:47, 102kB/s] [A
-Downloading data:  25%|██▍       | 3.55M/14.5M [00:36<01:42, 107kB/s][A
-Downloading data:  25%|██▍       | 3.56M/14.5M [00:36<02:30, 72.6kB/s][A
-Downloading data:  25%|██▍       | 3.61M/14.5M [00:37<01:38, 110kB/s] [A
-Downloading data:  25%|██▌       | 3.64M/14.5M [00:37<01:39, 109kB/s][A
-Downloading data:  25%|██▌       | 3.68M/14.5M [00:37<01:26, 125kB/s][A
-Downloading data:  26%|██▌       | 3.71M/14.5M [00:37<01:14, 144kB/s][A
-Downloading data:  26%|██▌       | 3.73M/14.5M [00:37<01:39, 108kB/s][A
-Downloading data:  26%|██▌       | 3.76M/14.5M [00:38<01:34, 113kB/s][A
-Downloading data:  26%|██▌       | 3.77M/14.5M [00:38<02:17, 77.4kB/s][A
-Downloading data:  27%|██▋       | 3.86M/14.5M [00:38<01:13, 143kB/s] [A
-Downloading data:  27%|██▋       | 3.89M/14.5M [00:39<01:06, 159kB/s][A
-Downloading data:  27%|██▋       | 3.91M/14.5M [00:39<01:26, 122kB/s][A
-Downloading data:  27%|██▋       | 3.95M/14.5M [00:39<01:28, 119kB/s][A
-Downloading data:  27%|██▋       | 3.97M/14.5M [00:40<01:46, 98.7kB/s][A
-Downloading data:  28%|██▊       | 4.05M/14.5M [00:40<00:57, 180kB/s] [A
-Downloading data:  28%|██▊       | 4.08M/14.5M [00:40<00:59, 176kB/s][A
-Downloading data:  28%|██▊       | 4.11M/14.5M [00:41<01:38, 105kB/s][A
-Downloading data:  29%|██▊       | 4.13M/14.5M [00:41<01:30, 115kB/s][A
-Downloading data:  29%|██▉       | 4.17M/14.5M [00:41<01:17, 133kB/s][A
-Downloading data:  29%|██▉       | 4.20M/14.5M [00:41<01:14, 138kB/s][A
-Downloading data:  29%|██▉       | 4.25M/14.5M [00:41<00:54, 189kB/s][A
-Downloading data:  30%|██▉       | 4.28M/14.5M [00:42<01:30, 113kB/s][A
-Downloading data:  30%|██▉       | 4.32M/14.5M [00:42<01:17, 131kB/s][A
-Downloading data:  30%|███       | 4.38M/14.5M [00:42<00:52, 192kB/s][A
-Downloading data:  30%|███       | 4.41M/14.5M [00:43<01:25, 117kB/s][A
-Downloading data:  31%|███       | 4.43M/14.5M [00:43<01:21, 123kB/s][A
-Downloading data:  31%|███       | 4.48M/14.5M [00:43<01:16, 131kB/s][A
-Downloading data:  31%|███       | 4.51M/14.5M [00:44<01:36, 103kB/s][A
-Downloading data:  31%|███▏      | 4.54M/14.5M [00:44<01:26, 115kB/s][A
-Downloading data:  32%|███▏      | 4.58M/14.5M [00:44<01:12, 136kB/s][A
-Downloading data:  32%|███▏      | 4.60M/14.5M [00:45<01:54, 86.2kB/s][A
-Downloading data:  32%|███▏      | 4.63M/14.5M [00:45<01:34, 104kB/s] [A
-Downloading data:  32%|███▏      | 4.66M/14.5M [00:45<01:18, 125kB/s][A
-Downloading data:  32%|███▏      | 4.68M/14.5M [00:45<01:40, 96.9kB/s][A
-Downloading data:  33%|███▎      | 4.71M/14.5M [00:45<01:29, 109kB/s] [A
-Downloading data:  33%|███▎      | 4.74M/14.5M [00:46<01:24, 115kB/s][A
-Downloading data:  33%|███▎      | 4.77M/14.5M [00:46<01:27, 111kB/s][A
-Downloading data:  33%|███▎      | 4.79M/14.5M [00:46<01:43, 93.4kB/s][A
-Downloading data:  33%|███▎      | 4.81M/14.5M [00:46<01:36, 99.7kB/s][A
-Downloading data:  33%|███▎      | 4.82M/14.5M [00:47<02:00, 80.2kB/s][A
-Downloading data:  34%|███▎      | 4.87M/14.5M [00:47<01:16, 125kB/s] [A
-Downloading data:  34%|███▍      | 4.89M/14.5M [00:47<02:05, 76.1kB/s][A
-Downloading data:  34%|███▍      | 4.95M/14.5M [00:48<01:07, 140kB/s] [A
-Downloading data:  34%|███▍      | 4.98M/14.5M [00:48<01:01, 153kB/s][A
-Downloading data:  35%|███▍      | 5.01M/14.5M [00:48<01:26, 109kB/s][A
-Downloading data:  35%|███▍      | 5.05M/14.5M [00:48<01:09, 136kB/s][A
-Downloading data:  35%|███▌      | 5.07M/14.5M [00:49<01:27, 108kB/s][A
-Downloading data:  35%|███▌      | 5.09M/14.5M [00:49<01:22, 114kB/s][A
-Downloading data:  35%|███▌      | 5.12M/14.5M [00:49<01:23, 112kB/s][A
-Downloading data:  36%|███▌      | 5.13M/14.5M [00:49<01:49, 85.5kB/s][A
-Downloading data:  36%|███▌      | 5.15M/14.5M [00:50<01:43, 89.7kB/s][A
-Downloading data:  36%|███▌      | 5.20M/14.5M [00:50<01:18, 118kB/s] [A
-Downloading data:  36%|███▌      | 5.22M/14.5M [00:50<01:35, 97.1kB/s][A
-Downloading data:  36%|███▌      | 5.23M/14.5M [00:51<02:03, 74.8kB/s][A
-Downloading data:  37%|███▋      | 5.30M/14.5M [00:51<01:25, 107kB/s] [A
-Downloading data:  37%|███▋      | 5.35M/14.5M [00:51<01:10, 129kB/s][A
-Downloading data:  37%|███▋      | 5.36M/14.5M [00:51<01:09, 131kB/s][A
-Downloading data:  37%|███▋      | 5.39M/14.5M [00:52<01:31, 99.6kB/s][A
-Downloading data:  37%|███▋      | 5.41M/14.5M [00:52<01:30, 100kB/s] [A
-Downloading data:  38%|███▊      | 5.44M/14.5M [00:52<01:24, 107kB/s][A
-Downloading data:  38%|███▊      | 5.48M/14.5M [00:52<01:06, 136kB/s][A
-Downloading data:  38%|███▊      | 5.51M/14.5M [00:53<01:21, 110kB/s][A
-Downloading data:  38%|███▊      | 5.53M/14.5M [00:53<01:20, 111kB/s][A
-Downloading data:  38%|███▊      | 5.55M/14.5M [00:53<01:43, 86.0kB/s][A
-Downloading data:  39%|███▊      | 5.58M/14.5M [00:54<01:21, 109kB/s] [A
-Downloading data:  39%|███▊      | 5.60M/14.5M [00:54<01:20, 110kB/s][A
-Downloading data:  39%|███▉      | 5.62M/14.5M [00:54<01:35, 93.1kB/s][A
-Downloading data:  39%|███▉      | 5.63M/14.5M [00:54<01:34, 93.0kB/s][A
-Downloading data:  39%|███▉      | 5.66M/14.5M [00:55<01:45, 83.4kB/s][A
-Downloading data:  39%|███▉      | 5.70M/14.5M [00:55<01:38, 88.8kB/s][A
-Downloading data:  40%|███▉      | 5.71M/14.5M [00:55<01:50, 79.4kB/s][A
-Downloading data:  40%|███▉      | 5.75M/14.5M [00:55<01:34, 92.5kB/s][A
-Downloading data:  40%|███▉      | 5.78M/14.5M [00:56<01:18, 111kB/s] [A
-Downloading data:  40%|████      | 5.80M/14.5M [00:56<02:14, 64.3kB/s][A
-Downloading data:  40%|████      | 5.81M/14.5M [00:56<01:59, 72.2kB/s][A
-Downloading data:  40%|████      | 5.84M/14.5M [00:57<01:35, 90.4kB/s][A
-Downloading data:  41%|████      | 5.86M/14.5M [00:57<02:28, 57.9kB/s][A
-Downloading data:  41%|████      | 5.89M/14.5M [00:58<02:32, 56.3kB/s][A
-Downloading data:  41%|████      | 5.91M/14.5M [00:58<02:22, 60.1kB/s][A
-Downloading data:  41%|████      | 5.93M/14.5M [00:59<03:21, 42.4kB/s][A
-Downloading data:  41%|████▏     | 5.99M/14.5M [00:59<01:50, 76.6kB/s][A
-Downloading data:  42%|████▏     | 6.01M/14.5M [01:00<01:58, 71.4kB/s][A
-Downloading data:  42%|████▏     | 6.03M/14.5M [01:00<02:03, 68.5kB/s][A
-Downloading data:  42%|████▏     | 6.06M/14.5M [01:00<01:28, 94.7kB/s][A
-Downloading data:  42%|████▏     | 6.07M/14.5M [01:01<02:29, 56.2kB/s][A
-Downloading data:  42%|████▏     | 6.11M/14.5M [01:01<02:47, 49.8kB/s][A
-Downloading data:  43%|████▎     | 6.16M/14.5M [01:02<01:44, 79.8kB/s][A
-Downloading data:  43%|████▎     | 6.17M/14.5M [01:02<01:46, 77.5kB/s][A
-Downloading data:  43%|████▎     | 6.19M/14.5M [01:03<02:33, 53.8kB/s][A
-Downloading data:  43%|████▎     | 6.24M/14.5M [01:03<02:34, 53.3kB/s][A
-Downloading data:  43%|████▎     | 6.29M/14.5M [01:04<01:42, 80.0kB/s][A
-Downloading data:  44%|████▎     | 6.30M/14.5M [01:04<02:00, 67.5kB/s][A
-Downloading data:  44%|████▎     | 6.32M/14.5M [01:04<01:53, 71.8kB/s][A
-Downloading data:  44%|████▍     | 6.34M/14.5M [01:04<01:48, 74.9kB/s][A
-Downloading data:  44%|████▍     | 6.35M/14.5M [01:05<01:41, 80.1kB/s][A
-Downloading data:  44%|████▍     | 6.39M/14.5M [01:05<01:47, 75.0kB/s][A
-Downloading data:  44%|████▍     | 6.40M/14.5M [01:05<01:46, 75.9kB/s][A
-Downloading data:  44%|████▍     | 6.42M/14.5M [01:06<01:57, 68.4kB/s][A
-Downloading data:  45%|████▍     | 6.45M/14.5M [01:06<02:00, 66.4kB/s][A
-Downloading data:  45%|████▍     | 6.47M/14.5M [01:06<01:55, 69.1kB/s][A
-Downloading data:  45%|████▍     | 6.50M/14.5M [01:06<01:29, 88.5kB/s][A
-Downloading data:  45%|████▌     | 6.52M/14.5M [01:07<01:24, 94.2kB/s][A
-Downloading data:  45%|████▌     | 6.53M/14.5M [01:07<01:42, 77.5kB/s][A
-Downloading data:  45%|████▌     | 6.55M/14.5M [01:07<01:35, 82.7kB/s][A
-Downloading data:  45%|████▌     | 6.57M/14.5M [01:07<01:36, 82.0kB/s][A
-Downloading data:  46%|████▌     | 6.58M/14.5M [01:08<02:00, 65.4kB/s][A
-Downloading data:  46%|████▌     | 6.62M/14.5M [01:08<01:33, 83.6kB/s][A
-Downloading data:  46%|████▌     | 6.63M/14.5M [01:08<01:50, 71.1kB/s][A
-Downloading data:  46%|████▌     | 6.65M/14.5M [01:08<01:43, 75.1kB/s][A
-Downloading data:  46%|████▌     | 6.68M/14.5M [01:09<01:43, 74.8kB/s][A
-Downloading data:  46%|████▋     | 6.70M/14.5M [01:09<01:51, 69.3kB/s][A
-Downloading data:  46%|████▋     | 6.71M/14.5M [01:11<04:12, 30.7kB/s][A
-Downloading data:  47%|████▋     | 6.80M/14.5M [01:11<01:38, 78.0kB/s][A
-Downloading data:  47%|████▋     | 6.82M/14.5M [01:11<01:47, 70.9kB/s][A
-Downloading data:  47%|████▋     | 6.84M/14.5M [01:12<01:44, 73.0kB/s][A
-Downloading data:  47%|████▋     | 6.86M/14.5M [01:12<01:51, 68.4kB/s][A
-Downloading data:  48%|████▊     | 6.88M/14.5M [01:12<01:56, 64.9kB/s][A
-Downloading data:  48%|████▊     | 6.89M/14.5M [01:12<02:00, 62.8kB/s][A
-Downloading data:  48%|████▊     | 6.91M/14.5M [01:13<02:36, 48.2kB/s][A
-Downloading data:  48%|████▊     | 6.94M/14.5M [01:13<01:50, 67.7kB/s][A
-Downloading data:  48%|████▊     | 6.96M/14.5M [01:14<03:10, 39.4kB/s][A
-Downloading data:  48%|████▊     | 7.01M/14.5M [01:15<02:31, 49.1kB/s][A
-Downloading data:  49%|████▊     | 7.04M/14.5M [01:16<02:27, 50.4kB/s][A
-Downloading data:  49%|████▉     | 7.07M/14.5M [01:16<02:24, 51.1kB/s][A
-Downloading data:  49%|████▉     | 7.09M/14.5M [01:16<02:11, 55.9kB/s][A
-Downloading data:  49%|████▉     | 7.11M/14.5M [01:17<02:06, 58.2kB/s][A
-Downloading data:  49%|████▉     | 7.12M/14.5M [01:17<02:15, 54.3kB/s][A
-Downloading data:  49%|████▉     | 7.14M/14.5M [01:17<02:17, 53.4kB/s][A
-Downloading data:  49%|████▉     | 7.16M/14.5M [01:17<01:57, 62.4kB/s][A
-Downloading data:  50%|████▉     | 7.17M/14.5M [01:18<02:12, 55.1kB/s][A
-Downloading data:  50%|████▉     | 7.19M/14.5M [01:18<02:13, 54.6kB/s][A
-Downloading data:  50%|████▉     | 7.20M/14.5M [01:19<02:55, 41.3kB/s][A
-Downloading data:  50%|████▉     | 7.22M/14.5M [01:19<02:38, 45.7kB/s][A
-Downloading data:  50%|█████     | 7.24M/14.5M [01:19<02:40, 45.0kB/s][A
-Downloading data:  50%|█████     | 7.25M/14.5M [01:20<03:07, 38.5kB/s][A
-Downloading data:  50%|█████     | 7.27M/14.5M [01:21<03:20, 35.8kB/s][A
-Downloading data:  50%|█████     | 7.29M/14.5M [01:21<04:00, 29.9kB/s][A
-Downloading data:  51%|█████     | 7.32M/14.5M [01:22<02:54, 41.0kB/s][A
-Downloading data:  51%|█████     | 7.37M/14.5M [01:22<02:18, 51.1kB/s][A
-Downloading data:  51%|█████     | 7.40M/14.5M [01:23<01:49, 64.3kB/s][A
-Downloading data:  51%|█████▏    | 7.42M/14.5M [01:23<02:00, 58.6kB/s][A
-Downloading data:  51%|█████▏    | 7.43M/14.5M [01:23<02:04, 56.3kB/s][A
-Downloading data:  52%|█████▏    | 7.47M/14.5M [01:24<01:57, 59.5kB/s][A
-Downloading data:  52%|█████▏    | 7.48M/14.5M [01:24<01:47, 65.1kB/s][A
-Downloading data:  52%|█████▏    | 7.50M/14.5M [01:24<01:53, 61.3kB/s][A
-Downloading data:  52%|█████▏    | 7.52M/14.5M [01:25<02:16, 51.0kB/s][A
-Downloading data:  52%|█████▏    | 7.55M/14.5M [01:25<01:53, 60.6kB/s][A
-Downloading data:  52%|█████▏    | 7.58M/14.5M [01:26<02:21, 48.5kB/s][A
-Downloading data:  53%|█████▎    | 7.61M/14.5M [01:26<01:48, 63.3kB/s][A
-Downloading data:  53%|█████▎    | 7.63M/14.5M [01:27<02:02, 55.9kB/s][A
-Downloading data:  53%|█████▎    | 7.65M/14.5M [01:27<02:25, 46.9kB/s][A
-Downloading data:  53%|█████▎    | 7.66M/14.5M [01:28<02:14, 50.6kB/s][A
-Downloading data:  53%|█████▎    | 7.68M/14.5M [01:28<02:12, 51.3kB/s][A
-Downloading data:  53%|█████▎    | 7.70M/14.5M [01:28<02:33, 44.0kB/s][A
-Downloading data:  53%|█████▎    | 7.73M/14.5M [01:29<02:25, 46.3kB/s][A
-Downloading data:  54%|█████▎    | 7.75M/14.5M [01:29<02:30, 44.7kB/s][A
-Downloading data:  54%|█████▎    | 7.76M/14.5M [01:30<02:31, 44.1kB/s][A
-Downloading data:  54%|█████▍    | 7.78M/14.5M [01:31<03:00, 37.1kB/s][A
-Downloading data:  54%|█████▍    | 7.79M/14.5M [01:31<02:25, 45.8kB/s][A
-Downloading data:  54%|█████▍    | 7.81M/14.5M [01:31<02:17, 48.5kB/s][A
-Downloading data:  54%|█████▍    | 7.83M/14.5M [01:32<03:04, 35.9kB/s][A
-Downloading data:  54%|█████▍    | 7.84M/14.5M [01:32<02:27, 44.8kB/s][A
-Downloading data:  54%|█████▍    | 7.86M/14.5M [01:32<02:07, 51.6kB/s][A
-Downloading data:  54%|█████▍    | 7.88M/14.5M [01:32<01:59, 55.1kB/s][A
-Downloading data:  55%|█████▍    | 7.89M/14.5M [01:33<02:09, 50.5kB/s][A
-Downloading data:  55%|█████▍    | 7.91M/14.5M [01:33<02:04, 52.4kB/s][A
-Downloading data:  55%|█████▍    | 7.93M/14.5M [01:33<02:10, 49.9kB/s][A
-Downloading data:  55%|█████▍    | 7.94M/14.5M [01:34<01:53, 57.3kB/s][A
-Downloading data:  55%|█████▌    | 7.96M/14.5M [01:34<02:49, 38.3kB/s][A
-Downloading data:  55%|█████▌    | 7.97M/14.5M [01:35<02:43, 39.6kB/s][A
-Downloading data:  55%|█████▌    | 7.99M/14.5M [01:35<02:22, 45.2kB/s][A
-Downloading data:  55%|█████▌    | 8.02M/14.5M [01:35<01:58, 54.3kB/s][A
-Downloading data:  56%|█████▌    | 8.04M/14.5M [01:36<01:56, 55.2kB/s][A
-Downloading data:  56%|█████▌    | 8.06M/14.5M [01:36<02:07, 50.0kB/s][A
-Downloading data:  56%|█████▌    | 8.07M/14.5M [01:36<02:14, 47.6kB/s][A
-Downloading data:  56%|█████▌    | 8.09M/14.5M [01:37<02:15, 46.9kB/s][A
-Downloading data:  56%|█████▌    | 8.11M/14.5M [01:37<02:27, 43.0kB/s][A
-Downloading data:  56%|█████▋    | 8.14M/14.5M [01:38<02:01, 52.2kB/s][A
-Downloading data:  57%|█████▋    | 8.17M/14.5M [01:38<01:50, 57.1kB/s][A
-Downloading data:  57%|█████▋    | 8.19M/14.5M [01:38<01:45, 59.7kB/s][A
-Downloading data:  57%|█████▋    | 8.20M/14.5M [01:39<01:41, 61.6kB/s][A
-Downloading data:  57%|█████▋    | 8.22M/14.5M [01:39<01:50, 56.4kB/s][A
-Downloading data:  57%|█████▋    | 8.24M/14.5M [01:39<01:35, 65.0kB/s][A
-Downloading data:  57%|█████▋    | 8.25M/14.5M [01:40<01:50, 56.1kB/s][A
-Downloading data:  57%|█████▋    | 8.27M/14.5M [01:40<01:34, 65.4kB/s][A
-Downloading data:  57%|█████▋    | 8.29M/14.5M [01:40<01:50, 56.0kB/s][A
-Downloading data:  57%|█████▋    | 8.30M/14.5M [01:40<01:34, 64.8kB/s][A
-Downloading data:  58%|█████▊    | 8.32M/14.5M [01:41<01:44, 58.9kB/s][A
-Downloading data:  58%|█████▊    | 8.34M/14.5M [01:41<01:45, 58.2kB/s][A
-Downloading data:  58%|█████▊    | 8.35M/14.5M [01:41<02:04, 49.1kB/s][A
-Downloading data:  58%|█████▊    | 8.38M/14.5M [01:42<01:35, 63.9kB/s][A
-Downloading data:  58%|█████▊    | 8.40M/14.5M [01:42<01:32, 65.6kB/s][A
-Downloading data:  58%|█████▊    | 8.42M/14.5M [01:42<01:36, 62.3kB/s][A
-Downloading data:  58%|█████▊    | 8.43M/14.5M [01:42<01:33, 64.4kB/s][A
-Downloading data:  59%|█████▊    | 8.47M/14.5M [01:43<01:32, 64.8kB/s][A
-Downloading data:  59%|█████▉    | 8.50M/14.5M [01:44<01:59, 49.7kB/s][A
-Downloading data:  59%|█████▉    | 8.53M/14.5M [01:44<01:26, 68.1kB/s][A
-Downloading data:  59%|█████▉    | 8.55M/14.5M [01:44<01:24, 69.7kB/s][A
-Downloading data:  59%|█████▉    | 8.56M/14.5M [01:44<01:21, 72.6kB/s][A
-Downloading data:  59%|█████▉    | 8.58M/14.5M [01:45<01:21, 72.0kB/s][A
-Downloading data:  59%|█████▉    | 8.60M/14.5M [01:45<01:25, 68.4kB/s][A
-Downloading data:  60%|█████▉    | 8.61M/14.5M [01:45<01:35, 61.1kB/s][A
-Downloading data:  60%|█████▉    | 8.65M/14.5M [01:46<01:36, 60.1kB/s][A
-Downloading data:  60%|██████    | 8.68M/14.5M [01:46<01:08, 83.9kB/s][A
-Downloading data:  60%|██████    | 8.70M/14.5M [01:46<01:28, 65.5kB/s][A
-Downloading data:  60%|██████    | 8.71M/14.5M [01:47<01:42, 55.8kB/s][A
-Downloading data:  60%|██████    | 8.74M/14.5M [01:47<01:21, 70.0kB/s][A
-Downloading data:  61%|██████    | 8.76M/14.5M [01:48<01:41, 56.3kB/s][A
-Downloading data:  61%|██████    | 8.79M/14.5M [01:48<01:22, 68.9kB/s][A
-Downloading data:  61%|██████    | 8.81M/14.5M [01:48<01:30, 62.7kB/s][A
-Downloading data:  61%|██████    | 8.84M/14.5M [01:49<01:21, 69.0kB/s][A
-Downloading data:  61%|██████▏   | 8.86M/14.5M [01:49<01:47, 51.9kB/s][A
-Downloading data:  62%|██████▏   | 8.89M/14.5M [01:50<01:23, 66.6kB/s][A
-Downloading data:  62%|██████▏   | 8.91M/14.5M [01:50<01:48, 51.1kB/s][A
-Downloading data:  62%|██████▏   | 8.93M/14.5M [01:51<02:17, 40.1kB/s][A
-Downloading data:  62%|██████▏   | 8.97M/14.5M [01:51<01:31, 60.1kB/s][A
-Downloading data:  62%|██████▏   | 8.99M/14.5M [01:52<01:37, 56.3kB/s][A
-Downloading data:  62%|██████▏   | 9.01M/14.5M [01:52<01:26, 63.3kB/s][A
-Downloading data:  62%|██████▏   | 9.02M/14.5M [01:52<01:14, 73.3kB/s][A
-Downloading data:  63%|██████▎   | 9.04M/14.5M [01:52<01:34, 57.6kB/s][A
-Downloading data:  63%|██████▎   | 9.06M/14.5M [01:53<02:05, 43.1kB/s][A
-Downloading data:  63%|██████▎   | 9.11M/14.5M [01:53<01:12, 74.2kB/s][A
-Downloading data:  63%|██████▎   | 9.12M/14.5M [01:53<01:10, 75.3kB/s][A
-Downloading data:  63%|██████▎   | 9.14M/14.5M [01:54<01:30, 58.6kB/s][A
-Downloading data:  63%|██████▎   | 9.17M/14.5M [01:54<01:26, 60.9kB/s][A
-Downloading data:  64%|██████▎   | 9.19M/14.5M [01:55<01:27, 60.0kB/s][A
-Downloading data:  64%|██████▎   | 9.20M/14.5M [01:55<01:56, 45.3kB/s][A
-Downloading data:  64%|██████▍   | 9.24M/14.5M [01:56<01:29, 58.2kB/s][A
-Downloading data:  64%|██████▍   | 9.27M/14.5M [01:56<01:39, 52.3kB/s][A
-Downloading data:  64%|██████▍   | 9.30M/14.5M [01:57<01:22, 62.3kB/s][A
-Downloading data:  65%|██████▍   | 9.33M/14.5M [01:57<01:22, 62.2kB/s][A
-Downloading data:  65%|██████▍   | 9.35M/14.5M [01:57<01:12, 70.0kB/s][A
-Downloading data:  65%|██████▍   | 9.37M/14.5M [01:58<01:22, 61.3kB/s][A
-Downloading data:  65%|██████▍   | 9.38M/14.5M [01:58<01:14, 68.2kB/s][A
-Downloading data:  65%|██████▌   | 9.40M/14.5M [01:58<01:18, 64.7kB/s][A
-Downloading data:  65%|██████▌   | 9.43M/14.5M [01:59<01:38, 51.2kB/s][A
-Downloading data:  65%|██████▌   | 9.47M/14.5M [01:59<01:19, 62.7kB/s][A
-Downloading data:  66%|██████▌   | 9.48M/14.5M [02:00<01:16, 64.9kB/s][A
-Downloading data:  66%|██████▌   | 9.50M/14.5M [02:00<01:16, 65.1kB/s][A
-Downloading data:  66%|██████▌   | 9.52M/14.5M [02:00<01:13, 67.2kB/s][A
-Downloading data:  66%|██████▌   | 9.53M/14.5M [02:01<01:27, 56.5kB/s][A
-Downloading data:  66%|██████▌   | 9.55M/14.5M [02:01<01:37, 50.4kB/s][A
-Downloading data:  66%|██████▌   | 9.56M/14.5M [02:01<01:31, 53.7kB/s][A
-Downloading data:  66%|██████▋   | 9.60M/14.5M [02:02<01:13, 66.4kB/s][A
-Downloading data:  66%|██████▋   | 9.61M/14.5M [02:02<01:11, 67.7kB/s][A
-Downloading data:  67%|██████▋   | 9.63M/14.5M [02:02<01:30, 53.3kB/s][A
-Downloading data:  67%|██████▋   | 9.66M/14.5M [02:03<01:12, 66.1kB/s][A
-Downloading data:  67%|██████▋   | 9.70M/14.5M [02:03<00:59, 80.0kB/s][A
-Downloading data:  67%|██████▋   | 9.71M/14.5M [02:03<01:15, 63.1kB/s][A
-Downloading data:  67%|██████▋   | 9.73M/14.5M [02:03<01:04, 73.0kB/s][A
-Downloading data:  67%|██████▋   | 9.74M/14.5M [02:04<01:25, 55.3kB/s][A
-Downloading data:  68%|██████▊   | 9.78M/14.5M [02:04<00:58, 80.1kB/s][A
-Downloading data:  68%|██████▊   | 9.79M/14.5M [02:04<01:01, 76.5kB/s][A
-Downloading data:  68%|██████▊   | 9.81M/14.5M [02:05<01:13, 63.6kB/s][A
-Downloading data:  68%|██████▊   | 9.83M/14.5M [02:05<01:15, 61.2kB/s][A
-Downloading data:  68%|██████▊   | 9.84M/14.5M [02:05<01:22, 55.8kB/s][A
-Downloading data:  68%|██████▊   | 9.88M/14.5M [02:06<01:19, 57.4kB/s][A
-Downloading data:  68%|██████▊   | 9.89M/14.5M [02:06<01:14, 61.0kB/s][A
-Downloading data:  69%|██████▊   | 9.91M/14.5M [02:07<01:31, 49.7kB/s][A
-Downloading data:  69%|██████▉   | 9.94M/14.5M [02:07<01:02, 72.4kB/s][A
-Downloading data:  69%|██████▉   | 9.96M/14.5M [02:07<01:19, 56.6kB/s][A
-Downloading data:  69%|██████▉   | 9.97M/14.5M [02:08<01:16, 58.8kB/s][A
-Downloading data:  69%|██████▉   | 9.99M/14.5M [02:08<01:35, 46.8kB/s][A
-Downloading data:  69%|██████▉   | 10.0M/14.5M [02:08<01:19, 56.1kB/s][A
-Downloading data:  69%|██████▉   | 10.0M/14.5M [02:09<01:29, 49.8kB/s][A
-Downloading data:  69%|██████▉   | 10.0M/14.5M [02:09<01:42, 42.9kB/s][A
-Downloading data:  70%|██████▉   | 10.1M/14.5M [02:10<01:02, 70.4kB/s][A
-Downloading data:  70%|██████▉   | 10.1M/14.5M [02:10<01:01, 70.4kB/s][A
-Downloading data:  70%|███████   | 10.1M/14.5M [02:10<01:17, 56.3kB/s][A
-Downloading data:  70%|███████   | 10.2M/14.5M [02:11<01:00, 71.7kB/s][A
-Downloading data:  70%|███████   | 10.2M/14.5M [02:11<01:20, 53.4kB/s][A
-Downloading data:  71%|███████   | 10.2M/14.5M [02:12<01:10, 60.7kB/s][A
-Downloading data:  71%|███████   | 10.2M/14.5M [02:12<01:11, 59.0kB/s][A
-Downloading data:  71%|███████   | 10.2M/14.5M [02:12<01:01, 68.5kB/s][A
-Downloading data:  71%|███████   | 10.3M/14.5M [02:12<01:08, 61.8kB/s][A
-Downloading data:  71%|███████   | 10.3M/14.5M [02:13<01:13, 57.3kB/s][A
-Downloading data:  71%|███████   | 10.3M/14.5M [02:13<01:03, 65.6kB/s][A
-Downloading data:  71%|███████   | 10.3M/14.5M [02:13<01:11, 58.2kB/s][A
-Downloading data:  71%|███████▏  | 10.3M/14.5M [02:13<01:11, 57.8kB/s][A
-Downloading data:  71%|███████▏  | 10.3M/14.5M [02:14<01:14, 55.6kB/s][A
-Downloading data:  72%|███████▏  | 10.4M/14.5M [02:14<01:00, 67.7kB/s][A
-Downloading data:  72%|███████▏  | 10.4M/14.5M [02:14<01:12, 56.2kB/s][A
-Downloading data:  72%|███████▏  | 10.4M/14.5M [02:14<01:03, 64.6kB/s][A
-Downloading data:  72%|███████▏  | 10.4M/14.5M [02:15<01:26, 46.7kB/s][A
-Downloading data:  72%|███████▏  | 10.4M/14.5M [02:15<01:23, 48.4kB/s][A
-Downloading data:  72%|███████▏  | 10.4M/14.5M [02:16<01:09, 57.6kB/s][A
-Downloading data:  72%|███████▏  | 10.5M/14.5M [02:17<01:37, 40.9kB/s][A
-Downloading data:  73%|███████▎  | 10.5M/14.5M [02:17<01:11, 55.6kB/s][A
-Downloading data:  73%|███████▎  | 10.5M/14.5M [02:17<01:08, 57.3kB/s][A
-Downloading data:  73%|███████▎  | 10.5M/14.5M [02:18<01:30, 43.1kB/s][A
-Downloading data:  73%|███████▎  | 10.6M/14.5M [02:18<01:04, 60.5kB/s][A
-Downloading data:  73%|███████▎  | 10.6M/14.5M [02:19<01:02, 62.3kB/s][A
-Downloading data:  73%|███████▎  | 10.6M/14.5M [02:19<01:32, 41.7kB/s][A
-Downloading data:  74%|███████▎  | 10.6M/14.5M [02:20<01:20, 47.7kB/s][A
-Downloading data:  74%|███████▎  | 10.6M/14.5M [02:20<01:25, 44.7kB/s][A
-Downloading data:  74%|███████▍  | 10.7M/14.5M [02:20<01:02, 60.6kB/s][A
-Downloading data:  74%|███████▍  | 10.7M/14.5M [02:21<01:46, 35.2kB/s][A
-Downloading data:  74%|███████▍  | 10.7M/14.5M [02:22<01:07, 55.0kB/s][A
-Downloading data:  74%|███████▍  | 10.8M/14.5M [02:22<01:03, 58.3kB/s][A
-Downloading data:  75%|███████▍  | 10.8M/14.5M [02:22<01:00, 61.3kB/s][A
-Downloading data:  75%|███████▍  | 10.8M/14.5M [02:23<01:24, 43.1kB/s][A
-Downloading data:  75%|███████▍  | 10.8M/14.5M [02:23<01:23, 43.7kB/s][A
-Downloading data:  75%|███████▍  | 10.8M/14.5M [02:24<01:07, 53.6kB/s][A
-Downloading data:  75%|███████▌  | 10.9M/14.5M [02:24<00:59, 59.9kB/s][A
-Downloading data:  75%|███████▌  | 10.9M/14.5M [02:24<00:56, 62.6kB/s][A
-Downloading data:  75%|███████▌  | 10.9M/14.5M [02:25<01:33, 37.8kB/s][A
-Downloading data:  76%|███████▌  | 10.9M/14.5M [02:26<01:31, 38.6kB/s][A
-Downloading data:  76%|███████▌  | 11.0M/14.5M [02:26<01:04, 54.0kB/s][A
-Downloading data:  76%|███████▌  | 11.0M/14.5M [02:27<01:14, 46.8kB/s][A
-Downloading data:  76%|███████▌  | 11.0M/14.5M [02:27<01:02, 55.2kB/s][A
-Downloading data:  76%|███████▌  | 11.0M/14.5M [02:27<01:05, 52.5kB/s][A
-Downloading data:  76%|███████▋  | 11.0M/14.5M [02:28<01:18, 43.4kB/s][A
-Downloading data:  76%|███████▋  | 11.1M/14.5M [02:28<01:15, 44.8kB/s][A
-Downloading data:  77%|███████▋  | 11.1M/14.5M [02:29<01:03, 53.1kB/s][A
-Downloading data:  77%|███████▋  | 11.1M/14.5M [02:29<00:56, 59.2kB/s][A
-Downloading data:  77%|███████▋  | 11.1M/14.5M [02:30<01:18, 42.5kB/s][A
-Downloading data:  77%|███████▋  | 11.1M/14.5M [02:30<01:15, 44.2kB/s][A
-Downloading data:  77%|███████▋  | 11.2M/14.5M [02:30<01:02, 53.0kB/s][A
-Downloading data:  77%|███████▋  | 11.2M/14.5M [02:30<00:56, 58.4kB/s][A
-Downloading data:  77%|███████▋  | 11.2M/14.5M [02:31<01:09, 47.4kB/s][A
-Downloading data:  77%|███████▋  | 11.2M/14.5M [02:32<01:48, 29.9kB/s][A
-Downloading data:  78%|███████▊  | 11.3M/14.5M [02:32<01:09, 46.0kB/s][A
-Downloading data:  78%|███████▊  | 11.3M/14.5M [02:33<01:00, 52.7kB/s][A
-Downloading data:  78%|███████▊  | 11.3M/14.5M [02:33<00:57, 55.2kB/s][A
-Downloading data:  78%|███████▊  | 11.3M/14.5M [02:33<01:13, 43.2kB/s][A
-Downloading data:  78%|███████▊  | 11.3M/14.5M [02:34<00:54, 57.1kB/s][A
-Downloading data:  79%|███████▊  | 11.4M/14.5M [02:34<00:42, 72.2kB/s][A
-Downloading data:  79%|███████▊  | 11.4M/14.5M [02:34<00:50, 61.1kB/s][A
-Downloading data:  79%|███████▉  | 11.4M/14.5M [02:35<00:44, 68.7kB/s][A
-Downloading data:  79%|███████▉  | 11.4M/14.5M [02:35<00:38, 79.9kB/s][A
-Downloading data:  79%|███████▉  | 11.4M/14.5M [02:35<00:43, 70.2kB/s][A
-Downloading data:  79%|███████▉  | 11.5M/14.5M [02:36<00:52, 56.7kB/s][A
-Downloading data:  80%|███████▉  | 11.5M/14.5M [02:36<00:44, 66.5kB/s][A
-Downloading data:  80%|███████▉  | 11.5M/14.5M [02:37<00:46, 63.6kB/s][A
-Downloading data:  80%|████████  | 11.6M/14.5M [02:37<00:28, 101kB/s] [A
-Downloading data:  80%|████████  | 11.6M/14.5M [02:37<00:34, 83.6kB/s][A
-Downloading data:  80%|████████  | 11.6M/14.5M [02:38<00:40, 69.7kB/s][A
-Downloading data:  81%|████████  | 11.7M/14.5M [02:38<00:38, 73.5kB/s][A
-Downloading data:  81%|████████  | 11.7M/14.5M [02:39<00:53, 52.0kB/s][A
-Downloading data:  81%|████████  | 11.7M/14.5M [02:39<00:44, 61.6kB/s][A
-Downloading data:  81%|████████  | 11.7M/14.5M [02:39<00:45, 60.5kB/s][A
-Downloading data:  81%|████████▏ | 11.8M/14.5M [02:40<00:28, 95.2kB/s][A
-Downloading data:  82%|████████▏ | 11.8M/14.5M [02:40<00:34, 78.2kB/s][A
-Downloading data:  82%|████████▏ | 11.8M/14.5M [02:40<00:30, 86.1kB/s][A
-Downloading data:  82%|████████▏ | 11.8M/14.5M [02:40<00:30, 85.6kB/s][A
-Downloading data:  82%|████████▏ | 11.9M/14.5M [02:41<00:29, 89.4kB/s][A
-Downloading data:  82%|████████▏ | 11.9M/14.5M [02:41<00:30, 84.6kB/s][A
-Downloading data:  82%|████████▏ | 11.9M/14.5M [02:41<00:38, 67.0kB/s][A
-Downloading data:  83%|████████▎ | 11.9M/14.5M [02:42<00:24, 101kB/s] [A
-Downloading data:  83%|████████▎ | 12.0M/14.5M [02:42<00:24, 100kB/s][A
-Downloading data:  83%|████████▎ | 12.0M/14.5M [02:42<00:28, 86.0kB/s][A
-Downloading data:  83%|████████▎ | 12.0M/14.5M [02:43<00:37, 66.2kB/s][A
-Downloading data:  83%|████████▎ | 12.0M/14.5M [02:43<00:41, 58.7kB/s][A
-Downloading data:  84%|████████▎ | 12.1M/14.5M [02:43<00:22, 103kB/s] [A
-Downloading data:  84%|████████▍ | 12.1M/14.5M [02:44<00:23, 102kB/s][A
-Downloading data:  84%|████████▍ | 12.2M/14.5M [02:44<00:19, 117kB/s][A
-Downloading data:  84%|████████▍ | 12.2M/14.5M [02:44<00:25, 90.8kB/s][A
-Downloading data:  85%|████████▍ | 12.2M/14.5M [02:44<00:14, 153kB/s] [A
-Downloading data:  85%|████████▍ | 12.3M/14.5M [02:45<00:18, 120kB/s][A
-Downloading data:  85%|████████▌ | 12.3M/14.5M [02:45<00:15, 141kB/s][A
-Downloading data:  85%|████████▌ | 12.3M/14.5M [02:45<00:15, 140kB/s][A
-Downloading data:  85%|████████▌ | 12.3M/14.5M [02:45<00:14, 142kB/s][A
-Downloading data:  85%|████████▌ | 12.4M/14.5M [02:45<00:21, 100kB/s][A
-Downloading data:  86%|████████▌ | 12.4M/14.5M [02:46<00:24, 86.4kB/s][A
-Downloading data:  86%|████████▌ | 12.4M/14.5M [02:46<00:19, 102kB/s] [A
-Downloading data:  86%|████████▋ | 12.5M/14.5M [02:47<00:19, 103kB/s][A
-Downloading data:  87%|████████▋ | 12.5M/14.5M [02:47<00:13, 139kB/s][A
-Downloading data:  87%|████████▋ | 12.6M/14.5M [02:47<00:14, 128kB/s][A
-Downloading data:  87%|████████▋ | 12.6M/14.5M [02:48<00:13, 132kB/s][A
-Downloading data:  88%|████████▊ | 12.7M/14.5M [02:48<00:15, 114kB/s][A
-Downloading data:  88%|████████▊ | 12.7M/14.5M [02:48<00:16, 109kB/s][A
-Downloading data:  88%|████████▊ | 12.7M/14.5M [02:49<00:17, 96.7kB/s][A
-Downloading data:  89%|████████▉ | 12.8M/14.5M [02:50<00:12, 134kB/s] [A
-Downloading data:  89%|████████▉ | 12.9M/14.5M [02:50<00:08, 188kB/s][A
-Downloading data:  90%|████████▉ | 13.0M/14.5M [02:50<00:07, 189kB/s][A
-Downloading data:  90%|████████▉ | 13.0M/14.5M [02:50<00:09, 160kB/s][A
-Downloading data:  90%|████████▉ | 13.0M/14.5M [02:51<00:15, 92.2kB/s][A
-Downloading data:  90%|█████████ | 13.1M/14.5M [02:51<00:10, 135kB/s] [A
-Downloading data:  91%|█████████ | 13.1M/14.5M [02:51<00:06, 190kB/s][A
-Downloading data:  91%|█████████ | 13.2M/14.5M [02:51<00:07, 180kB/s][A
-Downloading data:  91%|█████████▏| 13.2M/14.5M [02:52<00:06, 187kB/s][A
-Downloading data:  91%|█████████▏| 13.2M/14.5M [02:52<00:07, 175kB/s][A
-Downloading data:  92%|█████████▏| 13.3M/14.5M [02:53<00:16, 74.8kB/s][A
-Downloading data:  92%|█████████▏| 13.3M/14.5M [02:53<00:19, 60.4kB/s][A
-Downloading data:  92%|█████████▏| 13.4M/14.5M [02:54<00:10, 107kB/s] [A
-Downloading data:  93%|█████████▎| 13.4M/14.5M [02:54<00:11, 97.3kB/s][A
-Downloading data:  93%|█████████▎| 13.4M/14.5M [02:54<00:09, 113kB/s] [A
-Downloading data:  93%|█████████▎| 13.4M/14.5M [02:54<00:08, 117kB/s][A
-Downloading data:  93%|█████████▎| 13.5M/14.5M [02:55<00:09, 101kB/s][A
-Downloading data:  93%|█████████▎| 13.5M/14.5M [02:55<00:08, 115kB/s][A
-Downloading data:  94%|█████████▍| 13.6M/14.5M [02:56<00:05, 156kB/s][A
-Downloading data:  95%|█████████▍| 13.7M/14.5M [02:56<00:03, 208kB/s][A
-Downloading data:  95%|█████████▌| 13.8M/14.5M [02:56<00:03, 213kB/s][A
-Downloading data:  96%|█████████▌| 13.8M/14.5M [02:56<00:02, 219kB/s][A
-Downloading data:  96%|█████████▌| 13.9M/14.5M [02:56<00:02, 247kB/s][A
-Downloading data:  96%|█████████▋| 13.9M/14.5M [02:57<00:02, 234kB/s][A
-Downloading data:  96%|█████████▋| 13.9M/14.5M [02:57<00:02, 178kB/s][A
-Downloading data:  97%|█████████▋| 14.0M/14.5M [02:57<00:02, 179kB/s][A
-Downloading data:  98%|█████████▊| 14.1M/14.5M [02:57<00:01, 264kB/s][A
-Downloading data:  98%|█████████▊| 14.2M/14.5M [02:58<00:01, 251kB/s][A
-Downloading data:  99%|█████████▉| 14.3M/14.5M [02:58<00:00, 347kB/s][A
-Downloading data:  99%|█████████▉| 14.3M/14.5M [02:58<00:00, 203kB/s][A
-Downloading data: 100%|█████████▉| 14.4M/14.5M [03:00<00:00, 103kB/s][ADownloading data: 100%|██████████| 14.5M/14.5M [03:00<00:00, 80.0kB/s]
-Downloading data files:  50%|█████     | 1/2 [03:09<03:09, 189.17s/it]
-Downloading data:   0%|          | 0.00/1.82M [00:00<?, ?B/s][A
-Downloading data:   2%|▏         | 45.1k/1.82M [00:00<00:09, 182kB/s][A
-Downloading data:   3%|▎         | 63.5k/1.82M [00:01<00:41, 42.6kB/s][A
-Downloading data:   4%|▍         | 79.9k/1.82M [00:01<00:40, 42.8kB/s][A
-Downloading data:   7%|▋         | 129k/1.82M [00:02<00:30, 55.9kB/s] [A
-Downloading data:  11%|█         | 193k/1.82M [00:03<00:26, 61.3kB/s][A
-Downloading data:  14%|█▍        | 258k/1.82M [00:04<00:26, 58.8kB/s][A
-Downloading data:  21%|██        | 374k/1.82M [00:04<00:14, 97.2kB/s][A
-Downloading data:  21%|██        | 386k/1.82M [00:05<00:15, 95.4kB/s][A
-Downloading data:  22%|██▏       | 397k/1.82M [00:06<00:32, 43.2kB/s][A
-Downloading data:  23%|██▎       | 424k/1.82M [00:07<00:30, 46.3kB/s][A
-Downloading data:  28%|██▊       | 510k/1.82M [00:07<00:17, 76.7kB/s][A
-Downloading data:  30%|██▉       | 543k/1.82M [00:08<00:17, 72.7kB/s][A
-Downloading data:  30%|███       | 553k/1.82M [00:08<00:19, 65.1kB/s][A
-Downloading data:  31%|███       | 564k/1.82M [00:09<00:23, 53.0kB/s][A
-Downloading data:  32%|███▏      | 574k/1.82M [00:09<00:23, 54.0kB/s][A
-Downloading data:  33%|███▎      | 607k/1.82M [00:09<00:17, 70.1kB/s][A
-Downloading data:  34%|███▍      | 626k/1.82M [00:10<00:25, 46.5kB/s][A
-Downloading data:  37%|███▋      | 671k/1.82M [00:10<00:19, 59.6kB/s][A
-Downloading data:  38%|███▊      | 691k/1.82M [00:11<00:20, 55.4kB/s][A
-Downloading data:  40%|████      | 735k/1.82M [00:11<00:13, 81.1kB/s][A
-Downloading data:  41%|████      | 748k/1.82M [00:11<00:13, 80.3kB/s][A
-Downloading data:  42%|████▏     | 767k/1.82M [00:12<00:16, 63.8kB/s][A
-Downloading data:  43%|████▎     | 783k/1.82M [00:12<00:16, 64.6kB/s][A
-Downloading data:  44%|████▍     | 800k/1.82M [00:12<00:14, 71.4kB/s][A
-Downloading data:  44%|████▍     | 809k/1.82M [00:12<00:15, 64.8kB/s][A
-Downloading data:  46%|████▌     | 841k/1.82M [00:13<00:15, 61.3kB/s][A
-Downloading data:  47%|████▋     | 857k/1.82M [00:13<00:17, 56.0kB/s][A
-Downloading data:  48%|████▊     | 873k/1.82M [00:13<00:14, 66.3kB/s][A
-Downloading data:  49%|████▉     | 890k/1.82M [00:13<00:14, 64.3kB/s][A
-Downloading data:  50%|████▉     | 906k/1.82M [00:14<00:19, 46.6kB/s][A
-Downloading data:  51%|█████     | 923k/1.82M [00:14<00:18, 49.0kB/s][A
-Downloading data:  52%|█████▏    | 939k/1.82M [00:14<00:14, 60.7kB/s][A
-Downloading data:  52%|█████▏    | 955k/1.82M [00:15<00:16, 52.8kB/s][A
-Downloading data:  54%|█████▍    | 988k/1.82M [00:16<00:21, 39.4kB/s][A
-Downloading data:  58%|█████▊    | 1.05M/1.82M [00:16<00:11, 67.4kB/s][A
-Downloading data:  59%|█████▉    | 1.07M/1.82M [00:17<00:12, 61.2kB/s][A
-Downloading data:  60%|█████▉    | 1.09M/1.82M [00:17<00:14, 51.7kB/s][A
-Downloading data:  63%|██████▎   | 1.15M/1.82M [00:18<00:11, 56.7kB/s][A
-Downloading data:  65%|██████▌   | 1.18M/1.82M [00:19<00:09, 65.5kB/s][A
-Downloading data:  66%|██████▌   | 1.20M/1.82M [00:19<00:09, 64.0kB/s][A
-Downloading data:  67%|██████▋   | 1.22M/1.82M [00:19<00:10, 58.7kB/s][A
-Downloading data:  68%|██████▊   | 1.23M/1.82M [00:20<00:10, 57.8kB/s][A
-Downloading data:  69%|██████▊   | 1.25M/1.82M [00:20<00:09, 57.5kB/s][A
-Downloading data:  71%|███████   | 1.28M/1.82M [00:20<00:08, 65.4kB/s][A
-Downloading data:  71%|███████▏  | 1.30M/1.82M [00:20<00:07, 73.4kB/s][A
-Downloading data:  72%|███████▏  | 1.32M/1.82M [00:21<00:11, 45.5kB/s][A
-Downloading data:  74%|███████▍  | 1.35M/1.82M [00:22<00:08, 58.5kB/s][A
-Downloading data:  77%|███████▋  | 1.40M/1.82M [00:22<00:06, 65.3kB/s][A
-Downloading data:  78%|███████▊  | 1.41M/1.82M [00:23<00:08, 49.6kB/s][A
-Downloading data:  79%|███████▊  | 1.43M/1.82M [00:23<00:07, 50.7kB/s][A
-Downloading data:  80%|████████  | 1.46M/1.82M [00:24<00:05, 61.4kB/s][A
-Downloading data:  81%|████████▏ | 1.48M/1.82M [00:24<00:06, 49.6kB/s][A
-Downloading data:  82%|████████▏ | 1.50M/1.82M [00:25<00:08, 39.4kB/s][A
-Downloading data:  84%|████████▍ | 1.53M/1.82M [00:25<00:05, 51.8kB/s][A
-Downloading data:  85%|████████▍ | 1.55M/1.82M [00:26<00:05, 48.1kB/s][A
-Downloading data:  86%|████████▌ | 1.56M/1.82M [00:26<00:05, 46.4kB/s][A
-Downloading data:  87%|████████▋ | 1.58M/1.82M [00:27<00:05, 40.9kB/s][A
-Downloading data:  88%|████████▊ | 1.59M/1.82M [00:27<00:04, 48.1kB/s][A
-Downloading data:  89%|████████▊ | 1.61M/1.82M [00:27<00:04, 52.2kB/s][A
-Downloading data:  89%|████████▉ | 1.63M/1.82M [00:28<00:04, 42.0kB/s][A
-Downloading data:  91%|█████████ | 1.66M/1.82M [00:28<00:03, 50.8kB/s][A
-Downloading data:  92%|█████████▏| 1.68M/1.82M [00:28<00:02, 51.2kB/s][A
-Downloading data:  93%|█████████▎| 1.69M/1.82M [00:29<00:03, 38.5kB/s][A
-Downloading data:  95%|█████████▍| 1.73M/1.82M [00:30<00:02, 33.0kB/s][A
-Downloading data:  97%|█████████▋| 1.76M/1.82M [00:31<00:01, 42.3kB/s][A
-Downloading data:  98%|█████████▊| 1.79M/1.82M [00:31<00:00, 57.5kB/s][A
-Downloading data:  99%|█████████▉| 1.81M/1.82M [00:31<00:00, 54.1kB/s][ADownloading data: 100%|██████████| 1.82M/1.82M [00:31<00:00, 57.4kB/s]
-Downloading data files: 100%|██████████| 2/2 [03:58<00:00, 106.75s/it]Downloading data files: 100%|██████████| 2/2 [03:58<00:00, 119.11s/it]
-Extracting data files:   0%|          | 0/2 [00:00<?, ?it/s]Extracting data files: 100%|██████████| 2/2 [00:00<00:00, 881.43it/s]
-Generating train split:   0%|          | 0/87599 [00:00<?, ? examples/s]Generating train split:  34%|███▍      | 30000/87599 [00:00<00:00, 238603.75 examples/s]Generating train split:  80%|███████▉  | 70000/87599 [00:00<00:00, 259364.81 examples/s]                                                                                        Generating validation split:   0%|          | 0/10570 [00:00<?, ? examples/s]                                                                             Dataset parquet downloaded and prepared to /root/autodl-tmp/huggingface/datasets/parquet/plain_text-3b381eecc0ae5755/0.0.0/14a00e99c0d15a23649d0db8944380ac81082d4b021f398733dd84f3a6c569a7. Subsequent calls will reuse this data.
-  0%|          | 0/2 [00:00<?, ?it/s]100%|██████████| 2/2 [00:00<00:00, 227.09it/s]
-Downloading readme: 0.00B [00:00, ?B/s]Downloading readme: 7.62kB [00:00, 8.46MB/s]
-Found cached dataset parquet (/root/autodl-tmp/huggingface/datasets/parquet/plain_text-3b381eecc0ae5755/0.0.0/14a00e99c0d15a23649d0db8944380ac81082d4b021f398733dd84f3a6c569a7)
-  0%|          | 0/2 [00:00<?, ?it/s]100%|██████████| 2/2 [00:00<00:00, 348.06it/s]
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.31s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.45s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.58s/it]
-init_triggers: diver rearaks herm klein os hate imprDistance fitauto register
-current loss:0.07824005861766636, triggers: diver rearaks herm klein os hate imprDistance fitauto register
-Loss: 0.06851647887378931, triggers: diver rearaks herm klein os hateRuntimeDistance fitauto register
-current loss:0.06851647887378931, triggers: diver rearaks herm klein os hateRuntimeDistance fitauto register
-Loss: 0.06062030023895204, triggers: diver bearaks herm klein os hateRuntimeDistance fitauto register
-current loss:0.06062030023895204, triggers: diver bearaks herm klein os hateRuntimeDistance fitauto register

@@ -3,6 +3,33 @@ from datasets import load_dataset
 from util.template import TextTemplate
 import random
 
+from pathlib import Path
+
+class Samples(Dataset):
+    def __init__(self, train, num=16, data_dir="data/samples"):
+        files = sorted(Path(data_dir).rglob("SKILL.md"))
+
+        rng = random.Random(0)
+        rng.shuffle(files)
+
+        split = int(len(files) * 0.8)
+        files = files[:split] if train else files[split:]
+        files = files[:num]
+
+        self.dataset = [
+            {"content": path.read_text(encoding="utf-8")}
+            for path in files
+        ]
+
+        self.template = TextTemplate(prefix_1="", prefix_2="")
+
+    def __getitem__(self, idx):
+        content = self.dataset[idx]["content"]
+        return content if content.endswith("\n") else content + "\n"
+
+    def __len__(self):
+        return len(self.dataset)
+    
 class Financial(Dataset):
     def __init__(self, train, num=16, num_shots=1, prefix_1='text:', prefix_2='label:',with_instruction=True):
         dataset = load_dataset("financial_phrasebank","sentences_allagree")

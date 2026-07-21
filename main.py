@@ -22,7 +22,7 @@ token_length = int(sys.argv[2])
 shadow_model = sys.argv[3]
 target_model = sys.argv[4]
 train_num = int(sys.argv[5])
-test_num = 1000
+test_num = 10
 
 dataFactory = DataFactory()
 trainset = dataFactory.get_dataset(dataset, train=True, num=train_num)

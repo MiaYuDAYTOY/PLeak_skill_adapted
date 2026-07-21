@@ -1,75 +1,0 @@
-/home/miasean/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
-  torch.utils._pytree._register_pytree_node(
-/home/miasean/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
-  torch.utils._pytree._register_pytree_node(
-Using the latest cached version of the module from /home/miasean/.cache/huggingface/modules/datasets_modules/datasets/financial_phrasebank/550bde12e6c30e2674da973a55f57edde5181d53f5a5a34c1531c53f93b7e141 (last modified on Sat Jul 18 21:18:34 2026) since it couldn't be found locally at financial_phrasebank., or remotely on the Hugging Face Hub.
-Found cached dataset financial_phrasebank (/home/miasean/.cache/huggingface/datasets/financial_phrasebank/sentences_allagree/1.0.0/550bde12e6c30e2674da973a55f57edde5181d53f5a5a34c1531c53f93b7e141)
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 382.27it/s]
-Found cached dataset csv (/home/miasean/.cache/huggingface/datasets/csv/default-a1c2b21af4b49007/0.0.0/eea64c71ca8b46dd3f537ed218fc9bf495d5707789152eb2764f5c78fa66d59d)
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 1022.75it/s]
-Using the latest cached version of the module from /home/miasean/.cache/huggingface/modules/datasets_modules/datasets/financial_phrasebank/550bde12e6c30e2674da973a55f57edde5181d53f5a5a34c1531c53f93b7e141 (last modified on Sat Jul 18 21:18:34 2026) since it couldn't be found locally at financial_phrasebank., or remotely on the Hugging Face Hub.
-Found cached dataset financial_phrasebank (/home/miasean/.cache/huggingface/datasets/financial_phrasebank/sentences_allagree/1.0.0/550bde12e6c30e2674da973a55f57edde5181d53f5a5a34c1531c53f93b7e141)
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 1398.10it/s]
-Found cached dataset csv (/home/miasean/.cache/huggingface/datasets/csv/default-09960c5540dc4e0f/0.0.0/eea64c71ca8b46dd3f537ed218fc9bf495d5707789152eb2764f5c78fa66d59d)
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 1189.54it/s]
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:08<00:08,  8.48s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.05s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.57s/it]
-init_triggers:pngResolverkor eredet botbibliothek centralehus questa allenyard Development
-current loss:0.3140950910747051, triggers:pngResolverkor eredet botbibliothek centralehus questa allenyard Development
-Loss: 0.2927318783476949, triggers:pnglearningkor eredet botbibliothek centralehus questa allenyard Development
-current loss:0.2927318783476949, triggers:pnglearningkor eredet botbibliothek centralehus questa allenyard Development
-Loss: 0.2775794230401516, triggers:pnglearningkor eredet botbibliothek centralehus questa beginneryard Development
-current loss:0.2775794230401516, triggers:pnglearningkor eredet botbibliothek centralehus questa beginneryard Development
-Loss: 0.20193241210654378, triggers:pnglearningkor eredet botbibliothek centralehus questa instructionyard Development
-current loss:0.20193241210654378, triggers:pnglearningkor eredet botbibliothek centralehus questa instructionyard Development
-Loss: 0.18689674930647016, triggers:pnglearningkor eredet botbibliothek centralehus questa instructionyard dup
-current loss:0.18689674930647016, triggers:pnglearningkor eredet botbibliothek centralehus questa instructionyard dup
-Loss: 0.17729553626850247, triggers:pnglearningkor eredet botbibliothek centrale schwer questa instructionyard dup
-current loss:0.17729553626850247, triggers:pnglearningkor eredet botbibliothek centrale schwer questa instructionyard dup
-Loss: 0.1646816423162818, triggers:rendlearningkor eredet botbibliothek centrale schwer questa instructionyard dup
-current loss:0.1646816423162818, triggers:rendlearningkor eredet botbibliothek centrale schwer questa instructionyard dup
-Loss: 0.15643296157941222, triggers:rendlearningkor eredet botbibliothek centrale schwer dieser instructionyard dup
-current loss:0.15643296157941222, triggers:rendlearningkor eredet botbibliothek centrale schwer dieser instructionyard dup
-Loss: 0.15060449950397015, triggers:rendlearningkor eredet botbibliothek centrale schwer dieser instruction wenig dup
-current loss:0.15060449950397015, triggers:rendlearningkor eredet botbibliothek centrale schwer dieser instruction wenig dup
-Loss: 0.14727291092276573, triggers:rendlearningkor eredet botbibliothek prima schwer dieser instruction wenig dup
-current loss:0.14727291092276573, triggers:rendlearningkor eredet botbibliothek prima schwer dieser instruction wenig dup
-Loss: 0.1448031459003687, triggers:rendlearningkor eredet botbibliothek prima schwer dieser instruction somewhat dup
-current loss:0.1448031459003687, triggers:rendlearningkor eredet botbibliothek prima schwer dieser instruction somewhat dup
-Loss: 0.13958280812948942, triggers:rendlearningkor eredet botbibliothek prima partially dieser instruction somewhat dup
-current loss:0.13958280812948942, triggers:rendlearningkor eredet botbibliothek prima partially dieser instruction somewhat dup
-Loss: 0.13645715219900012, triggers:rendlearningabe eredet botbibliothek prima partially dieser instruction somewhat dup
-current loss:0.13645715219900012, triggers:rendlearningabe eredet botbibliothek prima partially dieser instruction somewhat dup
-Loss: 0.13330802135169506, triggers:rendlearning sind eredet botbibliothek prima partially dieser instruction somewhat dup
-current loss:0.13330802135169506, triggers:rendlearning sind eredet botbibliothek prima partially dieser instruction somewhat dup
-Loss: 0.13197005027905107, triggers:rendlearning sind eredet sindbibliothek prima partially dieser instruction somewhat dup
-current loss:0.13197005027905107, triggers:rendlearning sind eredet sindbibliothek prima partially dieser instruction somewhat dup
-Loss: 0.12639561016112566, triggers:rendlearning sind origin sindbibliothek prima partially dieser instruction somewhat dup
-current loss:0.12639561016112566, triggers:rendlearning sind origin sindbibliothek prima partially dieser instruction somewhat dup
-Loss: 0.1261299066245556, triggers:sentimentlearning sind origin sindbibliothek prima partially dieser instruction somewhat dup
-current loss:0.1261299066245556, triggers:sentimentlearning sind origin sindbibliothek prima partially dieser instruction somewhat dup
-
-No improvement, ending iteration
-Enter next iteration :1
-current loss:0.1261299066245556, triggers:sentimentlearning sind origin sindbibliothek prima partially dieser instruction somewhat dup
-
-No improvement, ending iteration
-Enter next iteration :2
-Traceback (most recent call last):
-  File "/home/miasean/PLeak_skill_adapted/main.py", line 36, in <module>
-    sampler = Sampler(target_model=target_model, template=testset.template)
-  File "/home/miasean/PLeak_skill_adapted/Sampler.py", line 19, in __init__
-    self.model = modelFactory.get_model(target_model)
-  File "/home/miasean/PLeak_skill_adapted/ModelFactory.py", line 26, in get_model
-    return AutoModelForCausalLM.from_pretrained(self.MODEL_CONF[name]['alias'], device_map="auto", load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16).eval()
-  File "/home/miasean/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 516, in from_pretrained
-    return model_class.from_pretrained(
-  File "/home/miasean/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/modeling_utils.py", line 3030, in from_pretrained
-    raise ValueError(
-ValueError: 
-                        Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit
-                        the quantized model. If you want to dispatch the model on the CPU or the disk while keeping
-                        these modules in 32-bit, you need to set `load_in_8bit_fp32_cpu_offload=True` and pass a custom
-                        `device_map` to `from_pretrained`. Check
-                        https://huggingface.co/docs/transformers/main/en/main_classes/quantization#offload-between-cpu-and-gpu
-                        for more details.
-                        

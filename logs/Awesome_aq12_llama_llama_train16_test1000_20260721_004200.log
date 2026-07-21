@@ -1,77 +1,0 @@
-/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
-  torch.utils._pytree._register_pytree_node(
-/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
-  torch.utils._pytree._register_pytree_node(
-Downloading readme: 0.00B [00:00, ?B/s]Downloading readme: 1.49kB [00:00, 2.42MB/s]
-Downloading and preparing dataset csv/fka--awesome-chatgpt-prompts to /root/autodl-tmp/huggingface/datasets/fka___csv/fka--awesome-chatgpt-prompts-9de313a4823a42d0/0.0.0/eea64c71ca8b46dd3f537ed218fc9bf495d5707789152eb2764f5c78fa66d59d...
-Downloading data files:   0%|          | 0/1 [00:00<?, ?it/s]
-Downloading data: 0.00B [00:00, ?B/s][A
-Downloading data: 8.59kB [00:00, 18.5kB/s][A
-Downloading data: 94.1kB [00:00, 159kB/s] [A
-Downloading data: 135kB [00:00, 161kB/s] [A
-Downloading data: 272kB [00:01, 269kB/s][A
-Downloading data: 945kB [00:01, 1.22MB/s][A
-Downloading data: 1.16MB [00:01, 1.02MB/s][A
-Downloading data: 1.46MB [00:01, 1.27MB/s][A
-Downloading data: 1.67MB [00:01, 1.41MB/s][A
-Downloading data: 1.86MB [00:02, 1.43MB/s][A
-Downloading data: 2.44MB [00:02, 1.61MB/s][A
-Downloading data: 2.79MB [00:02, 1.89MB/s][A
-Downloading data: 3.10MB [00:02, 1.92MB/s][A
-Downloading data: 3.32MB [00:02, 1.90MB/s][A
-Downloading data: 3.52MB [00:03, 1.29MB/s][A
-Downloading data: 3.72MB [00:03, 1.40MB/s][A
-Downloading data: 3.89MB [00:03, 984kB/s] [A
-Downloading data: 4.18MB [00:03, 1.12MB/s][A
-Downloading data: 4.66MB [00:03, 1.63MB/s][A
-Downloading data: 4.86MB [00:04, 1.55MB/s][A
-Downloading data: 5.27MB [00:04, 1.66MB/s][ADownloading data: 5.42MB [00:04, 1.24MB/s]
-Downloading data files: 100%|██████████| 1/1 [00:20<00:00, 20.52s/it]Downloading data files: 100%|██████████| 1/1 [00:20<00:00, 20.52s/it]
-Extracting data files:   0%|          | 0/1 [00:00<?, ?it/s]Extracting data files: 100%|██████████| 1/1 [00:00<00:00, 611.33it/s]
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 2049 examples [00:00, 15215.83 examples/s]                                                                  Dataset csv downloaded and prepared to /root/autodl-tmp/huggingface/datasets/fka___csv/fka--awesome-chatgpt-prompts-9de313a4823a42d0/0.0.0/eea64c71ca8b46dd3f537ed218fc9bf495d5707789152eb2764f5c78fa66d59d. Subsequent calls will reuse this data.
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 491.65it/s]
-Downloading readme: 0.00B [00:00, ?B/s]Downloading readme: 1.49kB [00:00, 349kB/s]
-Found cached dataset csv (/root/autodl-tmp/huggingface/datasets/fka___csv/fka--awesome-chatgpt-prompts-9de313a4823a42d0/0.0.0/eea64c71ca8b46dd3f537ed218fc9bf495d5707789152eb2764f5c78fa66d59d)
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 273.32it/s]
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.20s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.38s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.50s/it]
-init_triggers: diver rearaks herm klein os hate imprDistance fitauto register
-Traceback (most recent call last):
-  File "/root/autodl-tmp/PLeak_skill_adapted/main.py", line 31, in <module>
-    attack.replace_triggers(trainset)
-  File "/root/autodl-tmp/PLeak_skill_adapted/Attack.py", line 231, in replace_triggers
-    best_loss = self.compute_loss(target_texts, self.trigger_tokens, idx_loss, require_grad=True)
-  File "/root/autodl-tmp/PLeak_skill_adapted/Attack.py", line 205, in compute_loss
-    loss = self.model(lm_input, labels=label)[0]/len(target_texts)
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/accelerate/hooks.py", line 165, in new_forward
-    output = old_forward(*args, **kwargs)
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 809, in forward
-    outputs = self.model(
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/accelerate/hooks.py", line 165, in new_forward
-    output = old_forward(*args, **kwargs)
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 697, in forward
-    layer_outputs = decoder_layer(
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/accelerate/hooks.py", line 165, in new_forward
-    output = old_forward(*args, **kwargs)
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 413, in forward
-    hidden_states, self_attn_weights, present_key_value = self.self_attn(
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/accelerate/hooks.py", line 165, in new_forward
-    output = old_forward(*args, **kwargs)
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 335, in forward
-    attn_weights = torch.matmul(query_states, key_states.transpose(2, 3)) / math.sqrt(self.head_dim)
-torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 138.00 MiB. GPU 0 has a total capacity of 23.52 GiB of which 89.75 MiB is free. Including non-PyTorch memory, this process has 23.42 GiB memory in use. Of the allocated memory 21.94 GiB is allocated by PyTorch, and 1.07 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
