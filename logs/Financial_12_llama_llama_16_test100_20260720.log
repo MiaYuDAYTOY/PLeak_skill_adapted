@@ -1,0 +1,21 @@
+/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+Downloading builder script: 0.00B [00:00, ?B/s]Downloading builder script: 6.04kB [00:00, 6.31MB/s]
+Downloading readme: 0.00B [00:00, ?B/s]Downloading readme: 7.42kB [00:00, 39.6kB/s]Downloading readme: 9.58kB [00:00, 50.9kB/s]
+Downloading and preparing dataset financial_phrasebank/sentences_allagree to file:///root/autodl-tmp/huggingface/datasets/financial_phrasebank/sentences_allagree/1.0.0/550bde12e6c30e2674da973a55f57edde5181d53f5a5a34c1531c53f93b7e141...
+Downloading data:   0%|          | 0.00/682k [00:00<?, ?B/s]Downloading data:   0%|          | 1.02k/682k [00:00<04:04, 2.78kB/s]Downloading data:   7%|▋         | 46.1k/682k [00:00<00:09, 66.5kB/s]Downloading data:  14%|█▍        | 95.2k/682k [00:01<00:05, 99.4kB/s]Downloading data:  24%|██▎       | 162k/682k [00:01<00:03, 153kB/s]  Downloading data:  50%|████▉     | 340k/682k [00:01<00:01, 297kB/s]Downloading data:  71%|███████▏  | 487k/682k [00:01<00:00, 457kB/s]Downloading data:  93%|█████████▎| 635k/682k [00:01<00:00, 583kB/s]Downloading data: 100%|██████████| 682k/682k [00:02<00:00, 248kB/s]
+Generating train split:   0%|          | 0/2264 [00:00<?, ? examples/s]                                                                       Dataset financial_phrasebank downloaded and prepared to file:///root/autodl-tmp/huggingface/datasets/financial_phrasebank/sentences_allagree/1.0.0/550bde12e6c30e2674da973a55f57edde5181d53f5a5a34c1531c53f93b7e141. Subsequent calls will reuse this data.
+Traceback (most recent call last):
+  File "/root/autodl-tmp/PLeak_skill_adapted/main.py", line 28, in <module>
+    trainset = dataFactory.get_dataset(dataset, train=True, num=train_num)
+  File "/root/autodl-tmp/PLeak_skill_adapted/DataFactory.py", line 23, in get_dataset
+    return creator(**kwargs)
+  File "/root/autodl-tmp/PLeak_skill_adapted/util/data.py", line 8, in __init__
+    dataset = load_dataset("financial_phrasebank","sentences_allagree")
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/datasets/load.py", line 1822, in load_dataset
+    ds = builder_instance.as_dataset(split=split, verification_mode=verification_mode, in_memory=keep_in_memory)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/datasets/builder.py", line 1128, in as_dataset
+    raise NotImplementedError(f"Loading a dataset cached in a {type(self._fs).__name__} is not supported.")
+NotImplementedError: Loading a dataset cached in a LocalFileSystem is not supported.
