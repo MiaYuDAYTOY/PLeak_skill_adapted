@@ -1,0 +1,14 @@
+/home/miasean/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/miasean/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+Found cached dataset financial_phrasebank (/home/miasean/.cache/huggingface/datasets/financial_phrasebank/sentences_allagree/1.0.0/550bde12e6c30e2674da973a55f57edde5181d53f5a5a34c1531c53f93b7e141)
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 197.58it/s]
+Found cached dataset csv (/home/miasean/.cache/huggingface/datasets/csv/default-a1c2b21af4b49007/0.0.0/eea64c71ca8b46dd3f537ed218fc9bf495d5707789152eb2764f5c78fa66d59d)
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 1209.43it/s]
+Found cached dataset financial_phrasebank (/home/miasean/.cache/huggingface/datasets/financial_phrasebank/sentences_allagree/1.0.0/550bde12e6c30e2674da973a55f57edde5181d53f5a5a34c1531c53f93b7e141)
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 1531.89it/s]
+Found cached dataset csv (/home/miasean/.cache/huggingface/datasets/csv/default-09960c5540dc4e0f/0.0.0/eea64c71ca8b46dd3f537ed218fc9bf495d5707789152eb2764f5c78fa66d59d)
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 1267.16it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:23<00:23, 23.37s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:26<00:00, 11.26s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:26<00:00, 13.07s/it]
+init_triggers: diver rearaks herm klein os hate imprDistance fitauto register
