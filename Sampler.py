@@ -39,6 +39,8 @@ class Sampler():
         kwargs = {
             'num_beams': 1,
             'do_sample': False,
+            'temperature': 1.0,
+            'top_p': 1.0,
             'pad_token_id': self.tokenizer.eos_token_id,
             'remove_invalid_values': True,
         }
@@ -172,7 +174,7 @@ class Sampler():
         if directory:
             os.makedirs(directory, exist_ok=True)
 
-        with open(path, 'w', newline='') as file:
+        with open(path, 'w', newline='', encoding='utf-8') as file:
             fieldnames = ['context', triggers]
             writer = csv.DictWriter(file, fieldnames=fieldnames)
             writer.writeheader()
