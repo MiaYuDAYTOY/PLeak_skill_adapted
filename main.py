@@ -60,7 +60,4 @@ sampler = Sampler(
 results = sampler.sample_sequence(testset, triggers=triggers)
 Sampler.save_to_csv(f'results/{result_stem}.csv', results, triggers)
 
-sampler.evaluate(results, level='substring')
-sampler.evaluate(results, level='em')
-sampler.evaluate(results, level='edit')
-sampler.evaluate(results, level='semantic')
+sampler.evaluate_skill_leakage(results)

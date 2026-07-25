@@ -1,8 +1,0 @@
-nohup: ignoring input
-Traceback (most recent call last):
-  File "<string>", line 4, in <module>
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/huggingface_hub/utils/_validators.py", line 110, in _inner_fn
-    validate_repo_id(arg_value)
-  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/huggingface_hub/utils/_validators.py", line 164, in validate_repo_id
-    raise HFValidationError(
-huggingface_hub.utils._validators.HFValidationError: Repo id must use alphanumeric chars or '-', '_', '.', '--' and '..' are forbidden, '-' and '.' cannot start or end the name, max length is 96: ''.

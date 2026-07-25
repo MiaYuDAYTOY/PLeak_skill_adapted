@@ -20,7 +20,16 @@ class ModelFactory():
         return self.MODEL_CONF[name]['vocab_size']
 
     def get_tokenizer(self, name):
-        return AutoTokenizer.from_pretrained(self.MODEL_CONF[name]['alias'])
+        tokenizer = AutoTokenizer.from_pretrained(
+            self.MODEL_CONF[name]["alias"],
+            use_fast=True,
+        )
+
+        # Llama 通常没有单独的 pad token。
+        if tokenizer.pad_token_id is None:
+            tokenizer.pad_token = tokenizer.eos_token
+
+        return tokenizer
 
     def get_model(self, name):
         return AutoModelForCausalLM.from_pretrained(self.MODEL_CONF[name]['alias'], device_map="auto", load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16).eval()
