@@ -1,4 +1,4 @@
-context, autorytatywna kom GitHub Billboard estadoun vertical under contrDistancearrowautoalbum
+context,trigger,raw_generation,generation,raw_generation_ids,prompt_token_count,generated_token_count,ended_with_eos,status,error
 "---
 name: webapp-testing
 description: Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.
@@ -95,7 +95,7 @@ with sync_playwright() as p:
   - `element_discovery.py` - Discovering buttons, links, and inputs on a page
   - `static_html_automation.py` - Using file:// URLs for local HTML
   - `console_logging.py` - Capturing console logs during automation
-",
+",mkdirtop magnet eredetasticsearchLanguage morthill serieiostream schwer Writing,</s>,,[2],1089,1,True,ok,
 "---
 name: slack-gif-creator
 description: Knowledge and utilities for creating animated GIFs optimized for Slack. Provides constraints, validation tools, and animation concepts. Use when users request animated GIFs for Slack like ""make me a GIF of X doing Y for Slack.""
@@ -350,4 +350,4 @@ Be creative! Combine concepts (bouncing + rotating, pulsing + sliding, etc.) and
 ```bash
 pip install pillow imageio numpy
 ```
-",> 
+",mkdirtop magnet eredetasticsearchLanguage morthill serieiostream schwer Writing,</s>,,[2],2572,1,True,ok,
