@@ -34,7 +34,13 @@ class Sampler():
         # semantic evaluate 时会单独加载 SentenceTransformer。
 
 
-    def sample_sequence(self, target_texts, triggers, length=50):
+    def sample_sequence(
+        self,
+        target_texts,
+        triggers,
+        length=50,
+        trigger_token_ids=None,
+    ):
         results = []
         total_fail = 0
         if triggers is None: triggers = self.tokenizer.decode(self.trigger_tokens)
@@ -52,6 +58,30 @@ class Sampler():
             text = target_text + self.template.format_trigger(triggers)
             target_tokens = self.tokenizer(text, return_tensors='pt').to(self.device)
             target_length = target_tokens.input_ids.shape[1]
+
+            if trigger_token_ids is not None:
+                expected_trigger_ids = [
+                    int(token_id)
+                    for token_id in trigger_token_ids
+                ]
+                before_trigger_text = (
+                    target_text + self.template.prefix_trigger
+                )
+                before_trigger_ids = self.tokenizer.encode(
+                    before_trigger_text,
+                    add_special_tokens=True,
+                )
+                prompt_ids = target_tokens.input_ids[0].tolist()
+                trigger_start = len(before_trigger_ids)
+                actual_trigger_ids = prompt_ids[
+                    trigger_start:
+                    trigger_start + len(expected_trigger_ids)
+                ]
+                if actual_trigger_ids != expected_trigger_ids:
+                    raise ValueError(
+                        "推理输入中的 trigger token IDs 与训练 IDs 不一致"
+                    )
+
             kwargs['max_length'] = target_length*2 + length
             kwargs['input_ids'] = target_tokens.input_ids
             kwargs['attention_mask'] = target_tokens.attention_mask

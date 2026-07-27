@@ -1,4 +1,5 @@
 import csv
+import json
 
 from DataFactory import DataFactory
 from Sampler import Sampler
@@ -15,13 +16,41 @@ result_stem = (
     f"{TARGET_MODEL}_{TRAIN_NUM}"
 )
 result_path = f"results/{result_stem}.csv"
+trigger_ids_path = f"results/{result_stem}.trigger_ids.json"
 
-with open(result_path, newline="", encoding="utf-8") as file:
-    header = next(csv.reader(file))
-    trigger = header[1]
+def load_trigger(result_path, trigger_ids_path):
+    with open(result_path, newline="", encoding="utf-8") as file:
+        reader = csv.DictReader(file)
+        fieldnames = reader.fieldnames or []
+        first_result = next(reader, None)
+
+        if "trigger" in fieldnames:
+            if first_result is None:
+                raise ValueError(f"结果 CSV 没有数据行: {result_path}")
+            trigger = first_result["trigger"]
+        elif len(fieldnames) >= 2:
+            # The old format stored trigger text as the second column name.
+            trigger = fieldnames[1]
+        else:
+            raise ValueError(f"结果 CSV 中找不到 trigger: {result_path}")
+
+    with open(trigger_ids_path, encoding="utf-8") as file:
+        trigger_token_ids = [
+            int(token_id)
+            for token_id in json.load(file)
+        ]
+
+    return trigger, trigger_token_ids
+
+
+trigger, trigger_token_ids = load_trigger(
+    result_path,
+    trigger_ids_path,
+)
 
 print(f"Loaded trigger from: {result_path}")
 print(f"Trigger repr: {trigger!r}")
+print(f"Trigger token IDs: {trigger_token_ids}")
 
 data_factory = DataFactory()
 trainset = data_factory.get_dataset(
@@ -40,12 +69,12 @@ sampler = Sampler(
 results = sampler.sample_sequence(
     trainset,
     triggers=trigger,
+    trigger_token_ids=trigger_token_ids,
 )
 
 output_path = f"results/{result_stem}_train.csv"
 Sampler.save_to_csv(output_path, results, trigger)
 
-for level in ["substring", "em", "edit", "semantic"]:
-    sampler.evaluate(results, level=level)
+sampler.evaluate_skill_leakage(results)
 
 print(f"Training evaluation saved to: {output_path}")

@@ -57,7 +57,15 @@ sampler = Sampler(
     target_model=target_model,
     template=testset.template
 )
-results = sampler.sample_sequence(testset, triggers=triggers)
+results = sampler.sample_sequence(
+    testset,
+    triggers=triggers,
+    trigger_token_ids=(
+        trigger_token_ids
+        if shadow_model == target_model
+        else None
+    ),
+)
 Sampler.save_to_csv(f'results/{result_stem}.csv', results, triggers)
 
 sampler.evaluate_skill_leakage(results)
