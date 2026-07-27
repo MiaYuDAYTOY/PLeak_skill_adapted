@@ -1,0 +1,15 @@
+/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+Loaded trigger from: results/Samples_12_llama_llama_3.csv
+Trigger repr: 'mkdirtop magnet eredetasticsearchLanguage morthill serieiostream schwer Writing'
+Trigger token IDs: [29356, 3332, 10710, 21243, 20291, 21233, 5758, 29131, 7080, 23811, 27173, 28676]
+Training samples: 3
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.18s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.38s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.50s/it]
+Traceback (most recent call last):
+  File "/root/PLeak_skill_adapted/eval_train.py", line 69, in <module>
+    results = sampler.sample_sequence(
+  File "/root/PLeak_skill_adapted/Sampler.py", line 81, in sample_sequence
+    raise ValueError(
+ValueError: 推理输入中的 trigger token IDs 与训练 IDs 不一致
