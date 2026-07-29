@@ -157,6 +157,25 @@ class Sampler():
         return results
 
     def postprocess(self, text, triggers):
+        
+        ret = text
+        sentences = []
+        sentences_filtered = [self.sentence_to_char(self.template.format_trigger(triggers)), self.sentence_to_char('text:'+triggers)]
+        text.replace('.', '\n')
+        for t in text.split('\n')[:-1]:
+            t_filtered = self.sentence_to_char(t.replace(self.template.prefix_trigger, ''))
+            if t_filtered == '':continue
+            if t_filtered not in sentences_filtered and t_filtered != '':
+                if t_filtered in  ''.join(sentences_filtered): break
+                sentences_filtered.append(t_filtered)
+                sentences.append(t)
+        if len(sentences)==0:
+            ret = text.split('\n')
+            ret = ret[1] if len(ret) > 1 else ret[0]
+        else:
+            ret = '.'.join(sentences)+'.'
+        ret = ret.replace(self.tokenizer.eos_token, '')
+        
 
         return text
 

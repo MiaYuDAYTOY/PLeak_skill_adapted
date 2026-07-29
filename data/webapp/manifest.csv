@@ -1,0 +1,101 @@
+﻿id,folder,name,title,category,file
+1,001_smoke-testing,smoke-testing,Web Application Smoke Testing,core,001_smoke-testing/SKILL.md
+2,002_navigation-testing,navigation-testing,Primary Navigation Testing,navigation,002_navigation-testing/SKILL.md
+3,003_form-submission-testing,form-submission-testing,Form Submission Testing,forms,003_form-submission-testing/SKILL.md
+4,004_form-validation-testing,form-validation-testing,Client-side Form Validation Testing,forms,004_form-validation-testing/SKILL.md
+5,005_login-flow-testing,login-flow-testing,Login Flow Testing,auth,005_login-flow-testing/SKILL.md
+6,006_registration-flow-testing,registration-flow-testing,User Registration Testing,auth,006_registration-flow-testing/SKILL.md
+7,007_password-reset-testing,password-reset-testing,Password Reset Testing,auth,007_password-reset-testing/SKILL.md
+8,008_session-expiry-testing,session-expiry-testing,Session Expiry Testing,auth,008_session-expiry-testing/SKILL.md
+9,009_role-permission-testing,role-permission-testing,Role-based Permission Testing,auth,009_role-permission-testing/SKILL.md
+10,010_logout-flow-testing,logout-flow-testing,Logout Flow Testing,auth,010_logout-flow-testing/SKILL.md
+11,011_search-testing,search-testing,Search Interaction Testing,discovery,011_search-testing/SKILL.md
+12,012_filter-testing,filter-testing,Filter Control Testing,discovery,012_filter-testing/SKILL.md
+13,013_sorting-testing,sorting-testing,Sorting Control Testing,discovery,013_sorting-testing/SKILL.md
+14,014_pagination-testing,pagination-testing,Pagination Testing,discovery,014_pagination-testing/SKILL.md
+15,015_infinite-scroll-testing,infinite-scroll-testing,Infinite Scroll Testing,discovery,015_infinite-scroll-testing/SKILL.md
+16,016_file-upload-testing,file-upload-testing,File Upload Testing,files,016_file-upload-testing/SKILL.md
+17,017_file-download-testing,file-download-testing,File Download Testing,files,017_file-download-testing/SKILL.md
+18,018_drag-drop-testing,drag-drop-testing,Drag and Drop Testing,interaction,018_drag-drop-testing/SKILL.md
+19,019_modal-dialog-testing,modal-dialog-testing,Modal Dialog Testing,interaction,019_modal-dialog-testing/SKILL.md
+20,020_toast-notification-testing,toast-notification-testing,Toast Notification Testing,interaction,020_toast-notification-testing/SKILL.md
+21,021_responsive-layout-testing,responsive-layout-testing,Responsive Layout Testing,layout,021_responsive-layout-testing/SKILL.md
+22,022_mobile-menu-testing,mobile-menu-testing,Mobile Navigation Menu Testing,layout,022_mobile-menu-testing/SKILL.md
+23,023_cross-browser-testing,cross-browser-testing,Cross-browser Web Testing,layout,023_cross-browser-testing/SKILL.md
+24,024_keyboard-navigation-testing,keyboard-navigation-testing,Keyboard Navigation Testing,accessibility,024_keyboard-navigation-testing/SKILL.md
+25,025_accessible-name-testing,accessible-name-testing,Accessible Name Testing,accessibility,025_accessible-name-testing/SKILL.md
+26,026_focus-trap-testing,focus-trap-testing,Focus Trap Testing,accessibility,026_focus-trap-testing/SKILL.md
+27,027_visual-regression-testing,visual-regression-testing,Visual Regression Testing,visual,027_visual-regression-testing/SKILL.md
+28,028_screenshot-capture-testing,screenshot-capture-testing,Diagnostic Screenshot Capture,visual,028_screenshot-capture-testing/SKILL.md
+29,029_console-error-testing,console-error-testing,Browser Console Error Testing,diagnostics,029_console-error-testing/SKILL.md
+30,030_page-error-testing,page-error-testing,Uncaught Page Error Testing,diagnostics,030_page-error-testing/SKILL.md
+31,031_network-failure-testing,network-failure-testing,Network Failure UI Testing,network,031_network-failure-testing/SKILL.md
+32,032_api-mocking-testing,api-mocking-testing,API Mocking for UI Tests,network,032_api-mocking-testing/SKILL.md
+33,033_loading-state-testing,loading-state-testing,Loading State Testing,network,033_loading-state-testing/SKILL.md
+34,034_empty-state-testing,empty-state-testing,Empty State Testing,states,034_empty-state-testing/SKILL.md
+35,035_error-state-testing,error-state-testing,Application Error State Testing,states,035_error-state-testing/SKILL.md
+36,036_offline-mode-testing,offline-mode-testing,Offline Mode Testing,network,036_offline-mode-testing/SKILL.md
+37,037_websocket-testing,websocket-testing,WebSocket Event Testing,network,037_websocket-testing/SKILL.md
+38,038_polling-testing,polling-testing,Polling Behavior Testing,network,038_polling-testing/SKILL.md
+39,039_debounce-testing,debounce-testing,Debounced Input Testing,interaction,039_debounce-testing/SKILL.md
+40,040_autosave-testing,autosave-testing,Autosave Testing,interaction,040_autosave-testing/SKILL.md
+41,041_optimistic-update-testing,optimistic-update-testing,Optimistic Update Testing,states,041_optimistic-update-testing/SKILL.md
+42,042_shopping-cart-testing,shopping-cart-testing,Shopping Cart Testing,commerce,042_shopping-cart-testing/SKILL.md
+43,043_checkout-flow-testing,checkout-flow-testing,Checkout Flow Testing,commerce,043_checkout-flow-testing/SKILL.md
+44,044_coupon-testing,coupon-testing,Coupon and Promotion Testing,commerce,044_coupon-testing/SKILL.md
+45,045_inventory-state-testing,inventory-state-testing,Inventory State Testing,commerce,045_inventory-state-testing/SKILL.md
+46,046_product-variant-testing,product-variant-testing,Product Variant Testing,commerce,046_product-variant-testing/SKILL.md
+47,047_wishlist-testing,wishlist-testing,Wishlist Testing,commerce,047_wishlist-testing/SKILL.md
+48,048_order-history-testing,order-history-testing,Order History Testing,commerce,048_order-history-testing/SKILL.md
+49,049_payment-redirect-testing,payment-redirect-testing,Payment Redirect Testing,commerce,049_payment-redirect-testing/SKILL.md
+50,050_dashboard-testing,dashboard-testing,Dashboard Testing,data-ui,050_dashboard-testing/SKILL.md
+51,051_data-table-testing,data-table-testing,Data Table Testing,data-ui,051_data-table-testing/SKILL.md
+52,052_chart-rendering-testing,chart-rendering-testing,Chart Rendering Testing,data-ui,052_chart-rendering-testing/SKILL.md
+53,053_date-picker-testing,date-picker-testing,Date Picker Testing,forms,053_date-picker-testing/SKILL.md
+54,054_timezone-testing,timezone-testing,Timezone-sensitive UI Testing,localization,054_timezone-testing/SKILL.md
+55,055_localization-testing,localization-testing,Localization Testing,localization,055_localization-testing/SKILL.md
+56,056_rtl-layout-testing,rtl-layout-testing,Right-to-left Layout Testing,localization,056_rtl-layout-testing/SKILL.md
+57,057_language-switcher-testing,language-switcher-testing,Language Switcher Testing,localization,057_language-switcher-testing/SKILL.md
+58,058_cookie-consent-testing,cookie-consent-testing,Cookie Consent Testing,privacy,058_cookie-consent-testing/SKILL.md
+59,059_cookie-storage-testing,cookie-storage-testing,Cookie Storage Testing,privacy,059_cookie-storage-testing/SKILL.md
+60,060_local-storage-testing,local-storage-testing,Local Storage Testing,storage,060_local-storage-testing/SKILL.md
+61,061_session-storage-testing,session-storage-testing,Session Storage Testing,storage,061_session-storage-testing/SKILL.md
+62,062_service-worker-testing,service-worker-testing,Service Worker Testing,pwa,062_service-worker-testing/SKILL.md
+63,063_pwa-installability-testing,pwa-installability-testing,PWA Installability Testing,pwa,063_pwa-installability-testing/SKILL.md
+64,064_notification-permission-testing,notification-permission-testing,Notification Permission Testing,browser-api,064_notification-permission-testing/SKILL.md
+65,065_geolocation-testing,geolocation-testing,Geolocation Testing,browser-api,065_geolocation-testing/SKILL.md
+66,066_media-permission-testing,media-permission-testing,Camera and Microphone Permission Testing,browser-api,066_media-permission-testing/SKILL.md
+67,067_clipboard-testing,clipboard-testing,Clipboard Interaction Testing,browser-api,067_clipboard-testing/SKILL.md
+68,068_popup-window-testing,popup-window-testing,Popup and New Window Testing,navigation,068_popup-window-testing/SKILL.md
+69,069_iframe-testing,iframe-testing,Iframe Interaction Testing,embedded,069_iframe-testing/SKILL.md
+70,070_shadow-dom-testing,shadow-dom-testing,Shadow DOM Testing,embedded,070_shadow-dom-testing/SKILL.md
+71,071_canvas-testing,canvas-testing,Canvas-based UI Testing,embedded,071_canvas-testing/SKILL.md
+72,072_contenteditable-testing,contenteditable-testing,Contenteditable Testing,editors,072_contenteditable-testing/SKILL.md
+73,073_rich-text-editor-testing,rich-text-editor-testing,Rich Text Editor Testing,editors,073_rich-text-editor-testing/SKILL.md
+74,074_markdown-editor-testing,markdown-editor-testing,Markdown Editor Testing,editors,074_markdown-editor-testing/SKILL.md
+75,075_code-editor-testing,code-editor-testing,Browser Code Editor Testing,editors,075_code-editor-testing/SKILL.md
+76,076_keyboard-shortcut-testing,keyboard-shortcut-testing,Keyboard Shortcut Testing,interaction,076_keyboard-shortcut-testing/SKILL.md
+77,077_browser-history-testing,browser-history-testing,Browser History Testing,navigation,077_browser-history-testing/SKILL.md
+78,078_deep-link-testing,deep-link-testing,Deep Link Testing,navigation,078_deep-link-testing/SKILL.md
+79,079_redirect-testing,redirect-testing,Redirect Testing,navigation,079_redirect-testing/SKILL.md
+80,080_query-parameter-testing,query-parameter-testing,Query Parameter Testing,navigation,080_query-parameter-testing/SKILL.md
+81,081_metadata-testing,metadata-testing,Page Metadata Testing,seo,081_metadata-testing/SKILL.md
+82,082_link-integrity-testing,link-integrity-testing,Link Integrity Testing,seo,082_link-integrity-testing/SKILL.md
+83,083_image-loading-testing,image-loading-testing,Image Loading Testing,assets,083_image-loading-testing/SKILL.md
+84,084_lazy-loading-testing,lazy-loading-testing,Lazy-loaded Content Testing,assets,084_lazy-loading-testing/SKILL.md
+85,085_font-loading-testing,font-loading-testing,Web Font Loading Testing,assets,085_font-loading-testing/SKILL.md
+86,086_ssr-rendering-testing,ssr-rendering-testing,Server-side Rendering Testing,rendering,086_ssr-rendering-testing/SKILL.md
+87,087_hydration-testing,hydration-testing,Client Hydration Testing,rendering,087_hydration-testing/SKILL.md
+88,088_spa-route-transition-testing,spa-route-transition-testing,SPA Route Transition Testing,rendering,088_spa-route-transition-testing/SKILL.md
+89,089_animation-testing,animation-testing,Animation and Transition Testing,visual,089_animation-testing/SKILL.md
+90,090_theme-switching-testing,theme-switching-testing,Theme Switching Testing,visual,090_theme-switching-testing/SKILL.md
+91,091_security-header-testing,security-header-testing,Security Header Testing,security,091_security-header-testing/SKILL.md
+92,092_csp-behavior-testing,csp-behavior-testing,Content Security Policy Behavior Testing,security,092_csp-behavior-testing/SKILL.md
+93,093_csrf-flow-testing,csrf-flow-testing,CSRF-protected Form Testing,security,093_csrf-flow-testing/SKILL.md
+94,094_xss-sanitization-testing,xss-sanitization-testing,Output Sanitization Testing,security,094_xss-sanitization-testing/SKILL.md
+95,095_rate-limit-ui-testing,rate-limit-ui-testing,Rate-limit UI Testing,security,095_rate-limit-ui-testing/SKILL.md
+96,096_multi-user-testing,multi-user-testing,Multi-user Interaction Testing,collaboration,096_multi-user-testing/SKILL.md
+97,097_real-time-collaboration-testing,real-time-collaboration-testing,Real-time Collaboration Testing,collaboration,097_real-time-collaboration-testing/SKILL.md
+98,098_data-persistence-testing,data-persistence-testing,Data Persistence Testing,state,098_data-persistence-testing/SKILL.md
+99,099_test-fixture-testing,test-fixture-testing,Deterministic Test Fixture Management,infrastructure,099_test-fixture-testing/SKILL.md
+100,100_multi-server-testing,multi-server-testing,Multi-server Integration Testing,infrastructure,100_multi-server-testing/SKILL.md

@@ -29,7 +29,11 @@ class Samples(Dataset):
 
     def __len__(self):
         return len(self.dataset)
-    
+
+class WebTesting(Samples):
+    def __init__(self, train, num=16):
+        super().__init__(train=train, num=num, data_dir="data/webapp")
+
 class Financial(Dataset):
     def __init__(self, train, num=16, num_shots=1, prefix_1='text:', prefix_2='label:',with_instruction=True):
         dataset = load_dataset("financial_phrasebank","sentences_allagree")
