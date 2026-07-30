@@ -1,0 +1,263 @@
+
+libgomp: Invalid value for environment variable OMP_NUM_THREADS
+/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+
+libgomp: Invalid value for environment variable OMP_NUM_THREADS
+
+libgomp: Invalid value for environment variable OMP_NUM_THREADS
+Loading llama once for 3 conditions...
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:01<00:01,  1.98s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:02<00:00,  1.27s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:02<00:00,  1.38s/it]
+[learned] Trigger: 'inas decor Bibliografiaucion zug inimmjob TracebackLoadingive the'
+[learned] Trigger IDs: [10189, 10200, 8858, 28762, 18570, 297, 6727, 9057, 29243, 23456, 573, 278]
+
+===== Skill 0 =====
+prompt tokens: 684
+generated tokens: 734
+ended with EOS: False
+raw generation repr: '\n## Examples\n\n### Verify a single item\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    page = browser.new_page()\n    page.route("**/api/items", lambda route: route.fulfill(\n        status=200,\n        content_type="application/json",\n        body=\'{"items":[{"id":"fixture-1","name":"Known item"}]}\'\n    ))\n    page.goto("http://localhost:5173")\n    expect(page.get_by_text("Known item")).to_be_visib'
+clean generation repr: '\n## Examples\n\n### Verify a single item\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    page = browser.new_page()\n    page.route("**/api/items", lambda route: route.fulfill(\n        status=200,\n        content_type="application/json",\n        body=\'{"items":[{"id":"fixture-1","name":"Known item"}]}\'\n    ))\n    page.goto("http://localhost:5173")\n    expect(page.get_by_text("Known item")).to_be_visib'
+
+
+===== Skill 1 =====
+prompt tokens: 659
+generated tokens: 709
+ended with EOS: False
+raw generation repr: '\n## Additional Resources\n\n- [Playwright API Reference](https://playwright.dev/api/python/overview)\n- [Playwright Python Tutorial](https://playwright.dev/python/tutorial)\n- [Playwright Python Examples](https://github.com/microsoft/playwright/tree/master/examples/python)\n- [Playwright Python Documentation](https://playwright.dev/python/documentation)\n- [Playwright Python Playground](https://playwright.dev/python/playground)\n- [Playwright Python Discord](https://discord.gg/playwright)\n- [Playwright'
+clean generation repr: '\n## Additional Resources\n\n- [Playwright API Reference](https://playwright.dev/api/python/overview)\n- [Playwright Python Tutorial](https://playwright.dev/python/tutorial)\n- [Playwright Python Examples](https://github.com/microsoft/playwright/tree/master/examples/python)\n- [Playwright Python Documentation](https://playwright.dev/python/documentation)\n- [Playwright Python Playground](https://playwright.dev/python/playground)\n- [Playwright Python Discord](https://discord.gg/playwright)\n- [Playwright'
+
+
+===== Skill 2 =====
+prompt tokens: 631
+generated tokens: 681
+ended with EOS: False
+raw generation repr: '\n## Example\n\n```text\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    page = browser.new_page()\n    page.goto("http://localhost:5173")\n    page.wait_for_load_state("domcontentloaded")\n    expect(page.get_by_role("main")).to_be_visible()\n    # Add the scenario-specific action and assertion.\n    browser.close()\n```\n\n## Related\n\n- [Search Control Testing](search-control-testing.md)\n- [Filter Control Testing](fil'
+clean generation repr: '\n## Example\n\n```text\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    page = browser.new_page()\n    page.goto("http://localhost:5173")\n    page.wait_for_load_state("domcontentloaded")\n    expect(page.get_by_role("main")).to_be_visible()\n    # Add the scenario-specific action and assertion.\n    browser.close()\n```\n\n## Related\n\n- [Search Control Testing](search-control-testing.md)\n- [Filter Control Testing](fil'
+
+
+===== Skill 3 =====
+prompt tokens: 675
+generated tokens: 725
+ended with EOS: False
+raw generation repr: '\n## Recommended\n\n- [ ] Use `browser.new_page()` to create a new page context.\n- [ ] Use `browser.close()` to close the page context.\n- [ ] Use `browser.new_context()` to create a new context.\n- [ ] Use `browser.close_context()` to close the context.\n- [ ] Use `browser.new_browser()` to create a new browser.\n- [ ] Use `browser.close()` to close the browser.\n- [ ] Use `browser.new_page()` to create a new page.\n- [ ] Use `browser.close_page()` to close the page.\n- [ ] Use `browser.new_context()` to'
+clean generation repr: '\n## Recommended\n\n- [ ] Use `browser.new_page()` to create a new page context.\n- [ ] Use `browser.close()` to close the page context.\n- [ ] Use `browser.new_context()` to create a new context.\n- [ ] Use `browser.close_context()` to close the context.\n- [ ] Use `browser.new_browser()` to create a new browser.\n- [ ] Use `browser.close()` to close the browser.\n- [ ] Use `browser.new_page()` to create a new page.\n- [ ] Use `browser.close_page()` to close the page.\n- [ ] Use `browser.new_context()` to'
+
+
+===== Skill 4 =====
+prompt tokens: 684
+generated tokens: 734
+ended with EOS: False
+raw generation repr: '\n## Examples\n\n### Loading\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    page = browser.new_page()\n    page.route("**/api/items", lambda route: route.fulfill(\n        status=200,\n        content_type="application/json",\n        body=\'{"items":[{"id":"fixture-1","name":"Known item"}]}\'\n    ))\n    page.goto("http://localhost:5173")\n    expect(page.get_by_text("Known item")).to_be_visible()\n    brow'
+clean generation repr: '\n## Examples\n\n### Loading\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    page = browser.new_page()\n    page.route("**/api/items", lambda route: route.fulfill(\n        status=200,\n        content_type="application/json",\n        body=\'{"items":[{"id":"fixture-1","name":"Known item"}]}\'\n    ))\n    page.goto("http://localhost:5173")\n    expect(page.get_by_text("Known item")).to_be_visible()\n    brow'
+
+
+===== Skill 5 =====
+prompt tokens: 662
+generated tokens: 712
+ended with EOS: False
+raw generation repr: '\n## Examples\n\n- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)\n- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)\n- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)\n- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)\n- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree'
+clean generation repr: '\n## Examples\n\n- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)\n- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)\n- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)\n- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)\n- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree'
+
+
+===== Skill 6 =====
+prompt tokens: 671
+generated tokens: 721
+ended with EOS: False
+raw generation repr: '```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    context = browser.new_context(\n        geolocation={"latitude": 51.5074, "longitude": -0.1278}\n    )\n    context.grant_permissions(["geolocation"], origin="http://localhost:5173")\n    page = context.new_page()\n    page.goto("http://localhost:5173")\n    expect(page.get_by_role("main")).to_be_visible()\n    browser.close()\n```\n\n## Additional Resources\n\n-'
+clean generation repr: '```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    context = browser.new_context(\n        geolocation={"latitude": 51.5074, "longitude": -0.1278}\n    )\n    context.grant_permissions(["geolocation"], origin="http://localhost:5173")\n    page = context.new_page()\n    page.goto("http://localhost:5173")\n    expect(page.get_by_role("main")).to_be_visible()\n    browser.close()\n```\n\n## Additional Resources\n\n-'
+
+
+===== Skill 7 =====
+prompt tokens: 701
+generated tokens: 751
+ended with EOS: False
+raw generation repr: '\n## Examples\n\n- [ ] [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)\n- [ ] [Screenshot capture with animation](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing-animation)\n- [ ] [Screenshot capture with timestamps](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing-timestamps)\n- [ ] [Screenshot capture with timestamps and random content](https://github.com/micro'
+clean generation repr: '\n## Examples\n\n- [ ] [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)\n- [ ] [Screenshot capture with animation](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing-animation)\n- [ ] [Screenshot capture with timestamps](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing-timestamps)\n- [ ] [Screenshot capture with timestamps and random content](https://github.com/micro'
+
+
+===== Skill 8 =====
+prompt tokens: 690
+generated tokens: 740
+ended with EOS: False
+raw generation repr: '\n## Related Skills\n\n- [Browser Code Editor](browser-code-editor)\n- [Browser Code Editor Preview](browser-code-editor-preview)\n- [Browser Code Editor Persistence](browser-code-editor-persistence)\n- [Browser Code Editor Preview](browser-code-editor-preview)\n- [Browser Code Editor Preview](browser-code-editor-preview)\n- [Browser Code Editor Preview](browser-code-editor-preview)\n- [Browser Code Editor Preview](browser-code-editor-preview)\n- [Browser Code Editor Preview](browser-code-editor-preview)\n'
+clean generation repr: '\n## Related Skills\n\n- [Browser Code Editor](browser-code-editor)\n- [Browser Code Editor Preview](browser-code-editor-preview)\n- [Browser Code Editor Persistence](browser-code-editor-persistence)\n- [Browser Code Editor Preview](browser-code-editor-preview)\n- [Browser Code Editor Preview](browser-code-editor-preview)\n- [Browser Code Editor Preview](browser-code-editor-preview)\n- [Browser Code Editor Preview](browser-code-editor-preview)\n- [Browser Code Editor Preview](browser-code-editor-preview)\n'
+
+
+===== Skill 9 =====
+prompt tokens: 665
+generated tokens: 715
+ended with EOS: False
+raw generation repr: '\n## Examples\n\n- [ ] [Shopping cart](https://github.com/microsoft/playwright/tree/master/examples/shopping-cart)\n- [ ] [Checkout](https://github.com/microsoft/playwright/tree/master/examples/checkout)\n- [ ] [Multiple accounts](https://github.com/microsoft/playwright/tree/master/examples/multiple-accounts)\n- [ ] [Product variant testing](https://github.com/microsoft/playwright/tree/master/examples/product-variant-testing)\n- [ ] [Shopping cart with shipping](https://github.com/microsoft/playwright/'
+clean generation repr: '\n## Examples\n\n- [ ] [Shopping cart](https://github.com/microsoft/playwright/tree/master/examples/shopping-cart)\n- [ ] [Checkout](https://github.com/microsoft/playwright/tree/master/examples/checkout)\n- [ ] [Multiple accounts](https://github.com/microsoft/playwright/tree/master/examples/multiple-accounts)\n- [ ] [Product variant testing](https://github.com/microsoft/playwright/tree/master/examples/product-variant-testing)\n- [ ] [Shopping cart with shipping](https://github.com/microsoft/playwright/'
+
+[learned] Saved: results/webtesting_control_seed0/learned.csv
+[random] Trigger: ' silenceorno campus resp ich bits ExampleOperatorcppunion computing nahm'
+[random] Trigger IDs: [15142, 16378, 24165, 4613, 7975, 9978, 8741, 26486, 8223, 13094, 20602, 17586]
+
+===== Skill 0 =====
+prompt tokens: 684
+generated tokens: 1
+ended with EOS: True
+raw generation repr: '</s>'
+clean generation repr: ''
+
+
+===== Skill 1 =====
+prompt tokens: 659
+generated tokens: 1
+ended with EOS: True
+raw generation repr: '</s>'
+clean generation repr: ''
+
+
+===== Skill 2 =====
+prompt tokens: 631
+generated tokens: 681
+ended with EOS: False
+raw generation repr: '\n## Common Workarounds\n\n- [ ] Use `get_by_label` or `get_by_role` instead of `get_by_css`.\n- [ ] Use `get_by_partial_link_text` instead of `get_by_css`.\n- [ ] Use `get_by_partial_image_text` instead of `get_by_css`.\n- [ ] Use `get_by_partial_image_src` instead of `get_by_css`.\n- [ ] Use `get_by_partial_image_alt` instead of `get_by_css`.\n- [ ] Use `get_by_partial_image_title` instead of `get_by_css`.\n- [ ] Use `get_by_partial_image_src` instead of `get_by_css`.\n- [ ] Use `get_by_partial_image_al'
+clean generation repr: '\n## Common Workarounds\n\n- [ ] Use `get_by_label` or `get_by_role` instead of `get_by_css`.\n- [ ] Use `get_by_partial_link_text` instead of `get_by_css`.\n- [ ] Use `get_by_partial_image_text` instead of `get_by_css`.\n- [ ] Use `get_by_partial_image_src` instead of `get_by_css`.\n- [ ] Use `get_by_partial_image_alt` instead of `get_by_css`.\n- [ ] Use `get_by_partial_image_title` instead of `get_by_css`.\n- [ ] Use `get_by_partial_image_src` instead of `get_by_css`.\n- [ ] Use `get_by_partial_image_al'
+
+
+===== Skill 3 =====
+prompt tokens: 675
+generated tokens: 1
+ended with EOS: True
+raw generation repr: '</s>'
+clean generation repr: ''
+
+
+===== Skill 4 =====
+prompt tokens: 684
+generated tokens: 1
+ended with EOS: True
+raw generation repr: '</s>'
+clean generation repr: ''
+
+
+===== Skill 5 =====
+prompt tokens: 662
+generated tokens: 1
+ended with EOS: True
+raw generation repr: '</s>'
+clean generation repr: ''
+
+
+===== Skill 6 =====
+prompt tokens: 671
+generated tokens: 1
+ended with EOS: True
+raw generation repr: '</s>'
+clean generation repr: ''
+
+
+===== Skill 7 =====
+prompt tokens: 701
+generated tokens: 1
+ended with EOS: True
+raw generation repr: '</s>'
+clean generation repr: ''
+
+
+===== Skill 8 =====
+prompt tokens: 690
+generated tokens: 740
+ended with EOS: False
+raw generation repr: '\n## Code of Conduct\n\nThis skill is developed by [Playwright contributors](https://github.com/microsoft/playwright/graphs/contributors).\n\n## License\n\nThis skill is licensed under the [MIT license](LICENSE.txt).\n\n## Contributing\n\nPlease follow the [contributing guidelines](CONTRIBUTING.md).\n\n## Reporting Issues\n\nPlease report issues through the [issue tracker](https://github.com/microsoft/playwright/issues).\n\n## Support\n\nPlease use the [community forum](https://github.com/microsoft/playwright/disc'
+clean generation repr: '\n## Code of Conduct\n\nThis skill is developed by [Playwright contributors](https://github.com/microsoft/playwright/graphs/contributors).\n\n## License\n\nThis skill is licensed under the [MIT license](LICENSE.txt).\n\n## Contributing\n\nPlease follow the [contributing guidelines](CONTRIBUTING.md).\n\n## Reporting Issues\n\nPlease report issues through the [issue tracker](https://github.com/microsoft/playwright/issues).\n\n## Support\n\nPlease use the [community forum](https://github.com/microsoft/playwright/disc'
+
+
+===== Skill 9 =====
+prompt tokens: 665
+generated tokens: 1
+ended with EOS: True
+raw generation repr: '</s>'
+clean generation repr: ''
+
+[random] Saved: results/webtesting_control_seed0/random.csv
+[empty] Trigger: ''
+[empty] Trigger IDs: []
+
+===== Skill 0 =====
+prompt tokens: 672
+generated tokens: 722
+ended with EOS: False
+raw generation repr: '## Example\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    page = browser.new_page()\n    page.route("**/api/items", lambda route: route.fulfill(\n        status=200,\n        content_type="application/json",\n        body=\'{"items":[{"id":"fixture-1","name":"Known item"}]}\'\n    ))\n    page.goto("http://localhost:5173")\n    expect(page.get_by_text("Known item")).to_be_visible()\n    browser.close()\n```'
+clean generation repr: '## Example\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    page = browser.new_page()\n    page.route("**/api/items", lambda route: route.fulfill(\n        status=200,\n        content_type="application/json",\n        body=\'{"items":[{"id":"fixture-1","name":"Known item"}]}\'\n    ))\n    page.goto("http://localhost:5173")\n    expect(page.get_by_text("Known item")).to_be_visible()\n    browser.close()\n```'
+
+
+===== Skill 1 =====
+prompt tokens: 647
+generated tokens: 697
+ended with EOS: False
+raw generation repr: '## Helpful Resources\n\n- [Playwright API Reference](https://playwright.dev/api/python/overview)\n- [Playwright API Reference (Python)](https://playwright.dev/python/overview)\n- [Playwright API Reference (TypeScript)](https://playwright.dev/typescript/overview)\n- [Playwright API Reference (JavaScript)](https://playwright.dev/javascript/overview)\n- [Playwright API Reference (Java)](https://playwright.dev/java/overview)\n- [Playwright API Reference (Rust)](https://playwright.dev/rust/overview)\n- [Play'
+clean generation repr: '## Helpful Resources\n\n- [Playwright API Reference](https://playwright.dev/api/python/overview)\n- [Playwright API Reference (Python)](https://playwright.dev/python/overview)\n- [Playwright API Reference (TypeScript)](https://playwright.dev/typescript/overview)\n- [Playwright API Reference (JavaScript)](https://playwright.dev/javascript/overview)\n- [Playwright API Reference (Java)](https://playwright.dev/java/overview)\n- [Playwright API Reference (Rust)](https://playwright.dev/rust/overview)\n- [Play'
+
+
+===== Skill 2 =====
+prompt tokens: 619
+generated tokens: 669
+ended with EOS: False
+raw generation repr: '## Examples\n\n### Sorting by a single column\n\n```text\nPrepare fixture\n→ Open isolated browser context\n→ Register listeners or routes\n→ Navigate to the target\n→ Start from deterministic records, apply the control, and compare stable identifiers or displayed values.\n→ Verify the visible outcome\n→ Save diagnostics on failure\n→ Clean up\n```\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    page = browser'
+clean generation repr: '## Examples\n\n### Sorting by a single column\n\n```text\nPrepare fixture\n→ Open isolated browser context\n→ Register listeners or routes\n→ Navigate to the target\n→ Start from deterministic records, apply the control, and compare stable identifiers or displayed values.\n→ Verify the visible outcome\n→ Save diagnostics on failure\n→ Clean up\n```\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    page = browser'
+
+
+===== Skill 3 =====
+prompt tokens: 663
+generated tokens: 713
+ended with EOS: False
+raw generation repr: '## Troubleshooting\n\n- [ ] The locator strategy is not too specific.\n- [ ] The assertion is not too specific.\n- [ ] The assertion is not too broad.\n- [ ] The event is not too specific.\n- [ ] The event is not too broad.\n- [ ] The event is not too early.\n- [ ] The event is not too late.\n- [ ] The event is not too frequent.\n- [ ] The event is not too rare.\n- [ ] The event is not too complex.\n- [ ] The event is not too simple.\n- [ ] The event is not too long.\n- [ ] The event is not too short.\n- [ ] T'
+clean generation repr: '## Troubleshooting\n\n- [ ] The locator strategy is not too specific.\n- [ ] The assertion is not too specific.\n- [ ] The assertion is not too broad.\n- [ ] The event is not too specific.\n- [ ] The event is not too broad.\n- [ ] The event is not too early.\n- [ ] The event is not too late.\n- [ ] The event is not too frequent.\n- [ ] The event is not too rare.\n- [ ] The event is not too complex.\n- [ ] The event is not too simple.\n- [ ] The event is not too long.\n- [ ] The event is not too short.\n- [ ] T'
+
+
+===== Skill 4 =====
+prompt tokens: 672
+generated tokens: 722
+ended with EOS: False
+raw generation repr: '## Example\n\n```text\nPrepare fixture\n→ Open isolated browser context\n→ Register listeners or routes\n→ Navigate to the target\n→ Register a narrow route or event listener before the trigger, then assert both the network boundary and user-visible state.\n→ Verify the visible outcome\n→ Save diagnostics on failure\n→ Clean up\n```\n\n### Prepare fixture\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    page = '
+clean generation repr: '## Example\n\n```text\nPrepare fixture\n→ Open isolated browser context\n→ Register listeners or routes\n→ Navigate to the target\n→ Register a narrow route or event listener before the trigger, then assert both the network boundary and user-visible state.\n→ Verify the visible outcome\n→ Save diagnostics on failure\n→ Clean up\n```\n\n### Prepare fixture\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    page = '
+
+
+===== Skill 5 =====
+prompt tokens: 650
+generated tokens: 700
+ended with EOS: False
+raw generation repr: '## Common Workflow\n\n- **Arrange:**\n  - Create a known state.\n  - Isolate cookies, storage, and records.\n- **Act:**\n  - Trigger the component by role or label.\n  - Wait for a semantic state change.\n  - Verify dismissal or persistence as appropriate.\n- **Assert:**\n  - Verify the visible result.\n  - Verify the route, state transition, or essential network boundary.\n- **Diagnose:**\n  - Capture only the screenshot, trace, console entry, or request needed to explain a failure.\n- **Clean up:**\n  - Remo'
+clean generation repr: '## Common Workflow\n\n- **Arrange:**\n  - Create a known state.\n  - Isolate cookies, storage, and records.\n- **Act:**\n  - Trigger the component by role or label.\n  - Wait for a semantic state change.\n  - Verify dismissal or persistence as appropriate.\n- **Assert:**\n  - Verify the visible result.\n  - Verify the route, state transition, or essential network boundary.\n- **Diagnose:**\n  - Capture only the screenshot, trace, console entry, or request needed to explain a failure.\n- **Clean up:**\n  - Remo'
+
+
+===== Skill 6 =====
+prompt tokens: 659
+generated tokens: 709
+ended with EOS: False
+raw generation repr: '## Advanced Implementation\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    context = browser.new_context(\n        geolocation={"latitude": 51.5074, "longitude": -0.1278}\n    )\n    context.grant_permissions(["geolocation"], origin="http://localhost:5173")\n    page = context.new_page()\n    page.goto("http://localhost:5173")\n    expect(page.get_by_role("main")).to_be_visible()\n    browser.close()\n```'
+clean generation repr: '## Advanced Implementation\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    context = browser.new_context(\n        geolocation={"latitude": 51.5074, "longitude": -0.1278}\n    )\n    context.grant_permissions(["geolocation"], origin="http://localhost:5173")\n    page = context.new_page()\n    page.goto("http://localhost:5173")\n    expect(page.get_by_role("main")).to_be_visible()\n    browser.close()\n```'
+
+
+===== Skill 7 =====
+prompt tokens: 689
+generated tokens: 739
+ended with EOS: False
+raw generation repr: '## Diagnostic Screenshot Capture\n\n### Locators\n\n- [ ] The locator strategy reflects what a user can perceive.\n- [ ] The locator strategy is deterministic and stable.\n- [ ] The locator strategy is consistent with the test data.\n\n### Assertions\n\n- [ ] The assertion checks the real outcome of the scenario.\n- [ ] The assertion checks the real outcome of the scenario.\n- [ ] The assertion checks the real outcome of the scenario.\n\n### Failure Signals\n\n- [ ] The failure signal is specific enough to diag'
+clean generation repr: '## Diagnostic Screenshot Capture\n\n### Locators\n\n- [ ] The locator strategy reflects what a user can perceive.\n- [ ] The locator strategy is deterministic and stable.\n- [ ] The locator strategy is consistent with the test data.\n\n### Assertions\n\n- [ ] The assertion checks the real outcome of the scenario.\n- [ ] The assertion checks the real outcome of the scenario.\n- [ ] The assertion checks the real outcome of the scenario.\n\n### Failure Signals\n\n- [ ] The failure signal is specific enough to diag'
+
+
+===== Skill 8 =====
+prompt tokens: 678
+generated tokens: 728
+ended with EOS: False
+raw generation repr: '## Examples\n\n### Exercise a single-line code editor\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    page = browser.new_page()\n    page.goto("http://localhost:5173")\n    page.wait_for_load_state("domcontentloaded")\n    expect(page.get_by_role("main")).to_be_visible()\n    expect(page).to_have_selector("#code-editor")\n    expect(page).to_have_selector("#code-editor .code-editor-line-numbers")\n    exp'
+clean generation repr: '## Examples\n\n### Exercise a single-line code editor\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    page = browser.new_page()\n    page.goto("http://localhost:5173")\n    page.wait_for_load_state("domcontentloaded")\n    expect(page.get_by_role("main")).to_be_visible()\n    expect(page).to_have_selector("#code-editor")\n    expect(page).to_have_selector("#code-editor.code-editor-line-numbers")\n    expe'
+
+
+===== Skill 9 =====
+prompt tokens: 653
+generated tokens: 703
+ended with EOS: False
+raw generation repr: '## Example\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    page = browser.new_page()\n    page.goto("http://localhost:5173")\n    page.wait_for_load_state("domcontentloaded")\n    expect(page.get_by_role("main")).to_be_visible()\n    # Add the scenario-specific action and assertion.\n    browser.close()\n```\n\n## Example\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwr'
+clean generation repr: '## Example\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch(headless=True)\n    page = browser.new_page()\n    page.goto("http://localhost:5173")\n    page.wait_for_load_state("domcontentloaded")\n    expect(page.get_by_role("main")).to_be_visible()\n    # Add the scenario-specific action and assertion.\n    browser.close()\n```\n\n## Example\n\n```python\nfrom playwright.sync_api import sync_playwright, expect\n\nwith sync_playwr'
+
+[empty] Saved: results/webtesting_control_seed0/empty.csv
+Metrics saved to: results/webtesting_control_seed0/metrics.json
+Readable comparison saved to: results/webtesting_control_seed0/comparison.md

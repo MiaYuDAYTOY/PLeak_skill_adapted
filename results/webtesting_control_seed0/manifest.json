@@ -1,0 +1,51 @@
+{
+  "settings": {
+    "dataset": "webtesting",
+    "test_num": 10,
+    "target_model": "llama",
+    "token_length": 12,
+    "generation_seed": 0,
+    "random_trigger_seed": 1,
+    "unique_span_tokens": 50
+  },
+  "triggers": {
+    "learned": {
+      "text": "inas decor Bibliografiaucion zug inimmjob TracebackLoadingive the",
+      "ids": [
+        10189,
+        10200,
+        8858,
+        28762,
+        18570,
+        297,
+        6727,
+        9057,
+        29243,
+        23456,
+        573,
+        278
+      ]
+    },
+    "random": {
+      "text": " silenceorno campus resp ich bits ExampleOperatorcppunion computing nahm",
+      "ids": [
+        15142,
+        16378,
+        24165,
+        4613,
+        7975,
+        9978,
+        8741,
+        26486,
+        8223,
+        13094,
+        20602,
+        17586
+      ]
+    },
+    "empty": {
+      "text": "",
+      "ids": []
+    }
+  }
+}
