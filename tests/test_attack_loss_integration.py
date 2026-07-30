@@ -1,6 +1,8 @@
+import io
 import math
 import unittest
-from unittest.mock import patch
+from contextlib import redirect_stdout
+from unittest.mock import Mock, patch
 
 try:
     import torch
@@ -39,6 +41,7 @@ class AttackLossIntegrationTests(unittest.TestCase):
         attack.max_loss_tokens = 3
         attack.anchor_len = 1
         attack.frontier_window = 1
+        attack.frontier_lambda = 4.0
         attack.max_frontier_tokens = None
         return attack
 
@@ -103,8 +106,16 @@ class AttackLossIntegrationTests(unittest.TestCase):
                 self.embedding = torch.nn.Embedding(512, 8)
                 self.output = torch.nn.Linear(8, 512)
 
-            def forward(self, input_ids, labels):
-                hidden = torch.cumsum(self.embedding(input_ids), dim=1)
+            def forward(self, input_ids=None, inputs_embeds=None, labels=None):
+                if inputs_embeds is None:
+                    inputs_embeds = self.embedding(input_ids)
+                position_scale = torch.arange(
+                    1,
+                    inputs_embeds.shape[1] + 1,
+                    dtype=inputs_embeds.dtype,
+                    device=inputs_embeds.device,
+                ).view(1, -1, 1)
+                hidden = torch.cumsum(inputs_embeds * position_scale, dim=1)
                 logits = self.output(hidden)
                 loss = functional.cross_entropy(
                     logits[:, :-1].reshape(-1, logits.shape[-1]),
@@ -115,6 +126,7 @@ class AttackLossIntegrationTests(unittest.TestCase):
 
         attack = self.make_attack("baseline")
         attack.model = TinyCausalLM()
+        attack.embedding_layer = attack.model.embedding
         attack.vocab_size = 512
         attack.trigger_tokens = [ord("X"), ord("Y")]
 
@@ -129,6 +141,137 @@ class AttackLossIntegrationTests(unittest.TestCase):
         self.assertTrue(math.isfinite(loss))
         self.assertEqual(tuple(trigger_grad.shape), (2, 8))
         self.assertGreater(trigger_grad.abs().sum().item(), 0.0)
+
+    def test_self_conditioned_refreshes_only_best_fixed_rollout_candidate(self):
+        attack = self.make_attack("self_conditioned_frontier")
+        attack.frontier_lambda = 4.0
+        attack.hotflip_top_k = 2
+        attack.num_restarts = 1
+        attack.step = 1
+        attack.anchor_window = 1
+        attack.trigger_token_length = 1
+        attack.trigger_tokens = [ord("A")]
+        attack.model = Mock()
+        attack._encode_completion_target = Mock(
+            return_value=([], [], [ord("x")])
+        )
+        attack.get_effective_max_len = Mock(return_value=1)
+        attack.get_triggers_grad = Mock(return_value=None)
+        attack.hotflip_attack = Mock(
+            return_value=[[ord("B"), ord("C")]]
+        )
+        attack._print_stage_summary = Mock()
+
+        refresh_states = []
+
+        def refresh_rollout(**kwargs):
+            source_trigger_ids = tuple(int(token) for token in kwargs["trigger_tokens"])
+            state = {
+                "refresh_id": len(refresh_states) + 1,
+                "source_trigger_ids": source_trigger_ids,
+            }
+            refresh_states.append(state)
+            return state
+
+        attack._refresh_self_conditioned_rollouts = Mock(
+            side_effect=refresh_rollout
+        )
+        loss_by_trigger_and_rollout = {
+            ((ord("A"),), (ord("A"),)): 10.0,
+            ((ord("B"),), (ord("A"),)): 6.0,
+            ((ord("C"),), (ord("A"),)): 5.0,
+            ((ord("C"),), (ord("C"),)): 4.0,
+            ((ord("B"),), (ord("C"),)): 12.0,
+        }
+        loss_calls = []
+
+        def compute_loss(_, trigger_tokens, __, **kwargs):
+            rollout_state = kwargs["rollout_state"]
+            trigger_ids = tuple(int(token) for token in trigger_tokens)
+            rollout_trigger_ids = rollout_state["source_trigger_ids"]
+            loss_calls.append(
+                (
+                    trigger_ids,
+                    rollout_state,
+                    kwargs["require_grad"],
+                )
+            )
+            return loss_by_trigger_and_rollout[
+                (trigger_ids, rollout_trigger_ids)
+            ]
+
+        attack.compute_loss = Mock(side_effect=compute_loss)
+
+        output = io.StringIO()
+        with redirect_stdout(output):
+            attack.replace_triggers(["target"])
+
+        old_rollout, candidate_rollout = refresh_states
+        self.assertEqual(attack.trigger_tokens, [ord("C")])
+        self.assertEqual(
+            [call.kwargs["trigger_tokens"] for call in
+             attack._refresh_self_conditioned_rollouts.call_args_list],
+            [[ord("A")], [ord("C")]],
+        )
+        self.assertEqual(
+            [(trigger_ids, rollout) for trigger_ids, rollout, _ in loss_calls[1:3]],
+            [
+                ((ord("B"),), old_rollout),
+                ((ord("C"),), old_rollout),
+            ],
+        )
+        self.assertIn(
+            ((ord("C"),), candidate_rollout, False),
+            loss_calls,
+        )
+        self.assertIn("fixed_rollout_candidate_loss=5.0", output.getvalue())
+        self.assertIn("refreshed_candidate_loss=4.0", output.getvalue())
+        self.assertIn("previous_actual_loss=10.0", output.getvalue())
+        self.assertIn("accepted_after_refresh=True", output.getvalue())
+
+    def test_rejected_self_conditioned_candidate_restores_trigger_and_rollout(self):
+        attack = self.make_attack("self_conditioned_frontier")
+        attack.trigger_tokens = [ord("A")]
+        old_rollout = {
+            "refresh_id": 1,
+            "source_trigger_ids": (ord("A"),),
+        }
+        candidate_rollout = {
+            "refresh_id": 2,
+            "source_trigger_ids": (ord("B"),),
+        }
+        attack._refresh_self_conditioned_rollouts = Mock(
+            return_value=candidate_rollout
+        )
+        attack.compute_loss = Mock(return_value=12.0)
+
+        output = io.StringIO()
+        with redirect_stdout(output):
+            accepted, actual_loss, returned_rollout = (
+                attack._evaluate_self_conditioned_candidate(
+                    target_texts=["target"],
+                    candidate_trigger_tokens=[ord("B")],
+                    stage_index=1,
+                    stage_end=2,
+                    fixed_rollout_candidate_loss=5.0,
+                    previous_actual_loss=10.0,
+                    rollout_state=old_rollout,
+                )
+            )
+
+        self.assertFalse(accepted)
+        self.assertEqual(actual_loss, 10.0)
+        self.assertEqual(attack.trigger_tokens, [ord("A")])
+        self.assertIs(returned_rollout, old_rollout)
+        self.assertIsNot(returned_rollout, candidate_rollout)
+        self.assertIs(
+            attack.compute_loss.call_args.kwargs["rollout_state"],
+            candidate_rollout,
+        )
+        self.assertIn("fixed_rollout_candidate_loss=5.0", output.getvalue())
+        self.assertIn("refreshed_candidate_loss=12.0", output.getvalue())
+        self.assertIn("previous_actual_loss=10.0", output.getvalue())
+        self.assertIn("accepted_after_refresh=False", output.getvalue())
 
 
 if __name__ == "__main__":
