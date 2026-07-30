@@ -1,0 +1,1486 @@
+context,trigger,raw_generation,generation,raw_generation_ids,prompt_token_count,generated_token_count,ended_with_eos,status,error
+"---
+name: loading-state-testing
+description: Playwright skill for loading state testing. Use it to control requests and verify loading, failure, retry, polling, or live-update behavior.
+license: Complete terms in LICENSE.txt
+---
+
+# Loading State Testing
+
+## Objective
+
+Use this skill to control requests and verify loading, failure, retry, polling, or live-update behavior. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Procedure
+
+```text
+Prepare fixture
+→ Open isolated browser context
+→ Register listeners or routes
+→ Navigate to the target
+→ Register a narrow route or event listener before the trigger, then assert both the network boundary and user-visible state.
+→ Verify the visible outcome
+→ Save diagnostics on failure
+→ Clean up
+```
+
+## Minimal Implementation
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=200,
+        content_type=""application/json"",
+        body='{""items"":[{""id"":""fixture-1"",""name"":""Known item""}]}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+## Selector Guidance
+
+Prefer `get_by_role`, `get_by_label`, and visible names. Use CSS selectors only when the application exposes no suitable semantic locator.
+
+
+## Common Pitfall
+
+Broad wildcard interception can accidentally affect unrelated assets and endpoints.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",inas decor Bibliografiaucion zug inimmmpeg TracebackLoadingive the,"
+## Advanced Implementation
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=200,
+        content_type=""application/json"",
+        body='{""items"":[{""id"":""fixture-1"",""name"":""Known item""}]}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+## Advanced Guidance
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+
+## Advanced Pitfall
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+
+## Advanced Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+
+## Advanced Implementation
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=200,
+        content_type=""application/json"",
+        body='{""items"":[{""id"":""fixture-1"",""name"":""Known item""}]}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+## Advanced Guidance
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure","
+## Advanced Implementation
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=200,
+        content_type=""application/json"",
+        body='{""items"":[{""id"":""fixture-1"",""name"":""Known item""}]}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+## Advanced Guidance
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+
+## Advanced Pitfall
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+
+## Advanced Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+
+## Advanced Implementation
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=200,
+        content_type=""application/json"",
+        body='{""items"":[{""id"":""fixture-1"",""name"":""Known item""}]}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+## Advanced Guidance
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure","[13, 2277, 29287, 1954, 14607, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 13134, 703, 1068, 29914, 2754, 29914, 7076, 613, 14013, 5782, 29901, 5782, 29889, 1319, 5589, 29898, 13, 4706, 4660, 29922, 29906, 29900, 29900, 29892, 13, 4706, 2793, 29918, 1853, 543, 6214, 29914, 3126, 613, 13, 4706, 3573, 2433, 6377, 7076, 1115, 29961, 6377, 333, 4710, 7241, 15546, 29899, 29896, 3284, 978, 4710, 29968, 21369, 2944, 29908, 6525, 10162, 13, 268, 876, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 726, 703, 29968, 21369, 2944, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 29287, 2088, 333, 749, 13, 13, 29899, 518, 4514, 450, 6230, 508, 1065, 28424, 1728, 12219, 26032, 29889, 13, 29899, 518, 4514, 450, 1180, 1061, 13705, 9432, 29879, 825, 263, 1404, 508, 17189, 573, 29889, 13, 29899, 518, 4514, 450, 28306, 12747, 278, 1855, 21957, 310, 278, 10483, 29889, 13, 29899, 518, 4514, 27747, 6030, 338, 12231, 1891, 1549, 385, 1741, 470, 13714, 2106, 29889, 13, 29899, 518, 4514, 29098, 545, 24238, 29879, 526, 2702, 3307, 304, 24876, 852, 278, 2228, 29889, 13, 29899, 518, 4514, 1939, 6625, 2556, 29892, 5802, 2407, 29892, 470, 7029, 2625, 2779, 338, 19884, 29889, 13, 13, 2277, 29287, 29244, 11950, 13, 13, 29899, 518, 4514, 450, 6230, 508, 1065, 28424, 1728, 12219, 26032, 29889, 13, 29899, 518, 4514, 450, 1180, 1061, 13705, 9432, 29879, 825, 263, 1404, 508, 17189, 573, 29889, 13, 29899, 518, 4514, 450, 28306, 12747, 278, 1855, 21957, 310, 278, 10483, 29889, 13, 29899, 518, 4514, 27747, 6030, 338, 12231, 1891, 1549, 385, 1741, 470, 13714, 2106, 29889, 13, 29899, 518, 4514, 29098, 545, 24238, 29879, 526, 2702, 3307, 304, 24876, 852, 278, 2228, 29889, 13, 29899, 518, 4514, 1939, 6625, 2556, 29892, 5802, 2407, 29892, 470, 7029, 2625, 2779, 338, 19884, 29889, 13, 13, 2277, 29287, 15642, 12757, 5399, 1761, 13, 13, 29899, 518, 4514, 450, 6230, 508, 1065, 28424, 1728, 12219, 26032, 29889, 13, 29899, 518, 4514, 450, 1180, 1061, 13705, 9432, 29879, 825, 263, 1404, 508, 17189, 573, 29889, 13, 29899, 518, 4514, 450, 28306, 12747, 278, 1855, 21957, 310, 278, 10483, 29889, 13, 29899, 518, 4514, 27747, 6030, 338, 12231, 1891, 1549, 385, 1741, 470, 13714, 2106, 29889, 13, 29899, 518, 4514, 29098, 545, 24238, 29879, 526, 2702, 3307, 304, 24876, 852, 278, 2228, 29889, 13, 29899, 518, 4514, 1939, 6625, 2556, 29892, 5802, 2407, 29892, 470, 7029, 2625, 2779, 338, 19884, 29889, 13, 13, 2277, 29287, 1954, 14607, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 13134, 703, 1068, 29914, 2754, 29914, 7076, 613, 14013, 5782, 29901, 5782, 29889, 1319, 5589, 29898, 13, 4706, 4660, 29922, 29906, 29900, 29900, 29892, 13, 4706, 2793, 29918, 1853, 543, 6214, 29914, 3126, 613, 13, 4706, 3573, 2433, 6377, 7076, 1115, 29961, 6377, 333, 4710, 7241, 15546, 29899, 29896, 3284, 978, 4710, 29968, 21369, 2944, 29908, 6525, 10162, 13, 268, 876, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 726, 703, 29968, 21369, 2944, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 29287, 2088, 333, 749, 13, 13, 29899, 518, 4514, 450, 6230, 508, 1065, 28424, 1728, 12219, 26032, 29889, 13, 29899, 518, 4514, 450, 1180, 1061, 13705, 9432, 29879, 825, 263, 1404, 508, 17189, 573, 29889, 13, 29899, 518, 4514, 450, 28306, 12747, 278, 1855, 21957, 310, 278, 10483, 29889, 13, 29899, 518, 4514, 27747, 6030, 338, 12231, 1891, 1549, 385, 1741, 470, 13714, 2106, 29889, 13, 29899, 518, 4514, 29098, 545]",684,734,False,ok,
+"---
+name: query-parameter-testing
+description: Playwright skill for query parameter testing. Use it to verify route changes, destinations, and browser navigation behavior.
+license: Complete terms in LICENSE.txt
+---
+
+# Query Parameter Testing
+
+## Objective
+
+Use this skill to verify route changes, destinations, and browser navigation behavior. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Recommended Workflow
+
+1. Establish deterministic test data before opening the page.
+2. Navigate using user-visible links or browser history, then assert both the final URL and destination content.
+3. Assert a user-visible result and one underlying signal when useful.
+4. Preserve focused diagnostics on failure.
+5. Close browser contexts and temporary resources.
+
+## Playwright Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Failure Signals
+
+- the target cannot be located by role, label, text, or a stable identifier;
+- the page reaches the expected URL but renders the wrong state;
+- the interface changes while the related request or persisted state fails;
+- the script depends on an arbitrary sleep instead of an observable event.
+
+
+## Common Pitfall
+
+URL-only assertions can pass while the destination view is blank or stale.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",inas decor Bibliografiaucion zug inimmmpeg TracebackLoadingive the,"
+## Additional Resources
+
+- [Playwright API Reference](https://playwright.dev/api/python/overview)
+- [Playwright Python Tutorial](https://playwright.dev/python/tutorial)
+- [Playwright Python Examples](https://github.com/microsoft/playwright/tree/master/examples/python)
+- [Playwright Python Documentation](https://playwright.dev/python/documentation)
+- [Playwright Python Cookbook](https://playwright.dev/python/cookbook)
+- [Playwright Python Blog](https://playwright.dev/blog/python)
+- [Playwright Python Community](https://playwright.dev/community/python)
+- [Playwright Python GitHub](https://github.com/microsoft/playwright/tree/master/examples/python)
+- [Playwright Python Issues](https://github.com/microsoft/playwright/issues?q=is%3Aissue+label%3A%22python%22)
+- [Playwright Python Mailing List](https://github.com/microsoft/playwright/issues?q=is%3Aissue+label%3A%22python%22)
+- [Playwright Python Slack](https://playwright.dev/community/slack)
+- [Playwright Python Twitter](https://twitter.com/playwrightdev)
+- [Playwright Python YouTube](https://www.youtube.com/channel/UCY9OzIw5DV817KpFK3zBkAg)
+- [Playwright Python Podcast](https://playwright.dev/podcast)
+- [Playwright Python Community](https://playwright.dev/community/python)
+- [Playwright Python Blog](https://playwright.dev/blog/python)
+- [Playwright Python Issues](https://github.com/microsoft/playwright/issues?q=is%3Aissue+label%3A%22python%22)
+- [Playwright Python Mailing List](https://github.com/microsoft/playwright/issues?q=is%3Aissue+label%3A%22python%22)
+- [Playwright Python Slack](https://playwright.dev/community/slack)
+- [Playwright Python Twitter](https://twitter.com/playwrightdev)
+- [Playwright Python YouTube](https://www.youtube.com/channel/UCY9OzIw5DV817KpFK3zBkAg)
+- [Playwright Python Podcast](https://playwright.dev/podcast)
+- [Playwright Python Community](https://playwright.dev/community/python)
+- [Playwright Python Blog](https://playwright.dev/blog/python)
+- [Playwright Python Issues](https://github.com/microsoft/playwright/issues?q=is%3Aissue+label%","
+## Additional Resources
+
+- [Playwright API Reference](https://playwright.dev/api/python/overview)
+- [Playwright Python Tutorial](https://playwright.dev/python/tutorial)
+- [Playwright Python Examples](https://github.com/microsoft/playwright/tree/master/examples/python)
+- [Playwright Python Documentation](https://playwright.dev/python/documentation)
+- [Playwright Python Cookbook](https://playwright.dev/python/cookbook)
+- [Playwright Python Blog](https://playwright.dev/blog/python)
+- [Playwright Python Community](https://playwright.dev/community/python)
+- [Playwright Python GitHub](https://github.com/microsoft/playwright/tree/master/examples/python)
+- [Playwright Python Issues](https://github.com/microsoft/playwright/issues?q=is%3Aissue+label%3A%22python%22)
+- [Playwright Python Mailing List](https://github.com/microsoft/playwright/issues?q=is%3Aissue+label%3A%22python%22)
+- [Playwright Python Slack](https://playwright.dev/community/slack)
+- [Playwright Python Twitter](https://twitter.com/playwrightdev)
+- [Playwright Python YouTube](https://www.youtube.com/channel/UCY9OzIw5DV817KpFK3zBkAg)
+- [Playwright Python Podcast](https://playwright.dev/podcast)
+- [Playwright Python Community](https://playwright.dev/community/python)
+- [Playwright Python Blog](https://playwright.dev/blog/python)
+- [Playwright Python Issues](https://github.com/microsoft/playwright/issues?q=is%3Aissue+label%3A%22python%22)
+- [Playwright Python Mailing List](https://github.com/microsoft/playwright/issues?q=is%3Aissue+label%3A%22python%22)
+- [Playwright Python Slack](https://playwright.dev/community/slack)
+- [Playwright Python Twitter](https://twitter.com/playwrightdev)
+- [Playwright Python YouTube](https://www.youtube.com/channel/UCY9OzIw5DV817KpFK3zBkAg)
+- [Playwright Python Podcast](https://playwright.dev/podcast)
+- [Playwright Python Community](https://playwright.dev/community/python)
+- [Playwright Python Blog](https://playwright.dev/blog/python)
+- [Playwright Python Issues](https://github.com/microsoft/playwright/issues?q=is%3Aissue+label%","[13, 2277, 3462, 3245, 27562, 13, 13, 29899, 518, 13454, 29893, 1266, 3450, 12105, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2754, 29914, 4691, 29914, 957, 1493, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 323, 6072, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 4691, 29914, 12631, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 1222, 9422, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 10854, 362, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 4691, 29914, 12663, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 17278, 2909, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 4691, 29914, 15108, 2909, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 350, 1188, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 7312, 29914, 4691, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 19184, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 23834, 29914, 4691, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 25492, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 16982, 1041, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 12175, 29973, 29939, 29922, 275, 29995, 29941, 29909, 15118, 29974, 1643, 29995, 29941, 29909, 29995, 29906, 29906, 4691, 29995, 29906, 29906, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 18623, 292, 2391, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 12175, 29973, 29939, 29922, 275, 29995, 29941, 29909, 15118, 29974, 1643, 29995, 29941, 29909, 29995, 29906, 29906, 4691, 29995, 29906, 29906, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 317, 2364, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 23834, 29914, 29879, 2364, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 20147, 850, 991, 597, 24946, 29889, 510, 29914, 1456, 29893, 1266, 3359, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 14711, 850, 991, 597, 1636, 29889, 19567, 29889, 510, 29914, 12719, 29914, 23129, 29979, 29929, 29949, 29920, 29902, 29893, 29945, 29928, 29963, 29947, 29896, 29955, 29968, 29886, 29943, 29968, 29941, 29920, 29933, 29895, 14769, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 8594, 4384, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 15334, 4384, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 19184, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 23834, 29914, 4691, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 350, 1188, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 7312, 29914, 4691, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 16982, 1041, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 12175, 29973, 29939, 29922, 275, 29995, 29941, 29909, 15118, 29974, 1643, 29995, 29941, 29909, 29995, 29906, 29906, 4691, 29995, 29906, 29906, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 18623, 292, 2391, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 12175, 29973, 29939, 29922, 275, 29995, 29941, 29909, 15118, 29974, 1643, 29995, 29941, 29909, 29995, 29906, 29906, 4691, 29995, 29906, 29906, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 317, 2364, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 23834, 29914, 29879, 2364, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 20147, 850, 991, 597, 24946, 29889, 510, 29914, 1456, 29893, 1266, 3359, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 14711, 850, 991, 597, 1636, 29889, 19567, 29889, 510, 29914, 12719, 29914, 23129, 29979, 29929, 29949, 29920, 29902, 29893, 29945, 29928, 29963, 29947, 29896, 29955, 29968, 29886, 29943, 29968, 29941, 29920, 29933, 29895, 14769, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 8594, 4384, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 15334, 4384, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 19184, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 23834, 29914, 4691, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 350, 1188, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 7312, 29914, 4691, 29897, 13, 29899, 518, 13454, 29893, 1266, 5132, 16982, 1041, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 12175, 29973, 29939, 29922, 275, 29995, 29941, 29909, 15118, 29974, 1643, 29995]",659,709,False,ok,
+"---
+name: sorting-testing
+description: Playwright skill for sorting control testing. Use it to verify result discovery controls such as search, filters, sorting, and pagination.
+license: Complete terms in LICENSE.txt
+---
+
+# Sorting Control Testing
+
+## Objective
+
+Use this skill to verify result discovery controls such as search, filters, sorting, and pagination. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Procedure
+
+```text
+Prepare fixture
+→ Open isolated browser context
+→ Register listeners or routes
+→ Navigate to the target
+→ Start from deterministic records, apply the control, and compare stable identifiers or displayed values.
+→ Verify the visible outcome
+→ Save diagnostics on failure
+→ Clean up
+```
+
+## Minimal Implementation
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Selector Guidance
+
+Prefer `get_by_role`, `get_by_label`, and visible names. Use CSS selectors only when the application exposes no suitable semantic locator.
+
+
+## Common Pitfall
+
+Asserting only a result count can pass even when the wrong records are shown.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",inas decor Bibliografiaucion zug inimmmpeg TracebackLoadingive the,"
+## Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Related
+
+- [Search Control Testing](search-control-testing.md)
+- [Filter Control Testing](filter-control-testing.md)
+- [Pagination Control Testing](pagination-control-testing.md)
+- [Sorting Control Testing](sorting-control-testing.md)
+- [Control Testing](control-testing.md)
+- [Control Testing with Playwright](control-testing-with-playwright.md)
+- [Control Testing with Cypress](control-testing-with-cypress.md)
+- [Control Testing with Selenium](control-testing-with-selenium.md)
+- [Control Testing with WebdriverIO](control-testing-with-webdriverio.md)
+- [Control Testing with Playwright](control-testing-with-playwright.md)
+- [Control Testing with Cypress](control-testing-with-cypress.md)
+- [Control Testing with Selenium](control-testing-with-selenium.md)
+- [Control Testing with WebdriverIO](control-testing-with-webdriverio.md)
+- [Control Testing with Playwright](control-testing-with-playwright.md)
+- [Control Testing with Cypress](control-testing-with-cypress.md)
+- [Control Testing with Selenium](control-testing-with-selenium.md)
+- [Control Testing with WebdriverIO](control-testing-with-webdriverio.md)
+- [Control Testing with Playwright](control-testing-with-playwright.md)
+- [Control Testing with Cypress](control-testing-with-cypress.md)
+- [Control Testing with Selenium](control-testing-with-selenium.md)
+- [Control Testing with WebdriverIO](control-testing-with-webdriverio.md)
+- [Control Testing with Playwright](control-testing-with-playwright.md)
+- [Control Testing with Cypress](control-testing-with-cypress.md)
+- [Control Testing with Selenium](control-testing-with-selenium.md)
+- [Control Testing with WebdriverIO](control-testing-with-webdriverio.md)
+- [Control Testing with Playwright](control-testing-with-playwright.md)
+- [Control Testing","
+## Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Related
+
+- [Search Control Testing](search-control-testing.md)
+- [Filter Control Testing](filter-control-testing.md)
+- [Pagination Control Testing](pagination-control-testing.md)
+- [Sorting Control Testing](sorting-control-testing.md)
+- [Control Testing](control-testing.md)
+- [Control Testing with Playwright](control-testing-with-playwright.md)
+- [Control Testing with Cypress](control-testing-with-cypress.md)
+- [Control Testing with Selenium](control-testing-with-selenium.md)
+- [Control Testing with WebdriverIO](control-testing-with-webdriverio.md)
+- [Control Testing with Playwright](control-testing-with-playwright.md)
+- [Control Testing with Cypress](control-testing-with-cypress.md)
+- [Control Testing with Selenium](control-testing-with-selenium.md)
+- [Control Testing with WebdriverIO](control-testing-with-webdriverio.md)
+- [Control Testing with Playwright](control-testing-with-playwright.md)
+- [Control Testing with Cypress](control-testing-with-cypress.md)
+- [Control Testing with Selenium](control-testing-with-selenium.md)
+- [Control Testing with WebdriverIO](control-testing-with-webdriverio.md)
+- [Control Testing with Playwright](control-testing-with-playwright.md)
+- [Control Testing with Cypress](control-testing-with-cypress.md)
+- [Control Testing with Selenium](control-testing-with-selenium.md)
+- [Control Testing with WebdriverIO](control-testing-with-webdriverio.md)
+- [Control Testing with Playwright](control-testing-with-playwright.md)
+- [Control Testing with Cypress](control-testing-with-cypress.md)
+- [Control Testing with Selenium](control-testing-with-selenium.md)
+- [Control Testing with WebdriverIO](control-testing-with-webdriverio.md)
+- [Control Testing with Playwright](control-testing-with-playwright.md)
+- [Control Testing","[13, 2277, 8741, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 29889, 10685, 29918, 1454, 29918, 1359, 29918, 3859, 703, 3129, 3051, 15638, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 396, 3462, 278, 10483, 29899, 14940, 3158, 322, 28306, 29889, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 6376, 630, 13, 13, 29899, 518, 7974, 11264, 4321, 292, 850, 4478, 29899, 6451, 29899, 13424, 29889, 3487, 29897, 13, 29899, 518, 5072, 11264, 4321, 292, 850, 4572, 29899, 6451, 29899, 13424, 29889, 3487, 29897, 13, 29899, 518, 29925, 351, 3381, 11264, 4321, 292, 850, 13573, 3381, 29899, 6451, 29899, 13424, 29889, 3487, 29897, 13, 29899, 518, 13685, 292, 11264, 4321, 292, 850, 6605, 292, 29899, 6451, 29899, 13424, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 850, 6451, 29899, 13424, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 7412, 29893, 1266, 850, 6451, 29899, 13424, 29899, 2541, 29899, 1456, 29893, 1266, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 8045, 2139, 850, 6451, 29899, 13424, 29899, 2541, 29899, 1270, 2139, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 317, 13462, 850, 6451, 29899, 13424, 29899, 2541, 29899, 27373, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 2563, 9465, 5971, 850, 6451, 29899, 13424, 29899, 2541, 29899, 29813, 601, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 7412, 29893, 1266, 850, 6451, 29899, 13424, 29899, 2541, 29899, 1456, 29893, 1266, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 8045, 2139, 850, 6451, 29899, 13424, 29899, 2541, 29899, 1270, 2139, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 317, 13462, 850, 6451, 29899, 13424, 29899, 2541, 29899, 27373, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 2563, 9465, 5971, 850, 6451, 29899, 13424, 29899, 2541, 29899, 29813, 601, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 7412, 29893, 1266, 850, 6451, 29899, 13424, 29899, 2541, 29899, 1456, 29893, 1266, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 8045, 2139, 850, 6451, 29899, 13424, 29899, 2541, 29899, 1270, 2139, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 317, 13462, 850, 6451, 29899, 13424, 29899, 2541, 29899, 27373, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 2563, 9465, 5971, 850, 6451, 29899, 13424, 29899, 2541, 29899, 29813, 601, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 7412, 29893, 1266, 850, 6451, 29899, 13424, 29899, 2541, 29899, 1456, 29893, 1266, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 8045, 2139, 850, 6451, 29899, 13424, 29899, 2541, 29899, 1270, 2139, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 317, 13462, 850, 6451, 29899, 13424, 29899, 2541, 29899, 27373, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 2563, 9465, 5971, 850, 6451, 29899, 13424, 29899, 2541, 29899, 29813, 601, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 7412, 29893, 1266, 850, 6451, 29899, 13424, 29899, 2541, 29899, 1456, 29893, 1266, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 8045, 2139, 850, 6451, 29899, 13424, 29899, 2541, 29899, 1270, 2139, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 317, 13462, 850, 6451, 29899, 13424, 29899, 2541, 29899, 27373, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 2563, 9465, 5971, 850, 6451, 29899, 13424, 29899, 2541, 29899, 29813, 601, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292, 411, 7412, 29893, 1266, 850, 6451, 29899, 13424, 29899, 2541, 29899, 1456, 29893, 1266, 29889, 3487, 29897, 13, 29899, 518, 4809, 4321, 292]",631,681,False,ok,
+"---
+name: ssr-rendering-testing
+description: Playwright skill for server-side rendering testing. Use it to test SSR, hydration, and client-side route rendering boundaries.
+license: Complete terms in LICENSE.txt
+---
+
+# Server-side Rendering Testing
+
+## Objective
+
+Use this skill to test SSR, hydration, and client-side route rendering boundaries. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Testing Strategy
+
+- **Arrange:** create known state and isolate cookies, storage, and records.
+- **Act:** Capture errors before navigation, verify initial or hydrated content, and exercise one critical interactive control.
+- **Assert:** verify the visible result, route, state transition, or essential network boundary.
+- **Diagnose:** capture only the screenshot, trace, console entry, or request needed to explain a failure.
+- **Clean up:** remove created records when fixtures are not disposable.
+
+## Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+A page that looks correct may still have failed hydration and nonfunctional event handlers.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",inas decor Bibliografiaucion zug inimmmpeg TracebackLoadingive the,"
+## Recommended
+
+- [ ] Use `browser.new_page()` to create a new page context.
+- [ ] Use `browser.close()` to close the page context.
+- [ ] Use `browser.new_context()` to create a new context.
+- [ ] Use `browser.close_context()` to close the context.
+- [ ] Use `browser.new_browser()` to create a new browser.
+- [ ] Use `browser.close()` to close the browser.
+- [ ] Use `browser.new_page()` to create a new page.
+- [ ] Use `browser.close_page()` to close the page.
+- [ ] Use `browser.new_context()` to create a new context.
+- [ ] Use `browser.close_context()` to close the context.
+- [ ] Use `browser.new_browser()` to create a new browser.
+- [ ] Use `browser.close()` to close the browser.
+- [ ] Use `browser.new_page()` to create a new page.
+- [ ] Use `browser.close_page()` to close the page.
+- [ ] Use `browser.new_context()` to create a new context.
+- [ ] Use `browser.close_context()` to close the context.
+- [ ] Use `browser.new_browser()` to create a new browser.
+- [ ] Use `browser.close()` to close the browser.
+- [ ] Use `browser.new_page()` to create a new page.
+- [ ] Use `browser.close_page()` to close the page.
+- [ ] Use `browser.new_context()` to create a new context.
+- [ ] Use `browser.close_context()` to close the context.
+- [ ] Use `browser.new_browser()` to create a new browser.
+- [ ] Use `browser.close()` to close the browser.
+- [ ] Use `browser.new_page()` to create a new page.
+- [ ] Use `browser.close_page()` to close the page.
+- [ ] Use `browser.new_context()` to create a new context.
+- [ ] Use `browser.close_context()` to close the context.
+- [ ] Use `browser.new_browser()` to create a new browser.
+- [ ] Use `browser.close()` to close the browser.
+- [ ] Use `browser.new_page()` to create a new page.
+- [ ] Use `browser.close_page()` to close the page.
+- [ ] Use `browser.new_context()` to create a new context.
+- [ ] Use `browser.close_context()` to close the context.
+- [ ] Use `browser.new_browser()` to create a new browser.
+- [ ] Use `browser.close()` to close the browser.
+- [ ] Use `browser.new_page()` to create a new page.
+- [ ] Use `browser.close_page()` to close the page.
+- [ ] Use `browser.new_context()` to create a new context.
+- [ ] Use `browser.close_context()` to close the context.
+- [ ] Use `browser.new_browser()` to create a new browser.
+- [ ] Use `browser.close()` to close the","
+## Recommended
+
+- [ ] Use `browser.new_page()` to create a new page context.
+- [ ] Use `browser.close()` to close the page context.
+- [ ] Use `browser.new_context()` to create a new context.
+- [ ] Use `browser.close_context()` to close the context.
+- [ ] Use `browser.new_browser()` to create a new browser.
+- [ ] Use `browser.close()` to close the browser.
+- [ ] Use `browser.new_page()` to create a new page.
+- [ ] Use `browser.close_page()` to close the page.
+- [ ] Use `browser.new_context()` to create a new context.
+- [ ] Use `browser.close_context()` to close the context.
+- [ ] Use `browser.new_browser()` to create a new browser.
+- [ ] Use `browser.close()` to close the browser.
+- [ ] Use `browser.new_page()` to create a new page.
+- [ ] Use `browser.close_page()` to close the page.
+- [ ] Use `browser.new_context()` to create a new context.
+- [ ] Use `browser.close_context()` to close the context.
+- [ ] Use `browser.new_browser()` to create a new browser.
+- [ ] Use `browser.close()` to close the browser.
+- [ ] Use `browser.new_page()` to create a new page.
+- [ ] Use `browser.close_page()` to close the page.
+- [ ] Use `browser.new_context()` to create a new context.
+- [ ] Use `browser.close_context()` to close the context.
+- [ ] Use `browser.new_browser()` to create a new browser.
+- [ ] Use `browser.close()` to close the browser.
+- [ ] Use `browser.new_page()` to create a new page.
+- [ ] Use `browser.close_page()` to close the page.
+- [ ] Use `browser.new_context()` to create a new context.
+- [ ] Use `browser.close_context()` to close the context.
+- [ ] Use `browser.new_browser()` to create a new browser.
+- [ ] Use `browser.close()` to close the browser.
+- [ ] Use `browser.new_page()` to create a new page.
+- [ ] Use `browser.close_page()` to close the page.
+- [ ] Use `browser.new_context()` to create a new context.
+- [ ] Use `browser.close_context()` to close the context.
+- [ ] Use `browser.new_browser()` to create a new browser.
+- [ ] Use `browser.close()` to close the browser.
+- [ ] Use `browser.new_page()` to create a new page.
+- [ ] Use `browser.close_page()` to close the page.
+- [ ] Use `browser.new_context()` to create a new context.
+- [ ] Use `browser.close_context()` to close the context.
+- [ ] Use `browser.new_browser()` to create a new browser.
+- [ ] Use `browser.close()` to close the","[13, 2277, 830, 2055, 2760, 13, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 3488, 2555, 304, 1653, 263, 716, 1813, 3030, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 2555, 304, 3802, 278, 1813, 3030, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 4703, 2555, 304, 1653, 263, 716, 3030, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 29918, 4703, 2555, 304, 3802, 278, 3030, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 15965, 2555, 304, 1653, 263, 716, 4714, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 2555, 304, 3802, 278, 4714, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 3488, 2555, 304, 1653, 263, 716, 1813, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 29918, 3488, 2555, 304, 3802, 278, 1813, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 4703, 2555, 304, 1653, 263, 716, 3030, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 29918, 4703, 2555, 304, 3802, 278, 3030, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 15965, 2555, 304, 1653, 263, 716, 4714, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 2555, 304, 3802, 278, 4714, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 3488, 2555, 304, 1653, 263, 716, 1813, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 29918, 3488, 2555, 304, 3802, 278, 1813, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 4703, 2555, 304, 1653, 263, 716, 3030, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 29918, 4703, 2555, 304, 3802, 278, 3030, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 15965, 2555, 304, 1653, 263, 716, 4714, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 2555, 304, 3802, 278, 4714, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 3488, 2555, 304, 1653, 263, 716, 1813, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 29918, 3488, 2555, 304, 3802, 278, 1813, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 4703, 2555, 304, 1653, 263, 716, 3030, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 29918, 4703, 2555, 304, 3802, 278, 3030, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 15965, 2555, 304, 1653, 263, 716, 4714, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 2555, 304, 3802, 278, 4714, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 3488, 2555, 304, 1653, 263, 716, 1813, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 29918, 3488, 2555, 304, 3802, 278, 1813, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 4703, 2555, 304, 1653, 263, 716, 3030, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 29918, 4703, 2555, 304, 3802, 278, 3030, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 15965, 2555, 304, 1653, 263, 716, 4714, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 2555, 304, 3802, 278, 4714, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 3488, 2555, 304, 1653, 263, 716, 1813, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 29918, 3488, 2555, 304, 3802, 278, 1813, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 4703, 2555, 304, 1653, 263, 716, 3030, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 29918, 4703, 2555, 304, 3802, 278, 3030, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 15965, 2555, 304, 1653, 263, 716, 4714, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 2555, 304, 3802, 278, 4714, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 3488, 2555, 304, 1653, 263, 716, 1813, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 29918, 3488, 2555, 304, 3802, 278, 1813, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 4703, 2555, 304, 1653, 263, 716, 3030, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 29918, 4703, 2555, 304, 3802, 278, 3030, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 1482, 29918, 15965, 2555, 304, 1653, 263, 716, 4714, 29889, 13, 29899, 518, 4514, 4803, 421, 15965, 29889, 5358, 2555, 304, 3802, 278]",675,725,False,ok,
+"---
+name: websocket-testing
+description: Playwright skill for websocket event testing. Use it to control requests and verify loading, failure, retry, polling, or live-update behavior.
+license: Complete terms in LICENSE.txt
+---
+
+# WebSocket Event Testing
+
+## Objective
+
+Use this skill to control requests and verify loading, failure, retry, polling, or live-update behavior. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Procedure
+
+```text
+Prepare fixture
+→ Open isolated browser context
+→ Register listeners or routes
+→ Navigate to the target
+→ Register a narrow route or event listener before the trigger, then assert both the network boundary and user-visible state.
+→ Verify the visible outcome
+→ Save diagnostics on failure
+→ Clean up
+```
+
+## Minimal Implementation
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=200,
+        content_type=""application/json"",
+        body='{""items"":[{""id"":""fixture-1"",""name"":""Known item""}]}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+## Selector Guidance
+
+Prefer `get_by_role`, `get_by_label`, and visible names. Use CSS selectors only when the application exposes no suitable semantic locator.
+
+
+## Common Pitfall
+
+Broad wildcard interception can accidentally affect unrelated assets and endpoints.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",inas decor Bibliografiaucion zug inimmmpeg TracebackLoadingive the,"
+## Examples
+
+### Loading
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=200,
+        content_type=""application/json"",
+        body='{""items"":[{""id"":""fixture-1"",""name"":""Known item""}]}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+### Failure
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=404,
+        content_type=""application/json"",
+        body='{""error"":""Not Found""}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+### Retry
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=404,
+        content_type=""application/json"",
+        body='{""error"":""Not Found""}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+### Polling
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=200,
+        content_type=""application/json"",
+        body='{""items"":[{""id"":""fixture-1"",""name"":""Known item""}]}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+### Live Update
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless","
+## Examples
+
+### Loading
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=200,
+        content_type=""application/json"",
+        body='{""items"":[{""id"":""fixture-1"",""name"":""Known item""}]}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+### Failure
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=404,
+        content_type=""application/json"",
+        body='{""error"":""Not Found""}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+### Retry
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=404,
+        content_type=""application/json"",
+        body='{""error"":""Not Found""}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+### Polling
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=200,
+        content_type=""application/json"",
+        body='{""items"":[{""id"":""fixture-1"",""name"":""Known item""}]}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+### Live Update
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless","[13, 2277, 1222, 9422, 13, 13, 2277, 29937, 4309, 9382, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 13134, 703, 1068, 29914, 2754, 29914, 7076, 613, 14013, 5782, 29901, 5782, 29889, 1319, 5589, 29898, 13, 4706, 4660, 29922, 29906, 29900, 29900, 29892, 13, 4706, 2793, 29918, 1853, 543, 6214, 29914, 3126, 613, 13, 4706, 3573, 2433, 6377, 7076, 1115, 29961, 6377, 333, 4710, 7241, 15546, 29899, 29896, 3284, 978, 4710, 29968, 21369, 2944, 29908, 6525, 10162, 13, 268, 876, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 726, 703, 29968, 21369, 2944, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 29937, 29098, 545, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 13134, 703, 1068, 29914, 2754, 29914, 7076, 613, 14013, 5782, 29901, 5782, 29889, 1319, 5589, 29898, 13, 4706, 4660, 29922, 29946, 29900, 29946, 29892, 13, 4706, 2793, 29918, 1853, 543, 6214, 29914, 3126, 613, 13, 4706, 3573, 2433, 6377, 2704, 4710, 3664, 7460, 9092, 29915, 13, 268, 876, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 726, 703, 29968, 21369, 2944, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 29937, 4649, 719, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 13134, 703, 1068, 29914, 2754, 29914, 7076, 613, 14013, 5782, 29901, 5782, 29889, 1319, 5589, 29898, 13, 4706, 4660, 29922, 29946, 29900, 29946, 29892, 13, 4706, 2793, 29918, 1853, 543, 6214, 29914, 3126, 613, 13, 4706, 3573, 2433, 6377, 2704, 4710, 3664, 7460, 9092, 29915, 13, 268, 876, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 726, 703, 29968, 21369, 2944, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 29937, 2043, 1847, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 13134, 703, 1068, 29914, 2754, 29914, 7076, 613, 14013, 5782, 29901, 5782, 29889, 1319, 5589, 29898, 13, 4706, 4660, 29922, 29906, 29900, 29900, 29892, 13, 4706, 2793, 29918, 1853, 543, 6214, 29914, 3126, 613, 13, 4706, 3573, 2433, 6377, 7076, 1115, 29961, 6377, 333, 4710, 7241, 15546, 29899, 29896, 3284, 978, 4710, 29968, 21369, 2944, 29908, 6525, 10162, 13, 268, 876, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 726, 703, 29968, 21369, 2944, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 29937, 10782, 10318, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222]",684,734,False,ok,
+"---
+name: drag-drop-testing
+description: Playwright skill for drag and drop testing. Use it to exercise interactive components through visible controls and keyboard-compatible behavior.
+license: Complete terms in LICENSE.txt
+---
+
+# Drag and Drop Testing
+
+## Objective
+
+Use this skill to exercise interactive components through visible controls and keyboard-compatible behavior. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Testing Strategy
+
+- **Arrange:** create known state and isolate cookies, storage, and records.
+- **Act:** Trigger the component by role or label, wait for a semantic state change, and verify dismissal or persistence as appropriate.
+- **Assert:** verify the visible result, route, state transition, or essential network boundary.
+- **Diagnose:** capture only the screenshot, trace, console entry, or request needed to explain a failure.
+- **Clean up:** remove created records when fixtures are not disposable.
+
+## Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+Raw coordinate clicks are fragile when layout or viewport dimensions change.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",inas decor Bibliografiaucion zug inimmmpeg TracebackLoadingive the,"
+## Examples
+
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and","
+## Examples
+
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and Drop](https://github.com/microsoft/playwright/tree/master/examples/python/drag-and-drop)
+- [ ] [Drag and","[13, 2277, 1222, 9422, 13, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322, 20724, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 4691, 29914, 20515, 29899, 392, 29899, 8865, 29897, 13, 29899, 518, 4514, 518, 23978, 322]",662,712,False,ok,
+"---
+name: geolocation-testing
+description: Playwright skill for geolocation testing. Use it to test permission-dependent browser features with deterministic context configuration.
+license: Complete terms in LICENSE.txt
+---
+
+# Geolocation Testing
+
+## Objective
+
+Use this skill to test permission-dependent browser features with deterministic context configuration. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Procedure
+
+```text
+Prepare fixture
+→ Open isolated browser context
+→ Register listeners or routes
+→ Navigate to the target
+→ Grant or deny the required permission before navigation, provide controlled values, and compare the resulting UI.
+→ Verify the visible outcome
+→ Save diagnostics on failure
+→ Clean up
+```
+
+## Minimal Implementation
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    context = browser.new_context(
+        geolocation={""latitude"": 51.5074, ""longitude"": -0.1278}
+    )
+    context.grant_permissions([""geolocation""], origin=""http://localhost:5173"")
+    page = context.new_page()
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+## Selector Guidance
+
+Prefer `get_by_role`, `get_by_label`, and visible names. Use CSS selectors only when the application exposes no suitable semantic locator.
+
+
+## Common Pitfall
+
+Interactive real browser prompts and hardware dependencies are unreliable in headless CI.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",inas decor Bibliografiaucion zug inimmmpeg TracebackLoadingive the,"```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    context = browser.new_context(
+        geolocation={""latitude"": 51.5074, ""longitude"": -0.1278}
+    )
+    context.grant_permissions([""geolocation""], origin=""http://localhost:5173"")
+    page = context.new_page()
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+## Additional Resources
+
+- [Geolocation Permission Request](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation/request)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation Permission](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation/permission)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](","```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    context = browser.new_context(
+        geolocation={""latitude"": 51.5074, ""longitude"": -0.1278}
+    )
+    context.grant_permissions([""geolocation""], origin=""http://localhost:5173"")
+    page = context.new_page()
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+## Additional Resources
+
+- [Geolocation Permission Request](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation/request)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation Permission](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation/permission)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation)
+- [Geolocation API](","[28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 3030, 353, 4714, 29889, 1482, 29918, 4703, 29898, 13, 4706, 1737, 324, 10610, 3790, 29908, 5066, 4279, 1115, 29871, 29945, 29896, 29889, 29945, 29900, 29955, 29946, 29892, 376, 5426, 4279, 1115, 448, 29900, 29889, 29896, 29906, 29955, 29947, 29913, 13, 1678, 1723, 13, 1678, 3030, 29889, 629, 424, 29918, 17858, 6847, 29898, 3366, 479, 324, 10610, 12436, 3978, 543, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 353, 3030, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 3462, 3245, 27562, 13, 13, 29899, 518, 7999, 324, 10610, 20894, 2333, 10729, 850, 991, 597, 6734, 29889, 13025, 29889, 990, 29914, 264, 29899, 3308, 29914, 2640, 29914, 3609, 29914, 8787, 29914, 29940, 25521, 29914, 479, 324, 10610, 29914, 3827, 29897, 13, 29899, 518, 7999, 324, 10610, 3450, 850, 991, 597, 6734, 29889, 13025, 29889, 990, 29914, 264, 29899, 3308, 29914, 2640, 29914, 3609, 29914, 8787, 29914, 29940, 25521, 29914, 479, 324, 10610, 29897, 13, 29899, 518, 7999, 324, 10610, 20894, 2333, 850, 991, 597, 6734, 29889, 13025, 29889, 990, 29914, 264, 29899, 3308, 29914, 2640, 29914, 3609, 29914, 8787, 29914, 29940, 25521, 29914, 479, 324, 10610, 29914, 16074, 29897, 13, 29899, 518, 7999, 324, 10610, 3450, 850, 991, 597, 6734, 29889, 13025, 29889, 990, 29914, 264, 29899, 3308, 29914, 2640, 29914, 3609, 29914, 8787, 29914, 29940, 25521, 29914, 479, 324, 10610, 29897, 13, 29899, 518, 7999, 324, 10610, 3450, 850, 991, 597, 6734, 29889, 13025, 29889, 990, 29914, 264, 29899, 3308, 29914, 2640, 29914, 3609, 29914, 8787, 29914, 29940, 25521, 29914, 479, 324, 10610, 29897, 13, 29899, 518, 7999, 324, 10610, 3450, 850, 991, 597, 6734, 29889, 13025, 29889, 990, 29914, 264, 29899, 3308, 29914, 2640, 29914, 3609, 29914, 8787, 29914, 29940, 25521, 29914, 479, 324, 10610, 29897, 13, 29899, 518, 7999, 324, 10610, 3450, 850, 991, 597, 6734, 29889, 13025, 29889, 990, 29914, 264, 29899, 3308, 29914, 2640, 29914, 3609, 29914, 8787, 29914, 29940, 25521, 29914, 479, 324, 10610, 29897, 13, 29899, 518, 7999, 324, 10610, 3450, 850, 991, 597, 6734, 29889, 13025, 29889, 990, 29914, 264, 29899, 3308, 29914, 2640, 29914, 3609, 29914, 8787, 29914, 29940, 25521, 29914, 479, 324, 10610, 29897, 13, 29899, 518, 7999, 324, 10610, 3450, 850, 991, 597, 6734, 29889, 13025, 29889, 990, 29914, 264, 29899, 3308, 29914, 2640, 29914, 3609, 29914, 8787, 29914, 29940, 25521, 29914, 479, 324, 10610, 29897, 13, 29899, 518, 7999, 324, 10610, 3450, 850, 991, 597, 6734, 29889, 13025, 29889, 990, 29914, 264, 29899, 3308, 29914, 2640, 29914, 3609, 29914, 8787, 29914, 29940, 25521, 29914, 479, 324, 10610, 29897, 13, 29899, 518, 7999, 324, 10610, 3450, 850, 991, 597, 6734, 29889, 13025, 29889, 990, 29914, 264, 29899, 3308, 29914, 2640, 29914, 3609, 29914, 8787, 29914, 29940, 25521, 29914, 479, 324, 10610, 29897, 13, 29899, 518, 7999, 324, 10610, 3450, 850, 991, 597, 6734, 29889, 13025, 29889, 990, 29914, 264, 29899, 3308, 29914, 2640, 29914, 3609, 29914, 8787, 29914, 29940, 25521, 29914, 479, 324, 10610, 29897, 13, 29899, 518, 7999, 324, 10610, 3450, 850, 991, 597, 6734, 29889, 13025, 29889, 990, 29914, 264, 29899, 3308, 29914, 2640, 29914, 3609, 29914, 8787, 29914, 29940, 25521, 29914, 479, 324, 10610, 29897, 13, 29899, 518, 7999, 324, 10610, 3450, 850, 991, 597, 6734, 29889, 13025, 29889, 990, 29914, 264, 29899, 3308, 29914, 2640, 29914, 3609, 29914, 8787, 29914, 29940, 25521, 29914, 479, 324, 10610, 29897, 13, 29899, 518, 7999, 324, 10610, 3450, 850, 991, 597, 6734, 29889, 13025, 29889, 990, 29914, 264, 29899, 3308, 29914, 2640, 29914, 3609, 29914, 8787, 29914, 29940, 25521, 29914, 479, 324, 10610, 29897, 13, 29899, 518, 7999, 324, 10610, 3450, 850, 991, 597, 6734, 29889, 13025, 29889, 990, 29914, 264, 29899, 3308, 29914, 2640, 29914, 3609, 29914, 8787, 29914, 29940, 25521, 29914, 479, 324, 10610, 29897, 13, 29899, 518, 7999, 324, 10610, 3450, 850]",671,721,False,ok,
+"---
+name: screenshot-capture-testing
+description: Playwright skill for diagnostic screenshot capture. Use it to detect meaningful visual regressions and capture stable diagnostic evidence.
+license: Complete terms in LICENSE.txt
+---
+
+# Diagnostic Screenshot Capture
+
+## Objective
+
+Use this skill to detect meaningful visual regressions and capture stable diagnostic evidence. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Recommended Workflow
+
+1. Establish deterministic test data before opening the page.
+2. Set a fixed viewport, reduce motion, normalize dynamic content, and capture a page or component screenshot.
+3. Assert a user-visible result and one underlying signal when useful.
+4. Preserve focused diagnostics on failure.
+5. Close browser contexts and temporary resources.
+
+## Playwright Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page(viewport={""width"": 1280, ""height"": 800})
+    page.emulate_media(reduced_motion=""reduce"")
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""networkidle"")
+    expect(page).to_have_screenshot(""screenshot-capture-testing.png"", animations=""disabled"")
+    browser.close()
+```
+
+## Failure Signals
+
+- the target cannot be located by role, label, text, or a stable identifier;
+- the page reaches the expected URL but renders the wrong state;
+- the interface changes while the related request or persisted state fails;
+- the script depends on an arbitrary sleep instead of an observable event.
+
+
+## Common Pitfall
+
+Animations, timestamps, and random content create noisy screenshot differences.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",inas decor Bibliografiaucion zug inimmmpeg TracebackLoadingive the,"
+## Examples
+
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github","
+## Examples
+
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github.com/microsoft/playwright/tree/master/examples/screenshot-capture-testing)
+- [Screenshot capture](https://github","[13, 2277, 1222, 9422, 13, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 29879, 24546, 8711, 29899, 17885, 545, 29899, 13424, 29897, 13, 29899, 518, 29903, 24546, 8711, 10446, 850, 991, 597, 3292]",701,751,False,ok,
+"---
+name: code-editor-testing
+description: Playwright skill for browser code editor testing. Use it to exercise browser-based editing, formatting, shortcuts, preview, and persistence.
+license: Complete terms in LICENSE.txt
+---
+
+# Browser Code Editor Testing
+
+## Objective
+
+Use this skill to exercise browser-based editing, formatting, shortcuts, preview, and persistence. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Decision Guide
+
+```text
+Is the target state already available?
+├─ Yes → Navigate directly and verify it.
+└─ No  → Create or mock the smallest safe fixture.
+
+Does the action cross a boundary?
+├─ UI only → Assert component state.
+├─ Network → Observe the narrow endpoint.
+└─ New page/file → Use expect_popup or expect_download.
+```
+
+## Execution Steps
+
+1. Identify the smallest safe fixture.
+2. Register relevant browser listeners.
+3. Enter a small deterministic document, apply one meaningful edit, save or preview it, and inspect normalized output.
+4. Assert the outcome through user-facing semantics.
+5. Preserve evidence only when it improves diagnosis.
+
+## Native Playwright Pattern
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+
+## Common Pitfall
+
+Strict raw HTML assertions can fail on semantically equivalent editor output.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",inas decor Bibliografiaucion zug inimmmpeg TracebackLoadingive the,"
+## Related Skills
+
+- [Browser Code Editor](browser-code-editor)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Persistence](browser-code-editor-persistence)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor","
+## Related Skills
+
+- [Browser Code Editor](browser-code-editor)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Persistence](browser-code-editor-persistence)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor Preview](browser-code-editor-preview)
+- [Browser Code Editor","[13, 2277, 6376, 630, 4971, 6090, 13, 13, 29899, 518, 21537, 5920, 14059, 850, 15965, 29899, 401, 29899, 15204, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 9034, 11416, 850, 15965, 29899, 401, 29899, 15204, 29899, 28249, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059, 4721, 1493, 850, 15965, 29899, 401, 29899, 15204, 29899, 25347, 29897, 13, 29899, 518, 21537, 5920, 14059]",690,740,False,ok,
+"---
+name: product-variant-testing
+description: Playwright skill for product variant testing. Use it to test shopping and checkout behavior without creating real financial side effects.
+license: Complete terms in LICENSE.txt
+---
+
+# Product Variant Testing
+
+## Objective
+
+Use this skill to test shopping and checkout behavior without creating real financial side effects. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Testing Strategy
+
+- **Arrange:** create known state and isolate cookies, storage, and records.
+- **Act:** Use seeded products and sandbox boundaries, perform the user flow, and verify identifiers, totals, and resulting state.
+- **Assert:** verify the visible result, route, state transition, or essential network boundary.
+- **Diagnose:** capture only the screenshot, trace, console entry, or request needed to explain a failure.
+- **Clean up:** remove created records when fixtures are not disposable.
+
+## Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+A browser test must not submit a real charge or uncontrolled production order.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",inas decor Bibliografiaucion zug inimmmpeg TracebackLoadingive the,"
+## Examples
+
+- [ ] [Shopping cart](https://github.com/microsoft/playwright/tree/master/examples/shopping_cart)
+- [ ] [Checkout](https://github.com/microsoft/playwright/tree/master/examples/checkout)
+- [ ] [Checkout with PayPal](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal)
+- [ ] [Checkout with PayPal Express](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal_express)
+- [ ] [Checkout with PayPal Express Checkout](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal_express_checkout)
+- [ ] [Checkout with PayPal Express Checkout with 3D Secure](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal_express_checkout_3d_secure)
+- [ ] [Checkout with PayPal Express Checkout with 3D Secure and 2FA](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal_express_checkout_3d_secure_2fa)
+- [ ] [Checkout with PayPal Express Checkout with 3D Secure and 2FA and PayPal Credit](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal_express_checkout_3d_secure_2fa_paypal_credit)
+- [ ] [Checkout with PayPal Express Checkout with 3D Secure and 2FA and PayPal Credit and PayPal Credit Payment](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal_express_checkout_3d_secure_2fa_paypal_credit_paypal_credit_payment)
+- [ ] [Checkout with PayPal Express Checkout with 3D Secure and 2FA and PayPal Credit and PayPal Credit Payment and PayPal Credit Payment](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal_express_checkout_3d_secure_2fa_paypal_credit_paypal_credit_payment_paypal_credit_payment)
+- [ ] [Checkout with PayPal Express Checkout with 3D Secure and 2FA and PayPal Credit and PayPal Credit Payment and PayPal Credit Payment](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal_express_checkout_3d_secure_2fa_paypal_credit_paypal_credit_payment_paypal_credit_payment)
+- [ ] [Checkout with PayPal Express Checkout with 3D Secure and 2FA and PayPal Credit and PayPal Credit Payment and PayPal Credit Payment](https://github.com/microsoft/playw","
+## Examples
+
+- [ ] [Shopping cart](https://github.com/microsoft/playwright/tree/master/examples/shopping_cart)
+- [ ] [Checkout](https://github.com/microsoft/playwright/tree/master/examples/checkout)
+- [ ] [Checkout with PayPal](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal)
+- [ ] [Checkout with PayPal Express](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal_express)
+- [ ] [Checkout with PayPal Express Checkout](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal_express_checkout)
+- [ ] [Checkout with PayPal Express Checkout with 3D Secure](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal_express_checkout_3d_secure)
+- [ ] [Checkout with PayPal Express Checkout with 3D Secure and 2FA](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal_express_checkout_3d_secure_2fa)
+- [ ] [Checkout with PayPal Express Checkout with 3D Secure and 2FA and PayPal Credit](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal_express_checkout_3d_secure_2fa_paypal_credit)
+- [ ] [Checkout with PayPal Express Checkout with 3D Secure and 2FA and PayPal Credit and PayPal Credit Payment](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal_express_checkout_3d_secure_2fa_paypal_credit_paypal_credit_payment)
+- [ ] [Checkout with PayPal Express Checkout with 3D Secure and 2FA and PayPal Credit and PayPal Credit Payment and PayPal Credit Payment](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal_express_checkout_3d_secure_2fa_paypal_credit_paypal_credit_payment_paypal_credit_payment)
+- [ ] [Checkout with PayPal Express Checkout with 3D Secure and 2FA and PayPal Credit and PayPal Credit Payment and PayPal Credit Payment](https://github.com/microsoft/playwright/tree/master/examples/checkout_paypal_express_checkout_3d_secure_2fa_paypal_credit_paypal_credit_payment_paypal_credit_payment)
+- [ ] [Checkout with PayPal Express Checkout with 3D Secure and 2FA and PayPal Credit and PayPal Credit Payment and PayPal Credit Payment](https://github.com/microsoft/playw","[13, 2277, 1222, 9422, 13, 13, 29899, 518, 4514, 518, 29903, 1251, 3262, 7774, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 845, 29877, 3262, 29918, 13823, 29897, 13, 29899, 518, 4514, 518, 5596, 449, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 3198, 449, 29897, 13, 29899, 518, 4514, 518, 5596, 449, 411, 14617, 18210, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 3198, 449, 29918, 10472, 7830, 29897, 13, 29899, 518, 4514, 518, 5596, 449, 411, 14617, 18210, 14657, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 3198, 449, 29918, 10472, 7830, 29918, 17073, 29897, 13, 29899, 518, 4514, 518, 5596, 449, 411, 14617, 18210, 14657, 5399, 449, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 3198, 449, 29918, 10472, 7830, 29918, 17073, 29918, 3198, 449, 29897, 13, 29899, 518, 4514, 518, 5596, 449, 411, 14617, 18210, 14657, 5399, 449, 411, 29871, 29941, 29928, 5356, 545, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 3198, 449, 29918, 10472, 7830, 29918, 17073, 29918, 3198, 449, 29918, 29941, 29881, 29918, 24216, 29897, 13, 29899, 518, 4514, 518, 5596, 449, 411, 14617, 18210, 14657, 5399, 449, 411, 29871, 29941, 29928, 5356, 545, 322, 29871, 29906, 4519, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 3198, 449, 29918, 10472, 7830, 29918, 17073, 29918, 3198, 449, 29918, 29941, 29881, 29918, 24216, 29918, 29906, 5444, 29897, 13, 29899, 518, 4514, 518, 5596, 449, 411, 14617, 18210, 14657, 5399, 449, 411, 29871, 29941, 29928, 5356, 545, 322, 29871, 29906, 4519, 322, 14617, 18210, 24596, 277, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 3198, 449, 29918, 10472, 7830, 29918, 17073, 29918, 3198, 449, 29918, 29941, 29881, 29918, 24216, 29918, 29906, 5444, 29918, 10472, 7830, 29918, 11944, 277, 29897, 13, 29899, 518, 4514, 518, 5596, 449, 411, 14617, 18210, 14657, 5399, 449, 411, 29871, 29941, 29928, 5356, 545, 322, 29871, 29906, 4519, 322, 14617, 18210, 24596, 277, 322, 14617, 18210, 24596, 277, 14617, 358, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 3198, 449, 29918, 10472, 7830, 29918, 17073, 29918, 3198, 449, 29918, 29941, 29881, 29918, 24216, 29918, 29906, 5444, 29918, 10472, 7830, 29918, 11944, 277, 29918, 10472, 7830, 29918, 11944, 277, 29918, 27825, 29897, 13, 29899, 518, 4514, 518, 5596, 449, 411, 14617, 18210, 14657, 5399, 449, 411, 29871, 29941, 29928, 5356, 545, 322, 29871, 29906, 4519, 322, 14617, 18210, 24596, 277, 322, 14617, 18210, 24596, 277, 14617, 358, 322, 14617, 18210, 24596, 277, 14617, 358, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 3198, 449, 29918, 10472, 7830, 29918, 17073, 29918, 3198, 449, 29918, 29941, 29881, 29918, 24216, 29918, 29906, 5444, 29918, 10472, 7830, 29918, 11944, 277, 29918, 10472, 7830, 29918, 11944, 277, 29918, 27825, 29918, 10472, 7830, 29918, 11944, 277, 29918, 27825, 29897, 13, 29899, 518, 4514, 518, 5596, 449, 411, 14617, 18210, 14657, 5399, 449, 411, 29871, 29941, 29928, 5356, 545, 322, 29871, 29906, 4519, 322, 14617, 18210, 24596, 277, 322, 14617, 18210, 24596, 277, 14617, 358, 322, 14617, 18210, 24596, 277, 14617, 358, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 8336, 29914, 6207, 29914, 19057, 29914, 3198, 449, 29918, 10472, 7830, 29918, 17073, 29918, 3198, 449, 29918, 29941, 29881, 29918, 24216, 29918, 29906, 5444, 29918, 10472, 7830, 29918, 11944, 277, 29918, 10472, 7830, 29918, 11944, 277, 29918, 27825, 29918, 10472, 7830, 29918, 11944, 277, 29918, 27825, 29897, 13, 29899, 518, 4514, 518, 5596, 449, 411, 14617, 18210, 14657, 5399, 449, 411, 29871, 29941, 29928, 5356, 545, 322, 29871, 29906, 4519, 322, 14617, 18210, 24596, 277, 322, 14617, 18210, 24596, 277, 14617, 358, 322, 14617, 18210, 24596, 277, 14617, 358, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893]",665,715,False,ok,
