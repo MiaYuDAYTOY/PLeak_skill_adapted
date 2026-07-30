@@ -37,9 +37,55 @@ Attack.py is the implementaion of Attack and Sampler.py is to simulate the proce
 ### Generate AQ for target mode
 
 ```bash
-python main.py {dataset} {AQ length} {shadow model} {target model} {shadow dataset size}
+python main.py {dataset} {AQ length} {shadow model} {target model} {shadow dataset size} [loss mode]
 # Here is an example to use the code: 
 # python main.py Financial 12 llama llama 16
+```
+
+`loss mode` is optional and defaults to `baseline`, so existing five-argument
+commands keep working. Run the three loss strategies separately with:
+
+```bash
+python main.py Financial 12 llama llama 16 baseline
+python main.py Financial 12 llama llama 16 prefix_cap
+python main.py Financial 12 llama llama 16 anchor_frontier
+```
+
+- `baseline` progressively labels the complete target prefix.
+- `prefix_cap` uses the same prefix labels but stops at `max_loss_tokens`.
+- `anchor_frontier` keeps the complete stage prefix in the model input while
+  labeling only the starting anchor and current frontier window.
+
+The experiment defaults are `max_loss_tokens=300`, `anchor_len=64`,
+`frontier_window=64`, and `max_frontier_tokens=1000`. They can be changed in
+one place from the command line:
+
+```bash
+python main.py Financial 12 llama llama 16 anchor_frontier \
+  --max-loss-tokens 300 \
+  --anchor-len 64 \
+  --frontier-window 64 \
+  --max-frontier-tokens 1000
+```
+
+Use `--max-frontier-tokens none` to remove the frontier position cap. Result
+CSV and trigger-ID JSON names always include the selected loss mode. The
+program writes logs to stdout; when saving them externally, include the mode
+and a timestamp to avoid overwriting another experiment:
+
+```bash
+loss_mode=anchor_frontier
+timestamp=$(date +%Y%m%d_%H%M%S)
+python main.py Financial 12 llama llama 16 "$loss_mode" 2>&1 \
+  | tee "logs/Financial_12_llama_llama_16_${loss_mode}_${timestamp}.log"
+```
+
+Training-set reevaluation and the control comparison select matching artifacts
+with the same mode:
+
+```bash
+python eval_train.py anchor_frontier
+python scripts/run_control_evaluation.py --loss-mode anchor_frontier
 ```
 
 ### Generate responses for AQs without defense

@@ -1,8 +1,10 @@
 import csv
 import json
+import sys
 
 from DataFactory import DataFactory
 from Sampler import Sampler
+from util.loss_modes import validate_loss_mode
 
 
 DATASET = "Samples"
@@ -10,10 +12,12 @@ TOKEN_LENGTH = 12
 SHADOW_MODEL = "llama"
 TARGET_MODEL = "llama"
 TRAIN_NUM = 3
+LOSS_MODE = sys.argv[1] if len(sys.argv) > 1 else "baseline"
+validate_loss_mode(LOSS_MODE)
 
 result_stem = (
     f"{DATASET}_{TOKEN_LENGTH}_{SHADOW_MODEL}_"
-    f"{TARGET_MODEL}_{TRAIN_NUM}"
+    f"{TARGET_MODEL}_{TRAIN_NUM}_{LOSS_MODE}"
 )
 result_path = f"results/{result_stem}.csv"
 trigger_ids_path = f"results/{result_stem}.trigger_ids.json"

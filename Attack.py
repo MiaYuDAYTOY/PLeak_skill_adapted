@@ -5,10 +5,44 @@ import re
 from util.template import TextTemplate
 from torchmetrics import ExtendedEditDistance, CatMetric
 from util.data import Harmful
+from util.loss_modes import (
+    VALID_LOSS_MODES,
+    build_target_labels,
+    get_effective_max_len as calculate_effective_max_len,
+    get_loss_regions,
+    iter_stage_ends,
+    validate_loss_parameters,
+)
 from ModelFactory import ModelFactory
 
 class HotFlip:
-    def __init__(self, trigger_token_length=6, shadow_model='gpt2', step=100, template=None, init_triggers='', init_step=None):
+    def __init__(
+        self,
+        trigger_token_length=6,
+        shadow_model='gpt2',
+        step=100,
+        template=None,
+        init_triggers='',
+        init_step=None,
+        loss_mode="baseline",
+        max_loss_tokens=300,
+        anchor_len=64,
+        frontier_window=64,
+        max_frontier_tokens=None,
+    ):
+        validate_loss_parameters(
+            loss_mode=loss_mode,
+            max_loss_tokens=max_loss_tokens,
+            anchor_len=anchor_len,
+            frontier_window=frontier_window,
+            max_frontier_tokens=max_frontier_tokens,
+        )
+
+        self.loss_mode = loss_mode
+        self.max_loss_tokens = max_loss_tokens
+        self.anchor_len = anchor_len
+        self.frontier_window = frontier_window
+        self.max_frontier_tokens = max_frontier_tokens
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.target_model = shadow_model
         self.template = TextTemplate(prefix_1='') if template is None else template
@@ -121,7 +155,7 @@ class HotFlip:
         trigger_text = self._decode_trigger_tokens(self.trigger_tokens)
         return self.user_prefix + trigger_text
 
-    def make_target(self, index, idx_loss, target_text, triggers):
+    def _encode_completion_target(self, target_text, triggers):
         trigger_text = self.user_prefix + self._decode_trigger_tokens(triggers)
         prompt_text = target_text + self.template.format_trigger(trigger_text)
         full_text = prompt_text + target_text
@@ -159,16 +193,34 @@ class HotFlip:
             )
 
         encoded_target = full_ids[len(prompt_ids):]
+        return prompt_ids, full_ids, encoded_target
+
+    def get_effective_max_len(self, target_len):
+        return calculate_effective_max_len(
+            loss_mode=self.loss_mode,
+            target_len=target_len,
+            max_loss_tokens=self.max_loss_tokens,
+            max_frontier_tokens=self.max_frontier_tokens,
+        )
+
+    def make_target(self, index, stage_end, target_text, triggers):
+        prompt_ids, full_ids, encoded_target = self._encode_completion_target(
+            target_text,
+            triggers,
+        )
         len_non_label = len(prompt_ids)
-        max_len = len(encoded_target)
-        if max_len > self.max_len: self.max_len = max_len
-
-        label_slice = self.init_step + idx_loss * self.step
-
-        if label_slice > self.max_len:
-            encoded_label = [-100]*len_non_label + encoded_target
-        else:
-            encoded_label = [-100]*len_non_label + encoded_target[:label_slice]
+        local_stage_end = min(
+            stage_end,
+            self.get_effective_max_len(len(encoded_target)),
+        )
+        target_labels = build_target_labels(
+            loss_mode=self.loss_mode,
+            target_ids=encoded_target,
+            stage_end=local_stage_end,
+            anchor_len=self.anchor_len,
+            frontier_window=self.frontier_window,
+        )
+        encoded_label = [-100] * len_non_label + target_labels
 
         encoded_text = full_ids[:len(encoded_label)]
         label = torch.tensor([encoded_label], device=self.device, dtype=torch.long)
@@ -214,10 +266,10 @@ class HotFlip:
         lm_input= torch.tensor([target], device=self.device, dtype=torch.long)
         return lm_input, label
 
-    def compute_loss(self, target_texts, trigger_tokens, idx_loss,  require_grad=False):
+    def compute_loss(self, target_texts, trigger_tokens, stage_end, require_grad=False):
         total_loss = 0
         for index, text in enumerate(target_texts):
-            lm_input, label = self.make_target(index, idx_loss, text, trigger_tokens) 
+            lm_input, label = self.make_target(index, stage_end, text, trigger_tokens)
             loss = self.model(lm_input, labels=label)[0]/len(target_texts)
             if require_grad:
                 loss.backward()
@@ -234,17 +286,99 @@ class HotFlip:
         _, best_k_ids = torch.topk(gradient_dot_embedding_matrix, num_candidates, dim=2)
         return best_k_ids.detach().squeeze().cpu().numpy()
 
+    def _active_loss_token_count(self, stage_end):
+        regions = get_loss_regions(
+            loss_mode=self.loss_mode,
+            stage_end=stage_end,
+            anchor_len=self.anchor_len,
+            frontier_window=self.frontier_window,
+        )
+        return sum(end - start for start, end in regions)
+
+    def _print_stage_summary(
+        self,
+        stage_index,
+        stage_end,
+        effective_max_len,
+        target_lengths,
+        loss,
+    ):
+        regions = get_loss_regions(
+            loss_mode=self.loss_mode,
+            stage_end=stage_end,
+            anchor_len=self.anchor_len,
+            frontier_window=self.frontier_window,
+        )
+        sample_stage_ends = [
+            min(stage_end, self.get_effective_max_len(target_len))
+            for target_len in target_lengths
+        ]
+        sample_active_loss_tokens = [
+            self._active_loss_token_count(sample_stage_end)
+            for sample_stage_end in sample_stage_ends
+        ]
+
+        summary = [
+            f"loss_mode={self.loss_mode}",
+            f"stage={stage_index}",
+            f"stage_end={stage_end}",
+            f"effective_max_len={effective_max_len}",
+            f"active_loss_tokens={self._active_loss_token_count(stage_end)}",
+            f"sample_active_loss_tokens={sample_active_loss_tokens}",
+        ]
+        if self.loss_mode == "anchor_frontier":
+            anchor, frontier = regions
+            summary.extend(
+                [
+                    f"anchor=[{anchor[0]},{anchor[1]})",
+                    f"frontier=[{frontier[0]},{frontier[1]})",
+                ]
+            )
+        summary.extend(
+            [
+                f"loss={loss}",
+                f"trigger={self.decode_triggers()!r}",
+            ]
+        )
+        print("\n".join(summary))
+
     def replace_triggers(self, target_texts):
         print(f"init_triggers:{self.decode_triggers()}")
-        self.max_len = self.step+10
-        idx_loss = 0
-        while idx_loss <= self.max_len//self.step:
+        target_texts = list(target_texts)
+        if not target_texts:
+            raise ValueError("target_texts must contain at least one sample")
+
+        target_lengths = [
+            len(self._encode_completion_target(text, self.trigger_tokens)[2])
+            for text in target_texts
+        ]
+        if any(target_len == 0 for target_len in target_lengths):
+            raise ValueError("each target must contain at least one target token")
+
+        effective_max_len = max(
+            self.get_effective_max_len(target_len)
+            for target_len in target_lengths
+        )
+        self.max_len = effective_max_len
+
+        for idx_loss, stage_end in enumerate(
+            iter_stage_ends(
+                init_step=self.init_step,
+                step=self.step,
+                effective_max_len=effective_max_len,
+            )
+        ):
             token_flipped = True
             while token_flipped:
                 token_flipped = False
                 with torch.set_grad_enabled(True):
                     self.model.zero_grad()
-                    best_loss = self.compute_loss(target_texts, self.trigger_tokens, idx_loss, require_grad=True)
+                    best_loss = self.compute_loss(
+                        target_texts,
+                        self.trigger_tokens,
+                        stage_end,
+                        require_grad=True,
+                    )
                 print(f"current loss:{best_loss}, triggers:{self.decode_triggers()}")
                 
                 
@@ -268,7 +402,12 @@ class HotFlip:
 
                         self.model.zero_grad()
                         with torch.no_grad():
-                            loss = self.compute_loss(target_texts, candidate_trigger_tokens, idx_loss, require_grad=False)
+                            loss = self.compute_loss(
+                                target_texts,
+                                candidate_trigger_tokens,
+                                stage_end,
+                                require_grad=False,
+                            )
                         if best_loss <= loss: continue
                         token_flipped = True
                         best_loss = loss
@@ -276,5 +415,10 @@ class HotFlip:
                 self.trigger_tokens = deepcopy(best_trigger_tokens)
                 if token_flipped: print(f"Loss: {best_loss}, triggers:{self.decode_triggers()}")
                 else: print(f"\nNo improvement, ending iteration")
-            idx_loss += 1
-            print(f"Enter next iteration :{idx_loss}")
+            self._print_stage_summary(
+                stage_index=idx_loss,
+                stage_end=stage_end,
+                effective_max_len=effective_max_len,
+                target_lengths=target_lengths,
+                loss=best_loss,
+            )

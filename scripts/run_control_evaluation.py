@@ -18,6 +18,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from DataFactory import DataFactory
 from Sampler import Sampler
+from util.loss_modes import VALID_LOSS_MODES
 from scripts.build_readable_skill_report import (
     content_token_ids,
     fenced,
@@ -41,11 +42,14 @@ def parse_args():
     parser.add_argument("--test-num", type=int, default=10)
     parser.add_argument("--target-model", default="llama")
     parser.add_argument(
+        "--loss-mode",
+        choices=sorted(VALID_LOSS_MODES),
+        default="baseline",
+    )
+    parser.add_argument(
         "--learned-trigger-ids",
         type=Path,
-        default=Path(
-            "results/webtesting_12_llama_llama_16.trigger_ids.json"
-        ),
+        default=None,
     )
     parser.add_argument("--token-length", type=int, default=12)
     parser.add_argument("--generation-seed", type=int, default=0)
@@ -54,14 +58,25 @@ def parse_args():
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("results/webtesting_control_seed0"),
+        default=None,
     )
     parser.add_argument(
         "--overwrite",
         action="store_true",
         help="Regenerate condition CSVs even when complete files exist.",
     )
-    return parser.parse_args()
+    args = parser.parse_args()
+    if args.learned_trigger_ids is None:
+        args.learned_trigger_ids = Path(
+            "results/"
+            f"webtesting_12_llama_llama_16_{args.loss_mode}"
+            ".trigger_ids.json"
+        )
+    if args.output_dir is None:
+        args.output_dir = Path(
+            f"results/webtesting_control_seed0_{args.loss_mode}"
+        )
+    return args
 
 
 def reset_generation_seed(seed):
@@ -531,6 +546,7 @@ def main():
         "dataset": args.dataset,
         "test_num": args.test_num,
         "target_model": args.target_model,
+        "loss_mode": args.loss_mode,
         "token_length": args.token_length,
         "generation_seed": args.generation_seed,
         "random_trigger_seed": args.random_trigger_seed,
