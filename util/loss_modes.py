@@ -1,7 +1,15 @@
 VALID_LOSS_MODES = {
     "baseline",
+    "full",
     "prefix_cap",
     "anchor_frontier",
+    "self_conditioned_frontier",
+}
+
+FULL_LOSS_MODES = {"baseline", "full"}
+FRONTIER_LOSS_MODES = {
+    "anchor_frontier",
+    "self_conditioned_frontier",
 }
 
 
@@ -25,6 +33,7 @@ def validate_loss_parameters(
     anchor_len,
     frontier_window,
     max_frontier_tokens,
+    frontier_lambda=4.0,
 ):
     validate_loss_mode(loss_mode)
     _validate_int("max_loss_tokens", max_loss_tokens, 1)
@@ -35,12 +44,32 @@ def validate_loss_parameters(
         _validate_int("max_frontier_tokens", max_frontier_tokens, 1)
 
     if (
-        loss_mode == "anchor_frontier"
+        isinstance(frontier_lambda, bool)
+        or not isinstance(frontier_lambda, (int, float))
+        or frontier_lambda <= 0
+    ):
+        raise ValueError(
+            "frontier_lambda must be a positive number; "
+            f"got {frontier_lambda!r}"
+        )
+
+    if (
+        loss_mode in FRONTIER_LOSS_MODES
         and anchor_len == 0
         and frontier_window == 0
     ):
         raise ValueError(
             "anchor_frontier requires anchor_len or frontier_window to be positive"
+        )
+
+    if loss_mode == "self_conditioned_frontier" and anchor_len == 0:
+        raise ValueError(
+            "self_conditioned_frontier requires anchor_len to be positive"
+        )
+
+    if loss_mode == "self_conditioned_frontier" and frontier_window == 0:
+        raise ValueError(
+            "self_conditioned_frontier requires frontier_window to be positive"
         )
 
 
@@ -57,7 +86,7 @@ def get_effective_max_len(
         _validate_int("max_loss_tokens", max_loss_tokens, 1)
         return min(target_len, max_loss_tokens)
 
-    if loss_mode == "anchor_frontier" and max_frontier_tokens is not None:
+    if loss_mode in FRONTIER_LOSS_MODES and max_frontier_tokens is not None:
         _validate_int("max_frontier_tokens", max_frontier_tokens, 1)
         return min(target_len, max_frontier_tokens)
 
@@ -92,7 +121,7 @@ def get_loss_regions(
     validate_loss_mode(loss_mode)
     _validate_int("stage_end", stage_end, 1)
 
-    if loss_mode != "anchor_frontier":
+    if loss_mode not in FRONTIER_LOSS_MODES:
         return ((0, stage_end),)
 
     _validate_int("anchor_len", anchor_len, 0)
@@ -111,6 +140,29 @@ def get_loss_regions(
         (0, anchor_end),
         (frontier_start, stage_end),
     )
+
+
+def get_separate_loss_regions(
+    loss_mode,
+    stage_end,
+    anchor_len=128,
+    frontier_window=128,
+):
+    """Return independently normalized anchor and frontier regions.
+
+    Unlike :func:`get_loss_regions`, overlap is intentionally preserved.  The
+    caller computes each region's mean loss separately, so an overlapping
+    frontier receives its explicit extra weight instead of being collapsed
+    into a union mask.
+    """
+    validate_loss_mode(loss_mode)
+    _validate_int("stage_end", stage_end, 1)
+    _validate_int("anchor_len", anchor_len, 0)
+    _validate_int("frontier_window", frontier_window, 0)
+
+    anchor_end = min(anchor_len, stage_end)
+    frontier_start = max(0, stage_end - frontier_window)
+    return (0, anchor_end), (frontier_start, stage_end)
 
 
 def build_target_labels(
@@ -134,7 +186,7 @@ def build_target_labels(
     )
     target_prefix = list(target_ids[:stage_end])
 
-    if loss_mode != "anchor_frontier":
+    if loss_mode not in FRONTIER_LOSS_MODES:
         return target_prefix
 
     target_labels = [-100] * stage_end
