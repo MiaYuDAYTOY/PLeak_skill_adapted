@@ -35,6 +35,8 @@ class HotFlip:
         max_frontier_tokens=None,
         hotflip_top_k=30,
         num_restarts=1,
+        improvement_epsilon=1e-6,
+        max_refresh_candidates=5,
     ):
         if anchor_window is not None:
             anchor_len = anchor_window
@@ -58,6 +60,24 @@ class HotFlip:
             or num_restarts <= 0
         ):
             raise ValueError("num_restarts must be a positive integer")
+        if (
+            isinstance(improvement_epsilon, bool)
+            or not isinstance(improvement_epsilon, (int, float))
+            or not np.isfinite(improvement_epsilon)
+            or improvement_epsilon < 0
+        ):
+            raise ValueError(
+                "improvement_epsilon must be a finite non-negative number"
+            )
+        if (
+            isinstance(max_refresh_candidates, bool)
+            or not isinstance(max_refresh_candidates, int)
+            or max_refresh_candidates <= 0
+            or max_refresh_candidates > 5
+        ):
+            raise ValueError(
+                "max_refresh_candidates must be an integer between 1 and 5"
+            )
 
         self.loss_mode = loss_mode
         self.max_loss_tokens = max_loss_tokens
@@ -68,6 +88,8 @@ class HotFlip:
         self.max_frontier_tokens = max_frontier_tokens
         self.hotflip_top_k = hotflip_top_k
         self.num_restarts = num_restarts
+        self.improvement_epsilon = float(improvement_epsilon)
+        self.max_refresh_candidates = max_refresh_candidates
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.target_model = shadow_model
         self.template = TextTemplate(prefix_1='') if template is None else template
@@ -942,6 +964,10 @@ class HotFlip:
 
         previous_trigger_tokens = deepcopy(self.trigger_tokens)
         previous_rollout_state = rollout_state
+        previous_trigger_ids = tuple(
+            int(token) for token in previous_trigger_tokens
+        )
+        old_rollout_id = previous_rollout_state["refresh_id"]
         candidate_rollout_state = self._refresh_self_conditioned_rollouts(
             target_texts=target_texts,
             trigger_tokens=candidate_trigger_tokens,
@@ -970,14 +996,8 @@ class HotFlip:
                 rollout_state=candidate_rollout_state,
             )
         accepted_after_refresh = (
-            refreshed_candidate_loss < previous_actual_loss
-        )
-        print(
-            "candidate_refresh_evaluation "
-            f"fixed_rollout_candidate_loss={fixed_rollout_candidate_loss} "
-            f"refreshed_candidate_loss={refreshed_candidate_loss} "
-            f"previous_actual_loss={previous_actual_loss} "
-            f"accepted_after_refresh={accepted_after_refresh}"
+            refreshed_candidate_loss
+            < previous_actual_loss - self.improvement_epsilon
         )
 
         if accepted_after_refresh:
@@ -988,11 +1008,47 @@ class HotFlip:
                     "accepted flip refreshed loss must be lower than the "
                     "previous actual loss"
                 )
-            return True, refreshed_candidate_loss, rollout_state
+            if rollout_state is not candidate_rollout_state:
+                raise AssertionError(
+                    "accepted candidate rollout did not become active"
+                )
+            rollback = False
+            active_loss = refreshed_candidate_loss
+        else:
+            self.trigger_tokens = previous_trigger_tokens
+            rollout_state = previous_rollout_state
+            rollback = True
+            active_loss = previous_actual_loss
+            active_trigger_ids = tuple(
+                int(token) for token in self.trigger_tokens
+            )
+            if active_trigger_ids != previous_trigger_ids:
+                raise AssertionError(
+                    "rejected candidate did not restore the previous trigger"
+                )
+            if rollout_state is not previous_rollout_state:
+                raise AssertionError(
+                    "rejected candidate did not restore the previous rollout"
+                )
+            if rollout_state is candidate_rollout_state:
+                raise AssertionError(
+                    "rejected candidate rollout became the active rollout"
+                )
 
-        self.trigger_tokens = previous_trigger_tokens
-        rollout_state = previous_rollout_state
-        return False, previous_actual_loss, rollout_state
+        candidate_rollout_id = candidate_rollout_state["refresh_id"]
+        active_rollout_id = rollout_state["refresh_id"]
+        print(
+            "candidate_refresh_evaluation "
+            f"previous_actual_loss={previous_actual_loss} "
+            f"fixed_rollout_candidate_loss={fixed_rollout_candidate_loss} "
+            f"refreshed_candidate_loss={refreshed_candidate_loss} "
+            f"accepted_after_refresh={accepted_after_refresh} "
+            f"rollback={rollback} "
+            f"old_rollout_id={old_rollout_id} "
+            f"candidate_rollout_id={candidate_rollout_id} "
+            f"active_rollout_id={active_rollout_id}"
+        )
+        return accepted_after_refresh, active_loss, rollout_state
 
     def _active_loss_token_count(self, stage_end, stage_index=None):
         if self.loss_mode in {"anchor_frontier", "self_conditioned_frontier"}:
@@ -1070,7 +1126,9 @@ class HotFlip:
             f"rollout_refresh={'stage_and_candidate_evaluation' if self.loss_mode == 'self_conditioned_frontier' else 'none'}, "
             f"frontier_lambda={self.frontier_lambda}, "
             f"hotflip_top_k={self.hotflip_top_k}, "
-            f"num_restarts={self.num_restarts}"
+            f"num_restarts={self.num_restarts}, "
+            f"improvement_epsilon={self.improvement_epsilon}, "
+            f"max_refresh_candidates={self.max_refresh_candidates}"
         )
 
         best_restart_loss = float("inf")
@@ -1150,6 +1208,7 @@ class HotFlip:
                         num_candidates=self.hotflip_top_k,
                     )
                     best_trigger_tokens = deepcopy(self.trigger_tokens)
+                    fixed_rollout_candidates = []
                     for i, token_to_flip in enumerate(self.trigger_tokens):
                         for cand in candidates[i]:
                             cand_id = int(cand)
@@ -1175,6 +1234,17 @@ class HotFlip:
                                     stage_index=idx_loss,
                                     rollout_state=rollout_state,
                                 )
+                            if self.loss_mode == "self_conditioned_frontier":
+                                if loss < previous_actual_loss:
+                                    fixed_rollout_candidates.append(
+                                        {
+                                            "loss": loss,
+                                            "trigger_tokens": deepcopy(
+                                                candidate_trigger_tokens
+                                            ),
+                                        }
+                                    )
+                                continue
                             if best_loss <= loss:
                                 continue
                             token_flipped = True
@@ -1183,24 +1253,40 @@ class HotFlip:
                                 candidate_trigger_tokens
                             )
 
-                    if token_flipped:
-                        fixed_rollout_candidate_loss = best_loss
-                        if self.loss_mode == "self_conditioned_frontier":
-                            token_flipped, best_loss, rollout_state = (
+                    if self.loss_mode == "self_conditioned_frontier":
+                        ranked_fixed_candidates = sorted(
+                            fixed_rollout_candidates,
+                            key=lambda candidate: candidate["loss"],
+                        )
+                        refresh_candidates = ranked_fixed_candidates[
+                            :self.max_refresh_candidates
+                        ]
+                        print(
+                            "candidate_refresh_queue "
+                            f"fixed_improvement_count={len(ranked_fixed_candidates)} "
+                            f"verification_count={len(refresh_candidates)}"
+                        )
+                        for fixed_candidate in refresh_candidates:
+                            accepted, best_loss, rollout_state = (
                                 self._evaluate_self_conditioned_candidate(
                                     target_texts=target_texts,
-                                    candidate_trigger_tokens=best_trigger_tokens,
+                                    candidate_trigger_tokens=(
+                                        fixed_candidate["trigger_tokens"]
+                                    ),
                                     stage_index=idx_loss,
                                     stage_end=stage_end,
                                     fixed_rollout_candidate_loss=(
-                                        fixed_rollout_candidate_loss
+                                        fixed_candidate["loss"]
                                     ),
                                     previous_actual_loss=previous_actual_loss,
                                     rollout_state=rollout_state,
                                 )
                             )
-                        else:
-                            self.trigger_tokens = deepcopy(best_trigger_tokens)
+                            if accepted:
+                                token_flipped = True
+                                break
+                    elif token_flipped:
+                        self.trigger_tokens = deepcopy(best_trigger_tokens)
 
                     if token_flipped:
                         print(

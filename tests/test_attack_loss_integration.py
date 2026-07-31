@@ -43,6 +43,8 @@ class AttackLossIntegrationTests(unittest.TestCase):
         attack.frontier_window = 1
         attack.frontier_lambda = 4.0
         attack.max_frontier_tokens = None
+        attack.improvement_epsilon = 1e-6
+        attack.max_refresh_candidates = 5
         return attack
 
     def test_invalid_mode_is_rejected_before_model_factory(self):
@@ -51,6 +53,19 @@ class AttackLossIntegrationTests(unittest.TestCase):
                 HotFlip(loss_mode="unknown")
 
         model_factory.assert_not_called()
+
+    def test_refresh_acceptance_parameters_are_bounded(self):
+        invalid_parameters = (
+            ({"improvement_epsilon": -1e-6}, "improvement_epsilon"),
+            ({"max_refresh_candidates": 0}, "max_refresh_candidates"),
+            ({"max_refresh_candidates": 6}, "max_refresh_candidates"),
+        )
+        for parameters, message in invalid_parameters:
+            with self.subTest(parameters=parameters):
+                with patch("Attack.ModelFactory") as model_factory:
+                    with self.assertRaisesRegex(ValueError, message):
+                        HotFlip(**parameters)
+                model_factory.assert_not_called()
 
     def test_make_target_keeps_context_but_masks_anchor_middle(self):
         attack = self.make_attack("anchor_frontier")
@@ -228,6 +243,98 @@ class AttackLossIntegrationTests(unittest.TestCase):
         self.assertIn("refreshed_candidate_loss=4.0", output.getvalue())
         self.assertIn("previous_actual_loss=10.0", output.getvalue())
         self.assertIn("accepted_after_refresh=True", output.getvalue())
+        self.assertIn("rollback=False", output.getvalue())
+        self.assertIn("old_rollout_id=1", output.getvalue())
+        self.assertIn("candidate_rollout_id=2", output.getvalue())
+        self.assertIn("active_rollout_id=2", output.getvalue())
+
+    def test_self_conditioned_rejection_tries_next_fixed_ranked_candidate(self):
+        attack = self.make_attack("self_conditioned_frontier")
+        attack.hotflip_top_k = 2
+        attack.num_restarts = 1
+        attack.step = 1
+        attack.anchor_window = 1
+        attack.trigger_token_length = 1
+        attack.trigger_tokens = [ord("A")]
+        attack.model = Mock()
+        attack._encode_completion_target = Mock(
+            return_value=([], [], [ord("x")])
+        )
+        attack.get_effective_max_len = Mock(return_value=1)
+        attack.get_triggers_grad = Mock(return_value=None)
+        attack.hotflip_attack = Mock(
+            return_value=[[ord("B"), ord("C")]]
+        )
+        attack._print_stage_summary = Mock()
+
+        refresh_states = []
+
+        def refresh_rollout(**kwargs):
+            state = {
+                "refresh_id": len(refresh_states) + 1,
+                "source_trigger_ids": tuple(
+                    int(token) for token in kwargs["trigger_tokens"]
+                ),
+            }
+            refresh_states.append(state)
+            return state
+
+        attack._refresh_self_conditioned_rollouts = Mock(
+            side_effect=refresh_rollout
+        )
+        loss_by_trigger_and_rollout = {
+            ((ord("A"),), (ord("A"),)): 10.0,
+            ((ord("B"),), (ord("A"),)): 5.0,
+            ((ord("C"),), (ord("A"),)): 6.0,
+            ((ord("B"),), (ord("B"),)): 12.0,
+            ((ord("C"),), (ord("C"),)): 8.0,
+            ((ord("B"),), (ord("C"),)): 9.0,
+        }
+        loss_calls = []
+
+        def compute_loss(_, trigger_tokens, __, **kwargs):
+            rollout_state = kwargs["rollout_state"]
+            trigger_ids = tuple(int(token) for token in trigger_tokens)
+            rollout_trigger_ids = rollout_state["source_trigger_ids"]
+            loss_calls.append(
+                (trigger_ids, rollout_trigger_ids, kwargs["require_grad"])
+            )
+            return loss_by_trigger_and_rollout[
+                (trigger_ids, rollout_trigger_ids)
+            ]
+
+        attack.compute_loss = Mock(side_effect=compute_loss)
+
+        output = io.StringIO()
+        with redirect_stdout(output):
+            attack.replace_triggers(["target"])
+
+        self.assertEqual(attack.trigger_tokens, [ord("C")])
+        self.assertEqual(
+            [state["source_trigger_ids"] for state in refresh_states],
+            [(ord("A"),), (ord("B"),), (ord("C"),)],
+        )
+        self.assertEqual(
+            [call.kwargs["stage_index"] for call in
+             attack._refresh_self_conditioned_rollouts.call_args_list],
+            [0, 0, 0],
+        )
+        self.assertIn(((ord("B"),), (ord("B"),), False), loss_calls)
+        self.assertIn(((ord("C"),), (ord("C"),), False), loss_calls)
+        self.assertIn(
+            "fixed_rollout_candidate_loss=5.0 "
+            "refreshed_candidate_loss=12.0 "
+            "accepted_after_refresh=False rollback=True "
+            "old_rollout_id=1 candidate_rollout_id=2 active_rollout_id=1",
+            output.getvalue(),
+        )
+        self.assertIn(
+            "fixed_rollout_candidate_loss=6.0 "
+            "refreshed_candidate_loss=8.0 "
+            "accepted_after_refresh=True rollback=False "
+            "old_rollout_id=1 candidate_rollout_id=3 active_rollout_id=3",
+            output.getvalue(),
+        )
 
     def test_rejected_self_conditioned_candidate_restores_trigger_and_rollout(self):
         attack = self.make_attack("self_conditioned_frontier")
@@ -243,7 +350,7 @@ class AttackLossIntegrationTests(unittest.TestCase):
         attack._refresh_self_conditioned_rollouts = Mock(
             return_value=candidate_rollout
         )
-        attack.compute_loss = Mock(return_value=12.0)
+        attack.compute_loss = Mock(return_value=9.9999995)
 
         output = io.StringIO()
         with redirect_stdout(output):
@@ -269,9 +376,13 @@ class AttackLossIntegrationTests(unittest.TestCase):
             candidate_rollout,
         )
         self.assertIn("fixed_rollout_candidate_loss=5.0", output.getvalue())
-        self.assertIn("refreshed_candidate_loss=12.0", output.getvalue())
+        self.assertIn("refreshed_candidate_loss=9.9999995", output.getvalue())
         self.assertIn("previous_actual_loss=10.0", output.getvalue())
         self.assertIn("accepted_after_refresh=False", output.getvalue())
+        self.assertIn("rollback=True", output.getvalue())
+        self.assertIn("old_rollout_id=1", output.getvalue())
+        self.assertIn("candidate_rollout_id=2", output.getvalue())
+        self.assertIn("active_rollout_id=1", output.getvalue())
 
 
 if __name__ == "__main__":

@@ -28,6 +28,22 @@ def non_negative_int(value):
     return parsed
 
 
+def non_negative_float(value):
+    parsed = float(value)
+    if not np.isfinite(parsed) or parsed < 0:
+        raise argparse.ArgumentTypeError(
+            "value must be a finite non-negative number"
+        )
+    return parsed
+
+
+def refresh_candidate_limit(value):
+    parsed = positive_int(value)
+    if parsed > 5:
+        raise argparse.ArgumentTypeError("value must be at most 5")
+    return parsed
+
+
 def optional_positive_int(value):
     if value.lower() == "none":
         return None
@@ -51,6 +67,16 @@ parser.add_argument(
 parser.add_argument("--max-loss-tokens", type=positive_int, default=300)
 parser.add_argument("--anchor-len", type=non_negative_int, default=64)
 parser.add_argument("--frontier-window", type=non_negative_int, default=64)
+parser.add_argument(
+    "--improvement-epsilon",
+    type=non_negative_float,
+    default=1e-6,
+)
+parser.add_argument(
+    "--max-refresh-candidates",
+    type=refresh_candidate_limit,
+    default=5,
+)
 parser.add_argument(
     "--max-frontier-tokens",
     type=optional_positive_int,
@@ -78,7 +104,9 @@ print(
     f"max_loss_tokens={args.max_loss_tokens}, "
     f"anchor_len={args.anchor_len}, "
     f"frontier_window={args.frontier_window}, "
-    f"max_frontier_tokens={args.max_frontier_tokens}"
+    f"max_frontier_tokens={args.max_frontier_tokens}, "
+    f"improvement_epsilon={args.improvement_epsilon}, "
+    f"max_refresh_candidates={args.max_refresh_candidates}"
 )
 
 dataFactory = DataFactory()
@@ -93,6 +121,8 @@ attack = HotFlip(
     anchor_len=args.anchor_len,
     frontier_window=args.frontier_window,
     max_frontier_tokens=args.max_frontier_tokens,
+    improvement_epsilon=args.improvement_epsilon,
+    max_refresh_candidates=args.max_refresh_candidates,
 )
 attack.replace_triggers(trainset)
 
