@@ -1,0 +1,7 @@
+/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+usage: main.py [-h] [--max-loss-tokens MAX_LOSS_TOKENS] [--anchor-len ANCHOR_LEN] [--frontier-window FRONTIER_WINDOW] [--max-frontier-tokens MAX_FRONTIER_TOKENS] dataset token_length shadow_model target_model train_num [{anchor_frontier,baseline,prefix_cap}]
+main.py: error: argument loss_mode: invalid choice: 'self_conditioned_frontier' (choose from 'anchor_frontier', 'baseline', 'prefix_cap')
+ERROR conda.cli.main_run:execute(124): `conda run python -u main.py webtesting 12 llama llama 16 self_conditioned_frontier --max-loss-tokens 300 --anchor-len 64 --frontier-window 64 --max-frontier-tokens 1000` failed. (See above for error)
