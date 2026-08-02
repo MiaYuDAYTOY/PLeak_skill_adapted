@@ -1143,6 +1143,9 @@ class HotFlip:
         self.trigger_tokens = deepcopy(
             stage_start_checkpoint["trigger_tokens"]
         )
+        self._last_loss_diagnostics = deepcopy(
+            stage_start_checkpoint["loss_diagnostics"]
+        )
         print(
             "stage_anchor_validation_failed=True "
             "stage_rollback=True"
@@ -1440,6 +1443,14 @@ class HotFlip:
         previous_trigger_ids = tuple(
             int(token) for token in previous_trigger_tokens
         )
+        if (
+            anchor_guard_enabled
+            and tuple(current_anchor_state["trigger_tokens"])
+            != previous_trigger_ids
+        ):
+            raise AssertionError(
+                "current anchor utility cache does not match current trigger"
+            )
         old_rollout_id = previous_rollout_state["refresh_id"]
         candidate_rollout_state = self._refresh_self_conditioned_rollouts(
             target_texts=target_texts,
@@ -1793,6 +1804,16 @@ class HotFlip:
                     stage_start_checkpoint = {
                         "trigger_tokens": deepcopy(self.trigger_tokens),
                         "anchor_state": deepcopy(current_anchor_state),
+                        "anchor_common_prefix_counts": list(
+                            current_anchor_state["common_prefix_counts"]
+                        ),
+                        "anchor_min_common_prefix": current_anchor_state[
+                            "min_common_prefix"
+                        ],
+                        "anchor_mean_common_prefix": current_anchor_state[
+                            "mean_common_prefix"
+                        ],
+                        "anchor_loss": current_anchor_state["anchor_loss"],
                         "rollout_state": deepcopy(rollout_state),
                         "stage_loss": checkpoint_stage_loss,
                         "frontier_loss": current_loss_diagnostics[
@@ -2082,10 +2103,10 @@ class HotFlip:
                 ):
                     stage0_validation_passed = (
                         self._validate_stage_zero_generation(
-                        target_texts=target_texts,
-                        trigger_tokens=self.trigger_tokens,
-                        stage_end=stage_end,
-                    )
+                            target_texts=target_texts,
+                            trigger_tokens=self.trigger_tokens,
+                            stage_end=stage_end,
+                        )
                     )
                     if not stage0_validation_passed:
                         print(
