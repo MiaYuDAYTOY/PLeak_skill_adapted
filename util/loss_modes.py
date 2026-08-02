@@ -33,7 +33,7 @@ def validate_loss_parameters(
     anchor_len,
     frontier_window,
     max_frontier_tokens,
-    frontier_lambda=4.0,
+    frontier_lambda=1.0,
 ):
     validate_loss_mode(loss_mode)
     _validate_int("max_loss_tokens", max_loss_tokens, 1)
@@ -110,6 +110,14 @@ def iter_stage_ends(init_step, step, effective_max_len):
             break
 
         idx_loss += 1
+
+
+def iter_stage_ranges(init_step, step, effective_max_len):
+    """Yield adjacent ``[start, end)`` stage chunks without gaps or overlap."""
+    stage_start = 0
+    for stage_end in iter_stage_ends(init_step, step, effective_max_len):
+        yield stage_start, stage_end
+        stage_start = stage_end
 
 
 def get_loss_regions(

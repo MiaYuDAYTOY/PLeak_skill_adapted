@@ -5,6 +5,7 @@ from util.loss_modes import (
     get_effective_max_len,
     get_loss_regions,
     iter_stage_ends,
+    iter_stage_ranges,
     validate_loss_mode,
 )
 
@@ -65,6 +66,12 @@ class LossModeTests(unittest.TestCase):
         self.assertEqual(
             list(iter_stage_ends(50, 100, 380)),
             [50, 150, 250, 350, 380],
+        )
+
+    def test_self_conditioned_stage_ranges_are_contiguous_chunks(self):
+        self.assertEqual(
+            list(iter_stage_ranges(64, 64, 200)),
+            [(0, 64), (64, 128), (128, 192), (192, 200)],
         )
 
     def test_short_target_has_one_stage(self):

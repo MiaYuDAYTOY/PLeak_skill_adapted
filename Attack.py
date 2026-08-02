@@ -13,6 +13,7 @@ from util.loss_modes import (
     get_loss_regions,
     get_separate_loss_regions,
     iter_stage_ends,
+    iter_stage_ranges,
     validate_loss_parameters,
 )
 from ModelFactory import ModelFactory
@@ -31,7 +32,7 @@ class HotFlip:
         anchor_len=128,
         anchor_window=None,
         frontier_window=128,
-        frontier_lambda=4.0,
+        frontier_lambda=1.0,
         max_frontier_tokens=None,
         hotflip_top_k=30,
         num_restarts=1,
@@ -471,6 +472,7 @@ class HotFlip:
         self,
         index,
         stage_index,
+        stage_start,
         stage_end,
         target_text,
         triggers,
@@ -495,6 +497,7 @@ class HotFlip:
             stage_end,
             self.get_effective_max_len(len(target_ids)),
         )
+        local_stage_start = min(stage_start, local_stage_end)
         anchor_end = min(self.anchor_window, local_stage_end)
         components = []
 
@@ -531,8 +534,10 @@ class HotFlip:
         if stage_index == 0:
             return components
 
-        frontier_start = max(0, local_stage_end - self.frontier_window)
+        frontier_start = local_stage_start
         frontier_end = local_stage_end
+        if frontier_start == frontier_end:
+            return components
         generated_prefix = list(rollout["generated_prefix_ids"])
         if len(generated_prefix) != frontier_start:
             raise AssertionError(
@@ -675,6 +680,7 @@ class HotFlip:
         stage_end,
         require_grad=False,
         stage_index=0,
+        stage_start=0,
         rollout_state=None,
     ):
         target_texts = list(target_texts)
@@ -694,6 +700,7 @@ class HotFlip:
                 components = self._self_conditioned_components(
                     index=index,
                     stage_index=stage_index,
+                    stage_start=stage_start,
                     stage_end=stage_end,
                     target_text=text,
                     triggers=trigger_tokens,
@@ -872,11 +879,66 @@ class HotFlip:
             count += 1
         return count
 
+    def _validate_stage_zero_generation(
+        self,
+        target_texts,
+        trigger_tokens,
+        stage_end,
+    ):
+        """Require a real greedy match at the start before frontier search."""
+        common_prefix_counts = []
+        print(
+            "stage0_generation_validation "
+            "strategy=greedy do_sample=False "
+            "required_common_prefix_tokens=1"
+        )
+
+        for index, target_text in enumerate(target_texts):
+            prompt_ids, _, target_ids, _ = self._encode_completion_target(
+                target_text,
+                trigger_tokens,
+                return_metadata=True,
+            )
+            validation_length = min(
+                stage_end,
+                self.get_effective_max_len(len(target_ids)),
+            )
+            generated_prefix = self._greedy_rollout(
+                prompt_ids,
+                validation_length,
+            )
+            gold_prefix = target_ids[:validation_length]
+            common_prefix = self._common_prefix_count(
+                gold_prefix,
+                generated_prefix,
+            )
+            common_prefix_counts.append(common_prefix)
+            print(
+                "stage0_generation_sample "
+                f"sample={index} "
+                f"validation_length={validation_length} "
+                f"common_prefix_token_count={common_prefix} "
+                f"passed={common_prefix >= 1} "
+                f"generated_prefix={self._decode_token_preview(generated_prefix)!r} "
+                f"gold_prefix={self._decode_token_preview(gold_prefix)!r}"
+            )
+
+        passed = all(count >= 1 for count in common_prefix_counts)
+        print(
+            "stage0_generation_acceptance "
+            f"passed={passed} "
+            "required_common_prefix_tokens=1 "
+            f"sample_common_prefix_token_counts={common_prefix_counts} "
+            f"later_frontier_allowed={passed}"
+        )
+        return passed
+
     def _refresh_self_conditioned_rollouts(
         self,
         target_texts,
         trigger_tokens,
         stage_index,
+        stage_start,
         stage_end,
         reason,
     ):
@@ -899,11 +961,7 @@ class HotFlip:
                 stage_end,
                 self.get_effective_max_len(len(target_ids)),
             )
-            frontier_start = (
-                0
-                if stage_index == 0
-                else max(0, local_stage_end - self.frontier_window)
-            )
+            frontier_start = min(stage_start, local_stage_end)
             frontier_end = local_stage_end
             generated_prefix = self._greedy_rollout(
                 prompt_ids,
@@ -917,6 +975,7 @@ class HotFlip:
             rollout = {
                 "sample_index": index,
                 "stage_index": stage_index,
+                "stage_start": frontier_start,
                 "stage_end": local_stage_end,
                 "frontier_start": frontier_start,
                 "frontier_end": frontier_end,
@@ -941,6 +1000,7 @@ class HotFlip:
             "refresh_id": refresh_id,
             "reason": reason,
             "stage_index": stage_index,
+            "stage_start": stage_start,
             "stage_end": stage_end,
             "source_trigger_ids": tuple(int(token) for token in trigger_tokens),
             "samples": samples,
@@ -951,6 +1011,7 @@ class HotFlip:
         target_texts,
         candidate_trigger_tokens,
         stage_index,
+        stage_start,
         stage_end,
         fixed_rollout_candidate_loss,
         previous_actual_loss,
@@ -972,6 +1033,7 @@ class HotFlip:
             target_texts=target_texts,
             trigger_tokens=candidate_trigger_tokens,
             stage_index=stage_index,
+            stage_start=stage_start,
             stage_end=stage_end,
             reason="candidate_evaluation",
         )
@@ -993,6 +1055,7 @@ class HotFlip:
                 stage_end,
                 require_grad=False,
                 stage_index=stage_index,
+                stage_start=stage_start,
                 rollout_state=candidate_rollout_state,
             )
         accepted_after_refresh = (
@@ -1050,7 +1113,12 @@ class HotFlip:
         )
         return accepted_after_refresh, active_loss, rollout_state
 
-    def _active_loss_token_count(self, stage_end, stage_index=None):
+    def _active_loss_token_count(
+        self,
+        stage_end,
+        stage_index=None,
+        stage_start=0,
+    ):
         if self.loss_mode in {"anchor_frontier", "self_conditioned_frontier"}:
             anchor, frontier = get_separate_loss_regions(
                 loss_mode=self.loss_mode,
@@ -1061,12 +1129,15 @@ class HotFlip:
             anchor_count = anchor[1] - anchor[0]
             if self.loss_mode == "self_conditioned_frontier" and stage_index == 0:
                 return anchor_count
+            if self.loss_mode == "self_conditioned_frontier":
+                return anchor_count + stage_end - stage_start
             return anchor_count + frontier[1] - frontier[0]
         return stage_end
 
     def _print_stage_summary(
         self,
         stage_index,
+        stage_start,
         stage_end,
         effective_max_len,
         target_lengths,
@@ -1077,16 +1148,22 @@ class HotFlip:
             for target_len in target_lengths
         ]
         sample_active_loss_tokens = [
-            self._active_loss_token_count(sample_stage_end, stage_index)
+            self._active_loss_token_count(
+                sample_stage_end,
+                stage_index,
+                min(stage_start, sample_stage_end),
+            )
             for sample_stage_end in sample_stage_ends
         ]
 
         summary = [
             f"loss_mode={self.loss_mode}",
             f"stage={stage_index}",
+            f"stage_start={stage_start}",
             f"stage_end={stage_end}",
+            f"stage_chunk=[{stage_start},{stage_end})",
             f"effective_max_len={effective_max_len}",
-            f"active_loss_tokens={self._active_loss_token_count(stage_end, stage_index)}",
+            f"active_loss_tokens={self._active_loss_token_count(stage_end, stage_index, stage_start)}",
             f"sample_active_loss_tokens={sample_active_loss_tokens}",
             f"teacher_forcing={self.loss_mode != 'self_conditioned_frontier'}",
             f"frontier_lambda={self.frontier_lambda}",
@@ -1094,12 +1171,16 @@ class HotFlip:
             f"num_restarts={self.num_restarts}",
         ]
         if self.loss_mode in {"anchor_frontier", "self_conditioned_frontier"}:
-            anchor, frontier = get_separate_loss_regions(
-                loss_mode=self.loss_mode,
-                stage_end=stage_end,
-                anchor_len=self.anchor_window,
-                frontier_window=self.frontier_window,
-            )
+            if self.loss_mode == "self_conditioned_frontier":
+                anchor = (0, min(self.anchor_window, stage_end))
+                frontier = (stage_start, stage_end)
+            else:
+                anchor, frontier = get_separate_loss_regions(
+                    loss_mode=self.loss_mode,
+                    stage_end=stage_end,
+                    anchor_len=self.anchor_window,
+                    frontier_window=self.frontier_window,
+                )
             summary.extend(
                 [
                     f"anchor=[{anchor[0]},{anchor[1]})",
@@ -1160,26 +1241,31 @@ class HotFlip:
                 for target_len in target_lengths
             )
             self.max_len = effective_max_len
-            first_stage_end = (
-                self.anchor_window
-                if self.loss_mode == "self_conditioned_frontier"
-                else self.init_step
-            )
             final_loss = float("inf")
-
-            for idx_loss, stage_end in enumerate(
-                iter_stage_ends(
-                    init_step=first_stage_end,
-                    step=self.step,
+            if self.loss_mode == "self_conditioned_frontier":
+                stage_ranges = iter_stage_ranges(
+                    init_step=self.anchor_window,
+                    step=self.frontier_window,
                     effective_max_len=effective_max_len,
                 )
-            ):
+            else:
+                stage_ranges = (
+                    (0, stage_end)
+                    for stage_end in iter_stage_ends(
+                        init_step=self.init_step,
+                        step=self.step,
+                        effective_max_len=effective_max_len,
+                    )
+                )
+
+            for idx_loss, (stage_start, stage_end) in enumerate(stage_ranges):
                 rollout_state = None
                 if self.loss_mode == "self_conditioned_frontier":
                     rollout_state = self._refresh_self_conditioned_rollouts(
                         target_texts=target_texts,
                         trigger_tokens=self.trigger_tokens,
                         stage_index=idx_loss,
+                        stage_start=stage_start,
                         stage_end=stage_end,
                         reason="stage_start",
                     )
@@ -1195,6 +1281,7 @@ class HotFlip:
                             stage_end,
                             require_grad=True,
                             stage_index=idx_loss,
+                            stage_start=stage_start,
                             rollout_state=rollout_state,
                         )
                     previous_actual_loss = best_loss
@@ -1232,6 +1319,7 @@ class HotFlip:
                                     stage_end,
                                     require_grad=False,
                                     stage_index=idx_loss,
+                                    stage_start=stage_start,
                                     rollout_state=rollout_state,
                                 )
                             if self.loss_mode == "self_conditioned_frontier":
@@ -1274,6 +1362,7 @@ class HotFlip:
                                         fixed_candidate["trigger_tokens"]
                                     ),
                                     stage_index=idx_loss,
+                                    stage_start=stage_start,
                                     stage_end=stage_end,
                                     fixed_rollout_candidate_loss=(
                                         fixed_candidate["loss"]
@@ -1306,11 +1395,26 @@ class HotFlip:
                 final_loss = best_loss
                 self._print_stage_summary(
                     stage_index=idx_loss,
+                    stage_start=stage_start,
                     stage_end=stage_end,
                     effective_max_len=effective_max_len,
                     target_lengths=target_lengths,
                     loss=best_loss,
                 )
+                if (
+                    self.loss_mode == "self_conditioned_frontier"
+                    and idx_loss == 0
+                    and not self._validate_stage_zero_generation(
+                        target_texts=target_texts,
+                        trigger_tokens=self.trigger_tokens,
+                        stage_end=stage_end,
+                    )
+                ):
+                    print(
+                        "stage0_generation_rejected "
+                        "later_frontier_skipped=True"
+                    )
+                    break
 
             print(
                 f"restart_summary restart={restart_index} "

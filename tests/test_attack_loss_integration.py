@@ -1,4 +1,5 @@
 import io
+import inspect
 import math
 import unittest
 from contextlib import redirect_stdout
@@ -41,7 +42,7 @@ class AttackLossIntegrationTests(unittest.TestCase):
         attack.max_loss_tokens = 3
         attack.anchor_len = 1
         attack.frontier_window = 1
-        attack.frontier_lambda = 4.0
+        attack.frontier_lambda = 1.0
         attack.max_frontier_tokens = None
         attack.improvement_epsilon = 1e-6
         attack.max_refresh_candidates = 5
@@ -53,6 +54,12 @@ class AttackLossIntegrationTests(unittest.TestCase):
                 HotFlip(loss_mode="unknown")
 
         model_factory.assert_not_called()
+
+    def test_frontier_lambda_defaults_to_one(self):
+        default = inspect.signature(HotFlip).parameters[
+            "frontier_lambda"
+        ].default
+        self.assertEqual(default, 1.0)
 
     def test_refresh_acceptance_parameters_are_bounded(self):
         invalid_parameters = (
@@ -176,6 +183,7 @@ class AttackLossIntegrationTests(unittest.TestCase):
             return_value=[[ord("B"), ord("C")]]
         )
         attack._print_stage_summary = Mock()
+        attack._validate_stage_zero_generation = Mock(return_value=True)
 
         refresh_states = []
 
@@ -266,6 +274,7 @@ class AttackLossIntegrationTests(unittest.TestCase):
             return_value=[[ord("B"), ord("C")]]
         )
         attack._print_stage_summary = Mock()
+        attack._validate_stage_zero_generation = Mock(return_value=True)
 
         refresh_states = []
 
@@ -359,6 +368,7 @@ class AttackLossIntegrationTests(unittest.TestCase):
                     target_texts=["target"],
                     candidate_trigger_tokens=[ord("B")],
                     stage_index=1,
+                    stage_start=1,
                     stage_end=2,
                     fixed_rollout_candidate_loss=5.0,
                     previous_actual_loss=10.0,
@@ -383,6 +393,143 @@ class AttackLossIntegrationTests(unittest.TestCase):
         self.assertIn("old_rollout_id=1", output.getvalue())
         self.assertIn("candidate_rollout_id=2", output.getvalue())
         self.assertIn("active_rollout_id=1", output.getvalue())
+
+    def test_stage_zero_generation_requires_every_sample_to_match_the_start(self):
+        attack = self.make_attack("self_conditioned_frontier")
+        attack._encode_completion_target = Mock(
+            side_effect=[
+                ([10], [], [20, 21], {}),
+                ([11], [], [30, 31], {}),
+            ]
+        )
+        attack.get_effective_max_len = Mock(return_value=2)
+        attack._greedy_rollout = Mock(
+            side_effect=[
+                [20, 99],
+                [98, 31],
+            ]
+        )
+
+        output = io.StringIO()
+        with redirect_stdout(output):
+            accepted = attack._validate_stage_zero_generation(
+                target_texts=["first", "second"],
+                trigger_tokens=[ord("A")],
+                stage_end=2,
+            )
+
+        self.assertFalse(accepted)
+        self.assertEqual(
+            [call.args[1] for call in attack._greedy_rollout.call_args_list],
+            [2, 2],
+        )
+        self.assertIn(
+            "sample_common_prefix_token_counts=[1, 0]",
+            output.getvalue(),
+        )
+        self.assertIn("later_frontier_allowed=False", output.getvalue())
+
+    def test_self_conditioned_final_chunk_uses_explicit_stage_start(self):
+        attack = self.make_attack("self_conditioned_frontier")
+        attack.anchor_window = 64
+        target_ids = list(range(200))
+        attack._encode_completion_target = Mock(
+            return_value=(
+                [400, 401],
+                [],
+                target_ids,
+                {
+                    "prefix_length": 0,
+                    "trigger_start": 0,
+                    "trigger_end": 1,
+                    "target_start": 2,
+                    "input_length": 202,
+                },
+            )
+        )
+        attack.get_effective_max_len = Mock(return_value=200)
+        rollout_state = {
+            "refresh_id": 1,
+            "samples": [
+                {
+                    "stage_index": 3,
+                    "source": "greedy_generation",
+                    "frontier_start": 192,
+                    "frontier_end": 200,
+                    "generated_prefix_ids": [500] * 192,
+                }
+            ],
+        }
+
+        components = attack._self_conditioned_components(
+            index=0,
+            stage_index=3,
+            stage_start=192,
+            stage_end=200,
+            target_text="target",
+            triggers=[ord("A")],
+            rollout_state=rollout_state,
+        )
+
+        anchor, frontier = components
+        self.assertEqual(anchor["token_count"], 64)
+        self.assertEqual(frontier["metadata"]["loss_start"], 192)
+        self.assertEqual(frontier["metadata"]["loss_end"], 200)
+        self.assertEqual(frontier["token_count"], 8)
+        self.assertEqual(
+            frontier["input_ids"][0, 2:194].tolist(),
+            [500] * 192,
+        )
+        self.assertEqual(
+            frontier["labels"][0, -8:].tolist(),
+            target_ids[192:200],
+        )
+
+    def test_failed_stage_zero_generation_skips_later_frontier(self):
+        attack = self.make_attack("self_conditioned_frontier")
+        attack.hotflip_top_k = 1
+        attack.num_restarts = 1
+        attack.anchor_window = 1
+        attack.frontier_window = 1
+        attack.trigger_token_length = 1
+        attack.trigger_tokens = [ord("A")]
+        attack.model = Mock()
+        attack._encode_completion_target = Mock(
+            return_value=([], [], [ord("x"), ord("y")])
+        )
+        attack.get_effective_max_len = Mock(return_value=2)
+        attack.compute_loss = Mock(return_value=10.0)
+        attack.get_triggers_grad = Mock(return_value=None)
+        attack.hotflip_attack = Mock(return_value=[[]])
+        attack._print_stage_summary = Mock()
+        attack._validate_stage_zero_generation = Mock(return_value=False)
+        attack._refresh_self_conditioned_rollouts = Mock(
+            return_value={
+                "refresh_id": 1,
+                "source_trigger_ids": (ord("A"),),
+            }
+        )
+
+        output = io.StringIO()
+        with redirect_stdout(output):
+            attack.replace_triggers(["target"])
+
+        self.assertEqual(
+            [call.kwargs["stage_index"] for call in
+             attack._refresh_self_conditioned_rollouts.call_args_list],
+            [0],
+        )
+        self.assertEqual(
+            [
+                (call.kwargs["stage_start"], call.kwargs["stage_end"])
+                for call in attack._refresh_self_conditioned_rollouts.call_args_list
+            ],
+            [(0, 1)],
+        )
+        self.assertIn(
+            "stage0_generation_rejected later_frontier_skipped=True",
+            output.getvalue(),
+        )
 
 
 if __name__ == "__main__":

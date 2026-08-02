@@ -37,6 +37,15 @@ def non_negative_float(value):
     return parsed
 
 
+def positive_float(value):
+    parsed = float(value)
+    if not np.isfinite(parsed) or parsed <= 0:
+        raise argparse.ArgumentTypeError(
+            "value must be a finite positive number"
+        )
+    return parsed
+
+
 def refresh_candidate_limit(value):
     parsed = positive_int(value)
     if parsed > 5:
@@ -67,6 +76,7 @@ parser.add_argument(
 parser.add_argument("--max-loss-tokens", type=positive_int, default=300)
 parser.add_argument("--anchor-len", type=non_negative_int, default=64)
 parser.add_argument("--frontier-window", type=non_negative_int, default=64)
+parser.add_argument("--frontier-lambda", type=positive_float, default=1.0)
 parser.add_argument(
     "--improvement-epsilon",
     type=non_negative_float,
@@ -104,6 +114,7 @@ print(
     f"max_loss_tokens={args.max_loss_tokens}, "
     f"anchor_len={args.anchor_len}, "
     f"frontier_window={args.frontier_window}, "
+    f"frontier_lambda={args.frontier_lambda}, "
     f"max_frontier_tokens={args.max_frontier_tokens}, "
     f"improvement_epsilon={args.improvement_epsilon}, "
     f"max_refresh_candidates={args.max_refresh_candidates}"
@@ -120,6 +131,7 @@ attack = HotFlip(
     max_loss_tokens=args.max_loss_tokens,
     anchor_len=args.anchor_len,
     frontier_window=args.frontier_window,
+    frontier_lambda=args.frontier_lambda,
     max_frontier_tokens=args.max_frontier_tokens,
     improvement_epsilon=args.improvement_epsilon,
     max_refresh_candidates=args.max_refresh_candidates,
