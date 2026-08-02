@@ -88,6 +88,33 @@ parser.add_argument(
     default=5,
 )
 parser.add_argument(
+    "--stage0-greedy-candidates",
+    type=non_negative_int,
+    default=5,
+)
+anchor_utility_group = parser.add_mutually_exclusive_group()
+anchor_utility_group.add_argument(
+    "--preserve-anchor-utility",
+    dest="preserve_anchor_utility",
+    action="store_true",
+)
+anchor_utility_group.add_argument(
+    "--no-preserve-anchor-utility",
+    dest="preserve_anchor_utility",
+    action="store_false",
+)
+parser.set_defaults(preserve_anchor_utility=True)
+parser.add_argument(
+    "--anchor-loss-tolerance",
+    type=non_negative_float,
+    default=0.05,
+)
+parser.add_argument(
+    "--anchor-mean-prefix-tolerance",
+    type=non_negative_float,
+    default=0.0,
+)
+parser.add_argument(
     "--max-frontier-tokens",
     type=optional_positive_int,
     default=1000,
@@ -117,7 +144,11 @@ print(
     f"frontier_lambda={args.frontier_lambda}, "
     f"max_frontier_tokens={args.max_frontier_tokens}, "
     f"improvement_epsilon={args.improvement_epsilon}, "
-    f"max_refresh_candidates={args.max_refresh_candidates}"
+    f"max_refresh_candidates={args.max_refresh_candidates}, "
+    f"stage0_greedy_candidates={args.stage0_greedy_candidates}, "
+    f"preserve_anchor_utility={args.preserve_anchor_utility}, "
+    f"anchor_loss_tolerance={args.anchor_loss_tolerance}, "
+    f"anchor_mean_prefix_tolerance={args.anchor_mean_prefix_tolerance}"
 )
 
 dataFactory = DataFactory()
@@ -135,6 +166,10 @@ attack = HotFlip(
     max_frontier_tokens=args.max_frontier_tokens,
     improvement_epsilon=args.improvement_epsilon,
     max_refresh_candidates=args.max_refresh_candidates,
+    stage0_greedy_candidates=args.stage0_greedy_candidates,
+    preserve_anchor_utility=args.preserve_anchor_utility,
+    anchor_loss_tolerance=args.anchor_loss_tolerance,
+    anchor_mean_prefix_tolerance=args.anchor_mean_prefix_tolerance,
 )
 attack.replace_triggers(trainset)
 

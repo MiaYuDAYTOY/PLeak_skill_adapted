@@ -38,6 +38,10 @@ class HotFlip:
         num_restarts=1,
         improvement_epsilon=1e-6,
         max_refresh_candidates=5,
+        stage0_greedy_candidates=5,
+        preserve_anchor_utility=True,
+        anchor_loss_tolerance=0.05,
+        anchor_mean_prefix_tolerance=0.0,
     ):
         if anchor_window is not None:
             anchor_len = anchor_window
@@ -79,6 +83,27 @@ class HotFlip:
             raise ValueError(
                 "max_refresh_candidates must be an integer between 1 and 5"
             )
+        if (
+            isinstance(stage0_greedy_candidates, bool)
+            or not isinstance(stage0_greedy_candidates, int)
+            or stage0_greedy_candidates < 0
+        ):
+            raise ValueError(
+                "stage0_greedy_candidates must be a non-negative integer"
+            )
+        if not isinstance(preserve_anchor_utility, bool):
+            raise ValueError("preserve_anchor_utility must be a boolean")
+        for name, value in (
+            ("anchor_loss_tolerance", anchor_loss_tolerance),
+            ("anchor_mean_prefix_tolerance", anchor_mean_prefix_tolerance),
+        ):
+            if (
+                isinstance(value, bool)
+                or not isinstance(value, (int, float))
+                or not np.isfinite(value)
+                or value < 0
+            ):
+                raise ValueError(f"{name} must be a finite non-negative number")
 
         self.loss_mode = loss_mode
         self.max_loss_tokens = max_loss_tokens
@@ -91,6 +116,12 @@ class HotFlip:
         self.num_restarts = num_restarts
         self.improvement_epsilon = float(improvement_epsilon)
         self.max_refresh_candidates = max_refresh_candidates
+        self.stage0_greedy_candidates = stage0_greedy_candidates
+        self.preserve_anchor_utility = preserve_anchor_utility
+        self.anchor_loss_tolerance = float(anchor_loss_tolerance)
+        self.anchor_mean_prefix_tolerance = float(
+            anchor_mean_prefix_tolerance
+        )
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.target_model = shadow_model
         self.template = TextTemplate(prefix_1='') if template is None else template
@@ -111,6 +142,7 @@ class HotFlip:
         self._last_frontier_grads = None
         self._last_loss_diagnostics = None
         self._rollout_refresh_count = 0
+        self._last_stage0_validation_state = None
 
     def init_triggers(self, trigger_token_length, init_trigger='', user_prefix=''):
         init_tokens = self.tokenizer.encode(init_trigger)
@@ -682,6 +714,7 @@ class HotFlip:
         stage_index=0,
         stage_start=0,
         rollout_state=None,
+        return_diagnostics=False,
     ):
         target_texts = list(target_texts)
         if not target_texts:
@@ -755,6 +788,14 @@ class HotFlip:
                     sample_frontier_grad if sample_frontier_grad is not None else zero_grad
                 )
 
+        loss_diagnostics = {
+            "anchor_loss": component_loss_sums["anchor"],
+            "frontier_loss": component_loss_sums["frontier"],
+            "total_loss": total_loss,
+            "anchor_token_count": component_token_counts["anchor"],
+            "frontier_token_count": component_token_counts["frontier"],
+        }
+
         if require_grad:
             self._last_trigger_grads = torch.cat(total_grads, dim=0)
             self._last_anchor_grads = torch.cat(anchor_grads, dim=0)
@@ -787,12 +828,8 @@ class HotFlip:
 
             averaged_anchor_grad = self._last_anchor_grads.mean(dim=0)
             averaged_frontier_grad = self._last_frontier_grads.mean(dim=0)
-            self._last_loss_diagnostics = {
-                "anchor_loss": component_loss_sums["anchor"],
-                "frontier_loss": component_loss_sums["frontier"],
-                "total_loss": total_loss,
-                "anchor_token_count": component_token_counts["anchor"],
-                "frontier_token_count": component_token_counts["frontier"],
+            loss_diagnostics.update(
+                {
                 "anchor_gradient_norm": float(
                     torch.linalg.vector_norm(averaged_anchor_grad).item()
                 ),
@@ -802,9 +839,13 @@ class HotFlip:
                 "total_trigger_gradient_norm": float(
                     torch.linalg.vector_norm(self._last_trigger_grad).item()
                 ),
-            }
+                }
+            )
+            self._last_loss_diagnostics = loss_diagnostics
             self._log_gradient_diagnostics(metadata_rows)
 
+        if return_diagnostics:
+            return total_loss, loss_diagnostics
         return total_loss
 
     def hotflip_attack(
@@ -879,6 +920,375 @@ class HotFlip:
             count += 1
         return count
 
+    @staticmethod
+    def _stage0_lexicographic_score(common_prefix_counts, anchor_loss):
+        if not common_prefix_counts:
+            raise ValueError("common_prefix_counts must not be empty")
+        mean_common_prefix = sum(common_prefix_counts) / len(
+            common_prefix_counts
+        )
+        return (
+            min(common_prefix_counts),
+            mean_common_prefix,
+            -float(anchor_loss),
+        )
+
+    def _measure_stage0_generation(
+        self,
+        target_texts,
+        trigger_tokens,
+        stage_end,
+    ):
+        samples = []
+        common_prefix_counts = []
+        for index, target_text in enumerate(target_texts):
+            prompt_ids, _, target_ids, _ = self._encode_completion_target(
+                target_text,
+                trigger_tokens,
+                return_metadata=True,
+            )
+            generation_length = min(
+                stage_end,
+                self.get_effective_max_len(len(target_ids)),
+            )
+            generated_prefix = self._greedy_rollout(
+                prompt_ids,
+                generation_length,
+            )
+            gold_prefix = target_ids[:generation_length]
+            common_prefix = self._common_prefix_count(
+                gold_prefix,
+                generated_prefix,
+            )
+            common_prefix_counts.append(common_prefix)
+            samples.append(
+                {
+                    "sample_index": index,
+                    "generation_length": generation_length,
+                    "generated_prefix_ids": generated_prefix,
+                    "gold_prefix_ids": gold_prefix,
+                    "common_prefix_token_count": common_prefix,
+                }
+            )
+
+        if not common_prefix_counts:
+            raise ValueError("target_texts must contain at least one sample")
+        return {
+            "source_trigger_ids": tuple(int(token) for token in trigger_tokens),
+            "common_prefix_counts": common_prefix_counts,
+            "min_common_prefix": min(common_prefix_counts),
+            "mean_common_prefix": (
+                sum(common_prefix_counts) / len(common_prefix_counts)
+            ),
+            "samples": samples,
+        }
+
+    def _compute_anchor_loss(self, target_texts, trigger_tokens):
+        target_texts = list(target_texts)
+        if not target_texts:
+            raise ValueError("target_texts must contain at least one sample")
+
+        anchor_loss = 0.0
+        with torch.no_grad():
+            for index, target_text in enumerate(target_texts):
+                components = self._teacher_forced_components(
+                    index=index,
+                    stage_end=self.anchor_window,
+                    target_text=target_text,
+                    triggers=trigger_tokens,
+                )
+                if len(components) != 1:
+                    raise AssertionError(
+                        "self-conditioned anchor loss must have one component"
+                    )
+                loss, _ = self._forward_component(
+                    components[0],
+                    require_grad=False,
+                )
+                anchor_loss += float(loss.item()) / len(target_texts)
+        return anchor_loss
+
+    def _measure_anchor_utility(
+        self,
+        target_texts,
+        trigger_tokens,
+        generation_state=None,
+        anchor_loss=None,
+    ):
+        trigger_ids = tuple(int(token) for token in trigger_tokens)
+        if generation_state is None:
+            generation_state = self._measure_stage0_generation(
+                target_texts=target_texts,
+                trigger_tokens=trigger_tokens,
+                stage_end=self.anchor_window,
+            )
+        if generation_state["source_trigger_ids"] != trigger_ids:
+            raise AssertionError(
+                "anchor generation state does not match the measured trigger"
+            )
+        if anchor_loss is None:
+            anchor_loss = self._compute_anchor_loss(
+                target_texts,
+                trigger_tokens,
+            )
+        return {
+            "trigger_tokens": [int(token) for token in trigger_tokens],
+            "common_prefix_counts": list(
+                generation_state["common_prefix_counts"]
+            ),
+            "min_common_prefix": generation_state["min_common_prefix"],
+            "mean_common_prefix": generation_state["mean_common_prefix"],
+            "anchor_loss": float(anchor_loss),
+            "generation_state": generation_state,
+        }
+
+    @staticmethod
+    def _anchor_metrics_for_log(anchor_state):
+        return {
+            "common_prefix_counts": anchor_state["common_prefix_counts"],
+            "min_common_prefix": anchor_state["min_common_prefix"],
+            "mean_common_prefix": anchor_state["mean_common_prefix"],
+            "anchor_loss": anchor_state["anchor_loss"],
+        }
+
+    def _anchor_preservation_guard(
+        self,
+        candidate_anchor_state,
+        current_anchor_state,
+        stage0_anchor_baseline,
+    ):
+        rejection_reasons = []
+        if (
+            candidate_anchor_state["min_common_prefix"]
+            < current_anchor_state["min_common_prefix"]
+            or candidate_anchor_state["min_common_prefix"]
+            < stage0_anchor_baseline["min_common_prefix"]
+        ):
+            rejection_reasons.append("anchor_min_prefix_regressed")
+
+        mean_tolerance = self.anchor_mean_prefix_tolerance
+        if (
+            candidate_anchor_state["mean_common_prefix"]
+            < current_anchor_state["mean_common_prefix"] - mean_tolerance
+            or candidate_anchor_state["mean_common_prefix"]
+            < stage0_anchor_baseline["mean_common_prefix"] - mean_tolerance
+        ):
+            rejection_reasons.append("anchor_mean_prefix_regressed")
+
+        loss_multiplier = 1.0 + self.anchor_loss_tolerance
+        if (
+            candidate_anchor_state["anchor_loss"]
+            > current_anchor_state["anchor_loss"] * loss_multiplier
+        ):
+            rejection_reasons.append(
+                "anchor_loss_exceeded_current_tolerance"
+            )
+        if (
+            candidate_anchor_state["anchor_loss"]
+            > stage0_anchor_baseline["anchor_loss"] * loss_multiplier
+        ):
+            rejection_reasons.append(
+                "anchor_loss_exceeded_baseline_tolerance"
+            )
+
+        return not rejection_reasons, rejection_reasons
+
+    def _validate_stage_anchor_and_maybe_rollback(
+        self,
+        target_texts,
+        stage_index,
+        stage_start_checkpoint,
+        stage0_anchor_baseline,
+        rollout_state,
+        stage_loss,
+        loss_diagnostics,
+    ):
+        after_anchor_state = self._measure_anchor_utility(
+            target_texts=target_texts,
+            trigger_tokens=self.trigger_tokens,
+        )
+        passed, rejection_reasons = self._anchor_preservation_guard(
+            candidate_anchor_state=after_anchor_state,
+            current_anchor_state=stage_start_checkpoint["anchor_state"],
+            stage0_anchor_baseline=stage0_anchor_baseline,
+        )
+        before_metrics = self._anchor_metrics_for_log(
+            stage_start_checkpoint["anchor_state"]
+        )
+        after_metrics = self._anchor_metrics_for_log(after_anchor_state)
+        print(
+            "stage_anchor_validation "
+            f"stage={stage_index} "
+            f"before_anchor_metrics={before_metrics} "
+            f"after_anchor_metrics={after_metrics} "
+            f"passed={passed} "
+            f"rollback={not passed} "
+            f"rejection_reason={','.join(rejection_reasons) or 'none'}"
+        )
+
+        if passed:
+            print(
+                "stage_anchor_validation_passed=True "
+                "stage_rollback=False"
+            )
+            return {
+                "passed": True,
+                "rollback": False,
+                "rollout_state": rollout_state,
+                "anchor_state": after_anchor_state,
+                "stage_loss": stage_loss,
+                "loss_diagnostics": loss_diagnostics,
+            }
+
+        self.trigger_tokens = deepcopy(
+            stage_start_checkpoint["trigger_tokens"]
+        )
+        print(
+            "stage_anchor_validation_failed=True "
+            "stage_rollback=True"
+        )
+        return {
+            "passed": False,
+            "rollback": True,
+            "rollout_state": deepcopy(
+                stage_start_checkpoint["rollout_state"]
+            ),
+            "anchor_state": deepcopy(
+                stage_start_checkpoint["anchor_state"]
+            ),
+            "stage_loss": stage_start_checkpoint["stage_loss"],
+            "loss_diagnostics": deepcopy(
+                stage_start_checkpoint["loss_diagnostics"]
+            ),
+        }
+
+    def _select_stage0_greedy_candidate(
+        self,
+        target_texts,
+        stage_end,
+        current_trigger_tokens,
+        current_anchor_loss,
+        current_generation_state,
+        fixed_candidates,
+    ):
+        current_trigger_ids = tuple(
+            int(token) for token in current_trigger_tokens
+        )
+        if (
+            current_generation_state["source_trigger_ids"]
+            != current_trigger_ids
+        ):
+            raise AssertionError(
+                "Stage 0 generation cache does not match the current trigger"
+            )
+        current_counts = current_generation_state["common_prefix_counts"]
+        current_score = self._stage0_lexicographic_score(
+            current_counts,
+            current_anchor_loss,
+        )
+        print(
+            "stage0_current_generation_score "
+            f"current_common_prefix_counts={current_counts} "
+            f"current_min_common_prefix={current_score[0]} "
+            f"current_mean_common_prefix={current_score[1]} "
+            f"current_anchor_loss={current_anchor_loss}"
+        )
+
+        ranked_candidates = sorted(
+            fixed_candidates,
+            key=lambda candidate: candidate["loss"],
+        )
+        shortlist = ranked_candidates[:self.stage0_greedy_candidates]
+        fixed_loss_improvement_count = sum(
+            candidate["loss"] < current_anchor_loss
+            for candidate in ranked_candidates
+        )
+        print(
+            "stage0_candidate_shortlist "
+            f"fixed_loss_improvement_count={fixed_loss_improvement_count} "
+            f"greedy_verification_count={len(shortlist)}"
+        )
+
+        verified_candidates = []
+        for candidate_rank, candidate in enumerate(shortlist, start=1):
+            generation_state = self._measure_stage0_generation(
+                target_texts=target_texts,
+                trigger_tokens=candidate["trigger_tokens"],
+                stage_end=stage_end,
+            )
+            candidate_counts = generation_state["common_prefix_counts"]
+            candidate_score = self._stage0_lexicographic_score(
+                candidate_counts,
+                candidate["loss"],
+            )
+            verified_candidates.append(
+                {
+                    **candidate,
+                    "candidate_rank": candidate_rank,
+                    "generation_state": generation_state,
+                    "score": candidate_score,
+                }
+            )
+
+        best_candidate = (
+            max(
+                verified_candidates,
+                key=lambda candidate: candidate["score"],
+            )
+            if verified_candidates
+            else None
+        )
+        accepted_candidate = (
+            best_candidate
+            if best_candidate is not None
+            and best_candidate["score"] > current_score
+            else None
+        )
+
+        for candidate in verified_candidates:
+            generation_state = candidate["generation_state"]
+            print(
+                "stage0_greedy_candidate "
+                f"candidate_rank={candidate['candidate_rank']} "
+                f"changed_trigger_position={candidate['changed_trigger_position']} "
+                f"candidate_token={candidate['candidate_token']} "
+                f"candidate_common_prefix_counts={generation_state['common_prefix_counts']} "
+                f"candidate_min_common_prefix={candidate['score'][0]} "
+                f"candidate_mean_common_prefix={candidate['score'][1]} "
+                f"candidate_anchor_loss={candidate['loss']} "
+                f"candidate_score={candidate['score']} "
+                f"accepted={candidate is accepted_candidate}"
+            )
+
+        if accepted_candidate is None:
+            print("stage0_no_greedy_improvement=True")
+            return None
+
+        old_common_prefix_score = current_score[:2]
+        new_common_prefix_score = accepted_candidate["score"][:2]
+        common_prefix_improved = (
+            new_common_prefix_score > old_common_prefix_score
+        )
+        loss_tiebreak_used = (
+            new_common_prefix_score == old_common_prefix_score
+            and accepted_candidate["loss"] < current_anchor_loss
+        )
+        accepted_trigger = (
+            self.user_prefix
+            + self._decode_trigger_tokens(
+                accepted_candidate["trigger_tokens"]
+            )
+        )
+        print(
+            "stage0_greedy_accept "
+            f"old_score={current_score} "
+            f"new_score={accepted_candidate['score']} "
+            f"common_prefix_improved={common_prefix_improved} "
+            f"loss_tiebreak_used={loss_tiebreak_used} "
+            f"trigger={accepted_trigger!r}"
+        )
+        return accepted_candidate
+
     def _validate_stage_zero_generation(
         self,
         target_texts,
@@ -886,44 +1296,34 @@ class HotFlip:
         stage_end,
     ):
         """Require a real greedy match at the start before frontier search."""
-        common_prefix_counts = []
         print(
             "stage0_generation_validation "
             "strategy=greedy do_sample=False "
             "required_common_prefix_tokens=1"
         )
+        generation_state = self._measure_stage0_generation(
+            target_texts=target_texts,
+            trigger_tokens=trigger_tokens,
+            stage_end=stage_end,
+        )
+        self._last_stage0_validation_state = generation_state
 
-        for index, target_text in enumerate(target_texts):
-            prompt_ids, _, target_ids, _ = self._encode_completion_target(
-                target_text,
-                trigger_tokens,
-                return_metadata=True,
-            )
-            validation_length = min(
-                stage_end,
-                self.get_effective_max_len(len(target_ids)),
-            )
-            generated_prefix = self._greedy_rollout(
-                prompt_ids,
-                validation_length,
-            )
-            gold_prefix = target_ids[:validation_length]
-            common_prefix = self._common_prefix_count(
-                gold_prefix,
-                generated_prefix,
-            )
-            common_prefix_counts.append(common_prefix)
+        for sample in generation_state["samples"]:
+            common_prefix = sample["common_prefix_token_count"]
+            generated_prefix = sample["generated_prefix_ids"]
+            gold_prefix = sample["gold_prefix_ids"]
             print(
                 "stage0_generation_sample "
-                f"sample={index} "
-                f"validation_length={validation_length} "
+                f"sample={sample['sample_index']} "
+                f"validation_length={sample['generation_length']} "
                 f"common_prefix_token_count={common_prefix} "
                 f"passed={common_prefix >= 1} "
                 f"generated_prefix={self._decode_token_preview(generated_prefix)!r} "
                 f"gold_prefix={self._decode_token_preview(gold_prefix)!r}"
             )
 
-        passed = all(count >= 1 for count in common_prefix_counts)
+        common_prefix_counts = generation_state["common_prefix_counts"]
+        passed = generation_state["min_common_prefix"] >= 1
         print(
             "stage0_generation_acceptance "
             f"passed={passed} "
@@ -1016,11 +1416,23 @@ class HotFlip:
         fixed_rollout_candidate_loss,
         previous_actual_loss,
         rollout_state,
+        stage0_anchor_baseline=None,
+        current_anchor_state=None,
+        candidate_rank=None,
     ):
         if self.loss_mode != "self_conditioned_frontier":
             raise AssertionError(
                 "candidate-specific rollout evaluation is only valid for "
                 "self_conditioned_frontier"
+            )
+        anchor_guard_enabled = (
+            self.preserve_anchor_utility and stage_index > 0
+        )
+        if anchor_guard_enabled and (
+            stage0_anchor_baseline is None or current_anchor_state is None
+        ):
+            raise AssertionError(
+                "Stage > 0 anchor guard requires baseline and current metrics"
             )
 
         previous_trigger_tokens = deepcopy(self.trigger_tokens)
@@ -1049,19 +1461,79 @@ class HotFlip:
             )
 
         with torch.no_grad():
-            refreshed_candidate_loss = self.compute_loss(
-                target_texts,
-                candidate_trigger_tokens,
-                stage_end,
-                require_grad=False,
-                stage_index=stage_index,
-                stage_start=stage_start,
-                rollout_state=candidate_rollout_state,
-            )
-        accepted_after_refresh = (
+            if anchor_guard_enabled:
+                (
+                    refreshed_candidate_loss,
+                    candidate_loss_diagnostics,
+                ) = self.compute_loss(
+                    target_texts,
+                    candidate_trigger_tokens,
+                    stage_end,
+                    require_grad=False,
+                    stage_index=stage_index,
+                    stage_start=stage_start,
+                    rollout_state=candidate_rollout_state,
+                    return_diagnostics=True,
+                )
+            else:
+                refreshed_candidate_loss = self.compute_loss(
+                    target_texts,
+                    candidate_trigger_tokens,
+                    stage_end,
+                    require_grad=False,
+                    stage_index=stage_index,
+                    stage_start=stage_start,
+                    rollout_state=candidate_rollout_state,
+                )
+                candidate_loss_diagnostics = None
+
+        total_loss_improved = (
             refreshed_candidate_loss
             < previous_actual_loss - self.improvement_epsilon
         )
+        anchor_preserved = True
+        rejection_reasons = []
+        candidate_anchor_state = None
+        if anchor_guard_enabled:
+            candidate_anchor_state = self._measure_anchor_utility(
+                target_texts=target_texts,
+                trigger_tokens=candidate_trigger_tokens,
+                anchor_loss=candidate_loss_diagnostics["anchor_loss"],
+            )
+            anchor_preserved, rejection_reasons = (
+                self._anchor_preservation_guard(
+                    candidate_anchor_state=candidate_anchor_state,
+                    current_anchor_state=current_anchor_state,
+                    stage0_anchor_baseline=stage0_anchor_baseline,
+                )
+            )
+            if not total_loss_improved:
+                rejection_reasons.append("frontier_not_improved")
+            print(
+                "candidate_anchor_guard "
+                f"stage={stage_index} "
+                f"candidate_rank={candidate_rank} "
+                f"candidate_anchor_common_prefix_counts={candidate_anchor_state['common_prefix_counts']} "
+                f"candidate_anchor_min_common_prefix={candidate_anchor_state['min_common_prefix']} "
+                f"candidate_anchor_mean_common_prefix={candidate_anchor_state['mean_common_prefix']} "
+                f"candidate_anchor_loss={candidate_anchor_state['anchor_loss']} "
+                f"current_anchor_min_common_prefix={current_anchor_state['min_common_prefix']} "
+                f"current_anchor_mean_common_prefix={current_anchor_state['mean_common_prefix']} "
+                f"current_anchor_loss={current_anchor_state['anchor_loss']} "
+                f"baseline_anchor_min_common_prefix={stage0_anchor_baseline['min_common_prefix']} "
+                f"baseline_anchor_mean_common_prefix={stage0_anchor_baseline['mean_common_prefix']} "
+                f"baseline_anchor_loss={stage0_anchor_baseline['anchor_loss']} "
+                f"anchor_preserved={anchor_preserved} "
+                f"rejection_reason={','.join(rejection_reasons) or 'none'}"
+            )
+            candidate_rollout_state["anchor_utility"] = (
+                candidate_anchor_state
+            )
+            candidate_rollout_state["loss_diagnostics"] = (
+                candidate_loss_diagnostics
+            )
+
+        accepted_after_refresh = total_loss_improved and anchor_preserved
 
         if accepted_after_refresh:
             self.trigger_tokens = deepcopy(candidate_trigger_tokens)
@@ -1077,6 +1549,8 @@ class HotFlip:
                 )
             rollback = False
             active_loss = refreshed_candidate_loss
+            if anchor_guard_enabled:
+                print("candidate_accepted_with_anchor_preserved=True")
         else:
             self.trigger_tokens = previous_trigger_tokens
             rollout_state = previous_rollout_state
@@ -1209,11 +1683,17 @@ class HotFlip:
             f"hotflip_top_k={self.hotflip_top_k}, "
             f"num_restarts={self.num_restarts}, "
             f"improvement_epsilon={self.improvement_epsilon}, "
-            f"max_refresh_candidates={self.max_refresh_candidates}"
+            f"max_refresh_candidates={self.max_refresh_candidates}, "
+            f"stage0_greedy_candidates={self.stage0_greedy_candidates}, "
+            f"preserve_anchor_utility={self.preserve_anchor_utility}, "
+            f"anchor_loss_tolerance={self.anchor_loss_tolerance}, "
+            f"anchor_mean_prefix_tolerance={self.anchor_mean_prefix_tolerance}"
         )
 
         best_restart_loss = float("inf")
         best_restart_tokens = deepcopy(self.trigger_tokens)
+        best_safe_loss = float("inf")
+        best_safe_trigger = None
         initial_trigger_tokens = deepcopy(self.trigger_tokens)
 
         for restart_index in range(self.num_restarts):
@@ -1242,6 +1722,9 @@ class HotFlip:
             )
             self.max_len = effective_max_len
             final_loss = float("inf")
+            stage0_anchor_baseline = None
+            restart_best_safe_trigger = None
+            restart_best_safe_loss = float("inf")
             if self.loss_mode == "self_conditioned_frontier":
                 stage_ranges = iter_stage_ranges(
                     init_step=self.anchor_window,
@@ -1270,6 +1753,71 @@ class HotFlip:
                         reason="stage_start",
                     )
 
+                current_anchor_state = None
+                current_loss_diagnostics = None
+                stage_start_checkpoint = None
+                stage_best_safe_loss = float("inf")
+                if (
+                    self.loss_mode == "self_conditioned_frontier"
+                    and idx_loss > 0
+                    and self.preserve_anchor_utility
+                ):
+                    if stage0_anchor_baseline is None:
+                        raise AssertionError(
+                            "Stage > 0 requires a saved Stage 0 anchor baseline"
+                        )
+                    with torch.no_grad():
+                        (
+                            checkpoint_stage_loss,
+                            current_loss_diagnostics,
+                        ) = self.compute_loss(
+                            target_texts,
+                            self.trigger_tokens,
+                            stage_end,
+                            require_grad=False,
+                            stage_index=idx_loss,
+                            stage_start=stage_start,
+                            rollout_state=rollout_state,
+                            return_diagnostics=True,
+                        )
+                    current_anchor_state = self._measure_anchor_utility(
+                        target_texts=target_texts,
+                        trigger_tokens=self.trigger_tokens,
+                        anchor_loss=current_loss_diagnostics["anchor_loss"],
+                    )
+                    restart_best_safe_trigger = deepcopy(
+                        self.trigger_tokens
+                    )
+                    restart_best_safe_loss = checkpoint_stage_loss
+                    stage_best_safe_loss = checkpoint_stage_loss
+                    stage_start_checkpoint = {
+                        "trigger_tokens": deepcopy(self.trigger_tokens),
+                        "anchor_state": deepcopy(current_anchor_state),
+                        "rollout_state": deepcopy(rollout_state),
+                        "stage_loss": checkpoint_stage_loss,
+                        "frontier_loss": current_loss_diagnostics[
+                            "frontier_loss"
+                        ],
+                        "loss_diagnostics": deepcopy(
+                            current_loss_diagnostics
+                        ),
+                        "best_safe_trigger": deepcopy(
+                            restart_best_safe_trigger
+                        ),
+                        "best_safe_loss": restart_best_safe_loss,
+                    }
+                    print(
+                        "stage_anchor_checkpoint "
+                        f"stage={idx_loss} "
+                        f"anchor_common_prefix_counts={current_anchor_state['common_prefix_counts']} "
+                        f"anchor_min_common_prefix={current_anchor_state['min_common_prefix']} "
+                        f"anchor_mean_common_prefix={current_anchor_state['mean_common_prefix']} "
+                        f"anchor_loss={current_anchor_state['anchor_loss']} "
+                        f"stage_loss={checkpoint_stage_loss} "
+                        f"frontier_loss={current_loss_diagnostics['frontier_loss']}"
+                    )
+
+                stage0_generation_state = None
                 token_flipped = True
                 while token_flipped:
                     token_flipped = False
@@ -1290,6 +1838,28 @@ class HotFlip:
                         f"triggers:{self.decode_triggers()}"
                     )
 
+                    stage0_greedy_enabled = (
+                        self.loss_mode == "self_conditioned_frontier"
+                        and idx_loss == 0
+                        and self.stage0_greedy_candidates > 0
+                    )
+                    if stage0_greedy_enabled:
+                        current_trigger_ids = tuple(
+                            int(token) for token in self.trigger_tokens
+                        )
+                        if (
+                            stage0_generation_state is None
+                            or stage0_generation_state["source_trigger_ids"]
+                            != current_trigger_ids
+                        ):
+                            stage0_generation_state = (
+                                self._measure_stage0_generation(
+                                    target_texts=target_texts,
+                                    trigger_tokens=self.trigger_tokens,
+                                    stage_end=stage_end,
+                                )
+                            )
+
                     candidates = self.hotflip_attack(
                         self.get_triggers_grad(),
                         num_candidates=self.hotflip_top_k,
@@ -1299,6 +1869,11 @@ class HotFlip:
                     for i, token_to_flip in enumerate(self.trigger_tokens):
                         for cand in candidates[i]:
                             cand_id = int(cand)
+                            if (
+                                stage0_greedy_enabled
+                                and cand_id == int(token_to_flip)
+                            ):
+                                continue
                             cand_text = self.tokenizer.decode([cand_id])
                             if re.search(r"[^a-zA-Z0-9s\s]", cand_text):
                                 continue
@@ -1323,7 +1898,18 @@ class HotFlip:
                                     rollout_state=rollout_state,
                                 )
                             if self.loss_mode == "self_conditioned_frontier":
-                                if loss < previous_actual_loss:
+                                if stage0_greedy_enabled:
+                                    fixed_rollout_candidates.append(
+                                        {
+                                            "loss": loss,
+                                            "trigger_tokens": deepcopy(
+                                                candidate_trigger_tokens
+                                            ),
+                                            "changed_trigger_position": i,
+                                            "candidate_token": cand_id,
+                                        }
+                                    )
+                                elif loss < previous_actual_loss:
                                     fixed_rollout_candidates.append(
                                         {
                                             "loss": loss,
@@ -1341,7 +1927,29 @@ class HotFlip:
                                 candidate_trigger_tokens
                             )
 
-                    if self.loss_mode == "self_conditioned_frontier":
+                    if stage0_greedy_enabled:
+                        accepted_candidate = (
+                            self._select_stage0_greedy_candidate(
+                                target_texts=target_texts,
+                                stage_end=stage_end,
+                                current_trigger_tokens=self.trigger_tokens,
+                                current_anchor_loss=previous_actual_loss,
+                                current_generation_state=(
+                                    stage0_generation_state
+                                ),
+                                fixed_candidates=fixed_rollout_candidates,
+                            )
+                        )
+                        if accepted_candidate is not None:
+                            self.trigger_tokens = deepcopy(
+                                accepted_candidate["trigger_tokens"]
+                            )
+                            best_loss = accepted_candidate["loss"]
+                            stage0_generation_state = (
+                                accepted_candidate["generation_state"]
+                            )
+                            token_flipped = True
+                    elif self.loss_mode == "self_conditioned_frontier":
                         ranked_fixed_candidates = sorted(
                             fixed_rollout_candidates,
                             key=lambda candidate: candidate["loss"],
@@ -1354,7 +1962,10 @@ class HotFlip:
                             f"fixed_improvement_count={len(ranked_fixed_candidates)} "
                             f"verification_count={len(refresh_candidates)}"
                         )
-                        for fixed_candidate in refresh_candidates:
+                        for candidate_rank, fixed_candidate in enumerate(
+                            refresh_candidates,
+                            start=1,
+                        ):
                             accepted, best_loss, rollout_state = (
                                 self._evaluate_self_conditioned_candidate(
                                     target_texts=target_texts,
@@ -1369,9 +1980,30 @@ class HotFlip:
                                     ),
                                     previous_actual_loss=previous_actual_loss,
                                     rollout_state=rollout_state,
+                                    stage0_anchor_baseline=(
+                                        stage0_anchor_baseline
+                                    ),
+                                    current_anchor_state=current_anchor_state,
+                                    candidate_rank=candidate_rank,
                                 )
                             )
                             if accepted:
+                                if (
+                                    idx_loss > 0
+                                    and self.preserve_anchor_utility
+                                ):
+                                    current_anchor_state = deepcopy(
+                                        rollout_state["anchor_utility"]
+                                    )
+                                    current_loss_diagnostics = deepcopy(
+                                        rollout_state["loss_diagnostics"]
+                                    )
+                                    if best_loss < stage_best_safe_loss:
+                                        stage_best_safe_loss = best_loss
+                                        restart_best_safe_loss = best_loss
+                                        restart_best_safe_trigger = deepcopy(
+                                            self.trigger_tokens
+                                        )
                                 token_flipped = True
                                 break
                     elif token_flipped:
@@ -1383,14 +2015,57 @@ class HotFlip:
                             f"triggers:{self.decode_triggers()}"
                         )
                         if self.loss_mode == "self_conditioned_frontier":
-                            print(
-                                "accepted_flip "
-                                f"stage={idx_loss} "
-                                f"rollout_refreshed=True "
-                                f"refresh_id={rollout_state['refresh_id']}"
-                            )
+                            if stage0_greedy_enabled:
+                                print(
+                                    "accepted_flip "
+                                    f"stage={idx_loss} "
+                                    "rollout_refreshed=False "
+                                    "stage0_generation_cache_updated=True"
+                                )
+                            else:
+                                print(
+                                    "accepted_flip "
+                                    f"stage={idx_loss} "
+                                    f"rollout_refreshed=True "
+                                    f"refresh_id={rollout_state['refresh_id']}"
+                                )
                     else:
                         print("\nNo improvement, ending iteration")
+
+                if (
+                    self.loss_mode == "self_conditioned_frontier"
+                    and idx_loss > 0
+                    and self.preserve_anchor_utility
+                ):
+                    stage_validation = (
+                        self._validate_stage_anchor_and_maybe_rollback(
+                            target_texts=target_texts,
+                            stage_index=idx_loss,
+                            stage_start_checkpoint=stage_start_checkpoint,
+                            stage0_anchor_baseline=stage0_anchor_baseline,
+                            rollout_state=rollout_state,
+                            stage_loss=best_loss,
+                            loss_diagnostics=current_loss_diagnostics,
+                        )
+                    )
+                    rollout_state = stage_validation["rollout_state"]
+                    current_anchor_state = stage_validation["anchor_state"]
+                    current_loss_diagnostics = stage_validation[
+                        "loss_diagnostics"
+                    ]
+                    best_loss = stage_validation["stage_loss"]
+                    if stage_validation["rollback"]:
+                        restart_best_safe_trigger = deepcopy(
+                            stage_start_checkpoint["best_safe_trigger"]
+                        )
+                        restart_best_safe_loss = stage_start_checkpoint[
+                            "best_safe_loss"
+                        ]
+                    else:
+                        restart_best_safe_trigger = deepcopy(
+                            self.trigger_tokens
+                        )
+                        restart_best_safe_loss = best_loss
 
                 final_loss = best_loss
                 self._print_stage_summary(
@@ -1404,17 +2079,43 @@ class HotFlip:
                 if (
                     self.loss_mode == "self_conditioned_frontier"
                     and idx_loss == 0
-                    and not self._validate_stage_zero_generation(
+                ):
+                    stage0_validation_passed = (
+                        self._validate_stage_zero_generation(
                         target_texts=target_texts,
                         trigger_tokens=self.trigger_tokens,
                         stage_end=stage_end,
                     )
-                ):
-                    print(
-                        "stage0_generation_rejected "
-                        "later_frontier_skipped=True"
                     )
-                    break
+                    if not stage0_validation_passed:
+                        print(
+                            "stage0_generation_rejected "
+                            "later_frontier_skipped=True"
+                        )
+                        break
+                    if self.preserve_anchor_utility:
+                        stage0_anchor_baseline = (
+                            self._measure_anchor_utility(
+                                target_texts=target_texts,
+                                trigger_tokens=self.trigger_tokens,
+                                generation_state=(
+                                    self._last_stage0_validation_state
+                                ),
+                                anchor_loss=best_loss,
+                            )
+                        )
+                        restart_best_safe_trigger = deepcopy(
+                            self.trigger_tokens
+                        )
+                        restart_best_safe_loss = best_loss
+                        print(
+                            "anchor_baseline_saved "
+                            f"anchor_baseline_common_prefix_counts={stage0_anchor_baseline['common_prefix_counts']} "
+                            f"anchor_baseline_min_common_prefix={stage0_anchor_baseline['min_common_prefix']} "
+                            f"anchor_baseline_mean_common_prefix={stage0_anchor_baseline['mean_common_prefix']} "
+                            f"anchor_baseline_loss={stage0_anchor_baseline['anchor_loss']} "
+                            f"anchor_baseline_trigger={self.decode_triggers()!r}"
+                        )
 
             print(
                 f"restart_summary restart={restart_index} "
@@ -1424,9 +2125,26 @@ class HotFlip:
             if final_loss < best_restart_loss:
                 best_restart_loss = final_loss
                 best_restart_tokens = deepcopy(self.trigger_tokens)
+            if (
+                self.preserve_anchor_utility
+                and restart_best_safe_trigger is not None
+                and restart_best_safe_loss < best_safe_loss
+            ):
+                best_safe_loss = restart_best_safe_loss
+                best_safe_trigger = deepcopy(restart_best_safe_trigger)
 
-        self.trigger_tokens = deepcopy(best_restart_tokens)
+        if self.preserve_anchor_utility and best_safe_trigger is not None:
+            self.trigger_tokens = deepcopy(best_safe_trigger)
+            selected_loss = best_safe_loss
+            selected_kind = "best_safe_trigger"
+        else:
+            self.trigger_tokens = deepcopy(best_restart_tokens)
+            selected_loss = best_restart_loss
+            selected_kind = "best_restart_trigger"
         print(
             f"best_restart_loss={best_restart_loss} "
+            f"best_safe_loss={best_safe_loss} "
+            f"selected_trigger_kind={selected_kind} "
+            f"selected_loss={selected_loss} "
             f"best_trigger={self.decode_triggers()!r}"
         )
