@@ -5,11 +5,11 @@ from DataFactory import DataFactory
 from Sampler import Sampler
 
 
-DATASET = "Samples"
+DATASET = "webtesting"
 TOKEN_LENGTH = 12
 SHADOW_MODEL = "llama"
 TARGET_MODEL = "llama"
-TRAIN_NUM = 3
+TRAIN_NUM = 16
 
 result_stem = (
     f"{DATASET}_{TOKEN_LENGTH}_{SHADOW_MODEL}_"

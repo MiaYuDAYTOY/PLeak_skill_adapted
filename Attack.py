@@ -61,27 +61,7 @@ class HotFlip:
         )
 
     def get_embedding_weight(self):
-        for module in self.model.modules():
-            if not isinstance(module, torch.nn.Embedding): continue
-            if module.weight.shape[0] != self.vocab_size: continue
-            module.weight.requires_grad = True
-            return module.weight.detach()
-
-    def get_triggers_grad(self):
-        for module in self.model.modules():
-            if not isinstance(module, torch.nn.Embedding):
-                continue
-            if module.weight.shape[0] != self.vocab_size:
-                continue
-
-            trigger_indices = torch.as_tensor(
-                self.trigger_tokens,
-                dtype=torch.long,
-                device=module.weight.grad.device,
-            )
-            return module.weight.grad.index_select(0, trigger_indices)
-
-        raise RuntimeError("Cannot find the token embedding layer.")
+        return self.model.get_input_embeddings().weight.detach()
 
     def _decode_trigger_tokens(self, trigger_tokens):
         """Decode IDs without changing them at the prompt boundary."""
@@ -150,8 +130,9 @@ class HotFlip:
         )
         trigger_ids = [int(token_id) for token_id in triggers]
         trigger_start = len(before_trigger_ids)
+        trigger_end = trigger_start + len(trigger_ids)
         actual_trigger_ids = prompt_ids[
-            trigger_start:trigger_start + len(trigger_ids)
+            trigger_start:trigger_end
         ]
         if actual_trigger_ids != trigger_ids:
             raise ValueError(
@@ -173,7 +154,7 @@ class HotFlip:
         encoded_text = full_ids[:len(encoded_label)]
         label = torch.tensor([encoded_label], device=self.device, dtype=torch.long)
         lm_input= torch.tensor([encoded_text], device=self.device, dtype=torch.long)
-        return lm_input, label
+        return lm_input, label, trigger_start, trigger_end
 
     def make_target_chat(self, index, idx_loss, target_text, triggers):
         target = [
@@ -216,13 +197,35 @@ class HotFlip:
 
     def compute_loss(self, target_texts, trigger_tokens, idx_loss,  require_grad=False):
         total_loss = 0
+        trigger_grad = None
         for index, text in enumerate(target_texts):
-            lm_input, label = self.make_target(index, idx_loss, text, trigger_tokens) 
-            loss = self.model(lm_input, labels=label)[0]/len(target_texts)
+            lm_input, label, trigger_start, trigger_end = self.make_target(
+                index,
+                idx_loss,
+                text,
+                trigger_tokens,
+            )
             if require_grad:
+                inputs_embeds = self.model.get_input_embeddings()(lm_input).detach()
+                inputs_embeds.requires_grad_(True)
+                loss = self.model(
+                    inputs_embeds=inputs_embeds,
+                    labels=label,
+                )[0]/len(target_texts)
                 loss.backward()
+                sample_trigger_grad = inputs_embeds.grad[
+                    0,
+                    trigger_start:trigger_end,
+                    :,
+                ].detach()
+                if trigger_grad is None:
+                    trigger_grad = sample_trigger_grad
+                else:
+                    trigger_grad += sample_trigger_grad
+            else:
+                loss = self.model(lm_input, labels=label)[0]/len(target_texts)
             total_loss += loss.item()
-        return total_loss
+        return total_loss, trigger_grad
 
     def hotflip_attack(self, averaged_grad, increase_loss=False, num_candidates=30):
         averaged_grad = averaged_grad
@@ -244,11 +247,16 @@ class HotFlip:
                 token_flipped = False
                 with torch.set_grad_enabled(True):
                     self.model.zero_grad()
-                    best_loss = self.compute_loss(target_texts, self.trigger_tokens, idx_loss, require_grad=True)
+                    best_loss, trigger_grad = self.compute_loss(
+                        target_texts,
+                        self.trigger_tokens,
+                        idx_loss,
+                        require_grad=True,
+                    )
                 print(f"current loss:{best_loss}, triggers:{self.decode_triggers()}")
                 
                 
-                candidates = self.hotflip_attack(self.get_triggers_grad(), num_candidates=30)
+                candidates = self.hotflip_attack(trigger_grad, num_candidates=30)
                 best_trigger_tokens = deepcopy(self.trigger_tokens)
                 for i, token_to_flip in enumerate(self.trigger_tokens):
                     for cand in candidates[i]:
@@ -268,7 +276,12 @@ class HotFlip:
 
                         self.model.zero_grad()
                         with torch.no_grad():
-                            loss = self.compute_loss(target_texts, candidate_trigger_tokens, idx_loss, require_grad=False)
+                            loss, _ = self.compute_loss(
+                                target_texts,
+                                candidate_trigger_tokens,
+                                idx_loss,
+                                require_grad=False,
+                            )
                         if best_loss <= loss: continue
                         token_flipped = True
                         best_loss = loss
