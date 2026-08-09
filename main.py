@@ -34,7 +34,8 @@ triggers = attack.decode_triggers()
 trigger_token_ids = [int(token_id) for token_id in attack.trigger_tokens]
 
 os.makedirs('results', exist_ok=True)
-result_stem = f'{dataset}_{token_length}_{shadow_model}_{target_model}_{train_num}'
+#result_stem = f'{dataset}_{token_length}_{shadow_model}_{target_model}_{train_num}'
+result_stem = (f'{dataset}_{token_length}_{shadow_model}_{target_model}_{train_num}_target_prefix8')
 trigger_ids_path = f'results/{result_stem}.trigger_ids.json'
 with open(trigger_ids_path, 'w', encoding='utf-8') as file:
     json.dump(trigger_token_ids, file)

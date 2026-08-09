@@ -12,8 +12,7 @@ TARGET_MODEL = "llama"
 TRAIN_NUM = 16
 
 result_stem = (
-    f"{DATASET}_{TOKEN_LENGTH}_{SHADOW_MODEL}_"
-    f"{TARGET_MODEL}_{TRAIN_NUM}"
+    f'{DATASET}_{TOKEN_LENGTH}_{SHADOW_MODEL}_{TARGET_MODEL}_{TRAIN_NUM}_target_prefix8'
 )
 result_path = f"results/{result_stem}.csv"
 trigger_ids_path = f"results/{result_stem}.trigger_ids.json"

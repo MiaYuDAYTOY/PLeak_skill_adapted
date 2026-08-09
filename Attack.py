@@ -138,25 +138,36 @@ class HotFlip:
             raise ValueError(
                 "训练输入中的 trigger token IDs 与待优化 IDs 不一致"
             )
+        #a
+            encoded_target = full_ids[len(prompt_ids):]
+            len_non_label = len(prompt_ids)
+            max_len = len(encoded_target)
+            if max_len > self.max_len: self.max_len = max_len
+
+            label_slice = self.init_step + idx_loss * self.step
+
+            if label_slice > self.max_len:
+                encoded_label = [-100]*len_non_label + encoded_target
+            else:
+                encoded_label = [-100]*len_non_label + encoded_target[:label_slice]
 
         encoded_target = full_ids[len(prompt_ids):]
         len_non_label = len(prompt_ids)
-        max_len = len(encoded_target)
-        if max_len > self.max_len: self.max_len = max_len
 
-        label_slice = self.init_step + idx_loss * self.step
+        #只对前 8 个 token
+        target_prefix = encoded_target[:8]
 
-        if label_slice > self.max_len:
-            encoded_label = [-100]*len_non_label + encoded_target
-        else:
-            encoded_label = [-100]*len_non_label + encoded_target[:label_slice]
+        encoded_label = (
+            [-100] * len_non_label
+            + target_prefix
+        )
 
         encoded_text = full_ids[:len(encoded_label)]
         label = torch.tensor([encoded_label], device=self.device, dtype=torch.long)
         lm_input= torch.tensor([encoded_text], device=self.device, dtype=torch.long)
         return lm_input, label, trigger_start, trigger_end
 
-    def make_target_chat(self, index, idx_loss, target_text, triggers):
+    #def make_target_chat(self, index, idx_loss, target_text, triggers):
         target = [
                 {"role": "system", "content": target_text},
                 {"role": "user", "content": self.tokenizer.decode(triggers)},
@@ -174,7 +185,7 @@ class HotFlip:
         lm_input= torch.tensor([target], device=self.device, dtype=torch.long)
         return lm_input, label
 
-    def make_adaptive_chat(self, index, idx_loss, target_text, triggers):
+    #def make_adaptive_chat(self, index, idx_loss, target_text, triggers):
         text = target_text.split('\n')[::-1]
         text = " ".join(text)
         target = [
@@ -239,9 +250,12 @@ class HotFlip:
 
     def replace_triggers(self, target_texts):
         print(f"init_triggers:{self.decode_triggers()}")
-        self.max_len = self.step+10
+        #self.max_len = self.step+10
+        #idx_loss = 0
+        #while idx_loss <= self.max_len//self.step:
+        self.max_len = 8
         idx_loss = 0
-        while idx_loss <= self.max_len//self.step:
+        while idx_loss < 1:
             token_flipped = True
             while token_flipped:
                 token_flipped = False
