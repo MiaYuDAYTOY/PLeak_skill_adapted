@@ -1,0 +1,39 @@
+
+libgomp: Invalid value for environment variable OMP_NUM_THREADS
+/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+
+libgomp: Invalid value for environment variable OMP_NUM_THREADS
+config.json:   0%|          | 0.00/609 [00:00<?, ?B/s]config.json: 100%|██████████| 609/609 [00:00<00:00, 3.37MB/s]
+model.safetensors.index.json: 0.00B [00:00, ?B/s]model.safetensors.index.json: 26.8kB [00:00, 6.68MB/s]
+Downloading shards:   0%|          | 0/2 [00:00<?, ?it/s]
+model-00001-of-00002.safetensors:   0%|          | 0.00/9.98G [00:00<?, ?B/s][A
+model-00001-of-00002.safetensors:   0%|          | 10.5M/9.98G [00:05<1:22:44, 2.01MB/s][A
+model-00001-of-00002.safetensors:   0%|          | 21.0M/9.98G [00:08<1:05:57, 2.52MB/s][A
+model-00001-of-00002.safetensors:   0%|          | 31.5M/9.98G [00:13<1:08:54, 2.41MB/s][A
+model-00001-of-00002.safetensors:   0%|          | 41.9M/9.98G [00:17<1:05:46, 2.52MB/s][A
+model-00001-of-00002.safetensors:   1%|          | 52.4M/9.98G [00:21<1:05:18, 2.53MB/s][A
+model-00001-of-00002.safetensors:   1%|          | 62.9M/9.98G [00:24<1:01:30, 2.69MB/s][A
+model-00001-of-00002.safetensors:   1%|          | 73.4M/9.98G [00:27<57:19, 2.88MB/s]  [A
+model-00001-of-00002.safetensors:   1%|          | 83.9M/9.98G [00:31<55:48, 2.95MB/s][A
+model-00001-of-00002.safetensors:   1%|          | 94.4M/9.98G [00:35<1:02:08, 2.65MB/s][A
+model-00001-of-00002.safetensors:   1%|          | 105M/9.98G [00:40<1:03:03, 2.61MB/s] [A
+model-00001-of-00002.safetensors:   1%|          | 115M/9.98G [00:45<1:08:08, 2.41MB/s][A
+model-00001-of-00002.safetensors:   1%|▏         | 126M/9.98G [00:49<1:05:39, 2.50MB/s][A
+model-00001-of-00002.safetensors:   1%|▏         | 136M/9.98G [00:53<1:08:04, 2.41MB/s][A
+model-00001-of-00002.safetensors:   1%|▏         | 147M/9.98G [00:58<1:12:02, 2.27MB/s][A
+model-00001-of-00002.safetensors:   2%|▏         | 157M/9.98G [01:04<1:14:07, 2.21MB/s][A
+model-00001-of-00002.safetensors:   2%|▏         | 168M/9.98G [01:08<1:13:37, 2.22MB/s][A
+model-00001-of-00002.safetensors:   2%|▏         | 178M/9.98G [01:10<1:01:32, 2.65MB/s][A
+model-00001-of-00002.safetensors:   2%|▏         | 189M/9.98G [01:12<52:37, 3.10MB/s]  [A
+model-00001-of-00002.safetensors:   2%|▏         | 199M/9.98G [01:14<45:20, 3.59MB/s][A
+model-00001-of-00002.safetensors:   2%|▏         | 210M/9.98G [01:17<43:40, 3.73MB/s][A
+model-00001-of-00002.safetensors:   2%|▏         | 220M/9.98G [01:19<40:10, 4.05MB/s][A
+model-00001-of-00002.safetensors:   2%|▏         | 231M/9.98G [01:21<39:15, 4.14MB/s][A
+model-00001-of-00002.safetensors:   2%|▏         | 241M/9.98G [01:23<36:52, 4.40MB/s][A
+model-00001-of-00002.safetensors:   3%|▎         | 252M/9.98G [01:26<36:30, 4.44MB/s][A
+model-00001-of-00002.safetensors:   3%|▎         | 262M/9.98G [01:28<37:11, 4.35MB/s][A
+model-00001-of-00002.safetensors:   3%|▎         | 273M/9.98G [01:31<40:19, 4.01MB/s][A
+model-00001-of-00002.safetensors:   3%|▎         | 283M/9.98G [01:34<41:19, 3.91MB/s][A
