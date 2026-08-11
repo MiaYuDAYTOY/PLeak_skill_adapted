@@ -9,7 +9,7 @@ DATASET = "webtesting"
 TOKEN_LENGTH = 12
 SHADOW_MODEL = "llama"
 TARGET_MODEL = "llama"
-TRAIN_NUM = 16
+TRAIN_NUM = 3
 
 result_stem = (
     f'{DATASET}_{TOKEN_LENGTH}_{SHADOW_MODEL}_{TARGET_MODEL}_{TRAIN_NUM}_target_prefix8'
