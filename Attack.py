@@ -8,7 +8,7 @@ from util.data import Harmful
 from ModelFactory import ModelFactory
 
 class HotFlip:
-    def __init__(self, trigger_token_length=6, shadow_model='gpt2', step=100, template=None, init_triggers='', init_step=None):
+    def __init__(self, trigger_token_length=6, shadow_model='gpt2', step=100, template=None, init_triggers='', init_step=None, prefix_length=8):
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.target_model = shadow_model
         self.template = TextTemplate(prefix_1='') if template is None else template
@@ -19,6 +19,7 @@ class HotFlip:
         self.embedding_weight = self.get_embedding_weight()
         self.step = step
         self.init_step = init_step if init_step is not None else self.step
+        self.prefix_length = prefix_length
         self.user_prefix = ''
         self.trigger_tokens = self.init_triggers(trigger_token_length, init_triggers, self.user_prefix)
 
@@ -154,8 +155,8 @@ class HotFlip:
         encoded_target = full_ids[len(prompt_ids):]
         len_non_label = len(prompt_ids)
 
-        #只对前 8 个 token
-        target_prefix = encoded_target[:8]
+        # 只对目标的前 prefix_length 个 token 计算损失
+        target_prefix = encoded_target[:self.prefix_length]
 
         encoded_label = (
             [-100] * len_non_label
@@ -253,7 +254,7 @@ class HotFlip:
         #self.max_len = self.step+10
         #idx_loss = 0
         #while idx_loss <= self.max_len//self.step:
-        self.max_len = 8
+        self.max_len = self.prefix_length
         idx_loss = 0
         while idx_loss < 1:
             token_flipped = True
