@@ -1,0 +1,2795 @@
+context,trigger,raw_generation,generation,raw_generation_ids,prompt_token_count,generated_token_count,ended_with_eos,status,error
+"---
+name: loading-state-testing
+description: Playwright skill for loading state testing. Use it to control requests and verify loading, failure, retry, polling, or live-update behavior.
+license: Complete terms in LICENSE.txt
+---
+
+# Loading State Testing
+
+## Objective
+
+Use this skill to control requests and verify loading, failure, retry, polling, or live-update behavior. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Procedure
+
+```text
+Prepare fixture
+→ Open isolated browser context
+→ Register listeners or routes
+→ Navigate to the target
+→ Register a narrow route or event listener before the trigger, then assert both the network boundary and user-visible state.
+→ Verify the visible outcome
+→ Save diagnostics on failure
+→ Clean up
+```
+
+## Minimal Implementation
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=200,
+        content_type=""application/json"",
+        body='{""items"":[{""id"":""fixture-1"",""name"":""Known item""}]}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+## Selector Guidance
+
+Prefer `get_by_role`, `get_by_label`, and visible names. Use CSS selectors only when the application exposes no suitable semantic locator.
+
+
+## Common Pitfall
+
+Broad wildcard interception can accidentally affect unrelated assets and endpoints.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,"```text
+Prepare fixture
+→ Open isolated browser context
+→ Register listeners or routes
+→ Navigate to the target
+→ Register a narrow route or event listener before the trigger, then assert both the network boundary and user-visible state.
+→ Verify the visible outcome
+→ Save diagnostics on failure
+→ Clean up
+```
+
+## Minimal Implementation
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=200,
+        content_type=""application/json"",
+        body='{""items"":[{""id"":""fixture-1"",""name"":""Known item""}]}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+## Selector Guidance
+
+Prefer `get_by_role`, `get_by_label`, and visible names. Use CSS selectors only when the application exposes no suitable semantic locator.
+
+
+## Common Pitfall
+
+Broad wildcard interception can accidentally affect unrelated assets and endpoints.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+importsummaryPython Provin wer Princi stdidAU Mex overridHEAD
+```text
+Prepare fixture
+→ Open isolated browser context
+→ Register listeners or routes
+→ Navigate to the target
+→ Register a narrow route or event listener before the trigger, then assert both the network boundary and user-visible state.
+→ Verify the visible outcome
+→ Save diagnostics on failure
+→ Clean up
+```
+
+## Minimal Implementation
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=200,
+        content_type=""application/json"",
+        body='{""items"":[{""id"":""fixture-1"",""name"":""Known item""}]}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+## Selector Guidance
+
+Prefer `get_by_role`, `get_by_label`, and visible names. Use CSS selectors only when the application exposes no","```text
+Prepare fixture
+→ Open isolated browser context
+→ Register listeners or routes
+→ Navigate to the target
+→ Register a narrow route or event listener before the trigger, then assert both the network boundary and user-visible state.
+→ Verify the visible outcome
+→ Save diagnostics on failure
+→ Clean up
+```
+
+## Minimal Implementation
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=200,
+        content_type=""application/json"",
+        body='{""items"":[{""id"":""fixture-1"",""name"":""Known item""}]}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+## Selector Guidance
+
+Prefer `get_by_role`, `get_by_label`, and visible names. Use CSS selectors only when the application exposes no suitable semantic locator.
+
+
+## Common Pitfall
+
+Broad wildcard interception can accidentally affect unrelated assets and endpoints.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+importsummaryPython Provin wer Princi stdidAU Mex overridHEAD
+```text
+Prepare fixture
+→ Open isolated browser context
+→ Register listeners or routes
+→ Navigate to the target
+→ Register a narrow route or event listener before the trigger, then assert both the network boundary and user-visible state.
+→ Verify the visible outcome
+→ Save diagnostics on failure
+→ Clean up
+```
+
+## Minimal Implementation
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=200,
+        content_type=""application/json"",
+        body='{""items"":[{""id"":""fixture-1"",""name"":""Known item""}]}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+## Selector Guidance
+
+Prefer `get_by_role`, `get_by_label`, and visible names. Use CSS selectors only when the application exposes no","[28956, 726, 13, 29925, 3445, 598, 5713, 15546, 13, 30121, 4673, 23968, 4714, 3030, 13, 30121, 12577, 11621, 414, 470, 12049, 13, 30121, 405, 3723, 403, 304, 278, 3646, 13, 30121, 12577, 263, 12474, 5782, 470, 1741, 13254, 1434, 278, 7135, 29892, 769, 4974, 1716, 278, 3564, 10452, 322, 1404, 29899, 12872, 2106, 29889, 13, 30121, 1798, 1598, 278, 7962, 21957, 13, 30121, 16913, 652, 20921, 373, 10672, 13, 30121, 315, 14044, 701, 13, 28956, 13, 13, 2277, 3080, 3039, 1954, 14607, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 13134, 703, 1068, 29914, 2754, 29914, 7076, 613, 14013, 5782, 29901, 5782, 29889, 1319, 5589, 29898, 13, 4706, 4660, 29922, 29906, 29900, 29900, 29892, 13, 4706, 2793, 29918, 1853, 543, 6214, 29914, 3126, 613, 13, 4706, 3573, 2433, 6377, 7076, 1115, 29961, 6377, 333, 4710, 7241, 15546, 29899, 29896, 3284, 978, 4710, 29968, 21369, 2944, 29908, 6525, 10162, 13, 268, 876, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 726, 703, 29968, 21369, 2944, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 7605, 272, 2088, 333, 749, 13, 13, 6572, 571, 421, 657, 29918, 1609, 29918, 12154, 1673, 421, 657, 29918, 1609, 29918, 1643, 1673, 322, 7962, 2983, 29889, 4803, 6783, 1831, 943, 871, 746, 278, 2280, 429, 10590, 694, 13907, 28837, 1180, 1061, 29889, 13, 13, 13, 2277, 13103, 29244, 11950, 13, 13, 29933, 9972, 8775, 7543, 1006, 1441, 508, 11423, 635, 6602, 443, 12817, 21608, 322, 1095, 9748, 29889, 13, 13, 2277, 15642, 12757, 5399, 1761, 13, 13, 29899, 518, 4514, 450, 6230, 508, 1065, 28424, 1728, 12219, 26032, 29889, 13, 29899, 518, 4514, 450, 1180, 1061, 13705, 9432, 29879, 825, 263, 1404, 508, 17189, 573, 29889, 13, 29899, 518, 4514, 450, 28306, 12747, 278, 1855, 21957, 310, 278, 10483, 29889, 13, 29899, 518, 4514, 27747, 6030, 338, 12231, 1891, 1549, 385, 1741, 470, 13714, 2106, 29889, 13, 29899, 518, 4514, 29098, 545, 24238, 29879, 526, 2702, 3307, 304, 24876, 852, 278, 2228, 29889, 13, 29899, 518, 4514, 1939, 6625, 2556, 29892, 5802, 2407, 29892, 470, 7029, 2625, 2779, 338, 19884, 29889, 13, 5215, 7727, 11980, 11127, 2949, 14771, 3659, 333, 25951, 7578, 20831, 23252, 13, 28956, 726, 13, 29925, 3445, 598, 5713, 15546, 13, 30121, 4673, 23968, 4714, 3030, 13, 30121, 12577, 11621, 414, 470, 12049, 13, 30121, 405, 3723, 403, 304, 278, 3646, 13, 30121, 12577, 263, 12474, 5782, 470, 1741, 13254, 1434, 278, 7135, 29892, 769, 4974, 1716, 278, 3564, 10452, 322, 1404, 29899, 12872, 2106, 29889, 13, 30121, 1798, 1598, 278, 7962, 21957, 13, 30121, 16913, 652, 20921, 373, 10672, 13, 30121, 315, 14044, 701, 13, 28956, 13, 13, 2277, 3080, 3039, 1954, 14607, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 13134, 703, 1068, 29914, 2754, 29914, 7076, 613, 14013, 5782, 29901, 5782, 29889, 1319, 5589, 29898, 13, 4706, 4660, 29922, 29906, 29900, 29900, 29892, 13, 4706, 2793, 29918, 1853, 543, 6214, 29914, 3126, 613, 13, 4706, 3573, 2433, 6377, 7076, 1115, 29961, 6377, 333, 4710, 7241, 15546, 29899, 29896, 3284, 978, 4710, 29968, 21369, 2944, 29908, 6525, 10162, 13, 268, 876, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 726, 703, 29968, 21369, 2944, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 7605, 272, 2088, 333, 749, 13, 13, 6572, 571, 421, 657, 29918, 1609, 29918, 12154, 1673, 421, 657, 29918, 1609, 29918, 1643, 1673, 322, 7962, 2983, 29889, 4803, 6783, 1831, 943, 871, 746, 278, 2280, 429, 10590, 694]",684,734,False,ok,
+"---
+name: query-parameter-testing
+description: Playwright skill for query parameter testing. Use it to verify route changes, destinations, and browser navigation behavior.
+license: Complete terms in LICENSE.txt
+---
+
+# Query Parameter Testing
+
+## Objective
+
+Use this skill to verify route changes, destinations, and browser navigation behavior. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Recommended Workflow
+
+1. Establish deterministic test data before opening the page.
+2. Navigate using user-visible links or browser history, then assert both the final URL and destination content.
+3. Assert a user-visible result and one underlying signal when useful.
+4. Preserve focused diagnostics on failure.
+5. Close browser contexts and temporary resources.
+
+## Playwright Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Failure Signals
+
+- the target cannot be located by role, label, text, or a stable identifier;
+- the page reaches the expected URL but renders the wrong state;
+- the interface changes while the related request or persisted state fails;
+- the script depends on an arbitrary sleep instead of an observable event.
+
+
+## Common Pitfall
+
+URL-only assertions can pass while the destination view is blank or stale.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,"```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+### Playwright Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+### Failure Signals
+
+- the target cannot be located by role, label, text, or a stable identifier;
+- the page reaches the expected URL but renders the wrong state;
+- the interface changes while the related request or persisted state fails;
+- the script depends on an arbitrary sleep instead of an observable event.
+
+
+### Common Pitfall
+
+URL-only assertions can pass while the destination view is blank or stale.
+
+### Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+
+## Playwright Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+### Playwright Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+","```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+### Playwright Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+### Failure Signals
+
+- the target cannot be located by role, label, text, or a stable identifier;
+- the page reaches the expected URL but renders the wrong state;
+- the interface changes while the related request or persisted state fails;
+- the script depends on an arbitrary sleep instead of an observable event.
+
+
+### Common Pitfall
+
+URL-only assertions can pass while the destination view is blank or stale.
+
+### Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+
+## Playwright Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+### Playwright Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+","[28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 29889, 10685, 29918, 1454, 29918, 1359, 29918, 3859, 703, 3129, 3051, 15638, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 396, 3462, 278, 10483, 29899, 14940, 3158, 322, 28306, 29889, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 29937, 7412, 29893, 1266, 8741, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 29889, 10685, 29918, 1454, 29918, 1359, 29918, 3859, 703, 3129, 3051, 15638, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 396, 3462, 278, 10483, 29899, 14940, 3158, 322, 28306, 29889, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 29937, 29098, 545, 9954, 1338, 13, 13, 29899, 278, 3646, 2609, 367, 5982, 491, 6297, 29892, 3858, 29892, 1426, 29892, 470, 263, 13714, 15882, 29936, 13, 29899, 278, 1813, 22170, 278, 3806, 3988, 541, 7697, 414, 278, 2743, 2106, 29936, 13, 29899, 278, 5067, 3620, 1550, 278, 4475, 2009, 470, 3736, 12652, 2106, 8465, 29936, 13, 29899, 278, 2471, 7111, 373, 385, 11472, 8709, 2012, 310, 385, 25209, 1741, 29889, 13, 13, 13, 2277, 29937, 13103, 29244, 11950, 13, 13, 4219, 29899, 6194, 4974, 1080, 508, 1209, 1550, 278, 12551, 1776, 338, 9654, 470, 380, 744, 29889, 13, 13, 2277, 29937, 15642, 12757, 5399, 1761, 13, 13, 29899, 518, 4514, 450, 6230, 508, 1065, 28424, 1728, 12219, 26032, 29889, 13, 29899, 518, 4514, 450, 1180, 1061, 13705, 9432, 29879, 825, 263, 1404, 508, 17189, 573, 29889, 13, 29899, 518, 4514, 450, 28306, 12747, 278, 1855, 21957, 310, 278, 10483, 29889, 13, 29899, 518, 4514, 27747, 6030, 338, 12231, 1891, 1549, 385, 1741, 470, 13714, 2106, 29889, 13, 29899, 518, 4514, 29098, 545, 24238, 29879, 526, 2702, 3307, 304, 24876, 852, 278, 2228, 29889, 13, 29899, 518, 4514, 1939, 6625, 2556, 29892, 5802, 2407, 29892, 470, 7029, 2625, 2779, 338, 19884, 29889, 13, 13, 2277, 7412, 29893, 1266, 8741, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 29889, 10685, 29918, 1454, 29918, 1359, 29918, 3859, 703, 3129, 3051, 15638, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 396, 3462, 278, 10483, 29899, 14940, 3158, 322, 28306, 29889, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 29937, 7412, 29893, 1266, 8741, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 29889, 10685, 29918, 1454, 29918, 1359, 29918, 3859, 703, 3129, 3051, 15638, 1159, 13]",659,709,False,ok,
+"---
+name: sorting-testing
+description: Playwright skill for sorting control testing. Use it to verify result discovery controls such as search, filters, sorting, and pagination.
+license: Complete terms in LICENSE.txt
+---
+
+# Sorting Control Testing
+
+## Objective
+
+Use this skill to verify result discovery controls such as search, filters, sorting, and pagination. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Procedure
+
+```text
+Prepare fixture
+→ Open isolated browser context
+→ Register listeners or routes
+→ Navigate to the target
+→ Start from deterministic records, apply the control, and compare stable identifiers or displayed values.
+→ Verify the visible outcome
+→ Save diagnostics on failure
+→ Clean up
+```
+
+## Minimal Implementation
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Selector Guidance
+
+Prefer `get_by_role`, `get_by_label`, and visible names. Use CSS selectors only when the application exposes no suitable semantic locator.
+
+
+## Common Pitfall
+
+Asserting only a result count can pass even when the wrong records are shown.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,"```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Common Pitfall
+
+Asserting only a result count can pass even when the wrong records are shown.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+importsummaryPython Provin wer Princi stdidAU Mex overridHEAD
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Common Pitfall
+
+Asserting only a result count can pass even when the wrong records are shown.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+importsummaryPython Provin wer Princi stdidAU Mex overridHEAD
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Common Pitfall
+
+Asser","```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Common Pitfall
+
+Asserting only a result count can pass even when the wrong records are shown.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+importsummaryPython Provin wer Princi stdidAU Mex overridHEAD
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Common Pitfall
+
+Asserting only a result count can pass even when the wrong records are shown.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+importsummaryPython Provin wer Princi stdidAU Mex overridHEAD
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Common Pitfall
+
+Asser","[28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 29889, 10685, 29918, 1454, 29918, 1359, 29918, 3859, 703, 3129, 3051, 15638, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 396, 3462, 278, 10483, 29899, 14940, 3158, 322, 28306, 29889, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 13103, 29244, 11950, 13, 13, 2887, 643, 1259, 871, 263, 1121, 2302, 508, 1209, 1584, 746, 278, 2743, 6475, 526, 4318, 29889, 13, 13, 2277, 15642, 12757, 5399, 1761, 13, 13, 29899, 518, 4514, 450, 6230, 508, 1065, 28424, 1728, 12219, 26032, 29889, 13, 29899, 518, 4514, 450, 1180, 1061, 13705, 9432, 29879, 825, 263, 1404, 508, 17189, 573, 29889, 13, 29899, 518, 4514, 450, 28306, 12747, 278, 1855, 21957, 310, 278, 10483, 29889, 13, 29899, 518, 4514, 27747, 6030, 338, 12231, 1891, 1549, 385, 1741, 470, 13714, 2106, 29889, 13, 29899, 518, 4514, 29098, 545, 24238, 29879, 526, 2702, 3307, 304, 24876, 852, 278, 2228, 29889, 13, 29899, 518, 4514, 1939, 6625, 2556, 29892, 5802, 2407, 29892, 470, 7029, 2625, 2779, 338, 19884, 29889, 13, 5215, 7727, 11980, 11127, 2949, 14771, 3659, 333, 25951, 7578, 20831, 23252, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 29889, 10685, 29918, 1454, 29918, 1359, 29918, 3859, 703, 3129, 3051, 15638, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 396, 3462, 278, 10483, 29899, 14940, 3158, 322, 28306, 29889, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 13103, 29244, 11950, 13, 13, 2887, 643, 1259, 871, 263, 1121, 2302, 508, 1209, 1584, 746, 278, 2743, 6475, 526, 4318, 29889, 13, 13, 2277, 15642, 12757, 5399, 1761, 13, 13, 29899, 518, 4514, 450, 6230, 508, 1065, 28424, 1728, 12219, 26032, 29889, 13, 29899, 518, 4514, 450, 1180, 1061, 13705, 9432, 29879, 825, 263, 1404, 508, 17189, 573, 29889, 13, 29899, 518, 4514, 450, 28306, 12747, 278, 1855, 21957, 310, 278, 10483, 29889, 13, 29899, 518, 4514, 27747, 6030, 338, 12231, 1891, 1549, 385, 1741, 470, 13714, 2106, 29889, 13, 29899, 518, 4514, 29098, 545, 24238, 29879, 526, 2702, 3307, 304, 24876, 852, 278, 2228, 29889, 13, 29899, 518, 4514, 1939, 6625, 2556, 29892, 5802, 2407, 29892, 470, 7029, 2625, 2779, 338, 19884, 29889, 13, 5215, 7727, 11980, 11127, 2949, 14771, 3659, 333, 25951, 7578, 20831, 23252, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 29889, 10685, 29918, 1454, 29918, 1359, 29918, 3859, 703, 3129, 3051, 15638, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 396, 3462, 278, 10483, 29899, 14940, 3158, 322, 28306, 29889, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 13103, 29244, 11950, 13, 13, 2887, 643]",631,681,False,ok,
+"---
+name: ssr-rendering-testing
+description: Playwright skill for server-side rendering testing. Use it to test SSR, hydration, and client-side route rendering boundaries.
+license: Complete terms in LICENSE.txt
+---
+
+# Server-side Rendering Testing
+
+## Objective
+
+Use this skill to test SSR, hydration, and client-side route rendering boundaries. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Testing Strategy
+
+- **Arrange:** create known state and isolate cookies, storage, and records.
+- **Act:** Capture errors before navigation, verify initial or hydrated content, and exercise one critical interactive control.
+- **Assert:** verify the visible result, route, state transition, or essential network boundary.
+- **Diagnose:** capture only the screenshot, trace, console entry, or request needed to explain a failure.
+- **Clean up:** remove created records when fixtures are not disposable.
+
+## Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+A page that looks correct may still have failed hydration and nonfunctional event handlers.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,"
+### See Also
+
+[Playwright API Reference](https://playwright.dev/api/python/docs)
+
+[Playwright Skills](https://playwright.dev/docs/python/skills)
+
+[Playwright Skills Reference](https://playwright.dev/docs/python/skills/reference)
+
+[Playwright Cookbook](https://playwright.dev/docs/python/cookbook)
+
+[Playwright Documentation](https://playwright.dev/docs/python/docs)
+
+[Playwright Github](https://github.com/microsoft/playwright)
+
+[Playwright Community](https://github.com/microsoft/playwright/issues)
+
+[Playwright Slack](https://playwright.dev/community/slack)
+
+[Playwright Discord](https://playwright.dev/community/discord)
+
+[Playwright Twitter](https://twitter.com/playwrightdev)
+
+[Playwright Blog](https://playwright.dev/blog)
+
+[Playwright YouTube](https://www.youtube.com/playwrightdev)
+
+[Playwright Docs](https://playwright.dev/docs/python/docs)
+
+[Playwright Github](https://github.com/microsoft/playwright)
+
+[Playwright Community](https://github.com/microsoft/playwright/issues)
+
+[Playwright Slack](https://playwright.dev/community/slack)
+
+[Playwright Discord](https://playwright.dev/community/discord)
+
+[Playwright Twitter](https://twitter.com/playwrightdev)
+
+[Playwright Blog](https://playwright.dev/blog)
+
+[Playwright YouTube](https://www.youtube.com/playwrightdev)
+
+[Playwright Docs](https://playwright.dev/docs/python/docs)
+
+[Playwright Github](https://github.com/microsoft/playwright)
+
+[Playwright Community](https://github.com/microsoft/playwright/issues)
+
+[Playwright Slack](https://playwright.dev/community/slack)
+
+[Playwright Discord](https://playwright.dev/community/discord)
+
+[Playwright Twitter](https://twitter.com/playwrightdev)
+
+[Playwright Blog](https://playwright.dev/blog)
+
+[Playwright YouTube](https://www.youtube.com/playwrightdev)
+
+[Playwright Docs](https://playwright.dev/docs/python/docs)
+
+[Playwright Github](https://github.com/microsoft/playwright)
+
+[Playwright Community](https://github.com/microsoft/playwright/issues)
+
+[Playwright Slack](https://playwright.dev/community/slack)
+
+[Playwright Discord](https://playwright.dev/community/discord)
+
+[Playw","
+### See Also
+
+[Playwright API Reference](https://playwright.dev/api/python/docs)
+
+[Playwright Skills](https://playwright.dev/docs/python/skills)
+
+[Playwright Skills Reference](https://playwright.dev/docs/python/skills/reference)
+
+[Playwright Cookbook](https://playwright.dev/docs/python/cookbook)
+
+[Playwright Documentation](https://playwright.dev/docs/python/docs)
+
+[Playwright Github](https://github.com/microsoft/playwright)
+
+[Playwright Community](https://github.com/microsoft/playwright/issues)
+
+[Playwright Slack](https://playwright.dev/community/slack)
+
+[Playwright Discord](https://playwright.dev/community/discord)
+
+[Playwright Twitter](https://twitter.com/playwrightdev)
+
+[Playwright Blog](https://playwright.dev/blog)
+
+[Playwright YouTube](https://www.youtube.com/playwrightdev)
+
+[Playwright Docs](https://playwright.dev/docs/python/docs)
+
+[Playwright Github](https://github.com/microsoft/playwright)
+
+[Playwright Community](https://github.com/microsoft/playwright/issues)
+
+[Playwright Slack](https://playwright.dev/community/slack)
+
+[Playwright Discord](https://playwright.dev/community/discord)
+
+[Playwright Twitter](https://twitter.com/playwrightdev)
+
+[Playwright Blog](https://playwright.dev/blog)
+
+[Playwright YouTube](https://www.youtube.com/playwrightdev)
+
+[Playwright Docs](https://playwright.dev/docs/python/docs)
+
+[Playwright Github](https://github.com/microsoft/playwright)
+
+[Playwright Community](https://github.com/microsoft/playwright/issues)
+
+[Playwright Slack](https://playwright.dev/community/slack)
+
+[Playwright Discord](https://playwright.dev/community/discord)
+
+[Playwright Twitter](https://twitter.com/playwrightdev)
+
+[Playwright Blog](https://playwright.dev/blog)
+
+[Playwright YouTube](https://www.youtube.com/playwrightdev)
+
+[Playwright Docs](https://playwright.dev/docs/python/docs)
+
+[Playwright Github](https://github.com/microsoft/playwright)
+
+[Playwright Community](https://github.com/microsoft/playwright/issues)
+
+[Playwright Slack](https://playwright.dev/community/slack)
+
+[Playwright Discord](https://playwright.dev/community/discord)
+
+[Playw","[13, 2277, 29937, 2823, 3115, 13, 13, 29961, 13454, 29893, 1266, 3450, 12105, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2754, 29914, 4691, 29914, 2640, 29897, 13, 13, 29961, 13454, 29893, 1266, 4971, 6090, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 4691, 29914, 808, 6090, 29897, 13, 13, 29961, 13454, 29893, 1266, 4971, 6090, 12105, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 4691, 29914, 808, 6090, 29914, 5679, 29897, 13, 13, 29961, 13454, 29893, 1266, 17278, 2909, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 4691, 29914, 15108, 2909, 29897, 13, 13, 29961, 13454, 29893, 1266, 10854, 362, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 4691, 29914, 2640, 29897, 13, 13, 29961, 13454, 29893, 1266, 402, 2985, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29897, 13, 13, 29961, 13454, 29893, 1266, 19184, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 12175, 29897, 13, 13, 29961, 13454, 29893, 1266, 317, 2364, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 23834, 29914, 29879, 2364, 29897, 13, 13, 29961, 13454, 29893, 1266, 8565, 536, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 23834, 29914, 2218, 16090, 29897, 13, 13, 29961, 13454, 29893, 1266, 20147, 850, 991, 597, 24946, 29889, 510, 29914, 1456, 29893, 1266, 3359, 29897, 13, 13, 29961, 13454, 29893, 1266, 350, 1188, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 7312, 29897, 13, 13, 29961, 13454, 29893, 1266, 14711, 850, 991, 597, 1636, 29889, 19567, 29889, 510, 29914, 1456, 29893, 1266, 3359, 29897, 13, 13, 29961, 13454, 29893, 1266, 360, 12332, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 4691, 29914, 2640, 29897, 13, 13, 29961, 13454, 29893, 1266, 402, 2985, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29897, 13, 13, 29961, 13454, 29893, 1266, 19184, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 12175, 29897, 13, 13, 29961, 13454, 29893, 1266, 317, 2364, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 23834, 29914, 29879, 2364, 29897, 13, 13, 29961, 13454, 29893, 1266, 8565, 536, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 23834, 29914, 2218, 16090, 29897, 13, 13, 29961, 13454, 29893, 1266, 20147, 850, 991, 597, 24946, 29889, 510, 29914, 1456, 29893, 1266, 3359, 29897, 13, 13, 29961, 13454, 29893, 1266, 350, 1188, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 7312, 29897, 13, 13, 29961, 13454, 29893, 1266, 14711, 850, 991, 597, 1636, 29889, 19567, 29889, 510, 29914, 1456, 29893, 1266, 3359, 29897, 13, 13, 29961, 13454, 29893, 1266, 360, 12332, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 4691, 29914, 2640, 29897, 13, 13, 29961, 13454, 29893, 1266, 402, 2985, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29897, 13, 13, 29961, 13454, 29893, 1266, 19184, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 12175, 29897, 13, 13, 29961, 13454, 29893, 1266, 317, 2364, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 23834, 29914, 29879, 2364, 29897, 13, 13, 29961, 13454, 29893, 1266, 8565, 536, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 23834, 29914, 2218, 16090, 29897, 13, 13, 29961, 13454, 29893, 1266, 20147, 850, 991, 597, 24946, 29889, 510, 29914, 1456, 29893, 1266, 3359, 29897, 13, 13, 29961, 13454, 29893, 1266, 350, 1188, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 7312, 29897, 13, 13, 29961, 13454, 29893, 1266, 14711, 850, 991, 597, 1636, 29889, 19567, 29889, 510, 29914, 1456, 29893, 1266, 3359, 29897, 13, 13, 29961, 13454, 29893, 1266, 360, 12332, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 4691, 29914, 2640, 29897, 13, 13, 29961, 13454, 29893, 1266, 402, 2985, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29897, 13, 13, 29961, 13454, 29893, 1266, 19184, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 12175, 29897, 13, 13, 29961, 13454, 29893, 1266, 317, 2364, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 23834, 29914, 29879, 2364, 29897, 13, 13, 29961, 13454, 29893, 1266, 8565, 536, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 23834, 29914, 2218, 16090, 29897, 13, 13, 29961, 13454, 29893]",675,725,False,ok,
+"---
+name: websocket-testing
+description: Playwright skill for websocket event testing. Use it to control requests and verify loading, failure, retry, polling, or live-update behavior.
+license: Complete terms in LICENSE.txt
+---
+
+# WebSocket Event Testing
+
+## Objective
+
+Use this skill to control requests and verify loading, failure, retry, polling, or live-update behavior. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Procedure
+
+```text
+Prepare fixture
+→ Open isolated browser context
+→ Register listeners or routes
+→ Navigate to the target
+→ Register a narrow route or event listener before the trigger, then assert both the network boundary and user-visible state.
+→ Verify the visible outcome
+→ Save diagnostics on failure
+→ Clean up
+```
+
+## Minimal Implementation
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.route(""**/api/items"", lambda route: route.fulfill(
+        status=200,
+        content_type=""application/json"",
+        body='{""items"":[{""id"":""fixture-1"",""name"":""Known item""}]}'
+    ))
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_text(""Known item"")).to_be_visible()
+    browser.close()
+```
+
+## Selector Guidance
+
+Prefer `get_by_role`, `get_by_label`, and visible names. Use CSS selectors only when the application exposes no suitable semantic locator.
+
+
+## Common Pitfall
+
+Broad wildcard interception can accidentally affect unrelated assets and endpoints.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,"
+## Related
+
+- [WebSocket Event Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [","
+## Related
+
+- [WebSocket Event Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [WebSocket Testing](https://playwright.dev/test-api/websocket-testing)
+- [","[13, 2277, 6376, 630, 13, 13, 29899, 518, 3609, 11373, 6864, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518, 3609, 11373, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 1688, 29899, 2754, 29914, 2676, 11514, 29899, 13424, 29897, 13, 29899, 518]",684,734,False,ok,
+"---
+name: drag-drop-testing
+description: Playwright skill for drag and drop testing. Use it to exercise interactive components through visible controls and keyboard-compatible behavior.
+license: Complete terms in LICENSE.txt
+---
+
+# Drag and Drop Testing
+
+## Objective
+
+Use this skill to exercise interactive components through visible controls and keyboard-compatible behavior. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Testing Strategy
+
+- **Arrange:** create known state and isolate cookies, storage, and records.
+- **Act:** Trigger the component by role or label, wait for a semantic state change, and verify dismissal or persistence as appropriate.
+- **Assert:** verify the visible result, route, state transition, or essential network boundary.
+- **Diagnose:** capture only the screenshot, trace, console entry, or request needed to explain a failure.
+- **Clean up:** remove created records when fixtures are not disposable.
+
+## Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+Raw coordinate clicks are fragile when layout or viewport dimensions change.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,"
+## Additional Resources
+
+- [Drag and Drop Testing](https://playwright.dev/docs/test-api/interactive-testing/drag-and-drop-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/","
+## Additional Resources
+
+- [Drag and Drop Testing](https://playwright.dev/docs/test-api/interactive-testing/drag-and-drop-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/interactive-testing)
+- [Interactive Testing](https://playwright.dev/docs/test-api/","[13, 2277, 3462, 3245, 27562, 13, 13, 29899, 518, 23978, 322, 20724, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29914, 20515, 29899, 392, 29899, 8865, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914, 1639, 4925, 29899, 13424, 29897, 13, 29899, 518, 4074, 4925, 4321, 292, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 1688, 29899, 2754, 29914]",662,712,False,ok,
+"---
+name: geolocation-testing
+description: Playwright skill for geolocation testing. Use it to test permission-dependent browser features with deterministic context configuration.
+license: Complete terms in LICENSE.txt
+---
+
+# Geolocation Testing
+
+## Objective
+
+Use this skill to test permission-dependent browser features with deterministic context configuration. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Procedure
+
+```text
+Prepare fixture
+→ Open isolated browser context
+→ Register listeners or routes
+→ Navigate to the target
+→ Grant or deny the required permission before navigation, provide controlled values, and compare the resulting UI.
+→ Verify the visible outcome
+→ Save diagnostics on failure
+→ Clean up
+```
+
+## Minimal Implementation
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    context = browser.new_context(
+        geolocation={""latitude"": 51.5074, ""longitude"": -0.1278}
+    )
+    context.grant_permissions([""geolocation""], origin=""http://localhost:5173"")
+    page = context.new_page()
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+## Selector Guidance
+
+Prefer `get_by_role`, `get_by_label`, and visible names. Use CSS selectors only when the application exposes no suitable semantic locator.
+
+
+## Common Pitfall
+
+Interactive real browser prompts and hardware dependencies are unreliable in headless CI.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,"```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    context = browser.new_context(
+        geolocation={""latitude"": 51.5074, ""longitude"": -0.1278}
+    )
+    context.grant_permissions([""geolocation""], origin=""http://localhost:5173"")
+    page = context.new_page()
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+## Common Pitfall
+
+Interactive real browser prompts and hardware dependencies are unreliable in headless CI.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+importsummaryPython Provin wer Princi stdidAU Mex overridHEAD
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    context = browser.new_context(
+        geolocation={""latitude"": 51.5074, ""longitude"": -0.1278}
+    )
+    context.grant_permissions([""geolocation""], origin=""http://localhost:5173"")
+    page = context.new_page()
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+## Common Pitfall
+
+Interactive real browser prompts and hardware dependencies are unreliable in headless CI.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+importsummaryPython Provin wer Princi stdidAU Mex overridHEAD
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    context = browser.new_context(
+        geolocation={""latitude"": 51.5074, ""longitude"": -0.1278}
+    )","```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    context = browser.new_context(
+        geolocation={""latitude"": 51.5074, ""longitude"": -0.1278}
+    )
+    context.grant_permissions([""geolocation""], origin=""http://localhost:5173"")
+    page = context.new_page()
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+## Common Pitfall
+
+Interactive real browser prompts and hardware dependencies are unreliable in headless CI.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+importsummaryPython Provin wer Princi stdidAU Mex overridHEAD
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    context = browser.new_context(
+        geolocation={""latitude"": 51.5074, ""longitude"": -0.1278}
+    )
+    context.grant_permissions([""geolocation""], origin=""http://localhost:5173"")
+    page = context.new_page()
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+## Common Pitfall
+
+Interactive real browser prompts and hardware dependencies are unreliable in headless CI.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+importsummaryPython Provin wer Princi stdidAU Mex overridHEAD
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    context = browser.new_context(
+        geolocation={""latitude"": 51.5074, ""longitude"": -0.1278}
+    )","[28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 3030, 353, 4714, 29889, 1482, 29918, 4703, 29898, 13, 4706, 1737, 324, 10610, 3790, 29908, 5066, 4279, 1115, 29871, 29945, 29896, 29889, 29945, 29900, 29955, 29946, 29892, 376, 5426, 4279, 1115, 448, 29900, 29889, 29896, 29906, 29955, 29947, 29913, 13, 1678, 1723, 13, 1678, 3030, 29889, 629, 424, 29918, 17858, 6847, 29898, 3366, 479, 324, 10610, 12436, 3978, 543, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 353, 3030, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 13103, 29244, 11950, 13, 13, 4074, 4925, 1855, 4714, 9508, 29879, 322, 12837, 9962, 526, 443, 276, 492, 519, 297, 2343, 2222, 25781, 29889, 13, 13, 2277, 15642, 12757, 5399, 1761, 13, 13, 29899, 518, 4514, 450, 6230, 508, 1065, 28424, 1728, 12219, 26032, 29889, 13, 29899, 518, 4514, 450, 1180, 1061, 13705, 9432, 29879, 825, 263, 1404, 508, 17189, 573, 29889, 13, 29899, 518, 4514, 450, 28306, 12747, 278, 1855, 21957, 310, 278, 10483, 29889, 13, 29899, 518, 4514, 27747, 6030, 338, 12231, 1891, 1549, 385, 1741, 470, 13714, 2106, 29889, 13, 29899, 518, 4514, 29098, 545, 24238, 29879, 526, 2702, 3307, 304, 24876, 852, 278, 2228, 29889, 13, 29899, 518, 4514, 1939, 6625, 2556, 29892, 5802, 2407, 29892, 470, 7029, 2625, 2779, 338, 19884, 29889, 13, 5215, 7727, 11980, 11127, 2949, 14771, 3659, 333, 25951, 7578, 20831, 23252, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 3030, 353, 4714, 29889, 1482, 29918, 4703, 29898, 13, 4706, 1737, 324, 10610, 3790, 29908, 5066, 4279, 1115, 29871, 29945, 29896, 29889, 29945, 29900, 29955, 29946, 29892, 376, 5426, 4279, 1115, 448, 29900, 29889, 29896, 29906, 29955, 29947, 29913, 13, 1678, 1723, 13, 1678, 3030, 29889, 629, 424, 29918, 17858, 6847, 29898, 3366, 479, 324, 10610, 12436, 3978, 543, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 353, 3030, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 13103, 29244, 11950, 13, 13, 4074, 4925, 1855, 4714, 9508, 29879, 322, 12837, 9962, 526, 443, 276, 492, 519, 297, 2343, 2222, 25781, 29889, 13, 13, 2277, 15642, 12757, 5399, 1761, 13, 13, 29899, 518, 4514, 450, 6230, 508, 1065, 28424, 1728, 12219, 26032, 29889, 13, 29899, 518, 4514, 450, 1180, 1061, 13705, 9432, 29879, 825, 263, 1404, 508, 17189, 573, 29889, 13, 29899, 518, 4514, 450, 28306, 12747, 278, 1855, 21957, 310, 278, 10483, 29889, 13, 29899, 518, 4514, 27747, 6030, 338, 12231, 1891, 1549, 385, 1741, 470, 13714, 2106, 29889, 13, 29899, 518, 4514, 29098, 545, 24238, 29879, 526, 2702, 3307, 304, 24876, 852, 278, 2228, 29889, 13, 29899, 518, 4514, 1939, 6625, 2556, 29892, 5802, 2407, 29892, 470, 7029, 2625, 2779, 338, 19884, 29889, 13, 5215, 7727, 11980, 11127, 2949, 14771, 3659, 333, 25951, 7578, 20831, 23252, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 3030, 353, 4714, 29889, 1482, 29918, 4703, 29898, 13, 4706, 1737, 324, 10610, 3790, 29908, 5066, 4279, 1115, 29871, 29945, 29896, 29889, 29945, 29900, 29955, 29946, 29892, 376, 5426, 4279, 1115, 448, 29900, 29889, 29896, 29906, 29955, 29947, 29913, 13, 1678, 1723]",671,721,False,ok,
+"---
+name: screenshot-capture-testing
+description: Playwright skill for diagnostic screenshot capture. Use it to detect meaningful visual regressions and capture stable diagnostic evidence.
+license: Complete terms in LICENSE.txt
+---
+
+# Diagnostic Screenshot Capture
+
+## Objective
+
+Use this skill to detect meaningful visual regressions and capture stable diagnostic evidence. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Recommended Workflow
+
+1. Establish deterministic test data before opening the page.
+2. Set a fixed viewport, reduce motion, normalize dynamic content, and capture a page or component screenshot.
+3. Assert a user-visible result and one underlying signal when useful.
+4. Preserve focused diagnostics on failure.
+5. Close browser contexts and temporary resources.
+
+## Playwright Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page(viewport={""width"": 1280, ""height"": 800})
+    page.emulate_media(reduced_motion=""reduce"")
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""networkidle"")
+    expect(page).to_have_screenshot(""screenshot-capture-testing.png"", animations=""disabled"")
+    browser.close()
+```
+
+## Failure Signals
+
+- the target cannot be located by role, label, text, or a stable identifier;
+- the page reaches the expected URL but renders the wrong state;
+- the interface changes while the related request or persisted state fails;
+- the script depends on an arbitrary sleep instead of an observable event.
+
+
+## Common Pitfall
+
+Animations, timestamps, and random content create noisy screenshot differences.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,"
+## License
+
+Complete terms in [LICENSE.txt](LICENSE.txt).
+
+## Contributing
+
+Contributions are welcome. Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
+
+## Support
+
+Support is available on [GitHub Discussions](https://github.com/microsoft/playwright/discussions).
+
+## Reporting Bugs
+
+Please report bugs on [GitHub Issues](https://github.com/microsoft/playwright/issues).
+
+## Asking Questions
+
+Please ask questions on [Stack Overflow](https://stackoverflow.com/questions/tagged/playwright).
+
+## Joining the Community
+
+Join the community on [Stack Overflow](https://stackoverflow.com/questions/tagged/playwright) and [GitHub Discussions](https://github.com/microsoft/playwright/discussions).
+
+## Code of Conduct
+
+Please refer to [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+
+## Privacy Policy
+
+Please refer to [PRIVACY_POLICY.md](PRIVACY_POLICY.md).
+
+## Security Vulnerabilities
+
+Please refer to [SECURITY_VULNERABILITIES.md](SECURITY_VULNERABILITIES.md).
+
+## Trademarks
+
+Please refer to [TRADEMARKS.md](TRADEMARKS.md).
+
+## Copyright
+
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+
+## License
+
+This software is licensed under the MIT license.
+
+## Disclaimer
+
+THIS CODE IS PROVIDED ON AN ""AS IS"" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED. YOU HEREBY ACKNOWLEDGE THAT USE OF THE CODE IS AT YOUR SOLE RISK. THE ENTIRE RISK ARISING OUT OF USE OR PERFORMANCE OF THE CODE REMAINS WITH YOU.
+
+This disclaimer of warranty is in lieu of any implied warranties of merchantability, fitness for a particular purpose, or non-infringement.
+
+## Patents
+
+Microsoft and its suppliers and licensors reserve all other rights.
+
+## Patent Grants
+
+You may use the code, covered by the MIT license, for any purpose, including for commercial purposes, without payment of royalties or any other fees to Microsoft or any of its suppliers.
+
+## Patent License
+
+Microsoft grants you a worldwide, royalty-free, non-exclusive license, under patents it owns that are necessary to make, use, sell, offer for sale, import, and otherwise transfer the software, to the extent that such license is necessary to enable you to fully utilize the software.
+
+## Patent Disclosures
+
+Microsoft identifies patent rights that may cover the software. These are disclosed for informational purposes only. Nothing in this license is a waiver of, or an admission of, any such","
+## License
+
+Complete terms in [LICENSE.txt](LICENSE.txt).
+
+## Contributing
+
+Contributions are welcome. Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
+
+## Support
+
+Support is available on [GitHub Discussions](https://github.com/microsoft/playwright/discussions).
+
+## Reporting Bugs
+
+Please report bugs on [GitHub Issues](https://github.com/microsoft/playwright/issues).
+
+## Asking Questions
+
+Please ask questions on [Stack Overflow](https://stackoverflow.com/questions/tagged/playwright).
+
+## Joining the Community
+
+Join the community on [Stack Overflow](https://stackoverflow.com/questions/tagged/playwright) and [GitHub Discussions](https://github.com/microsoft/playwright/discussions).
+
+## Code of Conduct
+
+Please refer to [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+
+## Privacy Policy
+
+Please refer to [PRIVACY_POLICY.md](PRIVACY_POLICY.md).
+
+## Security Vulnerabilities
+
+Please refer to [SECURITY_VULNERABILITIES.md](SECURITY_VULNERABILITIES.md).
+
+## Trademarks
+
+Please refer to [TRADEMARKS.md](TRADEMARKS.md).
+
+## Copyright
+
+Copyright (c) 2020 Microsoft Corporation. All rights reserved.
+
+## License
+
+This software is licensed under the MIT license.
+
+## Disclaimer
+
+THIS CODE IS PROVIDED ON AN ""AS IS"" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED. YOU HEREBY ACKNOWLEDGE THAT USE OF THE CODE IS AT YOUR SOLE RISK. THE ENTIRE RISK ARISING OUT OF USE OR PERFORMANCE OF THE CODE REMAINS WITH YOU.
+
+This disclaimer of warranty is in lieu of any implied warranties of merchantability, fitness for a particular purpose, or non-infringement.
+
+## Patents
+
+Microsoft and its suppliers and licensors reserve all other rights.
+
+## Patent Grants
+
+You may use the code, covered by the MIT license, for any purpose, including for commercial purposes, without payment of royalties or any other fees to Microsoft or any of its suppliers.
+
+## Patent License
+
+Microsoft grants you a worldwide, royalty-free, non-exclusive license, under patents it owns that are necessary to make, use, sell, offer for sale, import, and otherwise transfer the software, to the extent that such license is necessary to enable you to fully utilize the software.
+
+## Patent Disclosures
+
+Microsoft identifies patent rights that may cover the software. These are disclosed for informational purposes only. Nothing in this license is a waiver of, or an admission of, any such","[13, 2277, 19245, 13, 13, 17813, 4958, 297, 518, 27888, 1430, 1660, 29889, 3945, 850, 27888, 1430, 1660, 29889, 3945, 467, 13, 13, 2277, 2866, 1091, 17068, 13, 13, 1323, 3224, 29879, 526, 12853, 29889, 3529, 2737, 304, 518, 22412, 3960, 29933, 2692, 4214, 29889, 3487, 850, 22412, 3960, 29933, 2692, 4214, 29889, 3487, 29897, 363, 901, 2472, 29889, 13, 13, 2277, 18601, 13, 13, 14039, 338, 3625, 373, 518, 28712, 16046, 8565, 1558, 1080, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 2218, 13571, 1080, 467, 13, 13, 2277, 13969, 292, 350, 16926, 13, 13, 12148, 3461, 24557, 373, 518, 28712, 16046, 16982, 1041, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 12175, 467, 13, 13, 2277, 26579, 292, 894, 29879, 13, 13, 12148, 2244, 5155, 373, 518, 7264, 28845, 850, 991, 597, 2417, 29889, 510, 29914, 2619, 29914, 4039, 3192, 29914, 1456, 29893, 1266, 467, 13, 13, 2277, 3650, 2827, 278, 19184, 13, 13, 17242, 278, 7881, 373, 518, 7264, 28845, 850, 991, 597, 2417, 29889, 510, 29914, 2619, 29914, 4039, 3192, 29914, 1456, 29893, 1266, 29897, 322, 518, 28712, 16046, 8565, 1558, 1080, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 2218, 13571, 1080, 467, 13, 13, 2277, 5920, 310, 1281, 2199, 13, 13, 12148, 2737, 304, 518, 16524, 29918, 9800, 29918, 6007, 14849, 1783, 29889, 3487, 850, 16524, 29918, 9800, 29918, 6007, 14849, 1783, 29889, 3487, 467, 13, 13, 2277, 18936, 4135, 25219, 13, 13, 12148, 2737, 304, 518, 29829, 29963, 2477, 29979, 29918, 29925, 5607, 2965, 29979, 29889, 3487, 850, 29829, 29963, 2477, 29979, 29918, 29925, 5607, 2965, 29979, 29889, 3487, 467, 13, 13, 2277, 14223, 478, 352, 1089, 11614, 13, 13, 12148, 2737, 304, 518, 1660, 22484, 11937, 29918, 29963, 13309, 13865, 2882, 6227, 1806, 29059, 29889, 3487, 850, 1660, 22484, 11937, 29918, 29963, 13309, 13865, 2882, 6227, 1806, 29059, 29889, 3487, 467, 13, 13, 2277, 3201, 2310, 17862, 13, 13, 12148, 2737, 304, 518, 29911, 4717, 2287, 1529, 29934, 17557, 29889, 3487, 850, 29911, 4717, 2287, 1529, 29934, 17557, 29889, 3487, 467, 13, 13, 2277, 14187, 1266, 13, 13, 11882, 1266, 313, 29883, 29897, 29871, 29906, 29900, 29906, 29900, 7783, 15025, 29889, 2178, 10462, 21676, 29889, 13, 13, 2277, 19245, 13, 13, 4013, 7047, 338, 7794, 21144, 1090, 278, 341, 1806, 19405, 29889, 13, 13, 2277, 8565, 433, 4193, 13, 13, 4690, 3235, 4810, 2287, 8519, 13756, 13044, 3352, 6732, 13764, 376, 3289, 8519, 29908, 350, 3289, 3235, 29892, 399, 1806, 8187, 2692, 399, 1718, 29934, 13566, 29059, 6323, 5195, 15094, 29903, 3919, 8098, 29903, 8079, 13764, 29979, 476, 22255, 29892, 382, 1806, 4448, 8528, 15094, 1799, 6323, 306, 3580, 5265, 3352, 29889, 612, 27269, 379, 27267, 22716, 319, 7077, 6632, 29956, 20566, 1692, 3446, 1299, 501, 1660, 8079, 6093, 4810, 2287, 8519, 15531, 612, 22970, 7791, 1307, 390, 3235, 29968, 29889, 6093, 12524, 24301, 1525, 390, 3235, 29968, 9033, 3235, 4214, 19474, 8079, 501, 1660, 6323, 349, 1001, 22051, 27616, 4741, 8079, 6093, 4810, 2287, 5195, 29032, 29903, 22659, 612, 27269, 29889, 13, 13, 4013, 2313, 433, 4193, 310, 1370, 21867, 29891, 338, 297, 13003, 310, 738, 2411, 2957, 1370, 21867, 583, 310, 29055, 3097, 29892, 6216, 2264, 363, 263, 3153, 6437, 29892, 470, 1661, 29899, 262, 1341, 292, 882, 29889, 13, 13, 2277, 4121, 1237, 13, 13, 11277, 322, 967, 1462, 27801, 322, 7794, 575, 943, 23986, 599, 916, 10462, 29889, 13, 13, 2277, 4121, 296, 1632, 1934, 13, 13, 3492, 1122, 671, 278, 775, 29892, 10664, 491, 278, 341, 1806, 19405, 29892, 363, 738, 6437, 29892, 3704, 363, 12128, 11976, 29892, 1728, 19179, 310, 20258, 1997, 583, 470, 738, 916, 1238, 267, 304, 7783, 470, 738, 310, 967, 1462, 27801, 29889, 13, 13, 2277, 4121, 296, 19245, 13, 13, 11277, 867, 1934, 366, 263, 3186, 8157, 29892, 15150, 1017, 29899, 9021, 29892, 1661, 29899, 735, 7009, 573, 19405, 29892, 1090, 2373, 1237, 372, 1914, 29879, 393, 526, 5181, 304, 1207, 29892, 671, 29892, 19417, 29892, 5957, 363, 14686, 29892, 1053, 29892, 322, 6467, 6782, 278, 7047, 29892, 304, 278, 15834, 393, 1316, 19405, 338, 5181, 304, 9025, 366, 304, 8072, 3667, 675, 278, 7047, 29889, 13, 13, 2277, 4121, 296, 3295, 11291, 1973, 13, 13, 11277, 2893, 11057, 2373, 296, 10462, 393, 1122, 4612, 278, 7047, 29889, 4525, 526, 766, 15603, 363, 1871, 1288, 11976, 871, 29889, 9531, 297, 445, 19405, 338, 263, 281, 1794, 369, 310, 29892, 470, 385, 594, 6737, 310, 29892, 738, 1316]",701,751,False,ok,
+"---
+name: code-editor-testing
+description: Playwright skill for browser code editor testing. Use it to exercise browser-based editing, formatting, shortcuts, preview, and persistence.
+license: Complete terms in LICENSE.txt
+---
+
+# Browser Code Editor Testing
+
+## Objective
+
+Use this skill to exercise browser-based editing, formatting, shortcuts, preview, and persistence. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Decision Guide
+
+```text
+Is the target state already available?
+├─ Yes → Navigate directly and verify it.
+└─ No  → Create or mock the smallest safe fixture.
+
+Does the action cross a boundary?
+├─ UI only → Assert component state.
+├─ Network → Observe the narrow endpoint.
+└─ New page/file → Use expect_popup or expect_download.
+```
+
+## Execution Steps
+
+1. Identify the smallest safe fixture.
+2. Register relevant browser listeners.
+3. Enter a small deterministic document, apply one meaningful edit, save or preview it, and inspect normalized output.
+4. Assert the outcome through user-facing semantics.
+5. Preserve evidence only when it improves diagnosis.
+
+## Native Playwright Pattern
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+
+## Common Pitfall
+
+Strict raw HTML assertions can fail on semantically equivalent editor output.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,"```
+
+## Examples
+
+- [Code editor](./code-editor.md)
+- [Code editor preview](./code-editor-preview.md)
+- [Code editor download](./code-editor-download.md)
+- [Code editor persistence](./code-editor-persistence.md)
+- [Code editor shortcuts](./code-editor-shortcuts.md)
+- [Code editor formatting](./code-editor-formatting.md)
+- [Code editor autocomplete](./code-editor-autocomplete.md)
+- [Code editor search](./code-editor-search.md)
+- [Code editor history](./code-editor-history.md)
+- [Code editor undo](./code-editor-undo.md)
+- [Code editor redo](./code-editor-redo.md)
+- [Code editor undo/redo](./code-editor-undo-redo.md)
+- [Code editor context menu](./code-editor-context-menu.md)
+- [Code editor context menu item](./code-editor-context-menu-item.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./","```
+
+## Examples
+
+- [Code editor](./code-editor.md)
+- [Code editor preview](./code-editor-preview.md)
+- [Code editor download](./code-editor-download.md)
+- [Code editor persistence](./code-editor-persistence.md)
+- [Code editor shortcuts](./code-editor-shortcuts.md)
+- [Code editor formatting](./code-editor-formatting.md)
+- [Code editor autocomplete](./code-editor-autocomplete.md)
+- [Code editor search](./code-editor-search.md)
+- [Code editor history](./code-editor-history.md)
+- [Code editor undo](./code-editor-undo.md)
+- [Code editor redo](./code-editor-redo.md)
+- [Code editor undo/redo](./code-editor-undo-redo.md)
+- [Code editor context menu](./code-editor-context-menu.md)
+- [Code editor context menu item](./code-editor-context-menu-item.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./code-editor-context-menu-item-enabled.md)
+- [Code editor context menu item disabled](./code-editor-context-menu-item-disabled.md)
+- [Code editor context menu item enabled](./","[28956, 13, 13, 2277, 1222, 9422, 13, 13, 29899, 518, 3399, 6920, 850, 6904, 401, 29899, 15204, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 25267, 850, 6904, 401, 29899, 15204, 29899, 25347, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 5142, 850, 6904, 401, 29899, 15204, 29899, 10382, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3736, 11416, 850, 6904, 401, 29899, 15204, 29899, 28249, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 21697, 29879, 850, 6904, 401, 29899, 15204, 29899, 12759, 7582, 29879, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 15998, 850, 6904, 401, 29899, 15204, 29899, 689, 23980, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 4469, 8835, 850, 6904, 401, 29899, 15204, 29899, 6921, 8835, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 2740, 850, 6904, 401, 29899, 15204, 29899, 4478, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 4955, 850, 6904, 401, 29899, 15204, 29899, 18434, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 563, 29877, 850, 6904, 401, 29899, 15204, 29899, 6201, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 337, 1867, 850, 6904, 401, 29899, 15204, 29899, 1127, 29877, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 563, 29877, 29914, 1127, 29877, 850, 6904, 401, 29899, 15204, 29899, 6201, 29899, 1127, 29877, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 12708, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 18279, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 9615, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 17590, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 12708, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 18279, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 9615, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 17590, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 12708, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 18279, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 9615, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 17590, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 12708, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 18279, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 9615, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 17590, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 12708, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 18279, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 9615, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 17590, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 12708, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 18279, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 9615, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 17590, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 12708, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 18279, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 9615, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 17590, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 12708, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 18279, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 9615, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 17590, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 12708, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 18279, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 9615, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 17590, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 12708, 850, 6904, 401, 29899, 15204, 29899, 4703, 29899, 6510, 29899, 667, 29899, 18279, 29889, 3487, 29897, 13, 29899, 518, 3399, 6920, 3030, 6143, 2944, 9615, 850, 6904]",690,740,False,ok,
+"---
+name: product-variant-testing
+description: Playwright skill for product variant testing. Use it to test shopping and checkout behavior without creating real financial side effects.
+license: Complete terms in LICENSE.txt
+---
+
+# Product Variant Testing
+
+## Objective
+
+Use this skill to test shopping and checkout behavior without creating real financial side effects. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Testing Strategy
+
+- **Arrange:** create known state and isolate cookies, storage, and records.
+- **Act:** Use seeded products and sandbox boundaries, perform the user flow, and verify identifiers, totals, and resulting state.
+- **Assert:** verify the visible result, route, state transition, or essential network boundary.
+- **Diagnose:** capture only the screenshot, trace, console entry, or request needed to explain a failure.
+- **Clean up:** remove created records when fixtures are not disposable.
+
+## Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+A browser test must not submit a real charge or uncontrolled production order.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,</s>,,[2],665,1,True,ok,
+"---
+name: service-worker-testing
+description: Playwright skill for service worker testing. Use it to test service-worker, manifest, caching, and offline application behavior.
+license: Complete terms in LICENSE.txt
+---
+
+# Service Worker Testing
+
+## Objective
+
+Use this skill to test service-worker, manifest, caching, and offline application behavior. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Testing Strategy
+
+- **Arrange:** create known state and isolate cookies, storage, and records.
+- **Act:** Use a clean context, inspect registrations or manifest resources, then verify a controlled cached or offline route.
+- **Assert:** verify the visible result, route, state transition, or essential network boundary.
+- **Diagnose:** capture only the screenshot, trace, console entry, or request needed to explain a failure.
+- **Clean up:** remove created records when fixtures are not disposable.
+
+## Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+A stale service worker from a previous run can make results misleading.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,</s>,,[2],664,1,True,ok,
+"---
+name: debounce-testing
+description: Playwright skill for debounced input testing. Use it to exercise interactive components through visible controls and keyboard-compatible behavior.
+license: Complete terms in LICENSE.txt
+---
+
+# Debounced Input Testing
+
+## Objective
+
+Use this skill to exercise interactive components through visible controls and keyboard-compatible behavior. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Decision Guide
+
+```text
+Is the target state already available?
+├─ Yes → Navigate directly and verify it.
+└─ No  → Create or mock the smallest safe fixture.
+
+Does the action cross a boundary?
+├─ UI only → Assert component state.
+├─ Network → Observe the narrow endpoint.
+└─ New page/file → Use expect_popup or expect_download.
+```
+
+## Execution Steps
+
+1. Identify the smallest safe fixture.
+2. Register relevant browser listeners.
+3. Trigger the component by role or label, wait for a semantic state change, and verify dismissal or persistence as appropriate.
+4. Assert the outcome through user-facing semantics.
+5. Preserve evidence only when it improves diagnosis.
+
+## Native Playwright Pattern
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+
+## Common Pitfall
+
+Raw coordinate clicks are fragile when layout or viewport dimensions change.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,"
+## Code of Conduct
+
+Please follow the [Code of Conduct](CODE_OF_CONDUCT.md) when contributing to this skill.
+
+## License
+
+This skill is licensed under the [MIT License](LICENSE.txt).
+</s>","
+## Code of Conduct
+
+Please follow the [Code of Conduct](CODE_OF_CONDUCT.md) when contributing to this skill.
+
+## License
+
+This skill is licensed under the [MIT License](LICENSE.txt).
+","[13, 2277, 5920, 310, 1281, 2199, 13, 13, 12148, 1101, 278, 518, 3399, 310, 1281, 2199, 850, 16524, 29918, 9800, 29918, 6007, 14849, 1783, 29889, 3487, 29897, 746, 17737, 17068, 304, 445, 19911, 29889, 13, 13, 2277, 19245, 13, 13, 4013, 19911, 338, 7794, 21144, 1090, 278, 518, 26349, 19245, 850, 27888, 1430, 1660, 29889, 3945, 467, 13, 2]",679,59,True,ok,
+"---
+name: chart-rendering-testing
+description: Playwright skill for chart rendering testing. Use it to validate tables, dashboards, charts, and user-facing data summaries.
+license: Complete terms in LICENSE.txt
+---
+
+# Chart Rendering Testing
+
+## Objective
+
+Use this skill to validate tables, dashboards, charts, and user-facing data summaries. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Recommended Workflow
+
+1. Establish deterministic test data before opening the page.
+2. Load known data, locate records by stable content, and verify labels, values, selection, or navigation.
+3. Assert a user-visible result and one underlying signal when useful.
+4. Preserve focused diagnostics on failure.
+5. Close browser contexts and temporary resources.
+
+## Playwright Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    table = page.get_by_role(""table"")
+    expect(table).to_be_visible()
+    expect(table.get_by_role(""row"").first).to_be_visible()
+    browser.close()
+```
+
+## Failure Signals
+
+- the target cannot be located by role, label, text, or a stable identifier;
+- the page reaches the expected URL but renders the wrong state;
+- the interface changes while the related request or persisted state fails;
+- the script depends on an arbitrary sleep instead of an observable event.
+
+
+## Common Pitfall
+
+DOM position selectors couple the test to presentation order.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,</s>,,[2],663,1,True,ok,
+"---
+name: pwa-installability-testing
+description: Playwright skill for pwa installability testing. Use it to test service-worker, manifest, caching, and offline application behavior.
+license: Complete terms in LICENSE.txt
+---
+
+# PWA Installability Testing
+
+## Objective
+
+Use this skill to test service-worker, manifest, caching, and offline application behavior. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Decision Guide
+
+```text
+Is the target state already available?
+├─ Yes → Navigate directly and verify it.
+└─ No  → Create or mock the smallest safe fixture.
+
+Does the action cross a boundary?
+├─ UI only → Assert component state.
+├─ Network → Observe the narrow endpoint.
+└─ New page/file → Use expect_popup or expect_download.
+```
+
+## Execution Steps
+
+1. Identify the smallest safe fixture.
+2. Register relevant browser listeners.
+3. Use a clean context, inspect registrations or manifest resources, then verify a controlled cached or offline route.
+4. Assert the outcome through user-facing semantics.
+5. Preserve evidence only when it improves diagnosis.
+
+## Native Playwright Pattern
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+
+## Common Pitfall
+
+A stale service worker from a previous run can make results misleading.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,"
+## Examples
+
+### Verify a Cached Route
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+### Verify a Manifest Route
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+### Verify an Offline Route
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+### Verify a Cached and Offline Route
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+### Verify a Manifest and Offline Route
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+### Verify a Cached and Manifest Route
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:","
+## Examples
+
+### Verify a Cached Route
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+### Verify a Manifest Route
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+### Verify an Offline Route
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+### Verify a Cached and Offline Route
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+### Verify a Manifest and Offline Route
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+### Verify a Cached and Manifest Route
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:","[13, 2277, 1222, 9422, 13, 13, 2277, 29937, 1798, 1598, 263, 315, 3791, 12034, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 29889, 10685, 29918, 1454, 29918, 1359, 29918, 3859, 703, 3129, 3051, 15638, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 29937, 1798, 1598, 263, 2315, 7004, 12034, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 29889, 10685, 29918, 1454, 29918, 1359, 29918, 3859, 703, 3129, 3051, 15638, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 29937, 1798, 1598, 385, 5947, 1220, 12034, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 29889, 10685, 29918, 1454, 29918, 1359, 29918, 3859, 703, 3129, 3051, 15638, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 29937, 1798, 1598, 263, 315, 3791, 322, 5947, 1220, 12034, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 29889, 10685, 29918, 1454, 29918, 1359, 29918, 3859, 703, 3129, 3051, 15638, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 29937, 1798, 1598, 263, 2315, 7004, 322, 5947, 1220, 12034, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 29889, 10685, 29918, 1454, 29918, 1359, 29918, 3859, 703, 3129, 3051, 15638, 1159, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 29937, 1798, 1598, 263, 315, 3791, 322, 2315, 7004, 12034, 13, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901]",687,737,False,ok,
+"---
+name: media-permission-testing
+description: Playwright skill for camera and microphone permission testing. Use it to test permission-dependent browser features with deterministic context configuration.
+license: Complete terms in LICENSE.txt
+---
+
+# Camera and Microphone Permission Testing
+
+## Objective
+
+Use this skill to test permission-dependent browser features with deterministic context configuration. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Testing Strategy
+
+- **Arrange:** create known state and isolate cookies, storage, and records.
+- **Act:** Grant or deny the required permission before navigation, provide controlled values, and compare the resulting UI.
+- **Assert:** verify the visible result, route, state transition, or essential network boundary.
+- **Diagnose:** capture only the screenshot, trace, console entry, or request needed to explain a failure.
+- **Clean up:** remove created records when fixtures are not disposable.
+
+## Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    context = browser.new_context(
+        geolocation={""latitude"": 51.5074, ""longitude"": -0.1278}
+    )
+    context.grant_permissions([""geolocation""], origin=""http://localhost:5173"")
+    page = context.new_page()
+    page.goto(""http://localhost:5173"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+Interactive real browser prompts and hardware dependencies are unreliable in headless CI.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,</s>,,[2],708,1,True,ok,
+"---
+name: empty-state-testing
+description: Playwright skill for empty state testing. Use it to verify loading, empty, error, optimistic, and recovery states.
+license: Complete terms in LICENSE.txt
+---
+
+# Empty State Testing
+
+## Objective
+
+Use this skill to verify loading, empty, error, optimistic, and recovery states. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Testing Strategy
+
+- **Arrange:** create known state and isolate cookies, storage, and records.
+- **Act:** Create the target state deterministically, assert its explanation and available action, then exercise recovery when applicable.
+- **Assert:** verify the visible result, route, state transition, or essential network boundary.
+- **Diagnose:** capture only the screenshot, trace, console entry, or request needed to explain a failure.
+- **Clean up:** remove created records when fixtures are not disposable.
+
+## Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+Relying on an accidental outage or empty account makes the scenario difficult to reproduce.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,"
+## Playwright API Reference
+
+- [Playwright API Reference](https://playwright.dev/api/python/overview)
+- [Playwright API Reference](https://playwright.dev/api/python/overview)
+
+## Playwright Documentation
+
+- [Playwright Documentation](https://playwright.dev/docs/overview)
+- [Playwright Documentation](https://playwright.dev/docs/overview)
+
+## Playwright Community
+
+- [Playwright Community](https://github.com/microsoft/playwright/discussions)
+- [Playwright Community](https://github.com/microsoft/playwright/discussions)
+
+## Playwright Contributing
+
+- [Playwright Contributing](https://github.com/microsoft/playwright/blob/main/CONTRIBUTING.md)
+- [Playwright Contributing](https://github.com/microsoft/playwright/blob/main/CONTRIBUTING.md)
+
+## Playwright License
+
+- [Playwright License](https://github.com/microsoft/playwright/blob/main/LICENSE)
+- [Playwright License](https://github.com/microsoft/playwright/blob/main/LICENSE)
+
+## Playwright Legal
+
+- [Playwright Legal](https://github.com/microsoft/playwright/blob/main/LEGAL)
+- [Playwright Legal](https://github.com/microsoft/playwright/blob/main/LEGAL)
+
+## Playwright Support
+
+- [Playwright Support](https://github.com/microsoft/playwright/issues)
+- [Playwright Support](https://github.com/microsoft/playwright/issues)
+
+## Playwright Community
+
+- [Playwright Community](https://github.com/microsoft/playwright/discussions)
+- [Playwright Community](https://github.com/microsoft/playwright/discussions)
+
+## Playwright Contributing
+
+- [Playwright Contributing](https://github.com/microsoft/playwright/blob/main/CONTRIBUTING.md)
+- [Playwright Contributing](https://github.com/microsoft/playwright/blob/main/CONTRIBUTING.md)
+
+## Playwright License
+
+- [Playwright License](https://github.com/microsoft/playwright/blob/main/LICENSE)
+- [Playwright License](https://github.com/microsoft/playwright/blob/main/LICENSE)
+
+## Playwright Legal
+
+- [Playwright Legal](https://github.com/microsoft/playwright/blob/main/LEGAL)
+- [Playwright Legal](https://github.com/microsoft/playwright/blob/main/LEGAL)
+
+## Playwright Support
+
+- [Playwright Support](https://github.com/microsoft/","
+## Playwright API Reference
+
+- [Playwright API Reference](https://playwright.dev/api/python/overview)
+- [Playwright API Reference](https://playwright.dev/api/python/overview)
+
+## Playwright Documentation
+
+- [Playwright Documentation](https://playwright.dev/docs/overview)
+- [Playwright Documentation](https://playwright.dev/docs/overview)
+
+## Playwright Community
+
+- [Playwright Community](https://github.com/microsoft/playwright/discussions)
+- [Playwright Community](https://github.com/microsoft/playwright/discussions)
+
+## Playwright Contributing
+
+- [Playwright Contributing](https://github.com/microsoft/playwright/blob/main/CONTRIBUTING.md)
+- [Playwright Contributing](https://github.com/microsoft/playwright/blob/main/CONTRIBUTING.md)
+
+## Playwright License
+
+- [Playwright License](https://github.com/microsoft/playwright/blob/main/LICENSE)
+- [Playwright License](https://github.com/microsoft/playwright/blob/main/LICENSE)
+
+## Playwright Legal
+
+- [Playwright Legal](https://github.com/microsoft/playwright/blob/main/LEGAL)
+- [Playwright Legal](https://github.com/microsoft/playwright/blob/main/LEGAL)
+
+## Playwright Support
+
+- [Playwright Support](https://github.com/microsoft/playwright/issues)
+- [Playwright Support](https://github.com/microsoft/playwright/issues)
+
+## Playwright Community
+
+- [Playwright Community](https://github.com/microsoft/playwright/discussions)
+- [Playwright Community](https://github.com/microsoft/playwright/discussions)
+
+## Playwright Contributing
+
+- [Playwright Contributing](https://github.com/microsoft/playwright/blob/main/CONTRIBUTING.md)
+- [Playwright Contributing](https://github.com/microsoft/playwright/blob/main/CONTRIBUTING.md)
+
+## Playwright License
+
+- [Playwright License](https://github.com/microsoft/playwright/blob/main/LICENSE)
+- [Playwright License](https://github.com/microsoft/playwright/blob/main/LICENSE)
+
+## Playwright Legal
+
+- [Playwright Legal](https://github.com/microsoft/playwright/blob/main/LEGAL)
+- [Playwright Legal](https://github.com/microsoft/playwright/blob/main/LEGAL)
+
+## Playwright Support
+
+- [Playwright Support](https://github.com/microsoft/","[13, 2277, 7412, 29893, 1266, 3450, 12105, 13, 13, 29899, 518, 13454, 29893, 1266, 3450, 12105, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2754, 29914, 4691, 29914, 957, 1493, 29897, 13, 29899, 518, 13454, 29893, 1266, 3450, 12105, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2754, 29914, 4691, 29914, 957, 1493, 29897, 13, 13, 2277, 7412, 29893, 1266, 10854, 362, 13, 13, 29899, 518, 13454, 29893, 1266, 10854, 362, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 957, 1493, 29897, 13, 29899, 518, 13454, 29893, 1266, 10854, 362, 850, 991, 597, 1456, 29893, 1266, 29889, 3359, 29914, 2640, 29914, 957, 1493, 29897, 13, 13, 2277, 7412, 29893, 1266, 19184, 13, 13, 29899, 518, 13454, 29893, 1266, 19184, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 2218, 13571, 1080, 29897, 13, 29899, 518, 13454, 29893, 1266, 19184, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 2218, 13571, 1080, 29897, 13, 13, 2277, 7412, 29893, 1266, 2866, 1091, 17068, 13, 13, 29899, 518, 13454, 29893, 1266, 2866, 1091, 17068, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 10054, 29914, 3396, 29914, 22412, 3960, 29933, 2692, 4214, 29889, 3487, 29897, 13, 29899, 518, 13454, 29893, 1266, 2866, 1091, 17068, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 10054, 29914, 3396, 29914, 22412, 3960, 29933, 2692, 4214, 29889, 3487, 29897, 13, 13, 2277, 7412, 29893, 1266, 19245, 13, 13, 29899, 518, 13454, 29893, 1266, 19245, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 10054, 29914, 3396, 29914, 27888, 1430, 1660, 29897, 13, 29899, 518, 13454, 29893, 1266, 19245, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 10054, 29914, 3396, 29914, 27888, 1430, 1660, 29897, 13, 13, 2277, 7412, 29893, 1266, 5682, 284, 13, 13, 29899, 518, 13454, 29893, 1266, 5682, 284, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 10054, 29914, 3396, 29914, 1307, 29954, 1964, 29897, 13, 29899, 518, 13454, 29893, 1266, 5682, 284, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 10054, 29914, 3396, 29914, 1307, 29954, 1964, 29897, 13, 13, 2277, 7412, 29893, 1266, 18601, 13, 13, 29899, 518, 13454, 29893, 1266, 18601, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 12175, 29897, 13, 29899, 518, 13454, 29893, 1266, 18601, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 12175, 29897, 13, 13, 2277, 7412, 29893, 1266, 19184, 13, 13, 29899, 518, 13454, 29893, 1266, 19184, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 2218, 13571, 1080, 29897, 13, 29899, 518, 13454, 29893, 1266, 19184, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 2218, 13571, 1080, 29897, 13, 13, 2277, 7412, 29893, 1266, 2866, 1091, 17068, 13, 13, 29899, 518, 13454, 29893, 1266, 2866, 1091, 17068, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 10054, 29914, 3396, 29914, 22412, 3960, 29933, 2692, 4214, 29889, 3487, 29897, 13, 29899, 518, 13454, 29893, 1266, 2866, 1091, 17068, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 10054, 29914, 3396, 29914, 22412, 3960, 29933, 2692, 4214, 29889, 3487, 29897, 13, 13, 2277, 7412, 29893, 1266, 19245, 13, 13, 29899, 518, 13454, 29893, 1266, 19245, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 10054, 29914, 3396, 29914, 27888, 1430, 1660, 29897, 13, 29899, 518, 13454, 29893, 1266, 19245, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 10054, 29914, 3396, 29914, 27888, 1430, 1660, 29897, 13, 13, 2277, 7412, 29893, 1266, 5682, 284, 13, 13, 29899, 518, 13454, 29893, 1266, 5682, 284, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 10054, 29914, 3396, 29914, 1307, 29954, 1964, 29897, 13, 29899, 518, 13454, 29893, 1266, 5682, 284, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914, 1456, 29893, 1266, 29914, 10054, 29914, 3396, 29914, 1307, 29954, 1964, 29897, 13, 13, 2277, 7412, 29893, 1266, 18601, 13, 13, 29899, 518, 13454, 29893, 1266, 18601, 850, 991, 597, 3292, 29889, 510, 29914, 4994, 29914]",665,715,False,ok,
+"---
+name: registration-flow-testing
+description: Playwright skill for user registration testing. Use it to test authentication state, account boundaries, and protected behavior.
+license: Complete terms in LICENSE.txt
+---
+
+# User Registration Testing
+
+## Objective
+
+Use this skill to test authentication state, account boundaries, and protected behavior. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Testing Strategy
+
+- **Arrange:** create known state and isolate cookies, storage, and records.
+- **Act:** Use disposable credentials or fixtures, perform the authentication action, and verify a protected element or safe redirect.
+- **Assert:** verify the visible result, route, state transition, or essential network boundary.
+- **Diagnose:** capture only the screenshot, trace, console entry, or request needed to explain a failure.
+- **Clean up:** remove created records when fixtures are not disposable.
+
+## Example
+
+```python
+import os
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.get_by_label(""Email"").fill(os.environ[""TEST_EMAIL""])
+    page.get_by_label(""Password"").fill(os.environ[""TEST_PASSWORD""])
+    page.get_by_role(""button"", name=""Sign in"").click()
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+Hard-coding real credentials leaks secrets and makes the sample unsafe to reuse.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,"```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.get_by_label(""Email"").fill(os.environ[""TEST_EMAIL""])
+    page.get_by_label(""Password"").fill(os.environ[""TEST_PASSWORD""])
+    page.get_by_role(""button"", name=""Sign in"").click()
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+Hard-coding real credentials leaks secrets and makes the sample unsafe to reuse.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+importsummaryPython Provin wer Princi stdidAU Mex overridHEAD
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.get_by_label(""Email"").fill(os.environ[""TEST_EMAIL""])
+    page.get_by_label(""Password"").fill(os.environ[""TEST_PASSWORD""])
+    page.get_by_role(""button"", name=""Sign in"").click()
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+Hard-coding real credentials leaks secrets and makes the sample unsafe to reuse.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+importsummaryPython Provin wer Princi stdidAU Mex overridHEAD
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page =","```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.get_by_label(""Email"").fill(os.environ[""TEST_EMAIL""])
+    page.get_by_label(""Password"").fill(os.environ[""TEST_PASSWORD""])
+    page.get_by_role(""button"", name=""Sign in"").click()
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+Hard-coding real credentials leaks secrets and makes the sample unsafe to reuse.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+importsummaryPython Provin wer Princi stdidAU Mex overridHEAD
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.get_by_label(""Email"").fill(os.environ[""TEST_EMAIL""])
+    page.get_by_label(""Password"").fill(os.environ[""TEST_PASSWORD""])
+    page.get_by_role(""button"", name=""Sign in"").click()
+    expect(page.get_by_role(""main"")).to_be_visible()
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+Hard-coding real credentials leaks secrets and makes the sample unsafe to reuse.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+importsummaryPython Provin wer Princi stdidAU Mex overridHEAD
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page =","[28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 29889, 657, 29918, 1609, 29918, 1643, 703, 9823, 2564, 5589, 29898, 359, 29889, 21813, 3366, 18267, 29918, 26862, 6227, 20068, 13, 1678, 1813, 29889, 657, 29918, 1609, 29918, 1643, 703, 10048, 2564, 5589, 29898, 359, 29889, 21813, 3366, 18267, 29918, 25711, 17013, 20068, 13, 1678, 1813, 29889, 657, 29918, 1609, 29918, 12154, 703, 3092, 613, 1024, 543, 10140, 297, 2564, 3808, 580, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 390, 5037, 3097, 390, 2540, 13, 13, 15213, 1741, 11621, 414, 1434, 7135, 292, 4959, 29889, 4721, 571, 1180, 1061, 29892, 2933, 29892, 3988, 29892, 18218, 29892, 470, 5142, 2149, 800, 975, 4343, 628, 1036, 29889, 13, 13, 13, 2277, 13103, 29244, 11950, 13, 13, 29950, 538, 29899, 29883, 3689, 1855, 16140, 454, 10327, 22183, 1372, 322, 3732, 278, 4559, 25110, 304, 24270, 29889, 13, 13, 2277, 15642, 12757, 5399, 1761, 13, 13, 29899, 518, 4514, 450, 6230, 508, 1065, 28424, 1728, 12219, 26032, 29889, 13, 29899, 518, 4514, 450, 1180, 1061, 13705, 9432, 29879, 825, 263, 1404, 508, 17189, 573, 29889, 13, 29899, 518, 4514, 450, 28306, 12747, 278, 1855, 21957, 310, 278, 10483, 29889, 13, 29899, 518, 4514, 27747, 6030, 338, 12231, 1891, 1549, 385, 1741, 470, 13714, 2106, 29889, 13, 29899, 518, 4514, 29098, 545, 24238, 29879, 526, 2702, 3307, 304, 24876, 852, 278, 2228, 29889, 13, 29899, 518, 4514, 1939, 6625, 2556, 29892, 5802, 2407, 29892, 470, 7029, 2625, 2779, 338, 19884, 29889, 13, 5215, 7727, 11980, 11127, 2949, 14771, 3659, 333, 25951, 7578, 20831, 23252, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353, 4714, 29889, 1482, 29918, 3488, 580, 13, 1678, 1813, 29889, 27102, 703, 1124, 597, 7640, 29901, 29945, 29896, 29955, 29941, 1159, 13, 1678, 1813, 29889, 657, 29918, 1609, 29918, 1643, 703, 9823, 2564, 5589, 29898, 359, 29889, 21813, 3366, 18267, 29918, 26862, 6227, 20068, 13, 1678, 1813, 29889, 657, 29918, 1609, 29918, 1643, 703, 10048, 2564, 5589, 29898, 359, 29889, 21813, 3366, 18267, 29918, 25711, 17013, 20068, 13, 1678, 1813, 29889, 657, 29918, 1609, 29918, 12154, 703, 3092, 613, 1024, 543, 10140, 297, 2564, 3808, 580, 13, 1678, 2149, 29898, 3488, 29889, 657, 29918, 1609, 29918, 12154, 703, 3396, 1159, 467, 517, 29918, 915, 29918, 12872, 580, 13, 1678, 4714, 29889, 5358, 580, 13, 28956, 13, 13, 2277, 390, 5037, 3097, 390, 2540, 13, 13, 15213, 1741, 11621, 414, 1434, 7135, 292, 4959, 29889, 4721, 571, 1180, 1061, 29892, 2933, 29892, 3988, 29892, 18218, 29892, 470, 5142, 2149, 800, 975, 4343, 628, 1036, 29889, 13, 13, 13, 2277, 13103, 29244, 11950, 13, 13, 29950, 538, 29899, 29883, 3689, 1855, 16140, 454, 10327, 22183, 1372, 322, 3732, 278, 4559, 25110, 304, 24270, 29889, 13, 13, 2277, 15642, 12757, 5399, 1761, 13, 13, 29899, 518, 4514, 450, 6230, 508, 1065, 28424, 1728, 12219, 26032, 29889, 13, 29899, 518, 4514, 450, 1180, 1061, 13705, 9432, 29879, 825, 263, 1404, 508, 17189, 573, 29889, 13, 29899, 518, 4514, 450, 28306, 12747, 278, 1855, 21957, 310, 278, 10483, 29889, 13, 29899, 518, 4514, 27747, 6030, 338, 12231, 1891, 1549, 385, 1741, 470, 13714, 2106, 29889, 13, 29899, 518, 4514, 29098, 545, 24238, 29879, 526, 2702, 3307, 304, 24876, 852, 278, 2228, 29889, 13, 29899, 518, 4514, 1939, 6625, 2556, 29892, 5802, 2407, 29892, 470, 7029, 2625, 2779, 338, 19884, 29889, 13, 5215, 7727, 11980, 11127, 2949, 14771, 3659, 333, 25951, 7578, 20831, 23252, 13, 28956, 4691, 13, 3166, 1708, 29893, 1266, 29889, 16593, 29918, 2754, 1053, 16523, 29918, 1456, 29893, 1266, 29892, 2149, 13, 13, 2541, 16523, 29918, 1456, 29893, 1266, 580, 408, 282, 29901, 13, 1678, 4714, 353, 282, 29889, 27433, 1974, 29889, 15343, 29898, 2813, 2222, 29922, 5574, 29897, 13, 1678, 1813, 353]",701,751,False,ok,
+"---
+name: timezone-testing
+description: Playwright skill for timezone-sensitive ui testing. Use it to check locale, timezone, translated content, and direction-sensitive presentation.
+license: Complete terms in LICENSE.txt
+---
+
+# Timezone-sensitive UI Testing
+
+## Objective
+
+Use this skill to check locale, timezone, translated content, and direction-sensitive presentation. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Testing Strategy
+
+- **Arrange:** create known state and isolate cookies, storage, and records.
+- **Act:** Create a context with explicit locale or timezone settings and verify deterministic labels, dates, and formatted values.
+- **Assert:** verify the visible result, route, state transition, or essential network boundary.
+- **Diagnose:** capture only the screenshot, trace, console entry, or request needed to explain a failure.
+- **Clean up:** remove created records when fixtures are not disposable.
+
+## Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+Using the runner's default locale or timezone hides conversion defects.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,</s>,,[2],667,1,True,ok,
+"---
+name: data-persistence-testing
+description: Playwright skill for data persistence testing. Use it to verify durable application state after edits, navigation, or reload.
+license: Complete terms in LICENSE.txt
+---
+
+# Data Persistence Testing
+
+## Objective
+
+Use this skill to verify durable application state after edits, navigation, or reload. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Testing Strategy
+
+- **Arrange:** create known state and isolate cookies, storage, and records.
+- **Act:** Create deterministic data through the UI, capture a stable identifier, revisit the view, and compare the stored fields.
+- **Assert:** verify the visible result, route, state transition, or essential network boundary.
+- **Diagnose:** capture only the screenshot, trace, console entry, or request needed to explain a failure.
+- **Clean up:** remove created records when fixtures are not disposable.
+
+## Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    page.wait_for_load_state(""domcontentloaded"")
+    expect(page.get_by_role(""main"")).to_be_visible()
+    # Add the scenario-specific action and assertion.
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+An immediate success message does not prove persistence.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,</s>,,[2],660,1,True,ok,
+"---
+name: dashboard-testing
+description: Playwright skill for dashboard testing. Use it to validate tables, dashboards, charts, and user-facing data summaries.
+license: Complete terms in LICENSE.txt
+---
+
+# Dashboard Testing
+
+## Objective
+
+Use this skill to validate tables, dashboards, charts, and user-facing data summaries. Keep the scenario deterministic, safe to rerun, and independent of mutable public data.
+
+## Operating Principles
+
+- Use native Python Playwright APIs.
+- Run bundled helper scripts with `--help` before relying on them.
+- Register routes, listeners, and expectations before the triggering action.
+- Prefer semantic locators and observable waits over arbitrary sleeps.
+- Launch Chromium in headless mode unless another engine is explicitly required.
+- Never expose secrets, submit real payments, or modify uncontrolled production data.
+- Always close pages, contexts, and browsers.
+
+## Testing Strategy
+
+- **Arrange:** create known state and isolate cookies, storage, and records.
+- **Act:** Load known data, locate records by stable content, and verify labels, values, selection, or navigation.
+- **Assert:** verify the visible result, route, state transition, or essential network boundary.
+- **Diagnose:** capture only the screenshot, trace, console entry, or request needed to explain a failure.
+- **Clean up:** remove created records when fixtures are not disposable.
+
+## Example
+
+```python
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(""http://localhost:5173"")
+    table = page.get_by_role(""table"")
+    expect(table).to_be_visible()
+    expect(table.get_by_role(""row"").first).to_be_visible()
+    browser.close()
+```
+
+## Reliability Rules
+
+Register event listeners before triggering events. Prefer locator, response, URL, popup, or download expectations over fixed delays.
+
+
+## Common Pitfall
+
+DOM position selectors couple the test to presentation order.
+
+## Completion Checklist
+
+- [ ] The setup can run repeatedly without manual repair.
+- [ ] The locator strategy reflects what a user can perceive.
+- [ ] The assertion checks the real outcome of the scenario.
+- [ ] Dynamic behavior is synchronized through an event or stable state.
+- [ ] Failure artifacts are specific enough to diagnose the issue.
+- [ ] No credential, production record, or external side effect is exposed.
+",importsummaryPython Provin wer Princi stdidAU Mex overridHEAD,</s>,,[2],661,1,True,ok,
