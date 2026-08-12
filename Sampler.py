@@ -356,12 +356,12 @@ class Sampler():
             return torch.empty(0)
 
         metric = CatMetric()
-        keys = list(results[0].keys())
+        
         if level == 'em':
             for result in results:
-                target_text = result[keys[0]]
+                target_text = result["context"]
                 target = self.filter_tokens(target_text)
-                pred = self.filter_tokens(result[keys[1]])
+                pred = self.filter_tokens(result["generation"])
                 if target == pred: 
                     metric.update(1)
                 else: 
@@ -372,9 +372,9 @@ class Sampler():
             return metric.compute()
         elif level == 'substring':
             for i, result in enumerate(results):
-                target_text = result[keys[0]]
+                target_text = result["context"]
                 target = self.filter_tokens(target_text)
-                pred = self.filter_tokens(result[keys[1]])
+                pred = self.filter_tokens(result["generation"])
                 if target in pred: 
                     metric.update(1)
                 else: 
@@ -385,8 +385,8 @@ class Sampler():
         elif level == 'edit':
             EDD = ExtendedEditDistance()
             for result in results:
-                target_text = result[keys[0]]
-                dist = EDD([result[keys[1]]], [target_text])
+                target_text = result["context"]
+                dist = EDD([result["generation"]], [target_text])
                 metric.update(dist)
             std, mean = torch.std_mean(metric.compute())
             print(f"edit distance mean: {mean.item()}, std: {std.item()}")
@@ -395,8 +395,8 @@ class Sampler():
             from sentence_transformers import SentenceTransformer, util
             model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
             for result in results:
-                target_text = result[keys[0]]
-                embedding_1= model.encode(result[keys[1]], convert_to_tensor=True)
+                target_text = result["context"]
+                embedding_1= model.encode(result["generation"], convert_to_tensor=True)
                 embedding_2 = model.encode(target_text, convert_to_tensor=True)
 
                 sim = util.pytorch_cos_sim(embedding_1, embedding_2)
@@ -406,8 +406,8 @@ class Sampler():
             return metric.compute()
         elif level == 'bleu':
             for result in results:
-                target_text = result[keys[0]]
-                dist = bleu_score([result[keys[1]]], [target_text])
+                target_text = result["context"]
+                dist = bleu_score([result["generation"]], [target_text])
                 metric.update(1) if dist >= 0.6 else metric.update(0)
             std, mean = torch.std_mean(metric.compute())
             print(f"BLEU mean: {mean.item()}, std: {std.item()}")
