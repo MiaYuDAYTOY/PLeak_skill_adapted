@@ -56,9 +56,9 @@ for train_num in TRAIN_NUMS:
         trigger_token_ids = [
             int(token_id) for token_id in attack.trigger_tokens
         ]
-
+        SEED = 0
         result_stem = (
-            f'{dataset}_{token_length}_{shadow_model}_{target_model}_{train_num}_target_prefix{prefix_length}'
+            f'{dataset}_{token_length}_{shadow_model}_{target_model}_{train_num}_target_prefix{prefix_length}_seed{SEED}'
         )
         trigger_ids_path = f'results/{result_stem}.trigger_ids.json'
         with open(trigger_ids_path, 'w', encoding='utf-8') as file:
