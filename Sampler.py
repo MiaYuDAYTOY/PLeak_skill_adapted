@@ -253,16 +253,7 @@ class Sampler():
                 result.get("generation", "")
             )
             target_ids = self.content_token_ids(target)
-
-            raw_prediction_ids = result.get("raw_generation_ids")
-            if raw_prediction_ids is None:
-                prediction_ids = self.content_token_ids(prediction)
-            else:
-                prediction_ids = [
-                    int(token_id)
-                    for token_id in raw_prediction_ids
-                    if int(token_id) not in special_ids
-                ]
+            prediction_ids = self.content_token_ids(prediction)
 
             prefix_length = self.longest_common_prefix_length(
                 target_ids,
@@ -270,6 +261,8 @@ class Sampler():
             )
             target_count = len(target_ids)
             prediction_count = len(prediction_ids)
+            if target and prediction.startswith(target):
+                prefix_length = target_count
             common_token_count = sum(
                 (
                     Counter(target_ids)
@@ -283,8 +276,8 @@ class Sampler():
                 and target_ids == prediction_ids
             )
             full_skill_prefix = (
-                bool(target_ids)
-                and prefix_length == target_count
+                bool(target)
+                and prediction.startswith(target)
             )
 
             sample_reports.append(
