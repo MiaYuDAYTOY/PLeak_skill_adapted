@@ -22,8 +22,8 @@ token_length = int(sys.argv[2])
 shadow_model = sys.argv[3]
 target_model = sys.argv[4]
 
-TRAIN_NUMS = [3, 5]
-PREFIX_LENGTHS = [16,32, 64]
+TRAIN_NUMS = [3]
+PREFIX_LENGTHS = [8]
 test_num = 20
 
 dataFactory = DataFactory()
