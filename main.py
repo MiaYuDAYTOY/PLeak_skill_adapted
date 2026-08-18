@@ -22,6 +22,7 @@ token_length = int(sys.argv[2])
 shadow_model = sys.argv[3]
 target_model = sys.argv[4]
 
+ATTACK_SEED = 1
 TRAIN_NUMS = [3]
 PREFIX_LENGTHS = [8]
 test_num = 20
@@ -39,11 +40,11 @@ for train_num in TRAIN_NUMS:
 
         trainset = dataFactory.get_dataset(dataset,train=True,num=train_num,
         )
-        random.seed(0)
-        np.random.seed(0)
-        torch.manual_seed(0)
-        torch.cuda.manual_seed_all(0)
-     
+        random.seed(ATTACK_SEED)
+        np.random.seed(ATTACK_SEED)
+        torch.manual_seed(ATTACK_SEED)
+        torch.cuda.manual_seed_all(ATTACK_SEED)
+
         attack = HotFlip(
             trigger_token_length=token_length,
             shadow_model=shadow_model,
@@ -56,7 +57,7 @@ for train_num in TRAIN_NUMS:
         trigger_token_ids = [
             int(token_id) for token_id in attack.trigger_tokens
         ]
-        SEED = 0
+        SEED = ATTACK_SEED
         result_stem = (
             f'{dataset}_{token_length}_{shadow_model}_{target_model}_{train_num}_target_prefix{prefix_length}_seed{SEED}'
         )
