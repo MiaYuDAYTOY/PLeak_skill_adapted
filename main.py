@@ -22,78 +22,80 @@ token_length = int(sys.argv[2])
 shadow_model = sys.argv[3]
 target_model = sys.argv[4]
 
-ATTACK_SEED = 1
+ATTACK_SEED = [2,3,4,5,6]
 TRAIN_NUMS = [3,5]
-PREFIX_LENGTHS = [16,32,64]
+PREFIX_LENGTHS = [8,16,32]
 test_num = 20
 
 dataFactory = DataFactory()
 testset = dataFactory.get_dataset(dataset, train=False, num=test_num)
 os.makedirs('results', exist_ok=True)
 
-for train_num in TRAIN_NUMS:
-    for prefix_length in PREFIX_LENGTHS:
-        print(
-            f'Running train_num={train_num}, '
-            f'prefix_length={prefix_length}'
-        )
+for attack_seed in ATTACK_SEED:
+    for train_num in TRAIN_NUMS:
+        for prefix_length in PREFIX_LENGTHS:
+            print(
+                f'Running attack_seed={attack_seed}, '
+                f'Running train_num={train_num}, '
+                f'prefix_length={prefix_length}'
+            )
 
-        trainset = dataFactory.get_dataset(dataset,train=True,num=train_num,
-        )
-        random.seed(ATTACK_SEED)
-        np.random.seed(ATTACK_SEED)
-        torch.manual_seed(ATTACK_SEED)
-        torch.cuda.manual_seed_all(ATTACK_SEED)
+            trainset = dataFactory.get_dataset(dataset,train=True,num=train_num,
+            )
+            random.seed(attack_seed)
+            np.random.seed(attack_seed)
+            torch.manual_seed(attack_seed)
+            torch.cuda.manual_seed_all(attack_seed)
 
-        attack = HotFlip(
-            trigger_token_length=token_length,
-            shadow_model=shadow_model,
-            template=trainset.template,
-            prefix_length=prefix_length,
-        )
-        attack.replace_triggers(trainset)
+            attack = HotFlip(
+                trigger_token_length=token_length,
+                shadow_model=shadow_model,
+                template=trainset.template,
+                prefix_length=prefix_length,
+            )
+            attack.replace_triggers(trainset)
 
-        triggers = attack.decode_triggers()
-        trigger_token_ids = [
-            int(token_id) for token_id in attack.trigger_tokens
-        ]
-        SEED = ATTACK_SEED
-        result_stem = (
-            f'{dataset}_{token_length}_{shadow_model}_{target_model}_{train_num}_target_prefix{prefix_length}_seed{SEED}'
-        )
-        trigger_ids_path = f'results/{result_stem}.trigger_ids.json'
-        with open(trigger_ids_path, 'w', encoding='utf-8') as file:
-            json.dump(trigger_token_ids, file)
+            triggers = attack.decode_triggers()
+            trigger_token_ids = [
+                int(token_id) for token_id in attack.trigger_tokens
+            ]
+            SEED = attack_seed
+            result_stem = (
+                f'{dataset}_{token_length}_{shadow_model}_{target_model}_{train_num}_target_prefix{prefix_length}_seed{SEED}'
+            )
+            trigger_ids_path = f'results/{result_stem}.trigger_ids.json'
+            with open(trigger_ids_path, 'w', encoding='utf-8') as file:
+                json.dump(trigger_token_ids, file)
 
-        print(f'Trigger token IDs saved to: {trigger_ids_path}')
+            print(f'Trigger token IDs saved to: {trigger_ids_path}')
 
-        attack.model.zero_grad(set_to_none=True)
-        del attack
-        gc.collect()
-        torch.cuda.empty_cache()
+            attack.model.zero_grad(set_to_none=True)
+            del attack
+            gc.collect()
+            torch.cuda.empty_cache()
 
-        if torch.cuda.is_available():
-            torch.cuda.ipc_collect()
+            if torch.cuda.is_available():
+                torch.cuda.ipc_collect()
 
-        print("GPU memory released; loading target model...")
+            print("GPU memory released; loading target model...")
 
-        sampler = Sampler(
-            target_model=target_model,
-            template=testset.template,
-        )
-        results = sampler.sample_sequence(
-            testset,
-            triggers=triggers,
-            trigger_token_ids=(
-                trigger_token_ids
-                if shadow_model == target_model
-                else None
-            ),
-        )
-        Sampler.save_to_csv(f'results/{result_stem}.csv',results,triggers,
-        )
-        sampler.evaluate_skill_leakage(results)
+            sampler = Sampler(
+                target_model=target_model,
+                template=testset.template,
+            )
+            results = sampler.sample_sequence(
+                testset,
+                triggers=triggers,
+                trigger_token_ids=(
+                    trigger_token_ids
+                    if shadow_model == target_model
+                    else None
+                ),
+            )
+            Sampler.save_to_csv(f'results/{result_stem}.csv',results,triggers,
+            )
+            sampler.evaluate_skill_leakage(results)
 
-        del sampler
-        gc.collect()
-        torch.cuda.empty_cache()
+            del sampler
+            gc.collect()
+            torch.cuda.empty_cache()
