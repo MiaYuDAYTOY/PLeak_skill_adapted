@@ -12,7 +12,7 @@ class ModelFactory():
         
         self._register_model_config(
             'llama',
-            '/root/autodl-tmp/huggingface/hub/models--meta-llama--Llama-2-7b-hf/snapshots/01c7f73d771dfac7d292323805ebc428287df4f9',
+            '/root/autodl-tmp/Llama-2-7b-hf',
             32000
         )
 
