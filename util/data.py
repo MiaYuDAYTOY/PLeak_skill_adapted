@@ -2,6 +2,8 @@ from torch.utils.data import Dataset
 from datasets import load_dataset
 from util.template import TextTemplate
 import random
+import hashlib
+from copy import copy
 
 from pathlib import Path
 
@@ -30,9 +32,75 @@ class Samples(Dataset):
     def __len__(self):
         return len(self.dataset)
 
-class WebTesting(Samples):
-    def __init__(self, train, num=16):
-        super().__init__(train=train, num=num, data_dir="data/webapp")
+
+class SkillDataset(Samples):
+    """A single skill category with a fixed 30/70 train/test split."""
+
+    def __init__(self, train, num=16, *, data_dir, seed=None):
+        files = sorted(Path(data_dir).rglob("SKILL.md"))
+
+        rng = random.Random(0)
+        rng.shuffle(files)
+
+        split = int(len(files) * 0.3)
+        files = files[:split] if train else files[split:]
+        self.train = train
+        self.pool_size = len(files)
+        pool_name = "train" if train else "test"
+        if not self.pool_size:
+            raise ValueError(f"The {pool_name} pool is empty: {data_dir}.")
+        if num is not None:
+            if isinstance(num, bool) or not isinstance(num, int) or num <= 0:
+                raise ValueError(f"{pool_name}_num must be a positive integer or None.")
+            if num > self.pool_size:
+                raise ValueError(
+                    f"{pool_name}_num={num} exceeds the available {pool_name} pool "
+                    f"({self.pool_size} samples)."
+                )
+        if seed is None:
+            # Keep the original deterministic prefix selection; None loads the pool.
+            files = files[:num]
+
+        self.dataset = [
+            {"content": path.read_text(encoding="utf-8")}
+            for path in files
+        ]
+        self.sample_metadata = [
+            {
+                "path": str(path.resolve()),
+                "pool_index": index,
+                "content_sha256": hashlib.sha256(self[index].encode("utf-8")).hexdigest(),
+            }
+            for index, path in enumerate(files)
+        ]
+
+        self.template = TextTemplate(prefix_1="", prefix_2="")
+        if seed is not None:
+            selected = self.sample(num=num, seed=seed)
+            self.dataset = selected.dataset
+            self.sample_metadata = selected.sample_metadata
+
+    def sample(self, num, seed):
+        """Sample a loaded training pool without replacement using a local RNG."""
+        if not self.train:
+            raise ValueError("Random sampling is only supported for the train pool.")
+        if isinstance(num, bool) or not isinstance(num, int) or num <= 0:
+            raise ValueError("train_num must be a positive integer.")
+        if num > len(self):
+            raise ValueError(
+                f"train_num={num} exceeds the available train pool ({len(self)} samples)."
+            )
+        if isinstance(seed, bool) or not isinstance(seed, int):
+            raise ValueError("seed must be an integer.")
+        indices = random.Random(seed).sample(range(len(self)), num)
+        selected = copy(self)
+        selected.dataset = [self.dataset[index].copy() for index in indices]
+        selected.sample_metadata = [self.sample_metadata[index].copy() for index in indices]
+        return selected
+
+class WebTesting(SkillDataset):
+    def __init__(self, train, num=16, seed=None):
+        super().__init__(train=train, num=num, data_dir="data/webapp", seed=seed)
 
 class Financial(Dataset):
     def __init__(self, train, num=16, num_shots=1, prefix_1='text:', prefix_2='label:',with_instruction=True):
