@@ -20,6 +20,8 @@ def parse_args():
     parser.add_argument('--sample-index', type=int, help='Probe only this index in the selected samples')
     parser.add_argument('--trace-numerics', action='store_true',
                         help='Trace module and eager attention matmul ranges; no-grad modes only')
+    parser.add_argument('--dtype', choices=['float16', 'bfloat16'], default=None,
+                        help='Explicitly set both model and 4-bit compute dtype; default keeps current loading')
     args = parser.parse_args()
     if args.token_length <= 0 or args.prefix_length <= 0:
         parser.error('token-length and prefix-length must be positive')
@@ -99,7 +101,8 @@ def main():
     else:
         attack = HotFlip(trigger_token_length=args.token_length, shadow_model='llama',
                          template=TextTemplate(prefix_1='', prefix_2=''),
-                         prefix_length=args.prefix_length)
+                         prefix_length=args.prefix_length,
+                         compute_dtype=None if args.dtype is None else getattr(torch, args.dtype))
     if args.trigger_ids:
         ids = json.loads(args.trigger_ids.read_text(encoding='utf-8'))
         if (not isinstance(ids, list) or len(ids) != args.token_length or
@@ -123,6 +126,8 @@ def main():
     model.train(args.mode in ('train-no-grad', 'checkpoint'))
     print('training=', model.training, 'checkpointing=', model.is_gradient_checkpointing,
           'embedding_dtype=', model.get_input_embeddings().weight.dtype, flush=True)
+    print('requested_dtype=', args.dtype, 'bnb_compute_dtypes=',
+          sorted({str(m.compute_dtype) for m in model.modules() if hasattr(m, 'compute_dtype')}), flush=True)
     print('attention_classes=', sorted({type(m).__name__ for n, m in model.named_modules()
                                        if n.endswith('self_attn')}), flush=True)
     print('config=', {key: getattr(model.config, key, None) for key in (

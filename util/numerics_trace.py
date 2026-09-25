@@ -65,6 +65,13 @@ def trace_forward_numerics(model):
                     state['matmul_index'] = 0
                 handle = module.register_forward_pre_hook(before_attention)
                 cleanup.callback(handle.remove)
+            if name.rsplit('.', 1)[-1] == 'down_proj':
+                def before_down_proj(module, inputs, name=name):
+                    # In Llama this is SiLU(gate_proj(x)) * up_proj(x).
+                    # Catch overflow here before a quantized linear turns Inf into NaN.
+                    _check_output(inputs, f"{name} input (gated product)")
+                handle = module.register_forward_pre_hook(before_down_proj)
+                cleanup.callback(handle.remove)
 
             def after_module(module, inputs, output, name=name):
                 _check_output(output, f"{name} output")

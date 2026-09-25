@@ -81,6 +81,31 @@ class NumericsTraceTests(unittest.TestCase):
                     model.q_proj(torch.tensor([float('nan')]))
         self.assertFalse(model.q_proj._forward_hooks)
 
+    def test_fp16_gated_product_overflow_is_caught_before_down_projection(self):
+        model = torch.nn.Module()
+        model.add_module('down_proj', torch.nn.Identity())
+        gate = torch.tensor([347.25], dtype=torch.float16)
+        up = torch.tensor([361.25], dtype=torch.float16)
+        product = torch.nn.functional.silu(gate) * up
+        self.assertTrue(torch.isfinite(gate).all())
+        self.assertTrue(torch.isfinite(up).all())
+        self.assertTrue(torch.isinf(product).all())
+        with contextlib.redirect_stdout(io.StringIO()):
+            with self.assertRaisesRegex(FloatingPointError, r'down_proj input \(gated product\)'):
+                with trace_forward_numerics(model):
+                    model.down_proj(product)
+        self.assertFalse(model.down_proj._forward_pre_hooks)
+
+    def test_bf16_gated_product_stays_finite_at_same_magnitude(self):
+        model = torch.nn.Module()
+        model.add_module('down_proj', torch.nn.Identity())
+        gate = torch.tensor([347.25], dtype=torch.bfloat16)
+        up = torch.tensor([361.25], dtype=torch.bfloat16)
+        product = torch.nn.functional.silu(gate) * up
+        with contextlib.redirect_stdout(io.StringIO()), trace_forward_numerics(model):
+            result = model.down_proj(product)
+        self.assertTrue(torch.isfinite(result).all())
+
 
 if __name__ == '__main__':
     unittest.main()

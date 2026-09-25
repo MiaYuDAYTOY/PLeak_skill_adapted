@@ -56,13 +56,19 @@ class ModelFactory():
         return tokenizer
 
 
-    def get_model(self, name):
+    def get_model(self, name, compute_dtype=None):
+        # An explicit precision experiment must also change non-quantized
+        # modules; changing only bnb math can leave MLP activations in FP16.
+        if compute_dtype not in (None, torch.float16, torch.bfloat16):
+            raise ValueError("compute_dtype must be float16 or bfloat16")
+        precision_options = {} if compute_dtype is None else {"torch_dtype": compute_dtype}
         model = AutoModelForCausalLM.from_pretrained(
             self.MODEL_CONF[name]['alias'],
             device_map="auto",
             load_in_4bit=True,
-            bnb_4bit_compute_dtype=torch.float16,
+            bnb_4bit_compute_dtype=torch.float16 if compute_dtype is None else compute_dtype,
             local_files_only=(name == "llama"),
+            **precision_options,
         )
 
         model.config.use_cache = False

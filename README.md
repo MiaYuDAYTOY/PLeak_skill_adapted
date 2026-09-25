@@ -206,3 +206,19 @@ python diagnose_attack.py --token-length 12 --prefix-length 8 --seed 1 --mode ev
 若 QK 结果有限而第二次乘法的概率输入非有限，异常发生在两次乘法之间，需继续检查缩放、mask、softmax。
 追踪只观察原运算结果，不重算 attention、不提升 dtype、不截断输入；它会增加同步开销，
 仅用于独立进程中的 eval/train-no-grad 模式，不用于正式训练性能测量。
+
+追踪也会检查 `mlp.down_proj` 的输入，即 `SiLU(gate_proj(x)) * up_proj(x)` 的结果。
+如果投影输入已是 Inf/NaN，可把范围缩小到投影之前的门控计算；两个分支各自的最大值
+可能位于不同元素，不能仅凭最大值相乘就宣布已证明溢出。
+
+可显式选择 BF16 做精度对照，不改变默认训练配置：
+
+```bash
+python diagnose_attack.py --token-length 12 --prefix-length 8 --seed 1 --mode eval --sample-index 2 --trace-numerics --dtype bfloat16
+```
+
+`--dtype` 同时设置加载时的 `torch_dtype` 和 `bnb_4bit_compute_dtype`，日志报告实际
+embedding 和量化模块计算 dtype。单改 bnb 计算 dtype 可能仍让门控乘法处于 FP16。
+BF16 不截断输入，也不改变 prefix/loss 的数学定义，但会改变舍入误差和可能的候选排序，
+必须作为新的精度配置记录，不能假定与旧 FP16 实验数值相同。
+仅换 BF16 不会消除 eager attention 的平方显存开销；前向有限之后仍需验证梯度和显存。
