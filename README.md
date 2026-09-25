@@ -193,3 +193,16 @@ checkpoint 只在明确选该诊断模式时启用，不会写回配置或启用
 如果 eval 已报 `forward loss (before backward)` 非有限，先排查前向数值；
 如果 eval 正常、checkpoint 的 loss 正常而 trigger gradient 非有限，再排查重算/反向路径。
 不要用 nan_to_num 掩盖问题。此诊断没有宣称解决 A800 OOM 或确认 NaN 根因，需以服务器日志为准。
+
+如果已确认 eval 前向 loss 非有限，可继续追踪第一个非有限的中间值：
+
+```bash
+python diagnose_attack.py --token-length 12 --prefix-length 8 --seed 1 --mode eval --sample-index 2 --trace-numerics
+```
+
+该命令单独检查默认第三个样本 060_pdf-creator，并打印各层输出的 dtype/min/max。
+在旧版 eager Llama 中，还会检查 QK 乘法前的 Q/K、缩放前的乘法结果，以及下一次 attention
+乘法的输入/输出。若 Q/K 有限而 `QK before scaling output` 为 Inf，可直接定位到该次乘法溢出；
+若 QK 结果有限而第二次乘法的概率输入非有限，异常发生在两次乘法之间，需继续检查缩放、mask、softmax。
+追踪只观察原运算结果，不重算 attention、不提升 dtype、不截断输入；它会增加同步开销，
+仅用于独立进程中的 eval/train-no-grad 模式，不用于正式训练性能测量。

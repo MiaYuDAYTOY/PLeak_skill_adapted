@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import random
+from contextlib import nullcontext
 
 
 def parse_args():
@@ -17,9 +18,13 @@ def parse_args():
     parser.add_argument('--samples-json', type=Path)
     parser.add_argument('--trigger-ids', type=Path)
     parser.add_argument('--sample-index', type=int, help='Probe only this index in the selected samples')
+    parser.add_argument('--trace-numerics', action='store_true',
+                        help='Trace module and eager attention matmul ranges; no-grad modes only')
     args = parser.parse_args()
     if args.token_length <= 0 or args.prefix_length <= 0:
         parser.error('token-length and prefix-length must be positive')
+    if args.trace_numerics and args.mode not in ('eval', 'train-no-grad'):
+        parser.error('--trace-numerics requires --mode eval or --mode train-no-grad')
     return args
 
 
@@ -128,8 +133,13 @@ def main():
     print('trainable_parameters=', [(n, p.numel(), str(p.dtype)) for n, p in model.named_parameters()
                                     if p.requires_grad], flush=True)
     # Checkpoint mode stays in training mode through backward, as required by 4.32.1.
-    loss, gradient = attack.compute_loss(samples, attack.trigger_tokens, 0,
-                                        require_grad=args.mode in ('grad', 'checkpoint'))
+    trace = nullcontext()
+    if args.trace_numerics:
+        from util.numerics_trace import trace_forward_numerics
+        trace = trace_forward_numerics(model)
+    with trace:
+        loss, gradient = attack.compute_loss(samples, attack.trigger_tokens, 0,
+                                            require_grad=args.mode in ('grad', 'checkpoint'))
     print('finite mean loss=', loss, 'trigger_gradient_shape=',
           None if gradient is None else tuple(gradient.shape), flush=True)
     print('parameter_grad_GiB=', sum(p.grad.numel() * p.grad.element_size()
