@@ -15,12 +15,13 @@ from collections import Counter
 
 
 class Sampler():
-    def __init__(self, target_model='gptj', template=None, defense='None'):
+    def __init__(self, target_model='gptj', template=None, defense='None', compute_dtype=None):
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.target_model = target_model
         self.template = TextTemplate(prefix_1='') if template is None else template
         modelFactory = ModelFactory()
-        self.model = modelFactory.get_model(target_model)
+        model_options = {} if compute_dtype is None else {"compute_dtype": compute_dtype}
+        self.model = modelFactory.get_model(target_model, **model_options)
         self.tokenizer = modelFactory.get_tokenizer(target_model)
         self.defense = defense
 

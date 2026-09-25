@@ -67,6 +67,8 @@ def main():
         paths = [Path(m['path']) for m in selection['train_samples']]
         if args.seed is None:
             args.seed = selection['attack_seed']
+        if args.dtype is None:
+            args.dtype = selection.get('model_dtype')
     if args.seed is None:
         args.seed = 1
     if args.sample_index is not None:

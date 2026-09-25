@@ -3,18 +3,21 @@ import numpy as np
 from copy import deepcopy
 import re
 import math
+from contextlib import contextmanager
 from util.template import TextTemplate
 from util.attack_diagnostics import diagnostics_enabled, print_cuda_memory, require_finite
 from ModelFactory import ModelFactory
 
 class HotFlip:
-    def __init__(self, trigger_token_length=6, shadow_model='gpt2', step=100, template=None, init_triggers='', init_step=None, prefix_length=8, compute_dtype=None):
+    def __init__(self, trigger_token_length=6, shadow_model='gpt2', step=100, template=None, init_triggers='', init_step=None, prefix_length=8, compute_dtype=None, gradient_checkpointing=False):
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.target_model = shadow_model
         self.template = TextTemplate(prefix_1='') if template is None else template
         modelFactory = ModelFactory()
         model_options = {} if compute_dtype is None else {"compute_dtype": compute_dtype}
         self.model = modelFactory.get_model(shadow_model, **model_options)
+        if gradient_checkpointing:
+            self.model.gradient_checkpointing_enable()
         print_cuda_memory("after model load")
         self.tokenizer = modelFactory.get_tokenizer(shadow_model)
         self.vocab_size = modelFactory.get_vocab_size(shadow_model)
@@ -29,6 +32,20 @@ class HotFlip:
         metadata = getattr(target_texts, "sample_metadata", None)
         path = metadata[index].get("path", "<unknown>") if metadata else "<unknown>"
         return f"sample {index} path={path}"
+
+    @contextmanager
+    def _loss_model_mode(self, require_grad):
+        # Legacy Llama checkpoints only in training mode. Keep that mode
+        # through backward, while candidate evaluation always uses eval.
+        checkpointing = getattr(self.model, "is_gradient_checkpointing", False)
+        previous_training = self.model.training
+        if checkpointing:
+            self.model.train(require_grad)
+        try:
+            yield
+        finally:
+            if checkpointing:
+                self.model.train(previous_training)
 
     def init_triggers(self, trigger_token_length, init_trigger='', user_prefix=''):
         init_tokens = self.tokenizer.encode(init_trigger)
@@ -250,7 +267,7 @@ class HotFlip:
                 raise ValueError(f"{context}: no supervised tokens after causal label shift")
             stage = "embedding"
             try:
-                with torch.set_grad_enabled(require_grad):
+                with self._loss_model_mode(require_grad), torch.set_grad_enabled(require_grad):
                     if require_grad:
                         inputs_embeds = self.model.get_input_embeddings()(lm_input).detach()
                         inputs_embeds.requires_grad_(True)

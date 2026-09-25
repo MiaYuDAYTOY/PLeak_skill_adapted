@@ -222,3 +222,31 @@ embedding 和量化模块计算 dtype。单改 bnb 计算 dtype 可能仍让门�
 BF16 不截断输入，也不改变 prefix/loss 的数学定义，但会改变舍入误差和可能的候选排序，
 必须作为新的精度配置记录，不能假定与旧 FP16 实验数值相同。
 仅换 BF16 不会消除 eager attention 的平方显存开销；前向有限之后仍需验证梯度和显存。
+
+## 正式训练使用 BF16 + checkpointing
+
+固定三样本/初始 trigger 的服务器诊断已观察到：FP16 在第 31 层 MLP 门控乘法产生 Inf；
+BF16 + checkpointing 下三个样本均完成 forward/backward，loss 和 trigger 梯度有限，
+峰值 allocated 约 27.72 GiB。这是单次梯度诊断结果，不代表所有样本、seed 或完整优化均已验证。
+
+正式入口现在支持显式参数，默认不改变原配置：
+
+```bash
+python -u main.py documents 12 llama llama 3 \
+  --dtype bfloat16 --gradient-checkpointing \
+  --prefix-lengths 8 --sample-seeds 0 --attack-seeds 1
+```
+
+该命令只运行一组训练参数和一对 seed，随后按原流程评估测试集。当前数据版本中，
+`sample_seed=0, train_num=3` 恰好选择诊断所用的 030、053、060 三个文件；启动时仍应核对路径。
+`--dtype` 同时应用于 shadow model 和后续 target model，避免训练切到 BF16 后评估又回到 FP16。
+`--gradient-checkpointing` 只应用于 HotFlip：梯度分支从 forward 到 backward 保持 train 模式，
+候选评估使用 eval/no-grad，每次调用结束或异常时恢复之前模式。完整 SKILL.md、prefix 和 loss 定义不变。
+
+`--prefix-lengths`、`--sample-seeds`、`--attack-seeds` 省略时使用 main.py 中原有列表；
+未提供精度/checkpoint 参数时，保留原模型加载和训练模式。显式精度/checkpoint 配置写入
+samples、metrics、summary JSON，同时加到结果文件名中；不同精度/checkpoint 配置禁止合并求均值。
+BF16 与 FP16 数值舍入不同，报告实验结果时应保留这项配置区别。
+
+若需要逐样本显存日志，可在上述训练命令前加 `PLEAK_DEBUG=1`，但完整候选搜索会产生大量输出。
+验证优先使用独立诊断命令，正式训练默认保留 NaN/Inf 拦截但不打印全部调试日志。

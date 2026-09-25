@@ -52,12 +52,15 @@ if torch is not None:
             self.failure = failure
             self.backward_calls = 0
             self.grad_modes = []
+            self.training_modes = []
+            self.backward_training_modes = []
 
         def get_input_embeddings(self):
             return self.embedding
 
         def forward(self, input_ids=None, inputs_embeds=None, labels=None, **kwargs):
             self.grad_modes.append(torch.is_grad_enabled())
+            self.training_modes.append(self.training)
             x = self.embedding(input_ids) if inputs_embeds is None else inputs_embeds
             if self.failure == 'gradient':
                 x = BadGradient.apply(x)
@@ -72,6 +75,7 @@ if torch is not None:
 
         def record_backward(self, gradient):
             self.backward_calls += 1
+            self.backward_training_modes.append(self.training)
             return gradient
 
 
@@ -132,6 +136,33 @@ class AttackDiagnosticsTests(unittest.TestCase):
         self.assertTrue(math.isfinite(loss))
         self.assertIsNone(gradient)
         self.assertEqual(self.attack.model.grad_modes, [False])
+
+    def test_checkpoint_mode_stays_training_through_backward_then_restores_eval(self):
+        model = self.attack.model
+        model.is_gradient_checkpointing = True
+        model.eval()
+        self.attack.compute_loss(['secret\n'], self.attack.trigger_tokens, 0, True)
+        self.assertEqual(model.training_modes, [True])
+        self.assertEqual(model.backward_training_modes, [True])
+        self.assertFalse(model.training)
+
+    def test_checkpoint_candidate_runs_in_eval_and_restores_prior_mode(self):
+        model = self.attack.model
+        model.is_gradient_checkpointing = True
+        model.train()
+        self.attack.compute_loss(['secret\n'], self.attack.trigger_tokens, 0, False)
+        self.assertEqual(model.training_modes, [False])
+        self.assertEqual(model.grad_modes, [False])
+        self.assertTrue(model.training)
+
+    def test_checkpoint_mode_restored_after_nonfinite_forward(self):
+        model = self.attack.model
+        model.is_gradient_checkpointing = True
+        model.failure = 'forward'
+        model.eval()
+        with self.assertRaises(FloatingPointError):
+            self.attack.compute_loss(['secret\n'], self.attack.trigger_tokens, 0, True)
+        self.assertFalse(model.training)
 
     def test_empty_supervision_stops_before_forward(self):
         self.attack.prefix_length = 0

@@ -150,12 +150,13 @@ class ExperimentHarness:
         )
 
     def run(self, train_num=3, test_num=2, target_model="model", shadow_model="model",
-            train_nums=None):
+            train_nums=None, extra_args=None):
         sizes = [train_num] if train_nums is None else train_nums
         argv = ["webtesting", "7", shadow_model, target_model] + [str(n) for n in sizes]
         if test_num is not None:
             argv += ["--test-num", str(test_num)]
         argv += ["--results-dir", str(self.results_dir)]
+        argv += extra_args or []
         output = io.StringIO()
         random_state = random.getstate()
         try:
@@ -172,6 +173,39 @@ class MainRepeatsTests(unittest.TestCase):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
         self.results_dir = Path(self.temporary.name) / "results"
+
+    def test_precision_checkpoint_and_single_run_flags_reach_models_and_metadata(self):
+        harness = ExperimentHarness(self.results_dir)
+        dtype = object()
+        harness.modules['torch'].bfloat16 = dtype
+        harness.run(extra_args=['--dtype', 'bfloat16', '--gradient-checkpointing',
+                                '--prefix-lengths', '8', '--sample-seeds', '0',
+                                '--attack-seeds', '1'])
+        self.assertEqual(len(harness.attack_calls), 1)
+        attack_options = harness.attack_calls[0][1]
+        self.assertIs(attack_options['compute_dtype'], dtype)
+        self.assertTrue(attack_options['gradient_checkpointing'])
+        self.assertEqual(attack_options['prefix_length'], 8)
+        self.assertIs(harness.sampler_calls[0][1]['compute_dtype'], dtype)
+        self.assertNotIn('gradient_checkpointing', harness.sampler_calls[0][1])
+        for pattern in ('*.samples.json', '*.metrics.json', '*.summary.json'):
+            files = list(self.results_dir.rglob(pattern))
+            self.assertEqual(len(files), 1)
+            metadata = json.loads(files[0].read_text())
+            self.assertEqual(metadata['model_dtype'], 'bfloat16')
+            self.assertTrue(metadata['gradient_checkpointing'])
+            self.assertIn('_dtypebfloat16_gc', files[0].name)
+
+    def test_precision_and_seed_options_preserve_defaults_and_validate_overrides(self):
+        base = ['documents', '12', 'llama', 'llama', '3']
+        defaults = MAIN.parse_args(base)
+        self.assertIsNone(defaults.dtype)
+        self.assertFalse(defaults.gradient_checkpointing)
+        self.assertIsNone(defaults.prefix_lengths)
+        for flags in (['--prefix-lengths', '0'], ['--sample-seeds', '-1'],
+                      ['--attack-seeds', '1', '1']):
+            with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+                MAIN.parse_args(base + flags)
 
     def test_five_sample_seeds_each_run_six_attacks_on_one_fixed_testset(self):
         harness = ExperimentHarness(self.results_dir)

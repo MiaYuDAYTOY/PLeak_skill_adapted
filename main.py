@@ -32,6 +32,13 @@ def parse_args(argv=None):
         help="Fixed test sample count; default: the complete test pool",
     )
     parser.add_argument("--results-dir", type=Path, default=Path("results"))
+    parser.add_argument("--dtype", choices=("float16", "bfloat16"), default=None,
+                        help="Model and 4-bit compute dtype for both attack and evaluation")
+    parser.add_argument("--gradient-checkpointing", action="store_true",
+                        help="Checkpoint attack forward/backward; candidate evaluation stays in eval mode")
+    parser.add_argument("--prefix-lengths", type=int, nargs="+", default=None)
+    parser.add_argument("--sample-seeds", type=int, nargs="+", default=None)
+    parser.add_argument("--attack-seeds", type=int, nargs="+", default=None)
     args = parser.parse_args(argv)
     if any(num <= 0 for num in args.train_nums):
         parser.error("train_nums must all be positive")
@@ -39,7 +46,23 @@ def parse_args(argv=None):
         parser.error("train_nums must not contain duplicates")
     if args.test_num is not None and args.test_num <= 0:
         parser.error("--test-num must be positive")
+    for field in ("prefix_lengths", "sample_seeds", "attack_seeds"):
+        values = getattr(args, field)
+        if values is not None:
+            if len(set(values)) != len(values):
+                parser.error(f"--{field.replace('_', '-')} must not contain duplicates")
+            if field == "prefix_lengths" and any(value <= 0 for value in values):
+                parser.error("--prefix-lengths must be positive")
+            if field != "prefix_lengths" and any(not 0 <= value < 2**32 for value in values):
+                parser.error(f"--{field.replace('_', '-')} values must be in [0, 2**32)")
     return args
+
+
+def execution_config(args):
+    return {
+        "model_dtype": getattr(args, "dtype", None),
+        "gradient_checkpointing": getattr(args, "gradient_checkpointing", False),
+    }
 
 
 def save_selection(path, args, train_pool, trainset, testset, repeat_id, sample_seed,
@@ -60,6 +83,7 @@ def save_selection(path, args, train_pool, trainset, testset, repeat_id, sample_
         "prefix_length": prefix_length,
         "train_samples": trainset.sample_metadata,
         "test_samples": testset.sample_metadata,
+        **execution_config(args),
     }
     # Save before model loading/training so failed experiments are traceable too.
     with path.open("x", encoding="utf-8") as file:
@@ -68,6 +92,7 @@ def save_selection(path, args, train_pool, trainset, testset, repeat_id, sample_
 
     print(f"Dataset: {args.dataset}\nTrain num: {len(trainset)}")
     print(f"Repeat: {repeat_id}\nSample seed: {sample_seed}\nAttack seed: {attack_seed}")
+    print(f"Execution configuration: {execution_config(args)}")
     for label, samples in (("Train", trainset), ("Test", testset)):
         print(f"\n{label} samples:")
         for number, sample in enumerate(samples.sample_metadata, start=1):
@@ -82,6 +107,9 @@ def save_group_summary(path, runs, sample_seeds, attack_seeds):
     if not runs or actual != expected or len(runs) != len(expected):
         raise ValueError("Cannot summarize an incomplete or duplicate seed grid")
     metric_names = list(runs[0]["metrics"])
+    configurations = {(run.get("model_dtype"), run.get("gradient_checkpointing", False)) for run in runs}
+    if len(configurations) != 1:
+        raise ValueError("Cannot summarize runs with different precision/checkpoint configurations")
     for run in runs:
         if set(run["metrics"]) != set(metric_names):
             raise ValueError("Evaluation metrics differ between experiments")
@@ -105,6 +133,8 @@ def save_group_summary(path, runs, sample_seeds, attack_seeds):
         )
     }
     summary.update({
+        "model_dtype": runs[0].get("model_dtype"),
+        "gradient_checkpointing": runs[0].get("gradient_checkpointing", False),
         "sample_seeds": list(sample_seeds),
         "attack_seeds": list(attack_seeds),
         "averaging": "Equal weight per experiment; evaluator values unchanged, including zero-evaluated runs.",
@@ -143,6 +173,9 @@ def save_group_summary(path, runs, sample_seeds, attack_seeds):
 
 def main(argv=None):
     args = parse_args(argv)
+    prefix_lengths = PREFIX_LENGTHS if args.prefix_lengths is None else args.prefix_lengths
+    sample_seeds = SAMPLE_SEEDS if args.sample_seeds is None else args.sample_seeds
+    attack_seeds = ATTACK_SEEDS if args.attack_seeds is None else args.attack_seeds
     from DataFactory import DataFactory
 
     dataFactory = DataFactory()
@@ -161,6 +194,10 @@ def main(argv=None):
     import torch
     from Attack import HotFlip
     from Sampler import Sampler
+    model_options = {} if args.dtype is None else {"compute_dtype": getattr(torch, args.dtype)}
+    attack_options = dict(model_options)
+    if args.gradient_checkpointing:
+        attack_options["gradient_checkpointing"] = True
 
     args.results_dir.mkdir(parents=True, exist_ok=True)
     # A fresh directory also protects previous runs of the same configuration.
@@ -172,15 +209,19 @@ def main(argv=None):
     print(f"Results directory: {run_dir}", flush=True)
 
     for train_num in args.train_nums:
-        for prefix_length in PREFIX_LENGTHS:
+        for prefix_length in prefix_lengths:
             group_stem = (
                 f"{args.dataset}_{args.token_length}_{args.shadow_model}_{args.target_model}"
                 f"_train{train_num}_test{len(testset)}_target_prefix{prefix_length}"
             )
+            if args.dtype is not None:
+                group_stem += f"_dtype{args.dtype}"
+            if args.gradient_checkpointing:
+                group_stem += "_gc"
             group_runs = []
-            for repeat_id, sample_seed in enumerate(SAMPLE_SEEDS):
+            for repeat_id, sample_seed in enumerate(sample_seeds):
                 trainset = train_pool.sample(num=train_num, seed=sample_seed)
-                for attack_seed in ATTACK_SEEDS:
+                for attack_seed in attack_seeds:
                     result_stem = (
                         group_stem
                         + f"_repeat{repeat_id}_sample_seed{sample_seed}_attack_seed{attack_seed}"
@@ -199,6 +240,7 @@ def main(argv=None):
                         shadow_model=args.shadow_model,
                         template=trainset.template,
                         prefix_length=prefix_length,
+                        **attack_options,
                     )
                     attack.replace_triggers(trainset)
 
@@ -220,6 +262,7 @@ def main(argv=None):
                     sampler = Sampler(
                         target_model=args.target_model,
                         template=testset.template,
+                        **model_options,
                     )
                     results = sampler.sample_sequence(
                         testset,
@@ -244,6 +287,7 @@ def main(argv=None):
                         "sample_seed": sample_seed,
                         "attack_seed": attack_seed,
                         "metrics": {key: value for key, value in report.items() if key != "samples"},
+                        **execution_config(args),
                     }
                     with (run_dir / f"{result_stem}.metrics.json").open("x", encoding="utf-8") as file:
                         json.dump(run_metrics, file, ensure_ascii=False, indent=2, allow_nan=False)
@@ -255,7 +299,7 @@ def main(argv=None):
                     torch.cuda.empty_cache()
 
             save_group_summary(
-                run_dir / f"{group_stem}.summary.json", group_runs, SAMPLE_SEEDS, ATTACK_SEEDS,
+                run_dir / f"{group_stem}.summary.json", group_runs, sample_seeds, attack_seeds,
             )
 
 
