@@ -1,0 +1,640 @@
+Selected original sample index: 2
+torch 2.5.1+cu124
+transformers 4.32.1
+bitsandbytes 0.49.2
+accelerate 0.22.0
+tokenizers 0.13.3
+/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py:260: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:01<00:01,  1.88s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:02<00:00,  1.17s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:02<00:00,  1.27s/it]
+[memory] after model load cuda:0 allocated=3.9734 GiB reserved=4.1152 GiB peak=3.9734 GiB
+mode= eval seed= 1 trigger_ids= [12803, 11032, 8689, 1612, 9552, 2669, 28114, 15, 18628, 12313, 11631, 24290]
+tokenizer= LlamaTokenizerFast /root/autodl-tmp/Llama-2-7b-hf
+sample 0 path=/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/060_pdf-creator/SKILL.md raw_chars= 23487
+[input] sample 0 chars=23487 target_tokens=6653 continuation_tokens=6653 trigger_tokens=12 prompt_tokens=6667 full_tokens_before_slice=13320 supervised_tokens=8 trigger_span=[6654, 6666)
+input shape: torch.Size([1, 6675]) label shape: torch.Size([1, 6675]) seq_len: 6675
+training= False checkpointing= False embedding_dtype= torch.float16
+attention_classes= ['LlamaAttention']
+config= {'use_cache': False, 'output_attentions': False, 'output_hidden_states': False, '_attn_implementation': None, 'hidden_size': 4096, 'num_hidden_layers': 32, 'num_attention_heads': 32, 'num_key_value_heads': 32, 'max_position_embeddings': 4096}
+forward explicitly uses use_cache/output_attentions/output_hidden_states=False
+trainable_parameters= [('model.embed_tokens.weight', 131072000, 'torch.float16'), ('model.layers.0.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.0.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.1.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.1.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.2.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.2.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.3.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.3.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.4.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.4.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.5.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.5.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.6.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.6.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.7.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.7.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.8.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.8.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.9.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.9.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.10.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.10.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.11.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.11.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.12.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.12.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.13.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.13.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.14.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.14.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.15.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.15.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.16.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.16.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.17.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.17.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.18.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.18.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.19.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.19.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.20.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.20.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.21.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.21.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.22.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.22.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.23.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.23.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.24.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.24.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.25.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.25.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.26.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.26.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.27.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.27.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.28.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.28.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.29.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.29.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.30.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.30.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.layers.31.input_layernorm.weight', 4096, 'torch.float16'), ('model.layers.31.post_attention_layernorm.weight', 4096, 'torch.float16'), ('model.norm.weight', 4096, 'torch.float16'), ('lm_head.weight', 131072000, 'torch.float16')]
+[sample] sample 0 path=/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/060_pdf-creator/SKILL.md raw_chars=23487 require_grad=False
+[input] sample 0 chars=23487 target_tokens=6653 continuation_tokens=6653 trigger_tokens=12 prompt_tokens=6667 full_tokens_before_slice=13320 supervised_tokens=8 trigger_span=[6654, 6666)
+input shape: torch.Size([1, 6675]) label shape: torch.Size([1, 6675]) seq_len: 6675
+[memory] sample 0 path=/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/060_pdf-creator/SKILL.md after make_target cuda:0 allocated=3.9735 GiB reserved=4.1152 GiB peak=3.9735 GiB
+[memory] sample 0 path=/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/060_pdf-creator/SKILL.md before forward cuda:0 allocated=3.9735 GiB reserved=4.1152 GiB peak=3.9736 GiB
+[numerics] model.embed_tokens output shape=(1, 6675, 4096) dtype=torch.float16 min=-0.13671875 max=0.1298828125
+[numerics] model.layers.0.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.671875 max=4.97265625
+[numerics] model.layers.0.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.984375 max=12.59375
+[numerics] model.layers.0.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.62109375 max=6.11328125
+[numerics] model.layers.0.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-1.2548828125 max=1.0126953125
+[numerics] model.layers.0.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-8.984375 max=12.59375
+[numerics] model.layers.0.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-6.1171875 max=6.1171875
+[numerics] model.layers.0.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-214.5 max=199.25
+[numerics] model.layers.0.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.0.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-1.2548828125 max=1.0126953125
+[numerics] model.layers.0.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-1.2548828125 max=1.0126953125
+[numerics] model.layers.0.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-0.5439453125 max=0.85888671875
+[numerics] model.layers.0.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-0.5439453125 max=0.85888671875
+[numerics] model.layers.0.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-2.365234375 max=2.705078125
+[numerics] model.layers.0.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-3.833984375 max=4.2265625
+[numerics] model.layers.0.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-1.59375 max=2.80078125
+[numerics] model.layers.0.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-1.1240234375 max=1.9384765625
+[numerics] model.layers.0.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-1.1240234375 max=1.9384765625
+[numerics] model.layers.0 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1.263671875 max=2.25
+[numerics] model.layers.1.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-6.88671875 max=9.3828125
+[numerics] model.layers.1.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-11.21875 max=9.703125
+[numerics] model.layers.1.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.9140625 max=8.875
+[numerics] model.layers.1.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-1.3515625 max=1.4208984375
+[numerics] model.layers.1.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-9.828125 max=11.34375
+[numerics] model.layers.1.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-8.5078125 max=8.5390625
+[numerics] model.layers.1.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-332.25 max=313.25
+[numerics] model.layers.1.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.1.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-1.3515625 max=1.4208984375
+[numerics] model.layers.1.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-1.24609375 max=1.1826171875
+[numerics] model.layers.1.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-2.06640625 max=0.47900390625
+[numerics] model.layers.1.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-2.06640625 max=0.47900390625
+[numerics] model.layers.1.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-0.9638671875 max=1.4716796875
+[numerics] model.layers.1.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-14.3359375 max=37.15625
+[numerics] model.layers.1.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-7.96875 max=32.625
+[numerics] model.layers.1.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-1155.0 max=1956.0
+[numerics] model.layers.1.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-1155.0 max=1956.0
+[numerics] model.layers.1 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1155.0 max=1956.0
+[numerics] model.layers.2.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.8125 max=10.8046875
+[numerics] model.layers.2.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-12.9609375 max=13.0859375
+[numerics] model.layers.2.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-13.7578125 max=13.5625
+[numerics] model.layers.2.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-2.92578125 max=3.369140625
+[numerics] model.layers.2.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-12.5078125 max=12.7578125
+[numerics] model.layers.2.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-13.3203125 max=13.609375
+[numerics] model.layers.2.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-336.0 max=285.25
+[numerics] model.layers.2.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.2.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-2.92578125 max=3.369140625
+[numerics] model.layers.2.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-0.7158203125 max=1.0087890625
+[numerics] model.layers.2.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-3.03125 max=1.2314453125
+[numerics] model.layers.2.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-3.03125 max=1.2314453125
+[numerics] model.layers.2.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.00390625 max=5.68359375
+[numerics] model.layers.2.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-4.23828125 max=2.412109375
+[numerics] model.layers.2.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-2.244140625 max=2.27734375
+[numerics] model.layers.2.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-2.521484375 max=3.94921875
+[numerics] model.layers.2.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-2.521484375 max=3.94921875
+[numerics] model.layers.2 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1157.0 max=1960.0
+[numerics] model.layers.3.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-13.453125 max=10.25
+[numerics] model.layers.3.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-13.5625 max=15.6484375
+[numerics] model.layers.3.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-17.265625 max=15.859375
+[numerics] model.layers.3.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-3.255859375 max=2.67578125
+[numerics] model.layers.3.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-15.109375 max=13.34375
+[numerics] model.layers.3.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-16.328125 max=15.8203125
+[numerics] model.layers.3.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-349.5 max=275.0
+[numerics] model.layers.3.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.3.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-3.255859375 max=2.67578125
+[numerics] model.layers.3.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-2.34765625 max=2.3125
+[numerics] model.layers.3.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-0.9765625 max=2.40234375
+[numerics] model.layers.3.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-0.9765625 max=2.40234375
+[numerics] model.layers.3.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-3.4765625 max=2.85546875
+[numerics] model.layers.3.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-5.82421875 max=4.84765625
+[numerics] model.layers.3.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-2.873046875 max=3.09765625
+[numerics] model.layers.3.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-2.984375 max=1.1826171875
+[numerics] model.layers.3.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-2.984375 max=1.1826171875
+[numerics] model.layers.3 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1157.0 max=1960.0
+[numerics] model.layers.4.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-11.21875 max=10.8828125
+[numerics] model.layers.4.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-15.5625 max=14.609375
+[numerics] model.layers.4.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-16.140625 max=16.515625
+[numerics] model.layers.4.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-3.087890625 max=3.595703125
+[numerics] model.layers.4.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-13.84375 max=15.2265625
+[numerics] model.layers.4.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-16.265625 max=16.375
+[numerics] model.layers.4.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-350.75 max=277.75
+[numerics] model.layers.4.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.4.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-3.087890625 max=3.595703125
+[numerics] model.layers.4.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-1.59375 max=1.41796875
+[numerics] model.layers.4.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-0.7666015625 max=5.18359375
+[numerics] model.layers.4.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-0.7666015625 max=5.18359375
+[numerics] model.layers.4.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.8671875 max=7.3984375
+[numerics] model.layers.4.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-5.30859375 max=4.5546875
+[numerics] model.layers.4.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-4.125 max=3.1171875
+[numerics] model.layers.4.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.3515625 max=8.2578125
+[numerics] model.layers.4.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.3515625 max=8.2578125
+[numerics] model.layers.4 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1161.0 max=1968.0
+[numerics] model.layers.5.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-10.6796875 max=11.0
+[numerics] model.layers.5.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-14.0 max=15.6796875
+[numerics] model.layers.5.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-17.71875 max=18.109375
+[numerics] model.layers.5.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-2.673828125 max=2.240234375
+[numerics] model.layers.5.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-15.53125 max=13.3125
+[numerics] model.layers.5.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-17.578125 max=17.609375
+[numerics] model.layers.5.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-454.25 max=293.0
+[numerics] model.layers.5.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.5.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-2.673828125 max=2.240234375
+[numerics] model.layers.5.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-1.8291015625 max=1.7705078125
+[numerics] model.layers.5.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-0.6513671875 max=3.1484375
+[numerics] model.layers.5.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-0.6513671875 max=3.1484375
+[numerics] model.layers.5.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.3203125 max=3.216796875
+[numerics] model.layers.5.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-3.853515625 max=4.015625
+[numerics] model.layers.5.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-2.96875 max=4.12890625
+[numerics] model.layers.5.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-3.251953125 max=0.98681640625
+[numerics] model.layers.5.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-3.251953125 max=0.98681640625
+[numerics] model.layers.5 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1161.0 max=1968.0
+[numerics] model.layers.6.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-12.046875 max=12.21875
+[numerics] model.layers.6.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-16.78125 max=15.109375
+[numerics] model.layers.6.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-18.671875 max=16.34375
+[numerics] model.layers.6.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-3.373046875 max=3.828125
+[numerics] model.layers.6.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-15.5234375 max=16.421875
+[numerics] model.layers.6.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-16.75 max=17.671875
+[numerics] model.layers.6.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-495.25 max=321.0
+[numerics] model.layers.6.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.6.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-3.373046875 max=3.828125
+[numerics] model.layers.6.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-2.025390625 max=3.1640625
+[numerics] model.layers.6.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-1.328125 max=3.6796875
+[numerics] model.layers.6.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1.328125 max=3.6796875
+[numerics] model.layers.6.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.7265625 max=3.123046875
+[numerics] model.layers.6.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-4.55078125 max=4.4453125
+[numerics] model.layers.6.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-4.87890625 max=3.44921875
+[numerics] model.layers.6.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.453125 max=1.599609375
+[numerics] model.layers.6.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.453125 max=1.599609375
+[numerics] model.layers.6 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1161.0 max=1968.0
+[numerics] model.layers.7.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-13.21875 max=12.8203125
+[numerics] model.layers.7.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-15.8984375 max=17.03125
+[numerics] model.layers.7.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-18.796875 max=16.0625
+[numerics] model.layers.7.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.0625 max=4.8515625
+[numerics] model.layers.7.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-15.3671875 max=17.703125
+[numerics] model.layers.7.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-18.015625 max=18.078125
+[numerics] model.layers.7.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-459.75 max=328.0
+[numerics] model.layers.7.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.7.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-4.0625 max=4.8515625
+[numerics] model.layers.7.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-2.91796875 max=2.46875
+[numerics] model.layers.7.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-2.521484375 max=3.578125
+[numerics] model.layers.7.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-2.521484375 max=3.578125
+[numerics] model.layers.7.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-6.78515625 max=4.23828125
+[numerics] model.layers.7.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-8.3046875 max=4.88671875
+[numerics] model.layers.7.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-6.1484375 max=5.921875
+[numerics] model.layers.7.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.0859375 max=1.6630859375
+[numerics] model.layers.7.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.0859375 max=1.6630859375
+[numerics] model.layers.7 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1161.0 max=1968.0
+[numerics] model.layers.8.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-19.5625 max=15.640625
+[numerics] model.layers.8.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-16.234375 max=15.703125
+[numerics] model.layers.8.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-16.703125 max=17.125
+[numerics] model.layers.8.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.6953125 max=4.91796875
+[numerics] model.layers.8.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-16.65625 max=16.65625
+[numerics] model.layers.8.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-16.734375 max=16.703125
+[numerics] model.layers.8.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-500.0 max=285.25
+[numerics] model.layers.8.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.8.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-4.6953125 max=4.91796875
+[numerics] model.layers.8.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-2.63671875 max=2.587890625
+[numerics] model.layers.8.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-1.1689453125 max=5.05859375
+[numerics] model.layers.8.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1.1689453125 max=5.05859375
+[numerics] model.layers.8.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.921875 max=5.01171875
+[numerics] model.layers.8.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-10.546875 max=6.6875
+[numerics] model.layers.8.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-6.7109375 max=9.1953125
+[numerics] model.layers.8.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-12.671875 max=3.916015625
+[numerics] model.layers.8.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-12.671875 max=3.916015625
+[numerics] model.layers.8 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1161.0 max=1968.0
+[numerics] model.layers.9.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-24.65625 max=14.3203125
+[numerics] model.layers.9.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-16.53125 max=16.578125
+[numerics] model.layers.9.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-18.0 max=17.1875
+[numerics] model.layers.9.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.8046875 max=6.9296875
+[numerics] model.layers.9.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-16.21875 max=16.359375
+[numerics] model.layers.9.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-17.90625 max=17.3125
+[numerics] model.layers.9.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-397.75 max=292.0
+[numerics] model.layers.9.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.9.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-5.8046875 max=6.9296875
+[numerics] model.layers.9.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-2.4609375 max=2.9453125
+[numerics] model.layers.9.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-2.515625 max=5.12109375
+[numerics] model.layers.9.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-2.515625 max=5.12109375
+[numerics] model.layers.9.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-11.4453125 max=5.00390625
+[numerics] model.layers.9.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-6.49609375 max=7.68359375
+[numerics] model.layers.9.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-7.58984375 max=4.68359375
+[numerics] model.layers.9.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.98828125 max=2.4453125
+[numerics] model.layers.9.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.98828125 max=2.4453125
+[numerics] model.layers.9 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1161.0 max=1968.0
+[numerics] model.layers.10.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-33.21875 max=15.109375
+[numerics] model.layers.10.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-17.234375 max=17.59375
+[numerics] model.layers.10.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-15.8046875 max=17.4375
+[numerics] model.layers.10.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-9.125 max=7.26171875
+[numerics] model.layers.10.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-16.84375 max=16.5
+[numerics] model.layers.10.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-16.34375 max=16.890625
+[numerics] model.layers.10.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-368.75 max=321.5
+[numerics] model.layers.10.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.10.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-9.125 max=7.26171875
+[numerics] model.layers.10.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-2.2890625 max=2.05859375
+[numerics] model.layers.10.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-2.578125 max=5.9375
+[numerics] model.layers.10.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-2.578125 max=5.9375
+[numerics] model.layers.10.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-6.359375 max=5.1796875
+[numerics] model.layers.10.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-5.30859375 max=5.640625
+[numerics] model.layers.10.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-4.296875 max=4.140625
+[numerics] model.layers.10.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.7109375 max=2.7890625
+[numerics] model.layers.10.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.7109375 max=2.7890625
+[numerics] model.layers.10 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1161.0 max=1968.0
+[numerics] model.layers.11.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-26.890625 max=15.9921875
+[numerics] model.layers.11.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-19.453125 max=19.578125
+[numerics] model.layers.11.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-16.890625 max=15.859375
+[numerics] model.layers.11.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.3203125 max=8.3515625
+[numerics] model.layers.11.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-19.796875 max=18.546875
+[numerics] model.layers.11.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-17.21875 max=16.296875
+[numerics] model.layers.11.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-561.5 max=241.875
+[numerics] model.layers.11.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.11.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-8.3203125 max=8.3515625
+[numerics] model.layers.11.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-2.52734375 max=3.435546875
+[numerics] model.layers.11.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.203125 max=5.01171875
+[numerics] model.layers.11.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-4.203125 max=5.01171875
+[numerics] model.layers.11.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-6.515625 max=5.46875
+[numerics] model.layers.11.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-5.63671875 max=6.375
+[numerics] model.layers.11.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-4.12890625 max=4.265625
+[numerics] model.layers.11.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.60546875 max=3.470703125
+[numerics] model.layers.11.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.60546875 max=3.470703125
+[numerics] model.layers.11 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1161.0 max=1968.0
+[numerics] model.layers.12.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-27.640625 max=15.9609375
+[numerics] model.layers.12.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-16.75 max=20.03125
+[numerics] model.layers.12.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-18.8125 max=16.21875
+[numerics] model.layers.12.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-7.25390625 max=6.234375
+[numerics] model.layers.12.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-19.78125 max=16.453125
+[numerics] model.layers.12.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-16.921875 max=15.78125
+[numerics] model.layers.12.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-444.0 max=341.25
+[numerics] model.layers.12.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.12.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-7.25390625 max=6.234375
+[numerics] model.layers.12.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-2.3203125 max=2.70703125
+[numerics] model.layers.12.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-3.44140625 max=4.53125
+[numerics] model.layers.12.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-3.44140625 max=4.53125
+[numerics] model.layers.12.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-7.9375 max=5.2109375
+[numerics] model.layers.12.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-5.5390625 max=7.21484375
+[numerics] model.layers.12.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-4.6953125 max=4.6015625
+[numerics] model.layers.12.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.42578125 max=2.58984375
+[numerics] model.layers.12.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.42578125 max=2.58984375
+[numerics] model.layers.12 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1161.0 max=1968.0
+[numerics] model.layers.13.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-23.0625 max=15.1015625
+[numerics] model.layers.13.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-15.765625 max=17.03125
+[numerics] model.layers.13.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-16.4375 max=18.171875
+[numerics] model.layers.13.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.2265625 max=5.41796875
+[numerics] model.layers.13.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-16.625 max=15.65625
+[numerics] model.layers.13.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-17.171875 max=17.203125
+[numerics] model.layers.13.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-336.25 max=313.25
+[numerics] model.layers.13.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.13.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-5.2265625 max=5.41796875
+[numerics] model.layers.13.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-3.1953125 max=2.80859375
+[numerics] model.layers.13.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.015625 max=4.4375
+[numerics] model.layers.13.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-4.015625 max=4.4375
+[numerics] model.layers.13.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-9.53125 max=5.05078125
+[numerics] model.layers.13.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-4.9921875 max=5.921875
+[numerics] model.layers.13.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-4.15625 max=4.33984375
+[numerics] model.layers.13.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.125 max=4.2109375
+[numerics] model.layers.13.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.125 max=4.2109375
+[numerics] model.layers.13 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1161.0 max=1969.0
+[numerics] model.layers.14.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-23.71875 max=16.390625
+[numerics] model.layers.14.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-15.390625 max=15.8828125
+[numerics] model.layers.14.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-16.390625 max=17.984375
+[numerics] model.layers.14.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.65625 max=4.5703125
+[numerics] model.layers.14.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-15.6953125 max=15.25
+[numerics] model.layers.14.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-16.4375 max=17.265625
+[numerics] model.layers.14.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-419.5 max=248.75
+[numerics] model.layers.14.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.14.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-8.65625 max=4.5703125
+[numerics] model.layers.14.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-2.322265625 max=2.736328125
+[numerics] model.layers.14.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.56640625 max=6.84375
+[numerics] model.layers.14.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-4.56640625 max=6.84375
+[numerics] model.layers.14.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.3671875 max=4.90625
+[numerics] model.layers.14.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-5.6796875 max=6.4765625
+[numerics] model.layers.14.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-5.1953125 max=5.1328125
+[numerics] model.layers.14.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.83984375 max=2.58984375
+[numerics] model.layers.14.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.83984375 max=2.58984375
+[numerics] model.layers.14 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1161.0 max=1969.0
+[numerics] model.layers.15.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-22.34375 max=17.203125
+[numerics] model.layers.15.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-17.671875 max=17.609375
+[numerics] model.layers.15.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-17.015625 max=15.4921875
+[numerics] model.layers.15.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-6.765625 max=5.078125
+[numerics] model.layers.15.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-17.546875 max=17.734375
+[numerics] model.layers.15.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-16.9375 max=15.5078125
+[numerics] model.layers.15.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-403.5 max=326.25
+[numerics] model.layers.15.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.15.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-6.765625 max=5.078125
+[numerics] model.layers.15.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-3.1640625 max=3.25390625
+[numerics] model.layers.15.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.68359375 max=5.33203125
+[numerics] model.layers.15.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-4.68359375 max=5.33203125
+[numerics] model.layers.15.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-9.5859375 max=5.0703125
+[numerics] model.layers.15.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-5.3984375 max=6.640625
+[numerics] model.layers.15.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-6.48828125 max=5.9921875
+[numerics] model.layers.15.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-7.47265625 max=4.49609375
+[numerics] model.layers.15.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-7.47265625 max=4.49609375
+[numerics] model.layers.15 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1161.0 max=1969.0
+[numerics] model.layers.16.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-21.453125 max=16.765625
+[numerics] model.layers.16.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-17.625 max=18.765625
+[numerics] model.layers.16.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-16.734375 max=16.828125
+[numerics] model.layers.16.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.74609375 max=5.17578125
+[numerics] model.layers.16.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-18.234375 max=18.015625
+[numerics] model.layers.16.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-16.875 max=17.265625
+[numerics] model.layers.16.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-513.0 max=287.25
+[numerics] model.layers.16.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.16.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-5.74609375 max=5.17578125
+[numerics] model.layers.16.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-2.693359375 max=2.708984375
+[numerics] model.layers.16.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.5625 max=6.78125
+[numerics] model.layers.16.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-4.5625 max=6.78125
+[numerics] model.layers.16.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-9.4765625 max=9.015625
+[numerics] model.layers.16.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-5.38671875 max=7.13671875
+[numerics] model.layers.16.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-6.35546875 max=5.93359375
+[numerics] model.layers.16.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-6.55078125 max=5.703125
+[numerics] model.layers.16.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-6.55078125 max=5.703125
+[numerics] model.layers.16 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1161.0 max=1973.0
+[numerics] model.layers.17.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-16.421875 max=18.5625
+[numerics] model.layers.17.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-16.546875 max=16.34375
+[numerics] model.layers.17.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-21.234375 max=17.328125
+[numerics] model.layers.17.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.2734375 max=4.33203125
+[numerics] model.layers.17.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-16.171875 max=16.828125
+[numerics] model.layers.17.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-21.125 max=19.3125
+[numerics] model.layers.17.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-441.0 max=347.0
+[numerics] model.layers.17.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.17.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-4.2734375 max=4.33203125
+[numerics] model.layers.17.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-2.681640625 max=3.248046875
+[numerics] model.layers.17.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.1171875 max=6.46875
+[numerics] model.layers.17.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-5.1171875 max=6.46875
+[numerics] model.layers.17.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.96875 max=4.96875
+[numerics] model.layers.17.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-5.59765625 max=9.0625
+[numerics] model.layers.17.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-7.16796875 max=6.125
+[numerics] model.layers.17.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.453125 max=4.4609375
+[numerics] model.layers.17.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.453125 max=4.4609375
+[numerics] model.layers.17 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1161.0 max=1973.0
+[numerics] model.layers.18.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-19.484375 max=20.71875
+[numerics] model.layers.18.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-17.796875 max=15.59375
+[numerics] model.layers.18.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-17.953125 max=19.171875
+[numerics] model.layers.18.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.59765625 max=5.40625
+[numerics] model.layers.18.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-15.8828125 max=17.9375
+[numerics] model.layers.18.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-18.5 max=18.09375
+[numerics] model.layers.18.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-404.25 max=306.75
+[numerics] model.layers.18.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.18.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-4.59765625 max=5.40625
+[numerics] model.layers.18.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-4.2421875 max=4.29296875
+[numerics] model.layers.18.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.21875 max=4.890625
+[numerics] model.layers.18.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-5.21875 max=4.890625
+[numerics] model.layers.18.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.703125 max=5.1015625
+[numerics] model.layers.18.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-5.95703125 max=8.6953125
+[numerics] model.layers.18.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-6.15234375 max=6.54296875
+[numerics] model.layers.18.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.91796875 max=5.26171875
+[numerics] model.layers.18.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.91796875 max=5.26171875
+[numerics] model.layers.18 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1161.0 max=1973.0
+[numerics] model.layers.19.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-15.765625 max=19.265625
+[numerics] model.layers.19.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-17.875 max=17.21875
+[numerics] model.layers.19.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-18.828125 max=17.90625
+[numerics] model.layers.19.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.5390625 max=3.689453125
+[numerics] model.layers.19.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-17.46875 max=17.484375
+[numerics] model.layers.19.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-17.453125 max=17.5625
+[numerics] model.layers.19.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-364.25 max=317.0
+[numerics] model.layers.19.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.19.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-4.5390625 max=3.689453125
+[numerics] model.layers.19.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-3.83203125 max=3.146484375
+[numerics] model.layers.19.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.4609375 max=5.6171875
+[numerics] model.layers.19.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-4.4609375 max=5.6171875
+[numerics] model.layers.19.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.96875 max=8.484375
+[numerics] model.layers.19.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-6.50390625 max=8.6171875
+[numerics] model.layers.19.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-5.40625 max=9.421875
+[numerics] model.layers.19.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.10546875 max=5.22265625
+[numerics] model.layers.19.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.10546875 max=5.22265625
+[numerics] model.layers.19 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1160.0 max=1974.0
+[numerics] model.layers.20.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-15.078125 max=22.1875
+[numerics] model.layers.20.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-20.8125 max=21.796875
+[numerics] model.layers.20.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-18.265625 max=19.234375
+[numerics] model.layers.20.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.59765625 max=4.57421875
+[numerics] model.layers.20.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-22.203125 max=21.3125
+[numerics] model.layers.20.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-17.59375 max=19.828125
+[numerics] model.layers.20.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-431.75 max=327.0
+[numerics] model.layers.20.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.20.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-4.59765625 max=4.57421875
+[numerics] model.layers.20.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-3.849609375 max=2.91015625
+[numerics] model.layers.20.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-2.5390625 max=13.421875
+[numerics] model.layers.20.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-2.5390625 max=13.421875
+[numerics] model.layers.20.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.1953125 max=5.16015625
+[numerics] model.layers.20.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-6.13671875 max=7.89453125
+[numerics] model.layers.20.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-5.95703125 max=5.7890625
+[numerics] model.layers.20.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-6.08984375 max=6.92578125
+[numerics] model.layers.20.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-6.08984375 max=6.92578125
+[numerics] model.layers.20 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1160.0 max=1974.0
+[numerics] model.layers.21.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-15.2734375 max=23.140625
+[numerics] model.layers.21.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-22.328125 max=24.078125
+[numerics] model.layers.21.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-20.4375 max=23.8125
+[numerics] model.layers.21.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.28515625 max=5.09765625
+[numerics] model.layers.21.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-24.5 max=21.546875
+[numerics] model.layers.21.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-23.09375 max=18.859375
+[numerics] model.layers.21.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-656.0 max=481.75
+[numerics] model.layers.21.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.21.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-5.28515625 max=5.09765625
+[numerics] model.layers.21.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-4.6171875 max=3.052734375
+[numerics] model.layers.21.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-2.490234375 max=9.578125
+[numerics] model.layers.21.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-2.490234375 max=9.578125
+[numerics] model.layers.21.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.7421875 max=5.05078125
+[numerics] model.layers.21.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-6.28515625 max=8.265625
+[numerics] model.layers.21.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-5.578125 max=6.8359375
+[numerics] model.layers.21.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.93359375 max=3.82421875
+[numerics] model.layers.21.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.93359375 max=3.82421875
+[numerics] model.layers.21 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1160.0 max=1974.0
+[numerics] model.layers.22.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-14.78125 max=29.734375
+[numerics] model.layers.22.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-26.53125 max=24.3125
+[numerics] model.layers.22.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-22.203125 max=23.390625
+[numerics] model.layers.22.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-7.3828125 max=5.6328125
+[numerics] model.layers.22.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-22.671875 max=27.296875
+[numerics] model.layers.22.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-21.28125 max=21.765625
+[numerics] model.layers.22.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-696.5 max=671.5
+[numerics] model.layers.22.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.22.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-7.3828125 max=5.6328125
+[numerics] model.layers.22.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-4.921875 max=3.82421875
+[numerics] model.layers.22.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-15.2265625 max=11.046875
+[numerics] model.layers.22.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-15.2265625 max=11.046875
+[numerics] model.layers.22.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.5703125 max=4.9921875
+[numerics] model.layers.22.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-8.671875 max=10.3203125
+[numerics] model.layers.22.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-6.5703125 max=6.91015625
+[numerics] model.layers.22.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-3.62890625 max=2.5
+[numerics] model.layers.22.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-3.62890625 max=2.5
+[numerics] model.layers.22 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1160.0 max=1975.0
+[numerics] model.layers.23.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-15.203125 max=28.34375
+[numerics] model.layers.23.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-23.796875 max=23.0
+[numerics] model.layers.23.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-22.078125 max=22.078125
+[numerics] model.layers.23.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.67578125 max=5.171875
+[numerics] model.layers.23.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-22.40625 max=22.828125
+[numerics] model.layers.23.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-21.3125 max=20.5
+[numerics] model.layers.23.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-683.0 max=423.25
+[numerics] model.layers.23.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.23.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-4.67578125 max=5.171875
+[numerics] model.layers.23.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-4.14453125 max=3.794921875
+[numerics] model.layers.23.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-2.75390625 max=10.6171875
+[numerics] model.layers.23.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-2.75390625 max=10.6171875
+[numerics] model.layers.23.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.109375 max=4.98828125
+[numerics] model.layers.23.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-7.6796875 max=9.8671875
+[numerics] model.layers.23.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-6.04296875 max=6.4296875
+[numerics] model.layers.23.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-9.921875 max=4.1875
+[numerics] model.layers.23.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-9.921875 max=4.1875
+[numerics] model.layers.23 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1160.0 max=1975.0
+[numerics] model.layers.24.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-15.46875 max=27.96875
+[numerics] model.layers.24.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-23.390625 max=25.453125
+[numerics] model.layers.24.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-22.546875 max=20.703125
+[numerics] model.layers.24.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-5.609375 max=5.28515625
+[numerics] model.layers.24.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-24.171875 max=23.796875
+[numerics] model.layers.24.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-20.109375 max=22.15625
+[numerics] model.layers.24.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-605.0 max=442.25
+[numerics] model.layers.24.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.24.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-5.609375 max=5.28515625
+[numerics] model.layers.24.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-5.140625 max=4.10546875
+[numerics] model.layers.24.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-3.34765625 max=16.421875
+[numerics] model.layers.24.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-3.34765625 max=16.421875
+[numerics] model.layers.24.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-9.2421875 max=5.390625
+[numerics] model.layers.24.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-6.6015625 max=8.5859375
+[numerics] model.layers.24.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-6.8359375 max=6.58203125
+[numerics] model.layers.24.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-3.625 max=3.875
+[numerics] model.layers.24.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-3.625 max=3.875
+[numerics] model.layers.24 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1160.0 max=1975.0
+[numerics] model.layers.25.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-14.765625 max=27.421875
+[numerics] model.layers.25.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-23.71875 max=24.171875
+[numerics] model.layers.25.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-22.28125 max=20.8125
+[numerics] model.layers.25.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-7.13671875 max=5.84375
+[numerics] model.layers.25.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-24.5 max=24.046875
+[numerics] model.layers.25.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-22.25 max=21.46875
+[numerics] model.layers.25.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-601.0 max=430.75
+[numerics] model.layers.25.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.25.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-7.13671875 max=5.84375
+[numerics] model.layers.25.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-4.3828125 max=3.142578125
+[numerics] model.layers.25.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-1.69921875 max=4.44921875
+[numerics] model.layers.25.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1.69921875 max=4.44921875
+[numerics] model.layers.25.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-9.2890625 max=5.89453125
+[numerics] model.layers.25.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-8.3359375 max=10.828125
+[numerics] model.layers.25.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-6.96875 max=9.078125
+[numerics] model.layers.25.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-17.015625 max=5.05078125
+[numerics] model.layers.25.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-17.015625 max=5.05078125
+[numerics] model.layers.25 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1160.0 max=1975.0
+[numerics] model.layers.26.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-17.515625 max=30.6875
+[numerics] model.layers.26.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-24.671875 max=26.71875
+[numerics] model.layers.26.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-25.90625 max=24.46875
+[numerics] model.layers.26.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-7.078125 max=7.90625
+[numerics] model.layers.26.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-23.59375 max=24.953125
+[numerics] model.layers.26.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-22.703125 max=24.515625
+[numerics] model.layers.26.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-899.0 max=483.5
+[numerics] model.layers.26.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.26.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-7.078125 max=7.90625
+[numerics] model.layers.26.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-6.50390625 max=6.72265625
+[numerics] model.layers.26.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-2.736328125 max=21.265625
+[numerics] model.layers.26.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-2.736328125 max=21.265625
+[numerics] model.layers.26.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-10.234375 max=6.08203125
+[numerics] model.layers.26.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-10.9375 max=10.171875
+[numerics] model.layers.26.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-7.60546875 max=7.8984375
+[numerics] model.layers.26.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.84375 max=4.11328125
+[numerics] model.layers.26.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.84375 max=4.11328125
+[numerics] model.layers.26 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1160.0 max=1975.0
+[numerics] model.layers.27.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-12.765625 max=29.734375
+[numerics] model.layers.27.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-26.171875 max=24.453125
+[numerics] model.layers.27.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-26.625 max=24.421875
+[numerics] model.layers.27.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-7.19140625 max=8.5859375
+[numerics] model.layers.27.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-23.0 max=26.8125
+[numerics] model.layers.27.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-23.921875 max=26.015625
+[numerics] model.layers.27.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-729.0 max=605.5
+[numerics] model.layers.27.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.27.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-7.19140625 max=8.5859375
+[numerics] model.layers.27.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-5.625 max=5.5234375
+[numerics] model.layers.27.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-4.234375 max=5.640625
+[numerics] model.layers.27.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-4.234375 max=5.640625
+[numerics] model.layers.27.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-11.328125 max=7.3125
+[numerics] model.layers.27.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-9.0703125 max=11.453125
+[numerics] model.layers.27.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-7.59765625 max=8.4140625
+[numerics] model.layers.27.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-7.87109375 max=3.548828125
+[numerics] model.layers.27.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-7.87109375 max=3.548828125
+[numerics] model.layers.27 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1160.0 max=1973.0
+[numerics] model.layers.28.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-13.4921875 max=26.609375
+[numerics] model.layers.28.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-23.796875 max=24.90625
+[numerics] model.layers.28.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-23.875 max=26.84375
+[numerics] model.layers.28.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-6.16796875 max=6.59375
+[numerics] model.layers.28.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-23.65625 max=24.34375
+[numerics] model.layers.28.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-24.296875 max=22.8125
+[numerics] model.layers.28.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-718.0 max=443.75
+[numerics] model.layers.28.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.28.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-6.16796875 max=6.59375
+[numerics] model.layers.28.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-4.44140625 max=4.55078125
+[numerics] model.layers.28.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-6.81640625 max=9.1328125
+[numerics] model.layers.28.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-6.81640625 max=9.1328125
+[numerics] model.layers.28.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-12.2734375 max=8.2734375
+[numerics] model.layers.28.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-11.25 max=11.7734375
+[numerics] model.layers.28.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-16.515625 max=8.4921875
+[numerics] model.layers.28.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-9.609375 max=8.7421875
+[numerics] model.layers.28.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-9.609375 max=8.7421875
+[numerics] model.layers.28 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1160.0 max=1971.0
+[numerics] model.layers.29.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-13.6953125 max=25.765625
+[numerics] model.layers.29.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-25.765625 max=22.484375
+[numerics] model.layers.29.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-25.703125 max=26.515625
+[numerics] model.layers.29.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-8.078125 max=7.453125
+[numerics] model.layers.29.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-22.953125 max=25.890625
+[numerics] model.layers.29.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-26.484375 max=25.203125
+[numerics] model.layers.29.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-677.0 max=492.25
+[numerics] model.layers.29.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.29.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-8.078125 max=7.453125
+[numerics] model.layers.29.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-4.734375 max=4.1953125
+[numerics] model.layers.29.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-3.966796875 max=16.15625
+[numerics] model.layers.29.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-3.966796875 max=16.15625
+[numerics] model.layers.29.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-12.9375 max=9.1875
+[numerics] model.layers.29.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-15.1640625 max=9.84375
+[numerics] model.layers.29.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-15.5 max=21.3125
+[numerics] model.layers.29.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-75.4375 max=38.90625
+[numerics] model.layers.29.mlp output shape=(1, 6675, 4096) dtype=torch.float16 min=-75.4375 max=38.90625
+[numerics] model.layers.29 output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-1150.0 max=1951.0
+[numerics] model.layers.30.input_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-13.359375 max=23.609375
+[numerics] model.layers.30.self_attn.q_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-23.890625 max=24.75
+[numerics] model.layers.30.self_attn.k_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-25.578125 max=28.28125
+[numerics] model.layers.30.self_attn.v_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-9.9453125 max=9.640625
+[numerics] model.layers.30.self_attn QK before scaling left input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-24.875 max=24.40625
+[numerics] model.layers.30.self_attn QK before scaling right input shape=(1, 32, 128, 6675) dtype=torch.float16 min=-25.515625 max=25.6875
+[numerics] model.layers.30.self_attn QK before scaling output shape=(1, 32, 6675, 6675) dtype=torch.float16 min=-817.0 max=543.5
+[numerics] model.layers.30.self_attn attention matmul 2 left input shape=(1, 32, 6675, 6675) dtype=torch.float16 min=0.0 max=1.0
+[numerics] model.layers.30.self_attn attention matmul 2 right input shape=(1, 32, 6675, 128) dtype=torch.float16 min=-9.9453125 max=9.640625
+[numerics] model.layers.30.self_attn attention matmul 2 output shape=(1, 32, 6675, 128) dtype=torch.float16 min=-5.02734375 max=6.36328125
+[numerics] model.layers.30.self_attn.o_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=-24.78125 max=14.1875
+[numerics] model.layers.30.self_attn output[0] shape=(1, 6675, 4096) dtype=torch.float16 min=-24.78125 max=14.1875
+[numerics] model.layers.30.post_attention_layernorm output shape=(1, 6675, 4096) dtype=torch.float16 min=-13.6328125 max=16.859375
+[numerics] model.layers.30.mlp.gate_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-50.28125 max=347.25
+[numerics] model.layers.30.mlp.up_proj output shape=(1, 6675, 11008) dtype=torch.float16 min=-48.78125 max=361.25
+[numerics] model.layers.30.mlp.down_proj output shape=(1, 6675, 4096) dtype=torch.float16 min=nan max=nan
+Traceback (most recent call last):
+  File "/root/PLeak_skill_adapted/diagnose_attack.py", line 151, in <module>
+    main()
+  File "/root/PLeak_skill_adapted/diagnose_attack.py", line 141, in main
+    loss, gradient = attack.compute_loss(samples, attack.trigger_tokens, 0,
+  File "/root/PLeak_skill_adapted/Attack.py", line 265, in compute_loss
+    loss = self.model(
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/accelerate/hooks.py", line 165, in new_forward
+    output = old_forward(*args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 809, in forward
+    outputs = self.model(
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/accelerate/hooks.py", line 165, in new_forward
+    output = old_forward(*args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 697, in forward
+    layer_outputs = decoder_layer(
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1844, in _call_impl
+    return inner()
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1790, in inner
+    result = forward_call(*args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/accelerate/hooks.py", line 165, in new_forward
+    output = old_forward(*args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 426, in forward
+    hidden_states = self.mlp(hidden_states)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1844, in _call_impl
+    return inner()
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1790, in inner
+    result = forward_call(*args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/accelerate/hooks.py", line 165, in new_forward
+    output = old_forward(*args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 220, in forward
+    down_proj = self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1844, in _call_impl
+    return inner()
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1803, in inner
+    hook_result = hook(self, args, result)
+  File "/root/PLeak_skill_adapted/util/numerics_trace.py", line 70, in after_module
+    _check_output(output, f"{name} output")
+  File "/root/PLeak_skill_adapted/util/numerics_trace.py", line 29, in _check_output
+    _check_range(output, label)
+  File "/root/PLeak_skill_adapted/util/numerics_trace.py", line 23, in _check_range
+    raise FloatingPointError(f"First non-finite traced value: {label}; "
+FloatingPointError: First non-finite traced value: model.layers.30.mlp.down_proj output; dtype=torch.float16 min=nan max=nan

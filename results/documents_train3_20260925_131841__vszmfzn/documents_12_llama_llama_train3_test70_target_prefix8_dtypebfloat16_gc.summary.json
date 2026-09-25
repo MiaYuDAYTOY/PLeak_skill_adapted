@@ -1,0 +1,73 @@
+{
+  "dataset": "documents",
+  "train_num": 3,
+  "prefix_length": 8,
+  "test_num": 70,
+  "token_length": 12,
+  "shadow_model": "llama",
+  "target_model": "llama",
+  "model_dtype": "bfloat16",
+  "gradient_checkpointing": true,
+  "sample_seeds": [
+    0
+  ],
+  "attack_seeds": [
+    1
+  ],
+  "averaging": "Equal weight per experiment; evaluator values unchanged, including zero-evaluated runs.",
+  "zero_evaluated_runs": 0,
+  "mean_over_sample_seeds": [
+    {
+      "attack_seed": 1,
+      "run_count": 1,
+      "metric_means": {
+        "total_samples": 70.0,
+        "evaluated_samples": 64.0,
+        "failed_samples": 6.0,
+        "full_skill_leak_count": 0.0,
+        "full_skill_leak_rate": 0.0,
+        "exact_markdown_match_rate": 0.0,
+        "exact_token_match_rate": 0.0,
+        "mean_common_prefix_ratio": 5.069121816042146e-05,
+        "mean_token_recall": 0.10733634997148757,
+        "mean_token_precision": 0.14521970370781576,
+        "eos_rate": 0.5
+      }
+    }
+  ],
+  "mean_over_attack_seeds": [
+    {
+      "sample_seed": 0,
+      "run_count": 1,
+      "metric_means": {
+        "total_samples": 70.0,
+        "evaluated_samples": 64.0,
+        "failed_samples": 6.0,
+        "full_skill_leak_count": 0.0,
+        "full_skill_leak_rate": 0.0,
+        "exact_markdown_match_rate": 0.0,
+        "exact_token_match_rate": 0.0,
+        "mean_common_prefix_ratio": 5.069121816042146e-05,
+        "mean_token_recall": 0.10733634997148757,
+        "mean_token_precision": 0.14521970370781576,
+        "eos_rate": 0.5
+      }
+    }
+  ],
+  "overall_mean": {
+    "run_count": 1,
+    "metric_means": {
+      "total_samples": 70.0,
+      "evaluated_samples": 64.0,
+      "failed_samples": 6.0,
+      "full_skill_leak_count": 0.0,
+      "full_skill_leak_rate": 0.0,
+      "exact_markdown_match_rate": 0.0,
+      "exact_token_match_rate": 0.0,
+      "mean_common_prefix_ratio": 5.069121816042146e-05,
+      "mean_token_recall": 0.10733634997148757,
+      "mean_token_precision": 0.14521970370781576,
+      "eos_rate": 0.5
+    }
+  }
+}

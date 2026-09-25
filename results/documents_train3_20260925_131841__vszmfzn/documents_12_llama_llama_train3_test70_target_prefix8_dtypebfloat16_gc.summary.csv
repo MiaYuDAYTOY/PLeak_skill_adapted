@@ -1,0 +1,4 @@
+average_over,sample_seed,attack_seed,run_count,total_samples,evaluated_samples,failed_samples,full_skill_leak_count,full_skill_leak_rate,exact_markdown_match_rate,exact_token_match_rate,mean_common_prefix_ratio,mean_token_recall,mean_token_precision,eos_rate
+sample_seed,,1,1,70.0,64.0,6.0,0.0,0.0,0.0,0.0,5.069121816042146e-05,0.10733634997148757,0.14521970370781576,0.5
+attack_seed,0,,1,70.0,64.0,6.0,0.0,0.0,0.0,0.0,5.069121816042146e-05,0.10733634997148757,0.14521970370781576,0.5
+both,,,1,70.0,64.0,6.0,0.0,0.0,0.0,0.0,5.069121816042146e-05,0.10733634997148757,0.14521970370781576,0.5
