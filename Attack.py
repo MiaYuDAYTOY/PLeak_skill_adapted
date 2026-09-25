@@ -2,9 +2,9 @@ import torch
 import numpy as np
 from copy import deepcopy
 import re
+import math
 from util.template import TextTemplate
-from torchmetrics import ExtendedEditDistance, CatMetric
-from util.data import Harmful
+from util.attack_diagnostics import diagnostics_enabled, print_cuda_memory, require_finite
 from ModelFactory import ModelFactory
 
 class HotFlip:
@@ -14,6 +14,7 @@ class HotFlip:
         self.template = TextTemplate(prefix_1='') if template is None else template
         modelFactory = ModelFactory()
         self.model = modelFactory.get_model(shadow_model)
+        print_cuda_memory("after model load")
         self.tokenizer = modelFactory.get_tokenizer(shadow_model)
         self.vocab_size = modelFactory.get_vocab_size(shadow_model)
         self.embedding_weight = self.get_embedding_weight()
@@ -22,6 +23,11 @@ class HotFlip:
         self.prefix_length = prefix_length
         self.user_prefix = ''
         self.trigger_tokens = self.init_triggers(trigger_token_length, init_triggers, self.user_prefix)
+
+    def _sample_context(self, target_texts, index):
+        metadata = getattr(target_texts, "sample_metadata", None)
+        path = metadata[index].get("path", "<unknown>") if metadata else "<unknown>"
+        return f"sample {index} path={path}"
 
     def init_triggers(self, trigger_token_length, init_trigger='', user_prefix=''):
         init_tokens = self.tokenizer.encode(init_trigger)
@@ -166,6 +172,17 @@ class HotFlip:
         encoded_text = full_ids[:len(encoded_label)]
         label = torch.tensor([encoded_label], device=self.device, dtype=torch.long)
         lm_input= torch.tensor([encoded_text], device=self.device, dtype=torch.long)
+        if diagnostics_enabled():
+            print(
+                f"[input] sample {index} chars={len(target_text)}",
+                f"target_tokens={len(self.tokenizer.encode(target_text, add_special_tokens=False))}",
+                f"continuation_tokens={len(encoded_target)} trigger_tokens={len(triggers)}",
+                f"prompt_tokens={len_non_label} full_tokens_before_slice={len(full_ids)}",
+                f"supervised_tokens={len(target_prefix)} trigger_span=[{trigger_start}, {trigger_end})",
+                flush=True,
+            )
+            print("input shape:", lm_input.shape, "label shape:", label.shape,
+                  "seq_len:", lm_input.shape[1], flush=True)
         return lm_input, label, trigger_start, trigger_end
 
     #def make_target_chat(self, index, idx_loss, target_text, triggers):
@@ -208,44 +225,92 @@ class HotFlip:
         return lm_input, label
 
     def compute_loss(self, target_texts, trigger_tokens, idx_loss,  require_grad=False):
+        if not len(target_texts):
+            raise ValueError("compute_loss requires at least one sample")
         total_loss = 0
         trigger_grad = None
         for index, text in enumerate(target_texts):
+            context = self._sample_context(target_texts, index)
+            if diagnostics_enabled():
+                raw_dataset = getattr(target_texts, "dataset", None)
+                raw_chars = len(raw_dataset[index]["content"]) if raw_dataset is not None else None
+                print(f"[sample] {context} raw_chars={raw_chars} require_grad={require_grad}", flush=True)
             lm_input, label, trigger_start, trigger_end = self.make_target(
                 index,
                 idx_loss,
                 text,
                 trigger_tokens,
             )
-            if require_grad:
-                inputs_embeds = self.model.get_input_embeddings()(lm_input).detach()
-                inputs_embeds.requires_grad_(True)
-                loss = self.model(
-                    inputs_embeds=inputs_embeds,
-                    labels=label,
-                )[0]/len(target_texts)
-                loss.backward()
-                sample_trigger_grad = inputs_embeds.grad[
-                    0,
-                    trigger_start:trigger_end,
-                    :,
-                ].detach()
-                if trigger_grad is None:
-                    trigger_grad = sample_trigger_grad
-                else:
-                    trigger_grad += sample_trigger_grad
-            else:
-                loss = self.model(lm_input, labels=label)[0]/len(target_texts)
-            total_loss += loss.item()
+            print_cuda_memory(f"{context} after make_target")
+            if lm_input.shape != label.shape:
+                raise ValueError(f"{context}: input/label shapes differ")
+            supervised = int(label[:, 1:].ne(-100).sum().item())
+            if supervised == 0:
+                raise ValueError(f"{context}: no supervised tokens after causal label shift")
+            stage = "embedding"
+            try:
+                with torch.set_grad_enabled(require_grad):
+                    if require_grad:
+                        inputs_embeds = self.model.get_input_embeddings()(lm_input).detach()
+                        inputs_embeds.requires_grad_(True)
+                        require_finite(inputs_embeds, "input embeddings", context)
+                        model_input = {"inputs_embeds": inputs_embeds}
+                    else:
+                        model_input = {"input_ids": lm_input}
+                    stage = "forward"
+                    if diagnostics_enabled() and require_grad:
+                        print(f"[forward] {context} inputs_embeds_dtype={inputs_embeds.dtype} "
+                              f"training={self.model.training}", flush=True)
+                    print_cuda_memory(f"{context} before forward")
+                    loss = self.model(
+                        **model_input, labels=label, use_cache=False,
+                        output_attentions=False, output_hidden_states=False,
+                    )[0] / len(target_texts)
+                    print_cuda_memory(f"{context} after forward")
+                    require_finite(loss, "forward loss (before backward)", context)
+                    loss_value = loss.item()
+                    if diagnostics_enabled():
+                        print(f"[loss] {context} before_backward={loss_value} "
+                              f"supervised_tokens={supervised}", flush=True)
+                    if require_grad:
+                        stage = "backward"
+                        print_cuda_memory(f"{context} before backward")
+                        loss.backward()
+                        print_cuda_memory(f"{context} after backward")
+                        if inputs_embeds.grad is None:
+                            raise RuntimeError(f"{context}: missing input embedding gradient")
+                        sample_trigger_grad = inputs_embeds.grad[
+                            0, trigger_start:trigger_end, :,
+                        ].detach().clone()
+                        require_finite(sample_trigger_grad, "trigger gradient", context)
+                        if trigger_grad is None:
+                            trigger_grad = sample_trigger_grad
+                        else:
+                            trigger_grad += sample_trigger_grad
+                        require_finite(trigger_grad, "accumulated trigger gradient", context)
+                        del inputs_embeds, sample_trigger_grad
+                    total_loss += loss_value
+                    if not math.isfinite(total_loss):
+                        raise FloatingPointError(f"{context}: non-finite accumulated loss")
+                    del loss, model_input
+            except torch.cuda.OutOfMemoryError:
+                print_cuda_memory(
+                    f"OOM {context} stage={stage} seq_len={lm_input.shape[1]}", enabled=True,
+                )
+                raise
+            del lm_input, label
+            print_cuda_memory(f"{context} sample complete")
         return total_loss, trigger_grad
 
     def hotflip_attack(self, averaged_grad, increase_loss=False, num_candidates=30):
+        require_finite(averaged_grad, "trigger gradient", "HotFlip candidate scoring")
         averaged_grad = averaged_grad
         embedding_matrix = self.embedding_weight
         averaged_grad = averaged_grad.unsqueeze(0)
         gradient_dot_embedding_matrix = torch.einsum("bij,kj->bik",
                 (averaged_grad, embedding_matrix))        
         gradient_dot_embedding_matrix *= -1 
+        require_finite(gradient_dot_embedding_matrix, "candidate scores", "HotFlip candidate scoring")
         _, best_k_ids = torch.topk(gradient_dot_embedding_matrix, num_candidates, dim=2)
         return best_k_ids.detach().squeeze().cpu().numpy()
 
@@ -261,7 +326,7 @@ class HotFlip:
             while token_flipped:
                 token_flipped = False
                 with torch.set_grad_enabled(True):
-                    self.model.zero_grad()
+                    self.model.zero_grad(set_to_none=True)
                     best_loss, trigger_grad = self.compute_loss(
                         target_texts,
                         self.trigger_tokens,
@@ -289,13 +354,17 @@ class HotFlip:
                         except ValueError:
                             continue
 
-                        self.model.zero_grad()
+                        self.model.zero_grad(set_to_none=True)
                         with torch.no_grad():
                             loss, _ = self.compute_loss(
                                 target_texts,
                                 candidate_trigger_tokens,
                                 idx_loss,
                                 require_grad=False,
+                            )
+                        if not math.isfinite(best_loss) or not math.isfinite(loss):
+                            raise FloatingPointError(
+                                f"candidate position={i} token={cand_id}: non-finite loss; stopping before trigger update"
                             )
                         if best_loss <= loss: continue
                         token_flipped = True
