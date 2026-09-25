@@ -14,7 +14,6 @@ class HotFlip:
         self.template = TextTemplate(prefix_1='') if template is None else template
         modelFactory = ModelFactory()
         self.model = modelFactory.get_model(shadow_model)
-        self.model.gradient_checkpointing_enable()
         self.tokenizer = modelFactory.get_tokenizer(shadow_model)
         self.vocab_size = modelFactory.get_vocab_size(shadow_model)
         self.embedding_weight = self.get_embedding_weight()
@@ -221,16 +220,11 @@ class HotFlip:
             if require_grad:
                 inputs_embeds = self.model.get_input_embeddings()(lm_input).detach()
                 inputs_embeds.requires_grad_(True)
-                # Checkpointing requires training mode through backward.
-                self.model.train()
-                try:
-                    loss = self.model(
-                        inputs_embeds=inputs_embeds,
-                        labels=label,
-                    )[0]/len(target_texts)
-                    loss.backward()
-                finally:
-                    self.model.eval()
+                loss = self.model(
+                    inputs_embeds=inputs_embeds,
+                    labels=label,
+                )[0]/len(target_texts)
+                loss.backward()
                 sample_trigger_grad = inputs_embeds.grad[
                     0,
                     trigger_start:trigger_end,
