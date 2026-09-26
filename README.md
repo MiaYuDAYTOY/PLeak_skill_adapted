@@ -250,3 +250,28 @@ BF16 与 FP16 数值舍入不同，报告实验结果时应保留这项配置区
 
 若需要逐样本显存日志，可在上述训练命令前加 `PLEAK_DEBUG=1`，但完整候选搜索会产生大量输出。
 验证优先使用独立诊断命令，正式训练默认保留 NaN/Inf 拦截但不打印全部调试日志。
+
+## Webtesting 回归：区分精度变化与 checkpoint 影响
+
+先运行一次独立回归，不做 HotFlip 重训、不修改正式训练默认值：
+
+```bash
+python -u regression_webtesting.py --mode all
+```
+
+默认 `--mode prepare` 只检查数据，无需模型或 GPU；`--mode gradients` 和
+`--mode replay` 可分别执行两项 GPU 检查。所有输出存入新的
+`results/webtesting_regression_*` 目录，不覆盖历史结果。
+
+- 固定历史 seed=1、train=3、prefix=8 的成功 trigger（历史完整复现 17/20），
+  恢复原来 shuffle seed=0 的 80/20 划分和前三个训练样本。
+  测试文本及顺序必须逐条匹配历史 CSV，不能使用当前类别入口的 30/70 划分。
+- 在同一 BF16 模型上，对初始和成功 trigger 分别计算 checkpoint 关闭/开启时的
+  loss、完整 trigger 梯度、梯度差异和 top-30 候选重叠率，记录每张卡的显存峰值。
+- 固定成功 trigger，在旧加载默认值（bnb FP16）和 BF16 下各生成同一批 20 个测试样本。
+  保留当前三 beam、采样和生成长度规则，每次生成前重设同一个随机种子。
+
+历史优化结束时的生成 RNG 状态没有保存，因此这次不能要求精确复现历史 17/20。
+应首先比较本次两个精度条件。单个生成 seed 的差异也不能证明普遍性能回退。
+梯度比较只验证两个固定 trigger，不能替代完整优化回归；若出现差异，先查看
+`gradient_comparison.json`，不要把任何有限梯度自动当作一致性通过。
