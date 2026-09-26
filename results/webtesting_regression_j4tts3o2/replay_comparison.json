@@ -1,0 +1,46 @@
+{
+  "legacy_default": {
+    "total_samples": 20,
+    "evaluated_samples": 20,
+    "failed_samples": 0,
+    "full_skill_leak_count": 17,
+    "full_skill_leak_rate": 0.85,
+    "exact_markdown_match_rate": 0.0,
+    "exact_token_match_rate": 0.0,
+    "mean_common_prefix_ratio": 0.85910659753683,
+    "mean_token_recall": 0.9610662270545991,
+    "mean_token_precision": 0.8749335605398688,
+    "eos_rate": 0.0,
+    "memory": {
+      "0": {
+        "allocated_GiB": 3.9913406372070312,
+        "peak_allocated_GiB": 10.512264251708984,
+        "reserved_GiB": 15.107421875
+      }
+    },
+    "embedding_dtype": "torch.float16",
+    "generation_seed": 1
+  },
+  "bfloat16": {
+    "total_samples": 20,
+    "evaluated_samples": 20,
+    "failed_samples": 0,
+    "full_skill_leak_count": 16,
+    "full_skill_leak_rate": 0.8,
+    "exact_markdown_match_rate": 0.0,
+    "exact_token_match_rate": 0.0,
+    "mean_common_prefix_ratio": 0.8092609185244843,
+    "mean_token_recall": 0.9280505544555933,
+    "mean_token_precision": 0.8449390559196791,
+    "eos_rate": 0.0,
+    "memory": {
+      "0": {
+        "allocated_GiB": 3.9913406372070312,
+        "peak_allocated_GiB": 10.51559066772461,
+        "reserved_GiB": 13.8046875
+      }
+    },
+    "embedding_dtype": "torch.bfloat16",
+    "generation_seed": 1
+  }
+}

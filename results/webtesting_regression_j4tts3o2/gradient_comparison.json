@@ -1,0 +1,48 @@
+{
+  "initial": {
+    "loss_without_checkpoint": 1.0434942841529846,
+    "loss_with_checkpoint": 1.0434942841529846,
+    "absolute_loss_difference": 0.0,
+    "cosine_similarity": 1.0000039339065552,
+    "max_absolute_difference": 0.0,
+    "relative_l2_difference": 0.0,
+    "allclose_rtol_1e-3_atol_1e-6": true,
+    "top30_candidate_overlap_per_position": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "learned": {
+    "loss_without_checkpoint": 0.47617630660533905,
+    "loss_with_checkpoint": 0.47617630660533905,
+    "absolute_loss_difference": 0.0,
+    "cosine_similarity": 1.0000041723251343,
+    "max_absolute_difference": 0.0,
+    "relative_l2_difference": 0.0,
+    "allclose_rtol_1e-3_atol_1e-6": true,
+    "top30_candidate_overlap_per_position": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  }
+}
