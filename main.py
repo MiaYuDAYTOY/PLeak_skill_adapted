@@ -32,9 +32,9 @@ def parse_args(argv=None):
         help="Fixed test sample count; default: the complete test pool",
     )
     parser.add_argument("--results-dir", type=Path, default=Path("results"))
-    parser.add_argument("--dtype", choices=("float16", "bfloat16"), default=None,
+    parser.add_argument("--dtype", choices=("float16", "bfloat16"), default="bfloat16",
                         help="Model and 4-bit compute dtype for both attack and evaluation")
-    parser.add_argument("--gradient-checkpointing", action="store_true",
+    parser.add_argument("--gradient-checkpointing", action=argparse.BooleanOptionalAction, default=True,
                         help="Checkpoint attack forward/backward; candidate evaluation stays in eval mode")
     parser.add_argument("--prefix-lengths", type=int, nargs="+", default=None)
     parser.add_argument("--sample-seeds", type=int, nargs="+", default=None)
@@ -196,8 +196,7 @@ def main(argv=None):
     from Sampler import Sampler
     model_options = {} if args.dtype is None else {"compute_dtype": getattr(torch, args.dtype)}
     attack_options = dict(model_options)
-    if args.gradient_checkpointing:
-        attack_options["gradient_checkpointing"] = True
+    attack_options["gradient_checkpointing"] = args.gradient_checkpointing
 
     args.results_dir.mkdir(parents=True, exist_ok=True)
     # A fresh directory also protects previous runs of the same configuration.

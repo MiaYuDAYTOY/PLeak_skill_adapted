@@ -9,7 +9,7 @@ from util.attack_diagnostics import diagnostics_enabled, print_cuda_memory, requ
 from ModelFactory import ModelFactory
 
 class HotFlip:
-    def __init__(self, trigger_token_length=6, shadow_model='gpt2', step=100, template=None, init_triggers='', init_step=None, prefix_length=8, compute_dtype=None, gradient_checkpointing=False):
+    def __init__(self, trigger_token_length=6, shadow_model='gpt2', step=100, template=None, init_triggers='', init_step=None, prefix_length=8, compute_dtype=None, gradient_checkpointing=True):
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.target_model = shadow_model
         self.template = TextTemplate(prefix_1='') if template is None else template
