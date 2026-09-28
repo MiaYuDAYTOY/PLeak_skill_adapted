@@ -9,9 +9,9 @@ from pathlib import Path
 from tempfile import mkdtemp
 
 
-SAMPLE_SEEDS = [0, 1, 2, 3, 4]
-ATTACK_SEEDS = [ 1, 2, 3, 4, 5]
-TRAIN_NUMS = [ 3, 4,5,6]
+SAMPLE_SEEDS = [0, 1, 2]
+ATTACK_SEEDS = [ 1, 2, 3]
+TRAIN_NUMS = [ 3, 4,5]
 PREFIX_LENGTHS = [8,16,32]
 
 
