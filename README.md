@@ -179,6 +179,42 @@ NaN/Inf 拦截和已有显存诊断辅助仍由正式代码使用，保留在 `u
 历史实验结果保留在 `results/`，原根目录诊断日志归档至 `logs/diagnostics/`。
 本地 `reports/` 工作文档及系统 `.DS_Store` 不纳入版本控制。
 
+## 一次双 RTX 4090 容量检查
+
+`dual4090_check.py` 只做一次最长训练样本的 forward/backward，以及一次最长保留测试样本的
+完整生成，不进行 trigger 搜索或参数网格。正式实验代码和参数保持不变。
+训练候选取当前 `TRAIN_NUMS × SAMPLE_SEEDS` 实际会选到的文件并集，使用初始化 seed=1；
+prefix 默认取当前 `PREFIX_LENGTHS` 最大值（32），以覆盖计划中的最大监督长度。
+测试候选沿用正式入口的六篇已知 OOM 排除规则（当前保留 64 篇），使用已保存的
+sample_seed=1/attack_seed=2 trigger。两阶段独立进程，防止 OOM 状态互相影响。
+
+先在已有环境预检；只加载 tokenizer，不加载模型权重，也不要求双卡：
+
+```bash
+python -u dual4090_check.py --stage plan
+```
+
+**租卡前查看预检结果。** 本地参考 tokenizer 预检发现，当前计划包含 `042_latex`，
+prefix=32 时输入为 18,113 token；单份 eager FP32 attention 矩阵约 39.1 GiB，
+已大于单张 24 GiB。按层分布模型不会拆开同一层的矩阵，因此不能期待双卡直接承载全计划。
+最长保留测试输入是 `100_xberg`（5,482 token），现有生成总长度上限 11,014。
+以上长度需以服务器预检使用的实际 tokenizer 再确认。
+
+若需要实际 GPU 验证，在双 4090 实例上运行（环境和模型权重需预先备齐）：
+
+```bash
+mkdir -p logs
+set -o pipefail
+CUDA_VISIBLE_DEVICES=0,1 python -u dual4090_check.py --stage all --timeout-minutes 20 2>&1 \
+  | tee "logs/dual4090_$(date +%Y%m%d_%H%M%S).log"
+```
+
+默认两阶段总预算 20 分钟，超时结束子进程，不自动重试；**脚本不会释放实例或停止计费**。
+`results/dual4090_*/` 保存候选名单、选中样本、实际 device map、每卡显存峰值、耗时、梯度
+有限性和生成输出。要求实际使用两张 4090 且无 CPU/disk offload；超时与 OOM 分开报告。
+提前 EOS 的成功生成不等于测到了最大长度峰值，单样本通过也不保证全部组合通过。
+`--model-path` 可指定同一模型权重的挂载路径；本地检查未执行 GPU 测试。
+
 ## 跳过已知生成 OOM 的 documents 测试样本
 
 documents 默认跳过以下六个反复生成 OOM 的测试文档：`016_clause`、
