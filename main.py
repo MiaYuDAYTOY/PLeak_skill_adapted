@@ -14,6 +14,14 @@ ATTACK_SEEDS = [ 1, 2, 3]
 TRAIN_NUMS = [ 3, 4,5]
 PREFIX_LENGTHS = [8,16,32]
 
+# Repeated generation OOMs in the documents runs; filter only after splitting.
+KNOWN_OOM_TEST_SKILLS = {
+    "documents": {
+        "016_clause", "026_docs-cleaner", "091_translate-book",
+        "090_technical-documentation", "078_research-report", "028_document-processing",
+    },
+}
+
 
 def parse_args(argv=None):
     parser = argparse.ArgumentParser(
@@ -32,6 +40,8 @@ def parse_args(argv=None):
         help="Fixed test sample count; default: the complete test pool",
     )
     parser.add_argument("--results-dir", type=Path, default=Path("results"))
+    parser.add_argument("--include-known-oom", action="store_true",
+                        help="Include the six documents test skills skipped by default after repeated generation OOMs")
     parser.add_argument("--dtype", choices=("float16", "bfloat16"), default="bfloat16",
                         help="Model and 4-bit compute dtype for both attack and evaluation")
     parser.add_argument("--gradient-checkpointing", action=argparse.BooleanOptionalAction, default=True,
@@ -65,8 +75,38 @@ def execution_config(args):
     }
 
 
+def filter_known_oom_test_samples(testset, dataset, *, include=False):
+    """Preserve the original split, selected prefix, order and pool indices."""
+    if testset.train:
+        raise ValueError("Known OOM exclusions apply only to the test set")
+    blocked = set() if include else KNOWN_OOM_TEST_SKILLS.get(dataset, set())
+    original_count = len(testset)
+    kept, excluded = [], []
+    for index, metadata in enumerate(testset.sample_metadata):
+        if Path(metadata["path"]).parent.name in blocked:
+            excluded.append({**metadata, "reason": "repeated_generation_cuda_oom"})
+        else:
+            kept.append(index)
+    if not kept:
+        raise ValueError("No test samples remain after known OOM exclusions")
+    testset.dataset = [testset.dataset[index] for index in kept]
+    testset.sample_metadata = [testset.sample_metadata[index] for index in kept]
+    selection = {
+        "exclusion_policy": "known_documents_oom_v1" if blocked else "none",
+        "test_num_before_exclusion": original_count,
+        "excluded_test_num": len(excluded),
+        "excluded_test_samples": excluded,
+    }
+    print(f"Test selection: {original_count} selected, {len(excluded)} excluded, "
+          f"{len(testset)} to evaluate", flush=True)
+    for sample in excluded:
+        print(f"Skipping known generation OOM: {sample['path']} "
+              f"(original pool_index={sample['pool_index']})", flush=True)
+    return selection
+
+
 def save_selection(path, args, train_pool, trainset, testset, repeat_id, sample_seed,
-                   attack_seed, prefix_length):
+                   attack_seed, prefix_length, test_selection):
     metadata = {
         "dataset": args.dataset,
         "train_num": len(trainset),
@@ -83,6 +123,7 @@ def save_selection(path, args, train_pool, trainset, testset, repeat_id, sample_
         "prefix_length": prefix_length,
         "train_samples": trainset.sample_metadata,
         "test_samples": testset.sample_metadata,
+        "test_selection": test_selection,
         **execution_config(args),
     }
     # Save before model loading/training so failed experiments are traceable too.
@@ -96,6 +137,8 @@ def save_selection(path, args, train_pool, trainset, testset, repeat_id, sample_
     for label, samples in (("Train", trainset), ("Test", testset)):
         print(f"\n{label} samples:")
         for number, sample in enumerate(samples.sample_metadata, start=1):
+            if label == "Test":
+                number = sample["pool_index"] + 1
             print(f"{number}. {sample['path']} (pool_index={sample['pool_index']})")
     print(f"\nSelection saved to: {path}", flush=True)
 
@@ -110,6 +153,8 @@ def save_group_summary(path, runs, sample_seeds, attack_seeds):
     configurations = {(run.get("model_dtype"), run.get("gradient_checkpointing", False)) for run in runs}
     if len(configurations) != 1:
         raise ValueError("Cannot summarize runs with different precision/checkpoint configurations")
+    if len({json.dumps(run.get("test_selection"), sort_keys=True) for run in runs}) != 1:
+        raise ValueError("Cannot summarize runs with different test exclusions")
     for run in runs:
         if set(run["metrics"]) != set(metric_names):
             raise ValueError("Evaluation metrics differ between experiments")
@@ -135,6 +180,7 @@ def save_group_summary(path, runs, sample_seeds, attack_seeds):
     summary.update({
         "model_dtype": runs[0].get("model_dtype"),
         "gradient_checkpointing": runs[0].get("gradient_checkpointing", False),
+        "test_selection": runs[0].get("test_selection"),
         "sample_seeds": list(sample_seeds),
         "attack_seeds": list(attack_seeds),
         "averaging": "Equal weight per experiment; evaluator values unchanged, including zero-evaluated runs.",
@@ -183,6 +229,9 @@ def main(argv=None):
     train_pool = dataFactory.get_dataset(args.dataset, train=True, num=None)
     testset = dataFactory.get_dataset(args.dataset, train=False, num=args.test_num)
     dataFactory.validate_split(train_pool, testset)
+    test_selection = filter_known_oom_test_samples(
+        testset, args.dataset, include=args.include_known_oom,
+    )
     for train_num in args.train_nums:
         if train_num > len(train_pool):
             raise ValueError(
@@ -228,6 +277,7 @@ def main(argv=None):
                     save_selection(
                         run_dir / f"{result_stem}.samples.json", args, train_pool,
                         trainset, testset, repeat_id, sample_seed, attack_seed, prefix_length,
+                        test_selection,
                     )
                     random.seed(attack_seed)
                     np.random.seed(attack_seed)
@@ -286,6 +336,7 @@ def main(argv=None):
                         "sample_seed": sample_seed,
                         "attack_seed": attack_seed,
                         "metrics": {key: value for key, value in report.items() if key != "samples"},
+                        "test_selection": test_selection,
                         **execution_config(args),
                     }
                     with (run_dir / f"{result_stem}.metrics.json").open("x", encoding="utf-8") as file:

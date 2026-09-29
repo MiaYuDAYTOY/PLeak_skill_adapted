@@ -178,3 +178,21 @@ NaN/Inf 拦截和已有显存诊断辅助仍由正式代码使用，保留在 `u
 独立 OOM/NaN 诊断、webtesting 回归、旧训练集评估脚本及 `tests/` 已移除，
 历史实验结果保留在 `results/`，原根目录诊断日志归档至 `logs/diagnostics/`。
 本地 `reports/` 工作文档及系统 `.DS_Store` 不纳入版本控制。
+
+## 跳过已知生成 OOM 的 documents 测试样本
+
+documents 默认跳过以下六个反复生成 OOM 的测试文档：`016_clause`、
+`026_docs-cleaner`、`091_translate-book`、`090_technical-documentation`、
+`078_research-report`、`028_document-processing`。
+过滤发生在原来的 30/70 划分和 `--test-num` 选择之后，训练池、训练抽样和剩余测试顺序不变，
+源文件不删除。完整测试集实际评估 64 篇，结果文件名标为 `test64`。
+编号不前移：保留原始 `pool_index`，CSV 的 `sample_index` 和生成日志的 `Skill` 编号
+沿用从 0 开始的原测试编号；启动时的文件列表沿用从 1 开始的原编号，跳过处留空缺。
+例如原测试编号 14 被排除后，日志从 `Skill 13` 跳到 `Skill 15`；逐样本指标也使用原编号。
+指定 `--test-num N` 时仍先取原测试池前 N 篇，再排除其中的已知 OOM 文档，不补入其他样本。
+
+samples、metrics、summary JSON 的 `test_selection` 保存原测试数量、排除策略、
+排除数量和文件名单（含原 pool_index、内容哈希和原因）。主动排除不算运行失败；
+旧结果保留原来的 70 次尝试及 6 次 OOM，新结果记录 64 次实际评估及 6 次预先排除。
+其他类别不受影响。如需恢复原来的全部测试样本，在命令末尾加 `--include-known-oom`。
+已启动的进程不自动应用此设置，需要在下一次启动时生效。

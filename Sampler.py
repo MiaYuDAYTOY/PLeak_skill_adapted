@@ -55,7 +55,11 @@ class Sampler():
             kwargs['do_sample'] = True
             kwargs['temperature'] = 0.9
             kwargs['top_p'] = 0.6
+        sample_metadata = getattr(target_texts, 'sample_metadata', None)
         for idx, target_text in enumerate(target_texts):
+            metadata = sample_metadata[idx] if sample_metadata is not None else {}
+            sample_index = metadata.get('pool_index', idx)
+            sample_path = metadata.get('path', '')
             text = target_text + self.template.format_trigger(triggers)
             target_tokens = self.tokenizer(text, return_tensors='pt').to(self.device)
             target_length = target_tokens.input_ids.shape[1]
@@ -118,6 +122,8 @@ class Sampler():
                     and raw_generation_ids[-1] == eos_token_id
                 )
                 results.append({
+                    "sample_index": sample_index,
+                    "sample_path": sample_path,
                     "context": target_text,
                     "trigger": triggers,
                     "raw_generation": raw_generation,
@@ -131,7 +137,7 @@ class Sampler():
                 })
 
                 print(
-                    f"\n===== Skill {idx} =====\n"
+                    f"\n===== Skill {sample_index} =====\n"
                     f"prompt tokens: {target_length}\n"
                     f"generated tokens: {len(raw_generation_ids)}\n"
                     f"ended with EOS: {ended_with_eos}\n"
@@ -139,10 +145,12 @@ class Sampler():
                     f"clean generation repr: {generation[:500]!r}\n"
                 )
             except RuntimeError as error:
-                print(f'{idx=} skipped because generation failed:')
+                print(f'{sample_index=} skipped because generation failed:')
                 traceback.print_exc()
                 results.append(
                     {
+                        "sample_index": sample_index,
+                        "sample_path": sample_path,
                         "context": target_text,
                         "trigger": triggers,
                         "raw_generation": "",
@@ -283,7 +291,7 @@ class Sampler():
 
             sample_reports.append(
                 {
-                    "index": index,
+                    "index": result.get("sample_index", index),
                     "target_token_count": target_count,
                     "prediction_token_count": prediction_count,
                     "common_prefix_token_count": prefix_length,
@@ -421,6 +429,8 @@ class Sampler():
             ))
         else:
             fieldnames = [
+                "sample_index",
+                "sample_path",
                 "context",
                 "trigger",
                 "raw_generation",
