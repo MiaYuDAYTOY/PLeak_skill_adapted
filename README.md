@@ -168,6 +168,36 @@ data_analysis_12_llama_llama_train3_test25_target_prefix8_repeat0_sample_seed0_a
 汇总保留失败样本计数均值及 `zero_evaluated_runs`，不修改原指标定义。
 若某组实验中途报错，已完成的逐次文件保留，未完成的 seed 组合不会被当作完整组汇总。
 
+### 原文重合指标（ROUGE）
+
+评估新增以下逐条指标，使用目标模型的同一个 tokenizer 对规范化后的
+`context` 和 `generation` 重新编码，排除特殊 token，保留大小写和标点：
+
+| 字段 | 定义 |
+| --- | --- |
+| `rougeL_recall` | 最长公共子序列长度 / 原文 token 数 |
+| `rougeL_precision` | 最长公共子序列长度 / 输出 token 数 |
+| `rouge2_recall` | 按原文出现次数截断的重合 bigram 数 / 原文 bigram 数 |
+
+另有 `body_rougeL_recall`、`body_rougeL_precision`、`body_rouge2_recall`：
+分别移除原文和输出开头的 YAML 元数据块后计算。只识别以 `---` 开始、
+以 `---` 或 `...` 结束且含顶层映射键的块；无文件头、未闭合块和普通
+Markdown 分隔线保留。输出已跳过文件头时直接按原样评分，不裁剪尾部、
+trigger 或重复内容。此识别为保守的文本规则，不执行 YAML。
+
+全部取值为 0–1；分母为空时记 0，原文不足两个 token 时 ROUGE-2 记 0。
+采用整篇 token 序列的 ROUGE-L，不是按句子计算的 ROUGE-Lsum，也不是默认
+英文分词的 ROUGE；跨实验比较须保持 tokenizer 和预处理一致。
+LCS 允许少量增删改、但保持匹配顺序；它可能跨重复段匹配，不保证有一段
+连续的完整副本。复制两遍不会让 recall 超过 1，但会降低 precision。
+指标定义参考 [ROUGE 原论文](https://aclanthology.org/W04-1013/)。
+
+`*.metrics.json` 和跨 seed 的 `.summary.json/.csv` 自动包含六个对应的
+`mean_...` 字段，沿用成功生成样本等权平均、失败生成排除的规则。
+新增 `*.evaluation.json` 保存同次实验的配置、汇总指标与逐条 `samples`
+（包含样本索引、路径及正文 token 数）。原始生成 CSV 和旧指标保持原有含义。
+已有历史结果不会自动补算；新指标在后续运行时生成。
+
 ### Generate responses for AQs without defense
 
 ```bash

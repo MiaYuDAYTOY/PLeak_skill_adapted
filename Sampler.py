@@ -12,6 +12,7 @@ from Defense import Defense
 from nltk import pos_tag, word_tokenize
 import json
 from collections import Counter
+from util.overlap_metrics import OVERLAP_FIELDS, rouge_overlap, strip_yaml_front_matter
 
 
 class Sampler():
@@ -242,15 +243,16 @@ class Sampler():
         """Evaluate how much of each skill was reproduced by the model.
 
         ``context`` is treated as the original skill and ``generation`` as the
-        model output.  Token-prefix metrics use the exact generated token IDs
-        when they are available, avoiding a lossy decode/encode round trip.
+        model output. Both are normalized and re-tokenized with the same target
+        tokenizer, excluding special tokens. ROUGE is computed on the whole
+        token sequence and, separately, after stripping leading YAML metadata
+        from each text. It is not sentence-split ROUGE-Lsum.
 
         Returns a JSON-serializable report containing aggregate metrics and a
         per-sample breakdown.  Failed generations are counted in the total but
         are not included in the averages.
         """
         results = results or []
-        special_ids = set(self.tokenizer.all_special_ids)
         sample_reports = []
 
         for index, result in enumerate(results):
@@ -263,6 +265,15 @@ class Sampler():
             )
             target_ids = self.content_token_ids(target)
             prediction_ids = self.content_token_ids(prediction)
+            overlap = rouge_overlap(target_ids, prediction_ids)
+            target_body = strip_yaml_front_matter(target)
+            prediction_body = strip_yaml_front_matter(prediction)
+            target_body_ids = (target_ids if target_body == target
+                               else self.content_token_ids(target_body))
+            prediction_body_ids = (prediction_ids if prediction_body == prediction
+                                   else self.content_token_ids(prediction_body))
+            body_overlap = (overlap if target_body == target and prediction_body == prediction
+                            else rouge_overlap(target_body_ids, prediction_body_ids))
 
             prefix_length = self.longest_common_prefix_length(
                 target_ids,
@@ -292,6 +303,11 @@ class Sampler():
             sample_reports.append(
                 {
                     "index": result.get("sample_index", index),
+                    "sample_path": result.get("sample_path", ""),
+                    **overlap,
+                    **{"body_" + name: value for name, value in body_overlap.items()},
+                    "body_target_token_count": len(target_body_ids),
+                    "body_prediction_token_count": len(prediction_body_ids),
                     "target_token_count": target_count,
                     "prediction_token_count": prediction_count,
                     "common_prefix_token_count": prefix_length,
@@ -345,6 +361,7 @@ class Sampler():
             "mean_common_prefix_ratio": mean("common_prefix_ratio"),
             "mean_token_recall": mean("token_recall"),
             "mean_token_precision": mean("token_precision"),
+            **{"mean_" + name: mean(name) for name in OVERLAP_FIELDS},
             "eos_rate": mean("ended_with_eos"),
             "samples": sample_reports,
         }

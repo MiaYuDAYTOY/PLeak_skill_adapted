@@ -405,6 +405,11 @@ def main(argv=None):
                         "metrics": {key: value for key, value in report.items() if key != "samples"},
                     }
                     save_json(run_dir / f"{result_stem}.metrics.json", run_metrics, allow_nan=False)
+                    save_json(
+                        run_dir / f"{result_stem}.evaluation.json",
+                        {**run_metrics, "samples": report["samples"]},
+                        allow_nan=False,
+                    )
                     group_runs.append(run_metrics)
 
                     del sampler
