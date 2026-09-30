@@ -36,8 +36,11 @@ class Samples(Dataset):
 class SkillDataset(Samples):
     """A single skill category with a fixed 30/70 train/test split."""
 
-    def __init__(self, train, num=16, *, data_dir, seed=None):
-        files = sorted(Path(data_dir).rglob("SKILL.md"))
+    def __init__(self, train, num=16, *, data_dir, seed=None, files=None):
+        # An explicit list is a prefiltered candidate pool, not a split. Copy
+        # it so train/test construction cannot shuffle the caller's list.
+        files = sorted(Path(data_dir).rglob("SKILL.md") if files is None
+                       else (Path(path) for path in files))
 
         rng = random.Random(0)
         rng.shuffle(files)

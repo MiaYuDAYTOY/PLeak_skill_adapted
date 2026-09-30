@@ -34,6 +34,13 @@ class DataFactory:
             raise ValueError(f"Unknown dataset: {name!r}.")
         return creator(**kwargs)
 
+    def get_files(self, name):
+        """List a category before any split or sample selection."""
+        creator = self._creator.get(name)
+        if creator is None:
+            raise ValueError(f"Unknown dataset: {name!r}.")
+        return sorted(creator.keywords["data_dir"].rglob("SKILL.md"))
+
     @staticmethod
     def validate_split(train_pool, testset):
         """Reject duplicate paths/content and overlap before starting an experiment."""

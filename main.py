@@ -10,9 +10,9 @@ from tempfile import mkdtemp
 
 
 SAMPLE_SEEDS = [0, 1, 2]
-ATTACK_SEEDS = [ 1, 2, 3]
-TRAIN_NUMS = [ 3, 4,5]
-PREFIX_LENGTHS = [8,16,32]
+ATTACK_SEEDS = [1, 2, 3]
+TRAIN_NUMS = [3, 4, 5]
+PREFIX_LENGTHS = [8, 16, 32]
 
 # Repeated generation OOMs in the documents runs; filter only after splitting.
 KNOWN_OOM_TEST_SKILLS = {
@@ -32,6 +32,11 @@ def parse_args(argv=None):
     parser.add_argument("shadow_model")
     parser.add_argument("target_model")
     parser.add_argument(
+        "--trigger-token-reserve", type=int, default=None,
+        help="Startup filter's target-tokenizer trigger budget; defaults to token_length "
+             "for the same model, required for different shadow/target models",
+    )
+    parser.add_argument(
         "train_nums", type=int, nargs="*", default=TRAIN_NUMS,
         help="Training sizes; default: TRAIN_NUMS configured in main.py",
     )
@@ -50,6 +55,17 @@ def parse_args(argv=None):
     parser.add_argument("--sample-seeds", type=int, nargs="+", default=None)
     parser.add_argument("--attack-seeds", type=int, nargs="+", default=None)
     args = parser.parse_args(argv)
+    if args.token_length <= 0:
+        parser.error("token_length must be positive")
+    if args.trigger_token_reserve is not None and args.trigger_token_reserve <= 0:
+        parser.error("--trigger-token-reserve must be positive")
+    if args.shadow_model != args.target_model and args.trigger_token_reserve is None:
+        parser.error("Different shadow/target models require --trigger-token-reserve "
+                     "expressed in target tokenizer tokens")
+    if (args.shadow_model == args.target_model
+            and args.trigger_token_reserve is not None
+            and args.trigger_token_reserve < args.token_length):
+        parser.error("--trigger-token-reserve must be at least token_length for the same model")
     if any(num <= 0 for num in args.train_nums):
         parser.error("train_nums must all be positive")
     if len(set(args.train_nums)) != len(args.train_nums):
@@ -73,6 +89,42 @@ def execution_config(args):
         "model_dtype": getattr(args, "dtype", None),
         "gradient_checkpointing": getattr(args, "gradient_checkpointing", False),
     }
+
+
+def experiment_metadata(args, train_num, test_num, repeat_id, sample_seed,
+                        attack_seed, prefix_length, test_selection):
+    return {
+        "dataset": args.dataset,
+        "train_num": train_num,
+        "test_num": test_num,
+        "repeat_id": repeat_id,
+        "sample_seed": sample_seed,
+        "attack_seed": attack_seed,
+        "token_length": args.token_length,
+        "shadow_model": args.shadow_model,
+        "target_model": args.target_model,
+        "prefix_length": prefix_length,
+        "test_selection": test_selection,
+        **execution_config(args),
+    }
+
+
+def save_json(path, data, *, allow_nan=True, indent=2, newline=True):
+    """Create a JSON artifact without overwriting an existing experiment."""
+    with path.open("x", encoding="utf-8") as file:
+        json.dump(data, file, ensure_ascii=False, indent=indent, allow_nan=allow_nan)
+        if newline:
+            file.write("\n")
+
+
+def release_memory(*, collect_ipc=False):
+    """Call after deleting model owners so their memory can be reclaimed."""
+    import torch
+
+    gc.collect()
+    torch.cuda.empty_cache()
+    if collect_ipc and torch.cuda.is_available():
+        torch.cuda.ipc_collect()
 
 
 def filter_known_oom_test_samples(testset, dataset, *, include=False):
@@ -108,28 +160,18 @@ def filter_known_oom_test_samples(testset, dataset, *, include=False):
 def save_selection(path, args, train_pool, trainset, testset, repeat_id, sample_seed,
                    attack_seed, prefix_length, test_selection):
     metadata = {
-        "dataset": args.dataset,
-        "train_num": len(trainset),
-        "test_num": len(testset),
-        "repeat_id": repeat_id,
-        "sample_seed": sample_seed,
-        "attack_seed": attack_seed,
+        **experiment_metadata(
+            args, len(trainset), len(testset), repeat_id, sample_seed,
+            attack_seed, prefix_length, test_selection,
+        ),
         "split_seed": 0,
         "train_fraction": 0.3,
         "train_pool_size": len(train_pool),
-        "token_length": args.token_length,
-        "shadow_model": args.shadow_model,
-        "target_model": args.target_model,
-        "prefix_length": prefix_length,
         "train_samples": trainset.sample_metadata,
         "test_samples": testset.sample_metadata,
-        "test_selection": test_selection,
-        **execution_config(args),
     }
     # Save before model loading/training so failed experiments are traceable too.
-    with path.open("x", encoding="utf-8") as file:
-        json.dump(metadata, file, ensure_ascii=False, indent=2)
-        file.write("\n")
+    save_json(path, metadata)
 
     print(f"Dataset: {args.dataset}\nTrain num: {len(trainset)}")
     print(f"Repeat: {repeat_id}\nSample seed: {sample_seed}\nAttack seed: {attack_seed}")
@@ -195,9 +237,7 @@ def save_group_summary(path, runs, sample_seeds, attack_seeds):
         ],
         "overall_mean": average(runs),
     })
-    with path.open("x", encoding="utf-8") as file:
-        json.dump(summary, file, ensure_ascii=False, indent=2, allow_nan=False)
-        file.write("\n")
+    save_json(path, summary, allow_nan=False)
     with path.with_suffix(".csv").open("x", encoding="utf-8", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=[
             "average_over", "sample_seed", "attack_seed", "run_count", *metric_names,
@@ -223,15 +263,58 @@ def main(argv=None):
     sample_seeds = SAMPLE_SEEDS if args.sample_seeds is None else args.sample_seeds
     attack_seeds = ATTACK_SEEDS if args.attack_seeds is None else args.attack_seeds
     from DataFactory import DataFactory
+    from ModelFactory import ModelFactory
+    from filter_samples import filter_skill_files, save_filter_manifest
+    from util.template import TextTemplate
 
     dataFactory = DataFactory()
-    # Both pools come from this dataset's fixed 30/70 partition.
-    train_pool = dataFactory.get_dataset(args.dataset, train=True, num=None)
-    testset = dataFactory.get_dataset(args.dataset, train=False, num=args.test_num)
+    files = dataFactory.get_files(args.dataset)
+    modelFactory = ModelFactory()
+    tokenizer = modelFactory.get_tokenizer(args.target_model)
+    eligible_files, length_filter = filter_skill_files(
+        files, tokenizer,
+        context_limit=modelFactory.get_context_limit(args.target_model),
+        trigger_token_reserve=(args.token_length if args.trigger_token_reserve is None
+                               else args.trigger_token_reserve),
+        template=TextTemplate(prefix_1="", prefix_2=""),
+    )
+    del tokenizer
+    length_filter.update({
+        "dataset": args.dataset,
+        "shadow_model": args.shadow_model,
+        "target_model": args.target_model,
+        "trigger_token_length": args.token_length,
+        "split_seed": 0,
+        "train_fraction": 0.3,
+    })
+    args.results_dir.mkdir(parents=True, exist_ok=True)
+    train_sizes = "-".join(str(num) for num in args.train_nums)
+    run_dir = Path(mkdtemp(
+        prefix=f"{args.dataset}_train{train_sizes}_{datetime.now():%Y%m%d_%H%M%S}_",
+        dir=args.results_dir,
+    ))
+    manifest_path = run_dir / "length_filter.json"
+    # Save even when filtering leaves insufficient data for the requested run.
+    save_filter_manifest(manifest_path, length_filter)
+    print(f"Results directory: {run_dir}", flush=True)
+    print(f"Length filter: {length_filter['source_count']} candidates, "
+          f"{length_filter['excluded_count']} excluded, "
+          f"{length_filter['kept_count']} kept; manifest: {manifest_path}", flush=True)
+
+    # Split only the eligible candidates, identically for every experiment.
+    train_pool = dataFactory.get_dataset(args.dataset, train=True, num=None,
+                                        files=eligible_files)
+    testset = dataFactory.get_dataset(args.dataset, train=False, num=args.test_num,
+                                     files=eligible_files)
     dataFactory.validate_split(train_pool, testset)
     test_selection = filter_known_oom_test_samples(
         testset, args.dataset, include=args.include_known_oom,
     )
+    test_selection["length_filter"] = {
+        key: value for key, value in length_filter.items()
+        if key not in ("kept_samples", "excluded_samples")
+    }
+    test_selection["length_filter"]["manifest_path"] = str(manifest_path.resolve())
     for train_num in args.train_nums:
         if train_num > len(train_pool):
             raise ValueError(
@@ -243,32 +326,26 @@ def main(argv=None):
     import torch
     from Attack import HotFlip
     from Sampler import Sampler
-    model_options = {} if args.dtype is None else {"compute_dtype": getattr(torch, args.dtype)}
+    model_options = {"compute_dtype": getattr(torch, args.dtype)}
     attack_options = dict(model_options)
     attack_options["gradient_checkpointing"] = args.gradient_checkpointing
 
-    args.results_dir.mkdir(parents=True, exist_ok=True)
-    # A fresh directory also protects previous runs of the same configuration.
-    train_sizes = "-".join(str(num) for num in args.train_nums)
-    run_dir = Path(mkdtemp(
-        prefix=f"{args.dataset}_train{train_sizes}_{datetime.now():%Y%m%d_%H%M%S}_",
-        dir=args.results_dir,
-    ))
-    print(f"Results directory: {run_dir}", flush=True)
-
     for train_num in args.train_nums:
+        # Sampling depends only on size and seed; reuse it across prefix lengths.
+        trainsets = {
+            seed: train_pool.sample(num=train_num, seed=seed) for seed in sample_seeds
+        }
         for prefix_length in prefix_lengths:
             group_stem = (
                 f"{args.dataset}_{args.token_length}_{args.shadow_model}_{args.target_model}"
                 f"_train{train_num}_test{len(testset)}_target_prefix{prefix_length}"
+                f"_dtype{args.dtype}"
             )
-            if args.dtype is not None:
-                group_stem += f"_dtype{args.dtype}"
             if args.gradient_checkpointing:
                 group_stem += "_gc"
             group_runs = []
             for repeat_id, sample_seed in enumerate(sample_seeds):
-                trainset = train_pool.sample(num=train_num, seed=sample_seed)
+                trainset = trainsets[sample_seed]
                 for attack_seed in attack_seeds:
                     result_stem = (
                         group_stem
@@ -296,16 +373,12 @@ def main(argv=None):
                     triggers = attack.decode_triggers()
                     trigger_token_ids = [int(token_id) for token_id in attack.trigger_tokens]
                     trigger_ids_path = run_dir / f"{result_stem}.trigger_ids.json"
-                    with trigger_ids_path.open("x", encoding="utf-8") as file:
-                        json.dump(trigger_token_ids, file)
+                    save_json(trigger_ids_path, trigger_token_ids, indent=None, newline=False)
                     print(f"Trigger token IDs saved to: {trigger_ids_path}")
 
                     attack.model.zero_grad(set_to_none=True)
                     del attack
-                    gc.collect()
-                    torch.cuda.empty_cache()
-                    if torch.cuda.is_available():
-                        torch.cuda.ipc_collect()
+                    release_memory(collect_ipc=True)
 
                     print("GPU memory released; loading target model...")
                     sampler = Sampler(
@@ -325,28 +398,17 @@ def main(argv=None):
                     Sampler.save_to_csv(str(run_dir / f"{result_stem}.csv"), results, triggers)
                     report = sampler.evaluate_skill_leakage(results)
                     run_metrics = {
-                        "dataset": args.dataset,
-                        "train_num": train_num,
-                        "prefix_length": prefix_length,
-                        "test_num": len(testset),
-                        "token_length": args.token_length,
-                        "shadow_model": args.shadow_model,
-                        "target_model": args.target_model,
-                        "repeat_id": repeat_id,
-                        "sample_seed": sample_seed,
-                        "attack_seed": attack_seed,
+                        **experiment_metadata(
+                            args, train_num, len(testset), repeat_id, sample_seed,
+                            attack_seed, prefix_length, test_selection,
+                        ),
                         "metrics": {key: value for key, value in report.items() if key != "samples"},
-                        "test_selection": test_selection,
-                        **execution_config(args),
                     }
-                    with (run_dir / f"{result_stem}.metrics.json").open("x", encoding="utf-8") as file:
-                        json.dump(run_metrics, file, ensure_ascii=False, indent=2, allow_nan=False)
-                        file.write("\n")
+                    save_json(run_dir / f"{result_stem}.metrics.json", run_metrics, allow_nan=False)
                     group_runs.append(run_metrics)
 
                     del sampler
-                    gc.collect()
-                    torch.cuda.empty_cache()
+                    release_memory()
 
             save_group_summary(
                 run_dir / f"{group_stem}.summary.json", group_runs, sample_seeds, attack_seeds,

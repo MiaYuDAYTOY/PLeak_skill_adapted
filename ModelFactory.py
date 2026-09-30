@@ -1,5 +1,5 @@
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoConfig, AutoTokenizer, AutoModelForCausalLM
 
 
 class ModelFactory():
@@ -41,6 +41,17 @@ class ModelFactory():
 
     def get_vocab_size(self, name):
         return self.MODEL_CONF[name]['vocab_size']
+
+    def get_context_limit(self, name):
+        """Read the context limit without loading model weights."""
+        config = AutoConfig.from_pretrained(
+            self.MODEL_CONF[name]["alias"],
+            local_files_only=(name == "llama"),
+        )
+        limit = getattr(config, "max_position_embeddings", None)
+        if not isinstance(limit, int) or isinstance(limit, bool) or limit <= 0:
+            raise ValueError(f"No valid max_position_embeddings for {name!r}")
+        return limit
 
 
     def get_tokenizer(self, name):

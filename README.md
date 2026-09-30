@@ -54,7 +54,9 @@ python main.py {dataset} {AQ length} {shadow model} {target model} [train_num ..
 本流程读取 `data/skill_expansion_20260922/samples/` 下的单个分类，
 不读取混合的 `combined_dataset.jsonl`，也不使用原来的 `data/samples/`。
 
-| dataset 参数 | 对应分类目录 | 训练池 / 测试池 |
+下表的 30 / 70 是未筛选时的规模；`main.py` 现在先筛选，再按 30% / 70% 划分，实际数量以启动日志为准。
+
+| dataset 参数 | 对应分类目录 | 未筛选的训练池 / 测试池 |
 | --- | --- | --- |
 | `documents` | `documents` | 30 / 70 |
 | `data_analysis` | `data_analysis` | 30 / 70 |
@@ -71,12 +73,37 @@ python main.py {dataset} {AQ length} {shadow model} {target model} [train_num ..
 dataset 参数仅接受表中的英文名称，目录名与参数一致。
 当前 DataFactory 只注册这 11 类；其他名称会明确报错。
 
-在指定分类内，先对 `SKILL.md` 路径排序，再用独立的 `Random(0)` 打乱，
+`main.py` 启动时调用 `filter_samples.py`，用目标模型的 tokenizer 对指定分类的全部
+`SKILL.md` 统计长度（包含实际输入的结尾换行和特殊 token），不截断、不改动源文件。
+只加载 tokenizer 和模型配置，不为筛选加载模型权重。
+筛选采用以下固定预算：
+
+```text
+prompt 上限 = (模型 max_position_embeddings - 50) // 2
+预留 token = trigger 预算 + 空 trigger 模板的 token 数 + 8 个边界余量
+保留条件：正文 token 数（含特殊 token）+ 预留 token <= prompt 上限
+```
+
+4096 上下文对应 prompt 上限 2023；这不是正文上限。
+同一 shadow/target 模型默认以 AQ length 作为 trigger 预算。
+不同模型必须通过 `--trigger-token-reserve N` 显式提供目标 tokenizer 下足够的 trigger
+预算，因为 shadow 模型的 token 数不能直接当作目标模型的 token 数。
+这是训练前的预留预算，不是最终 prompt 的实测长度；跨模型运行的预留量由调用者确定。
+生成预算保持 `2 * prompt_tokens + 50`，不增加逐条生成前的长度检查。
+
+每次启动先保存 `results/{本次运行目录}/length_filter.json`，包含筛选参数、保留和排除
+清单、路径、文本 SHA-256、token 数和排除原因。即使剩余样本不足导致启动失败，清单也会保留。
+筛选每次启动只做一次；同次运行的全部训练规模、prefix 和 seed 共用合格集合。
+更换 tokenizer、trigger 预算或源数据可能改变合格集合。
+
+在合格集合内，先对 `SKILL.md` 路径排序，再用独立的 `Random(0)` 打乱，
 训练池取前 `int(样本数 * 0.3)` 个（向下取整），其余全部归入测试池，即约 30% / 70%。
 完整训练池通过 `get_dataset(dataset, train=True, num=None)` 获取。
 测试集通过 `get_dataset(dataset, train=False, num=test_num)` 在循环外加载一次；
 不指定 `--test-num` 时使用完整测试池，指定时固定取测试池前 N 个。
-同一数据版本、dataset 和 test_num 在不同训练规模和重复运行中使用相同测试样本。
+同一数据版本、筛选配置、dataset 和 test_num 在不同训练规模和重复运行中使用相同测试样本。
+现有 documents 已知 OOM 排除仍在划分、选取后执行，并单独记录。
+筛选后的划分属于新一批实验，池内索引不能与旧的未筛选实验直接对应。
 增删、改名或修改源数据可能改变划分或内容，实验比较时应保持数据版本不变。
 
 每个 sample_seed 用独立的 `Random(sample_seed).sample(...)` 从完整训练池不放回抽样，
@@ -92,14 +119,14 @@ repeat_id 表示抽样重复编号；改变 attack seed 不会重新抽样或改
 # 一个类别、一个 N、默认一个 prefix：5 次抽样 × 6 个 attack seed，共 30 次
 python main.py data_analysis 12 llama llama 3 --test-num 25
 
-# 每类均有 30 个训练样本和 70 个测试样本；五个 N 共 150 次实验
-python main.py software_development 12 llama llama --test-num 70
+# 使用筛选后的完整测试池；训练规模不能超过筛选后的训练池
+python main.py software_development 12 llama llama
 
 # 也可通过参数覆盖列表，只运行 N=3 和 N=5
-python main.py software_development 12 llama llama 3 5 --test-num 70
+python main.py software_development 12 llama llama 3 5
 
-# 文档处理同样支持 train_num=16
-python main.py documents 12 llama llama 16 --test-num 70
+# 文档处理示例；实际可用样本数在启动时检查
+python main.py documents 12 llama llama 3
 ```
 
 每次启动创建新的 `results/{dataset}_train{N列表}_{时间}_{唯一后缀}/` 目录
