@@ -1,0 +1,166 @@
+{
+  "dataset": "documents",
+  "train_num": 3,
+  "prefix_length": 8,
+  "test_num": 26,
+  "token_length": 12,
+  "shadow_model": "llama",
+  "target_model": "llama",
+  "model_dtype": "bfloat16",
+  "gradient_checkpointing": true,
+  "test_selection": {
+    "exclusion_policy": "known_documents_oom_v1",
+    "test_num_before_exclusion": 26,
+    "excluded_test_num": 0,
+    "excluded_test_samples": [],
+    "length_filter": {
+      "policy": "pre_split_length_filter_v1",
+      "tokenizer": "/root/autodl-tmp/Llama-2-7b-hf",
+      "context_limit": 4096,
+      "generation_extra_tokens": 50,
+      "prompt_token_limit": 2023,
+      "trigger_token_reserve": 12,
+      "template_token_reserve": 2,
+      "boundary_token_reserve": 8,
+      "content_token_limit_with_special_tokens": 2001,
+      "source_count": 100,
+      "kept_count": 36,
+      "excluded_count": 64,
+      "dataset": "documents",
+      "shadow_model": "llama",
+      "target_model": "llama",
+      "trigger_token_length": 12,
+      "split_seed": 0,
+      "train_fraction": 0.3,
+      "manifest_path": "/root/PLeak_skill_adapted/results/documents_train3_20261002_081135_d2pyas5e/length_filter.json"
+    }
+  },
+  "sample_seeds": [
+    2
+  ],
+  "attack_seeds": [
+    1,
+    2,
+    3
+  ],
+  "averaging": "Equal weight per experiment; evaluator values unchanged, including zero-evaluated runs.",
+  "zero_evaluated_runs": 0,
+  "mean_over_sample_seeds": [
+    {
+      "attack_seed": 1,
+      "run_count": 1,
+      "metric_means": {
+        "total_samples": 26.0,
+        "evaluated_samples": 26.0,
+        "failed_samples": 0.0,
+        "full_skill_leak_count": 0.0,
+        "full_skill_leak_rate": 0.0,
+        "exact_markdown_match_rate": 0.0,
+        "exact_token_match_rate": 0.0,
+        "mean_common_prefix_ratio": 0.0,
+        "mean_token_recall": 0.09961167825616958,
+        "mean_token_precision": 0.09141410101855872,
+        "mean_rougeL_recall": 0.06975962375316679,
+        "mean_rougeL_precision": 0.06396494246743743,
+        "mean_rouge2_recall": 0.04097807655184881,
+        "mean_body_rougeL_recall": 0.07507861449804817,
+        "mean_body_rougeL_precision": 0.05619503264586382,
+        "mean_body_rouge2_recall": 0.043600144667825184,
+        "eos_rate": 0.6153846153846154
+      }
+    },
+    {
+      "attack_seed": 2,
+      "run_count": 1,
+      "metric_means": {
+        "total_samples": 26.0,
+        "evaluated_samples": 26.0,
+        "failed_samples": 0.0,
+        "full_skill_leak_count": 0.0,
+        "full_skill_leak_rate": 0.0,
+        "exact_markdown_match_rate": 0.0,
+        "exact_token_match_rate": 0.0,
+        "mean_common_prefix_ratio": 0.00015572748847396734,
+        "mean_token_recall": 0.1517432612184394,
+        "mean_token_precision": 0.14106025785053206,
+        "mean_rougeL_recall": 0.11867806924293195,
+        "mean_rougeL_precision": 0.11033779621997805,
+        "mean_rouge2_recall": 0.07489728186722576,
+        "mean_body_rougeL_recall": 0.1017644719961919,
+        "mean_body_rougeL_precision": 0.11079622171631048,
+        "mean_body_rouge2_recall": 0.0550637868639274,
+        "eos_rate": 0.4230769230769231
+      }
+    },
+    {
+      "attack_seed": 3,
+      "run_count": 1,
+      "metric_means": {
+        "total_samples": 26.0,
+        "evaluated_samples": 26.0,
+        "failed_samples": 0.0,
+        "full_skill_leak_count": 1.0,
+        "full_skill_leak_rate": 0.038461538461538464,
+        "exact_markdown_match_rate": 0.0,
+        "exact_token_match_rate": 0.0,
+        "mean_common_prefix_ratio": 0.04237142859404735,
+        "mean_token_recall": 0.4773552295244171,
+        "mean_token_precision": 0.5991198663565647,
+        "mean_rougeL_recall": 0.4472414528207351,
+        "mean_rougeL_precision": 0.5712018250984832,
+        "mean_rouge2_recall": 0.43005788135452294,
+        "mean_body_rougeL_recall": 0.41400628644724013,
+        "mean_body_rougeL_precision": 0.4174558993972922,
+        "mean_body_rouge2_recall": 0.38870432533755994,
+        "eos_rate": 0.23076923076923078
+      }
+    }
+  ],
+  "mean_over_attack_seeds": [
+    {
+      "sample_seed": 2,
+      "run_count": 3,
+      "metric_means": {
+        "total_samples": 26.0,
+        "evaluated_samples": 26.0,
+        "failed_samples": 0.0,
+        "full_skill_leak_count": 0.3333333333333333,
+        "full_skill_leak_rate": 0.012820512820512822,
+        "exact_markdown_match_rate": 0.0,
+        "exact_token_match_rate": 0.0,
+        "mean_common_prefix_ratio": 0.014175718694173771,
+        "mean_token_recall": 0.24290338966634203,
+        "mean_token_precision": 0.2771980750752185,
+        "mean_rougeL_recall": 0.21189304860561128,
+        "mean_rougeL_precision": 0.24850152126196623,
+        "mean_rouge2_recall": 0.18197774659119917,
+        "mean_body_rougeL_recall": 0.1969497909804934,
+        "mean_body_rougeL_precision": 0.1948157179198222,
+        "mean_body_rouge2_recall": 0.16245608562310418,
+        "eos_rate": 0.4230769230769231
+      }
+    }
+  ],
+  "overall_mean": {
+    "run_count": 3,
+    "metric_means": {
+      "total_samples": 26.0,
+      "evaluated_samples": 26.0,
+      "failed_samples": 0.0,
+      "full_skill_leak_count": 0.3333333333333333,
+      "full_skill_leak_rate": 0.012820512820512822,
+      "exact_markdown_match_rate": 0.0,
+      "exact_token_match_rate": 0.0,
+      "mean_common_prefix_ratio": 0.014175718694173771,
+      "mean_token_recall": 0.24290338966634203,
+      "mean_token_precision": 0.2771980750752185,
+      "mean_rougeL_recall": 0.21189304860561128,
+      "mean_rougeL_precision": 0.24850152126196623,
+      "mean_rouge2_recall": 0.18197774659119917,
+      "mean_body_rougeL_recall": 0.1969497909804934,
+      "mean_body_rougeL_precision": 0.1948157179198222,
+      "mean_body_rouge2_recall": 0.16245608562310418,
+      "eos_rate": 0.4230769230769231
+    }
+  }
+}
