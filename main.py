@@ -32,6 +32,10 @@ def parse_args(argv=None):
     parser.add_argument("shadow_model")
     parser.add_argument("target_model")
     parser.add_argument(
+        "--length-filter", action=argparse.BooleanOptionalAction, default=False,
+        help="Enable startup length filtering; disabled by default (known OOM exclusions still apply)",
+    )
+    parser.add_argument(
         "--trigger-token-reserve", type=int, default=None,
         help="Startup filter's target-tokenizer trigger budget; defaults to token_length "
              "for the same model, required for different shadow/target models",
@@ -57,12 +61,14 @@ def parse_args(argv=None):
     args = parser.parse_args(argv)
     if args.token_length <= 0:
         parser.error("token_length must be positive")
-    if args.trigger_token_reserve is not None and args.trigger_token_reserve <= 0:
+    if (args.length_filter and args.trigger_token_reserve is not None
+            and args.trigger_token_reserve <= 0):
         parser.error("--trigger-token-reserve must be positive")
-    if args.shadow_model != args.target_model and args.trigger_token_reserve is None:
+    if (args.length_filter and args.shadow_model != args.target_model
+            and args.trigger_token_reserve is None):
         parser.error("Different shadow/target models require --trigger-token-reserve "
                      "expressed in target tokenizer tokens")
-    if (args.shadow_model == args.target_model
+    if (args.length_filter and args.shadow_model == args.target_model
             and args.trigger_token_reserve is not None
             and args.trigger_token_reserve < args.token_length):
         parser.error("--trigger-token-reserve must be at least token_length for the same model")
@@ -263,20 +269,25 @@ def main(argv=None):
     sample_seeds = SAMPLE_SEEDS if args.sample_seeds is None else args.sample_seeds
     attack_seeds = ATTACK_SEEDS if args.attack_seeds is None else args.attack_seeds
     from DataFactory import DataFactory
-    from ModelFactory import ModelFactory
     from filter_samples import filter_skill_files, save_filter_manifest
     from util.template import TextTemplate
 
     dataFactory = DataFactory()
     files = dataFactory.get_files(args.dataset)
-    modelFactory = ModelFactory()
-    tokenizer = modelFactory.get_tokenizer(args.target_model)
+    tokenizer = None
+    context_limit = None
+    if args.length_filter:
+        from ModelFactory import ModelFactory
+        modelFactory = ModelFactory()
+        tokenizer = modelFactory.get_tokenizer(args.target_model)
+        context_limit = modelFactory.get_context_limit(args.target_model)
     eligible_files, length_filter = filter_skill_files(
         files, tokenizer,
-        context_limit=modelFactory.get_context_limit(args.target_model),
+        context_limit=context_limit,
         trigger_token_reserve=(args.token_length if args.trigger_token_reserve is None
                                else args.trigger_token_reserve),
         template=TextTemplate(prefix_1="", prefix_2=""),
+        enabled=args.length_filter,
     )
     del tokenizer
     length_filter.update({
@@ -297,11 +308,12 @@ def main(argv=None):
     # Save even when filtering leaves insufficient data for the requested run.
     save_filter_manifest(manifest_path, length_filter)
     print(f"Results directory: {run_dir}", flush=True)
-    print(f"Length filter: {length_filter['source_count']} candidates, "
+    print(f"Length filter ({'enabled' if args.length_filter else 'disabled'}): "
+          f"{length_filter['source_count']} candidates, "
           f"{length_filter['excluded_count']} excluded, "
           f"{length_filter['kept_count']} kept; manifest: {manifest_path}", flush=True)
 
-    # Split only the eligible candidates, identically for every experiment.
+    # Split the selected candidates, identically for every experiment.
     train_pool = dataFactory.get_dataset(args.dataset, train=True, num=None,
                                         files=eligible_files)
     testset = dataFactory.get_dataset(args.dataset, train=False, num=args.test_num,

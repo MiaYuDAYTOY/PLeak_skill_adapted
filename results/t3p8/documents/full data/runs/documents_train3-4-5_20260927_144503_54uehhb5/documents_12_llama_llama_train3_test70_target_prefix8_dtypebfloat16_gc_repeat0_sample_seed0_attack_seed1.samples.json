@@ -1,0 +1,386 @@
+{
+  "dataset": "documents",
+  "train_num": 3,
+  "test_num": 70,
+  "repeat_id": 0,
+  "sample_seed": 0,
+  "attack_seed": 1,
+  "split_seed": 0,
+  "train_fraction": 0.3,
+  "train_pool_size": 30,
+  "token_length": 12,
+  "shadow_model": "llama",
+  "target_model": "llama",
+  "prefix_length": 8,
+  "train_samples": [
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/030_documentation-and-adrs/SKILL.md",
+      "pool_index": 27,
+      "content_sha256": "e59d3069caee7c3f9cbeb60606d00e93572dd9a3222f2df202188d233d7ce510"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/053_minimax-xlsx/SKILL.md",
+      "pool_index": 12,
+      "content_sha256": "4ffb70af6ccd00e90c3b14516d50a850ae0f2f1807a01d326aa1393e0067dd41"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/060_pdf-creator/SKILL.md",
+      "pool_index": 24,
+      "content_sha256": "f58e9a023883ddacd4e887288639bf6ef84b6dc74296d27fdac658ae97a1bd17"
+    }
+  ],
+  "test_samples": [
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/094_wide-slide-illustrator/SKILL.md",
+      "pool_index": 0,
+      "content_sha256": "d9ad18e0bfc392965d61a28d54494f903f5ae9dd58e44572f727085d9be82505"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/082_resume-formatter/SKILL.md",
+      "pool_index": 1,
+      "content_sha256": "387522dc9a48ea948fc44c73189fce0676dc12b694186d4d44957ae02bd6becf"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/044_latex-to-typst/SKILL.md",
+      "pool_index": 2,
+      "content_sha256": "669958e00cd80b61a969a1924d11b02ae73d1f7832c09a69c98007bc9e8caae3"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/100_xberg/SKILL.md",
+      "pool_index": 3,
+      "content_sha256": "858663a3da52c9c9ed9c20ecfe77c659ae272ef617f3047e9ccc58bb783a1e9d"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/087_sheet-music-publisher/SKILL.md",
+      "pool_index": 4,
+      "content_sha256": "4ec5a1ebbafa976eb7d653f8c6143d439caa73ef8e94353a56bc7326394083a7"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/029_documentation/SKILL.md",
+      "pool_index": 5,
+      "content_sha256": "5c5a5a169459a5be92966c41e6128cc537990d647a495a7755ba72b10bc833ca"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/035_extracting-keywords/SKILL.md",
+      "pool_index": 6,
+      "content_sha256": "20a7ae59bce912abc3ab2e94d26d677e1a6d5e41b94a8f44a59335c59cfffba0"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/089_tech-resume-optimizer/SKILL.md",
+      "pool_index": 7,
+      "content_sha256": "38cbc83d7d143ec3432be19e8179c5992b55b20765c478f575b0200ed357339a"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/045_ln-53-documentation-auditor/SKILL.md",
+      "pool_index": 8,
+      "content_sha256": "910ab8cc72000dfce9f222df17e637d49f1e111bf767916aee24ff8ca912c1c3"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/015_chunking/SKILL.md",
+      "pool_index": 9,
+      "content_sha256": "19dd3e15a4c2c26a2d629f99da3c24df0d76345dead0f309d014ef584ea38b4f"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/085_resume-tailor/SKILL.md",
+      "pool_index": 10,
+      "content_sha256": "96853a389e2043cd3cc46667b89576cd3755bbef2c72ebeafc486230609b0981"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/071_pseudo-merge/SKILL.md",
+      "pool_index": 11,
+      "content_sha256": "f4528056bf2cda298371224ccff2cd4c147526b5984cb82352ed0ab4632500d6"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/005_application-form-filler/SKILL.md",
+      "pool_index": 12,
+      "content_sha256": "c5804ccbc6e34d05edd59a86f3246259a73f96f1fcd7ba253fd9e48c1ddca8d8"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/021_dev-slides/SKILL.md",
+      "pool_index": 13,
+      "content_sha256": "fa5b1f9394818f199dab9d8f87cacd902e152a035fc250268c622e00fec88a38"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/016_clause/SKILL.md",
+      "pool_index": 14,
+      "content_sha256": "d8adddd33edc24b14c213491d2d8e626929c040bbcde12b9bbbd4dee738d20cf"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/022_doc-coauthoring/SKILL.md",
+      "pool_index": 15,
+      "content_sha256": "819ad219b7e3f3fd8bc4b0a224dce9cf3b177df6f311b640831b87fb3b5d7730"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/032_executive-resume-writer/SKILL.md",
+      "pool_index": 16,
+      "content_sha256": "74fc63ac5b836f3bf994a3100c03eb2f3f4a9d67e64cbb0df6e973e06e9d95c0"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/077_research-portal/SKILL.md",
+      "pool_index": 17,
+      "content_sha256": "c48c1f957cfafe1cd15e8ed603100bd120f60c3246b6f6758743e717c8adbabf"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/058_overleap/SKILL.md",
+      "pool_index": 18,
+      "content_sha256": "2f749344afc1105129c73673668962193d2714610d60aeb818f331eac6fc33ac"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/068_pptx-visual-assets/SKILL.md",
+      "pool_index": 19,
+      "content_sha256": "01db3d674a92364aea84e9d06faf2046b53cf5360c7926eaee53e94d506bdb1f"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/074_redistricting-analysis/SKILL.md",
+      "pool_index": 20,
+      "content_sha256": "4ee641b38a510bb0742c0476e6f79d5806f7faaa2d72e779122d545028ee8fdf"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/051_minimax-docx/SKILL.md",
+      "pool_index": 21,
+      "content_sha256": "45c169630f30b8f034bc7d53edf73d592fbd82e82188beec7da3ca1996a97fb5"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/070_proofread/SKILL.md",
+      "pool_index": 22,
+      "content_sha256": "93c0c1389dbec3a5cd024cc18ed9c93e2501b84f31ea21eb4c2825aea00aadf4"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/026_docs-cleaner/SKILL.md",
+      "pool_index": 23,
+      "content_sha256": "446c79ab268799f1b3b46db3e38f5a82c614169f55907728209fefac382426ba"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/099_write-well/SKILL.md",
+      "pool_index": 24,
+      "content_sha256": "b7c025aef13e841bf1c78b0765d9b7d01629cbdda53fa89443b230cc46dd3a22"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/047_markdown-unwrap/SKILL.md",
+      "pool_index": 25,
+      "content_sha256": "73f0d9612ff051d79c27c9e285a8935bc2052352fdd476335389299bdbf713a5"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/097_wiki-onboarding/SKILL.md",
+      "pool_index": 26,
+      "content_sha256": "5dde78db7c75f3265025c1410818d25abbed7a0bb3b5fa33c2c25ae0fbe7df50"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/001_Chat-with-PDF/SKILL.md",
+      "pool_index": 27,
+      "content_sha256": "f85e7af4767bac419139f195ca7688cc4018b0525007a3157140afce75e907b8"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/073_read-docx-review/SKILL.md",
+      "pool_index": 28,
+      "content_sha256": "29f105cb6c922aab171a62d0bdfa50890a8daf0c4542332b9e5b2a31c50a09c4"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/036_extracting-tables/SKILL.md",
+      "pool_index": 29,
+      "content_sha256": "73afdc09178fee255264a1a84be5f42b1fdaba9f444ba94d5650326d5642e686"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/059_pdf/SKILL.md",
+      "pool_index": 30,
+      "content_sha256": "d108cf2b36355ab37eb5962933f4d09785ec002f3105c506129320209306b9d2"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/093_typst-markup/SKILL.md",
+      "pool_index": 31,
+      "content_sha256": "4dcacd9ca25c561bcb565273ccd9a4212dc5a6a872bdcd7ad7fa51d9d69c9767"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/004_anydoc/SKILL.md",
+      "pool_index": 32,
+      "content_sha256": "45faac436f4856294543c5a78d61ebbf11ef2c5f2692f0b06dcd6218f6463f64"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/096_wiki-changelog/SKILL.md",
+      "pool_index": 33,
+      "content_sha256": "c2c5da0e585855d44f831859a163ef1fa931df56ec3fb9d6d86ff6929f0a4e9a"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/057_overleaf-section-workflow/SKILL.md",
+      "pool_index": 34,
+      "content_sha256": "d7784f0de771b7bd5f81588e2b093cb225efb55ec71745cbb215f7227336ed5f"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/091_translate-book/SKILL.md",
+      "pool_index": 35,
+      "content_sha256": "1192fea6cdaea6f9c858d31d7b444800067d9904d519e888e6d7980cf8ad5d61"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/027_document-api-endpoint/SKILL.md",
+      "pool_index": 36,
+      "content_sha256": "40c7592cdfbef2e02bf004133446d7a9c85e98f9fd653d3cee689f3bba4bf7a9"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/041_html-slides/SKILL.md",
+      "pool_index": 37,
+      "content_sha256": "7db21c8c406d481ee8a9d3bdcf29408e76f934a5d79b799261d4acf1e1a9d3de"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/056_officecli/SKILL.md",
+      "pool_index": 38,
+      "content_sha256": "8a33c348910c1f8dc86697fa912e4c97545fc9893753a9677deea31d0453d0a2"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/090_technical-documentation/SKILL.md",
+      "pool_index": 39,
+      "content_sha256": "82289254d2d0ee6e1969cb3f24ea19b9294e15bd451ca105791d06f83625bb7c"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/076_report-generator/SKILL.md",
+      "pool_index": 40,
+      "content_sha256": "1c33850438c2f3d5b9ea9b2517dcfffb3a63252cf66f9038f733250d9f41e3eb"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/072_quarto-clean/SKILL.md",
+      "pool_index": 41,
+      "content_sha256": "0ef58872c881df4891adf03c3f9d1cd1411b34629e2ab3069201bf3e9c53b326"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/061_pdf-extraction/SKILL.md",
+      "pool_index": 42,
+      "content_sha256": "fd89439447039ae8068814eb2d6e05409930bd22172121934bcbc099e2d8b16a"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/043_latex-to-quarto/SKILL.md",
+      "pool_index": 43,
+      "content_sha256": "2a09fc297fccbb292453fe3a633558f842b3313265d09f569849bd0170ef69e8"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/010_batch-extraction/SKILL.md",
+      "pool_index": 44,
+      "content_sha256": "ddd52e896f0c5478113bea2cc283f4bae2847296ea6f65f3b1380e4013b94d63"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/083_resume-quantifier/SKILL.md",
+      "pool_index": 45,
+      "content_sha256": "6cdf56f990ff1f67154ea99c256654d35eeb5048f13af76da396dcb3b9d2d68d"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/040_google-slides/SKILL.md",
+      "pool_index": 46,
+      "content_sha256": "0d8651fb9e8598ebbb1bd1f6120d689081344188549ef44435264dc745b486e1"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/019_cv-builder/SKILL.md",
+      "pool_index": 47,
+      "content_sha256": "dd91a4eb1eb19512f68bb0b788b20203046acdaec56fa95285b92c07da4a91ed"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/078_research-report/SKILL.md",
+      "pool_index": 48,
+      "content_sha256": "4818ea270b2f962567da440d63aed44eb40cc219391eb0df315f714f1c8973c8"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/069_presentation-creator/SKILL.md",
+      "pool_index": 49,
+      "content_sha256": "28c0cef62578ec5423da646049e336069cde5ca9c5a92b4161455f8d45262cc8"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/033_extract-charts/SKILL.md",
+      "pool_index": 50,
+      "content_sha256": "a15735c732c2e741233a54f7f1cb72a87cc222cf91c689ed934a8b676a381b01"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/080_resume-ats-optimizer/SKILL.md",
+      "pool_index": 51,
+      "content_sha256": "03ad07d45afa209a41f8a0acdfc4286bc61ededd8371ced5242b5caf97d86702"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/013_build-slides/SKILL.md",
+      "pool_index": 52,
+      "content_sha256": "176591261e49c5e61989c6535de0749e353c1db00094a6c5bd116c471366067f"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/086_resume-version-manager/SKILL.md",
+      "pool_index": 53,
+      "content_sha256": "ddf1acc97694e7710c9091dc547942a424f16601b2c8b35ce1c317f3b19b94f7"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/037_extracting-with-ocr/SKILL.md",
+      "pool_index": 54,
+      "content_sha256": "78fd4c616c81a553b2b2cbc862f81d96fefca536dc2a82445433c6c187615ce2"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/018_creative-portfolio-resume/SKILL.md",
+      "pool_index": 55,
+      "content_sha256": "71301ed4cc3a4c4b026619d606762b72ac2724888884a711936e7ea85c4a54f5"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/065_pptx-generator/SKILL.md",
+      "pool_index": 56,
+      "content_sha256": "6eeb36239fdef35ab133ca462e1ec4674cb96dd9c5cd63da39c29151899bda10"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/028_document-processing/SKILL.md",
+      "pool_index": 57,
+      "content_sha256": "92488b75f2c42405d5669002772de0d682ba5912273d6356e00fb97349ad6cf9"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/075_reference-list-builder/SKILL.md",
+      "pool_index": 58,
+      "content_sha256": "ef4d0794277724c9476ae4d728a5192d975b64b6b01250cfa0d229839d99349a"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/046_maintaining-dbt-documentation/SKILL.md",
+      "pool_index": 59,
+      "content_sha256": "61359d2f9feccde23746cb6fe057b534a589a64e37e503e8e940cac4d28b197a"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/062_pdf-report/SKILL.md",
+      "pool_index": 60,
+      "content_sha256": "75b0ce036845644a6a0941eb0410de3e905ba7860fd5c45bba163c232b67489d"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/039_google-sheets/SKILL.md",
+      "pool_index": 61,
+      "content_sha256": "08ba49985db4e91dbb1f3a0afec9405fee3958906d805435e22d2ed2ed7bc621"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/052_minimax-pdf/SKILL.md",
+      "pool_index": 62,
+      "content_sha256": "8b0497ddd27da142deb09b570a56f702f95e5f3f1e192cfe1ae24421416a408d"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/063_picking-a-format/SKILL.md",
+      "pool_index": 63,
+      "content_sha256": "ccbe0afc66cf12435dc396497e85d801ea143c3563eb6574520e793fe7fce2f1"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/066_pptx-quality-gates/SKILL.md",
+      "pool_index": 64,
+      "content_sha256": "449219113bda3d26a176399213c8834e131a3f38c76e3ef96a03b8ee2ae625ac"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/034_extract-template/SKILL.md",
+      "pool_index": 65,
+      "content_sha256": "31f775c2b672ca144dabbe4bdd48bd74b6702d323e9da3e50c7c4d4487061167"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/006_apsa-style/SKILL.md",
+      "pool_index": 66,
+      "content_sha256": "23ac061a4256963639026c8848090dd7dc881f52e398ab1307f845b6b34d30e8"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/054_nutrient-document-processing/SKILL.md",
+      "pool_index": 67,
+      "content_sha256": "6e758640ae3830697d219b6733678662106a7c9b63789abc48b4942e38d0a70c"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/098_wiki-vitepress/SKILL.md",
+      "pool_index": 68,
+      "content_sha256": "00d9f1678f604787f86026d26a5ebdec4573880e9e4ef44853820788584bbb36"
+    },
+    {
+      "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/050_mermaid-tools/SKILL.md",
+      "pool_index": 69,
+      "content_sha256": "7f390eef2337c669af926b8b578e3fa0fe2d1517c81e4ce2bb117482c4cfd553"
+    }
+  ],
+  "model_dtype": "bfloat16",
+  "gradient_checkpointing": true
+}

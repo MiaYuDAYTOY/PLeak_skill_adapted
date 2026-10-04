@@ -1,0 +1,291 @@
+[
+  {
+    "source": "results/documents_train3-4-5-6_20260923_205104_o0zf40zp",
+    "category": "full data",
+    "archived": "full data/runs/documents_train3-4-5-6_20260923_205104_o0zf40zp",
+    "files": 1,
+    "logs": [
+      "documents_20260923_205058.log"
+    ],
+    "experiments": [
+      {
+        "sample_seed": 0,
+        "attack_seed": 1,
+        "status": "selection_only_no_metrics"
+      }
+    ]
+  },
+  {
+    "source": "results/documents_train3-4-5-6_20260924_083820_u_ogk9vl",
+    "category": "full data",
+    "archived": "full data/runs/documents_train3-4-5-6_20260924_083820_u_ogk9vl",
+    "files": 1,
+    "logs": [
+      "documents_20260924_083814.log"
+    ],
+    "experiments": [
+      {
+        "sample_seed": 0,
+        "attack_seed": 1,
+        "status": "selection_only_no_metrics"
+      }
+    ]
+  },
+  {
+    "source": "results/documents_train3-4-5-6_20260924_084815_oypdctt6",
+    "category": "full data",
+    "archived": "full data/runs/documents_train3-4-5-6_20260924_084815_oypdctt6",
+    "files": 1,
+    "logs": [
+      "documents_20260924_084810.log"
+    ],
+    "experiments": [
+      {
+        "sample_seed": 0,
+        "attack_seed": 1,
+        "status": "selection_only_no_metrics"
+      }
+    ]
+  },
+  {
+    "source": "results/documents_train3-4-5-6_20260924_084903_o8tjwrh1",
+    "category": "full data",
+    "archived": "full data/runs/documents_train3-4-5-6_20260924_084903_o8tjwrh1",
+    "files": 1,
+    "logs": [
+      "documents_3gpu_20260924_084858.log"
+    ],
+    "experiments": [
+      {
+        "sample_seed": 0,
+        "attack_seed": 1,
+        "status": "selection_only_no_metrics"
+      }
+    ]
+  },
+  {
+    "source": "results/documents_train3-4-5-6_20260924_092538_0xgjxih_",
+    "category": "full data",
+    "archived": "full data/runs/documents_train3-4-5-6_20260924_092538_0xgjxih_",
+    "files": 1,
+    "logs": [
+      "documents_20260924_092533.log"
+    ],
+    "experiments": [
+      {
+        "sample_seed": 0,
+        "attack_seed": 1,
+        "status": "selection_only_no_metrics"
+      }
+    ]
+  },
+  {
+    "source": "results/documents_train3-4-5-6_20260925_094210_tzy3p5j3",
+    "category": "full data",
+    "archived": "full data/runs/documents_train3-4-5-6_20260925_094210_tzy3p5j3",
+    "files": 1,
+    "logs": [
+      "documents_20260925_094207.log"
+    ],
+    "experiments": [
+      {
+        "sample_seed": 0,
+        "attack_seed": 1,
+        "status": "selection_only_no_metrics"
+      }
+    ]
+  },
+  {
+    "source": "results/documents_train3-4-5-6_20260925_095026_95a3_lj_",
+    "category": "full data",
+    "archived": "full data/runs/documents_train3-4-5-6_20260925_095026_95a3_lj_",
+    "files": 1,
+    "logs": [
+      "documents_20260925_095023.log"
+    ],
+    "experiments": [
+      {
+        "sample_seed": 0,
+        "attack_seed": 1,
+        "status": "selection_only_no_metrics"
+      }
+    ]
+  },
+  {
+    "source": "results/documents_train3-4-5-6_20260925_102222_bp7xw7ci",
+    "category": "full data",
+    "archived": "full data/runs/documents_train3-4-5-6_20260925_102222_bp7xw7ci",
+    "files": 1,
+    "logs": [
+      "documents_20260925_102218.log"
+    ],
+    "experiments": [
+      {
+        "sample_seed": 0,
+        "attack_seed": 1,
+        "status": "selection_only_no_metrics"
+      }
+    ]
+  },
+  {
+    "source": "results/documents_train3-4-5_20260927_144503_54uehhb5",
+    "category": "full data",
+    "archived": "full data/runs/documents_train3-4-5_20260927_144503_54uehhb5",
+    "files": 21,
+    "logs": [
+      "documents_full_20260927_144500.log"
+    ],
+    "experiments": [
+      {
+        "sample_seed": 0,
+        "attack_seed": 1,
+        "status": "evaluated"
+      },
+      {
+        "sample_seed": 0,
+        "attack_seed": 2,
+        "status": "evaluated"
+      },
+      {
+        "sample_seed": 0,
+        "attack_seed": 3,
+        "status": "evaluated"
+      },
+      {
+        "sample_seed": 1,
+        "attack_seed": 1,
+        "status": "evaluated"
+      },
+      {
+        "sample_seed": 1,
+        "attack_seed": 2,
+        "status": "evaluated"
+      },
+      {
+        "sample_seed": 1,
+        "attack_seed": 3,
+        "status": "selection_only_no_metrics"
+      }
+    ]
+  },
+  {
+    "source": "results/documents_train3_20260925_131841__vszmfzn",
+    "category": "full data",
+    "archived": "full data/runs/documents_train3_20260925_131841__vszmfzn",
+    "files": 6,
+    "logs": [],
+    "experiments": [
+      {
+        "sample_seed": 0,
+        "attack_seed": 1,
+        "status": "evaluated",
+        "identical_metrics_to": "results/documents_train3-4-5_20260927_144503_54uehhb5/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed0_attack_seed1.metrics.json"
+      }
+    ]
+  },
+  {
+    "source": "results/documents_train3_20260930_211221_7jwxugj5",
+    "category": "selecteddata",
+    "archived": "selecteddata/runs/documents_train3_20260930_211221_7jwxugj5",
+    "files": 8,
+    "logs": [
+      "train3_prefix8_sample1_attack3_20260930_211217.log"
+    ],
+    "experiments": [
+      {
+        "sample_seed": 1,
+        "attack_seed": 3,
+        "status": "evaluated"
+      }
+    ]
+  },
+  {
+    "source": "results/documents_train3_20260930_215349_ksdts9p6",
+    "category": "selecteddata",
+    "archived": "selecteddata/runs/documents_train3_20260930_215349_ksdts9p6",
+    "files": 2,
+    "logs": [
+      "train3_prefix8_sample2_attack123_20260930_211217.log"
+    ],
+    "experiments": [
+      {
+        "sample_seed": 2,
+        "attack_seed": 1,
+        "status": "selection_only_no_metrics"
+      }
+    ]
+  },
+  {
+    "source": "results/documents_train3_20261002_081135_d2pyas5e",
+    "category": "selecteddata",
+    "archived": "selecteddata/runs/documents_train3_20261002_081135_d2pyas5e",
+    "files": 18,
+    "logs": [
+      "train3_prefix8_sample2_attack123_20261002_081131.log"
+    ],
+    "experiments": [
+      {
+        "sample_seed": 2,
+        "attack_seed": 1,
+        "status": "evaluated"
+      },
+      {
+        "sample_seed": 2,
+        "attack_seed": 2,
+        "status": "evaluated"
+      },
+      {
+        "sample_seed": 2,
+        "attack_seed": 3,
+        "status": "evaluated"
+      }
+    ]
+  },
+  {
+    "source": "results/documents_train3_20261002_120822_9zuqtymn",
+    "category": "selecteddata",
+    "archived": "selecteddata/runs/documents_train3_20261002_120822_9zuqtymn",
+    "files": 18,
+    "logs": [
+      "train3_prefix8_sample0_attack123_20261002_081131.log"
+    ],
+    "experiments": [
+      {
+        "sample_seed": 0,
+        "attack_seed": 1,
+        "status": "evaluated"
+      },
+      {
+        "sample_seed": 0,
+        "attack_seed": 2,
+        "status": "evaluated"
+      },
+      {
+        "sample_seed": 0,
+        "attack_seed": 3,
+        "status": "evaluated"
+      }
+    ]
+  },
+  {
+    "source": "results/documents_train3_20261003_101628_qj26zyv6",
+    "category": "selecteddata",
+    "archived": "selecteddata/runs/documents_train3_20261003_101628_qj26zyv6",
+    "files": 13,
+    "logs": [
+      "train3_prefix8_sample1_attack12_20261003_101624.log"
+    ],
+    "experiments": [
+      {
+        "sample_seed": 1,
+        "attack_seed": 1,
+        "status": "evaluated"
+      },
+      {
+        "sample_seed": 1,
+        "attack_seed": 2,
+        "status": "evaluated"
+      }
+    ]
+  }
+]

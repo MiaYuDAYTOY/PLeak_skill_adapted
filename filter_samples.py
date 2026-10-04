@@ -15,8 +15,20 @@ BOUNDARY_RESERVE_TOKENS = 8
 
 
 def filter_skill_files(files, tokenizer, *, context_limit, trigger_token_reserve,
-                       template):
+                       template, enabled=True):
     """Return eligible paths and an auditable manifest, without splitting yet."""
+    if not enabled:
+        paths = sorted(Path(path).resolve() for path in files)
+        return paths, {
+            "policy": "none",
+            "enabled": False,
+            "source_count": len(paths),
+            "kept_count": len(paths),
+            "excluded_count": 0,
+            "kept_samples": [{"path": str(path)} for path in paths],
+            "excluded_samples": [],
+        }
+
     if context_limit <= GENERATION_EXTRA_TOKENS:
         raise ValueError("Context limit must exceed the generation extra tokens")
     if trigger_token_reserve <= 0:
@@ -62,6 +74,7 @@ def filter_skill_files(files, tokenizer, *, context_limit, trigger_token_reserve
 
     manifest = {
         "policy": "pre_split_length_filter_v1",
+        "enabled": True,
         "tokenizer": str(getattr(tokenizer, "name_or_path", type(tokenizer).__name__)),
         "context_limit": context_limit,
         "generation_extra_tokens": GENERATION_EXTRA_TOKENS,
