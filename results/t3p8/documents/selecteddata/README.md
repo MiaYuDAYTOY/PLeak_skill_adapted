@@ -1,13 +1,17 @@
-# selecteddata · documents / train3 / prefix8
+# 筛选后 · documents · train3 · prefix8
 
-长度筛选保留 36 篇；10 篇训练池、26 篇固定测试集。完整 3×3 seed 结果见 [实验结果分析](analysis/实验结果分析.md)。
+完整且去重 9/9 组。[全部结果分析](../analysis/全部结果分析.md) · [完整实验清单](../run_inventory.json)。
 
-runs/ 保留原运行目录名与原文件名；logs/ 保存匹配到运行目录名的日志。无 metrics 的记录只说明缺少最终评估，不推断所有中断原因。
+| seed 组合 | sample_seed | attack_seed | 生成结果 | 评估指标 | 配置与来源 |
+| --- | --- | --- | --- | --- | --- |
+| s0a1 | 0 | 1 | [CSV](runs/s0a1/results.csv) | [JSON](runs/s0a1/metrics.json) | [run.json](runs/s0a1/run.json) |
+| s0a2 | 0 | 2 | [CSV](runs/s0a2/results.csv) | [JSON](runs/s0a2/metrics.json) | [run.json](runs/s0a2/run.json) |
+| s0a3 | 0 | 3 | [CSV](runs/s0a3/results.csv) | [JSON](runs/s0a3/metrics.json) | [run.json](runs/s0a3/run.json) |
+| s1a1 | 1 | 1 | [CSV](runs/s1a1/results.csv) | [JSON](runs/s1a1/metrics.json) | [run.json](runs/s1a1/run.json) |
+| s1a2 | 1 | 2 | [CSV](runs/s1a2/results.csv) | [JSON](runs/s1a2/metrics.json) | [run.json](runs/s1a2/run.json) |
+| s1a3 | 1 | 3 | [CSV](runs/s1a3/results.csv) | [JSON](runs/s1a3/metrics.json) | [run.json](runs/s1a3/run.json) |
+| s2a1 | 2 | 1 | [CSV](runs/s2a1/results.csv) | [JSON](runs/s2a1/metrics.json) | [run.json](runs/s2a1/run.json) |
+| s2a2 | 2 | 2 | [CSV](runs/s2a2/results.csv) | [JSON](runs/s2a2/metrics.json) | [run.json](runs/s2a2/run.json) |
+| s2a3 | 2 | 3 | [CSV](runs/s2a3/results.csv) | [JSON](runs/s2a3/metrics.json) | [run.json](runs/s2a3/run.json) |
 
-| 运行目录 | 已评估记录 | 仅样本选择记录 | 匹配日志数 |
-| --- | --- | --- | --- |
-| documents_train3_20260930_211221_7jwxugj5 | 1 | 0 | 1 |
-| documents_train3_20260930_215349_ksdts9p6 | 0 | 1 | 1 |
-| documents_train3_20261002_081135_d2pyas5e | 3 | 0 | 1 |
-| documents_train3_20261002_120822_9zuqtymn | 3 | 0 | 1 |
-| documents_train3_20261003_101628_qj26zyv6 | 2 | 0 | 1 |
+[九次实验详细分析](analysis/实验结果分析.md) · [实验汇总 Excel](analysis/实验汇总.xlsx)。

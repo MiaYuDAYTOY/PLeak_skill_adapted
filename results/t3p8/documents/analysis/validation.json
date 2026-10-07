@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "as_of": "2026-10-07",
+  "mode": "complete experiments only; grouped by sample_seed and attack_seed",
+  "seed_directories": 16,
+  "source_records_verified": 213,
+  "archived_files_verified": 107,
+  "launch_summaries_verified": 7,
+  "unique_completed_runs": 16,
+  "retained_incomplete_runs": 0,
+  "cleanup": {
+    "removed_incomplete_experiments": 13,
+    "merged_identical_complete_copies": 1,
+    "retained_complete_experiments": 16,
+    "removed_incomplete_only_logs": 9,
+    "removed_obsolete_snapshot_archives": 2
+  },
+  "missing_seed_combinations": [
+    {
+      "category": "full data",
+      "sample_seed": 2,
+      "attack_seed": 2
+    },
+    {
+      "category": "full data",
+      "sample_seed": 2,
+      "attack_seed": 3
+    }
+  ],
+  "old_metrics_not_reevaluated": "No model or tokenizer was run. Missing metrics remain null, never zero.",
+  "aggregation": "Equal weight over unique completed experiments in each category. A mean is null if any included experiment lacks that metric."
+}

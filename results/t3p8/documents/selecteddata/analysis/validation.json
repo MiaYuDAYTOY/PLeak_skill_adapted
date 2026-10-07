@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "checks": {
+    "aggregate_metrics_recomputed": 117,
+    "completed_runs_checked": 9,
+    "dataset_content_hashes_verified": 100,
+    "launch_summaries_checked": 4
+  },
+  "archive_files_sha256_verified": 108,
+  "not_recomputed": "Tokenization and ROUGE/LCS from raw generated text: no model tokenizer is loaded. Aggregate metrics are independently recomputed from the saved per-sample evaluation values."
+}

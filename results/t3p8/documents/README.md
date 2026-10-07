@@ -1,14 +1,23 @@
-# t3p8 / documents 结果归档
+# documents · train3 · prefix8
 
-日期：2026-10-03。范围：dataset=documents，train_num=3，prefix_length=8。
+更新日期：2026-10-07。仅保留完整实验：未筛选 **7/9** 组，筛选后 **9/9** 组。
 
-- [selecteddata 分析报告](selecteddata/analysis/实验结果分析.md)：9 组完整实验，固定 26 篇测试文档。
-- [full data](full%20data/README.md)：未长度筛选的历史实验，包含完成记录、重复结果与未完成尝试。
-- [selecteddata](selecteddata/README.md)：筛选后 36 篇数据的运行记录及日志。
-- [文件清单与 SHA-256](archive_manifest.json)；[各次运行状态](run_inventory.json)。
+- [全部结果分析](analysis/全部结果分析.md) · [完整实验表](analysis/all_results.csv) · [全部指标与均值](analysis/all_results.json)
+- [未筛选结果](full%20data/README.md) · [筛选后结果](selecteddata/README.md)
+- [筛选后详细分析](selecteddata/analysis/实验结果分析.md) · [筛选后 Excel 汇总](selecteddata/analysis/实验汇总.xlsx)
+- [完整实验清单](run_inventory.json) · [原路径与文件校验清单](archive_manifest.json)
 
-采用复制归档，原 results/documents* 和 logs 文件保留。仅收录 train3 / prefix8 对应结果及配套清单、匹配日志；原文件内容不改动。原 JSON 内的 /root/... 路径是服务器来源路径，定位本机归档请使用清单的 archived 字段。未完成运行不计作零分实验，重复结果不当成独立重复。
+## 命名
 
-selecteddata/analysis/summary.json 是本次统一的 9 次实验汇总。各 runs 目录内的旧 summary 仍是单次启动的局部汇总。
+保留原有 `full data`、`selecteddata` 及 `runs`、`logs`、`analysis` 子目录。
 
-归档及分析可在原项目中使用 Python 3 重跑 selecteddata/analysis/archive_and_analyze.py；同名副本与源文件不一致时会停止，避免覆盖不同版本。分析脚本无外部依赖，不运行模型。
+- seed 组合目录：例如 `full data/runs/s1a3/`，表示 `sample_seed=1`、`attack_seed=3`。相同组合的完整结果集中在同一个目录。
+- `results.csv`：生成原文；`samples.json`：样本选择；`metrics.json`：汇总指标；`evaluation.json`：逐样本指标；`trigger_ids.json`：触发 token。
+- `run.json`：完整配置、repeat_id、原启动时间与名称、原文件前缀和日志索引；`length_filter.json`：筛选清单（如有）。
+- 原启动级汇总存放在各数据分组的 `analysis/launch_summaries/`，避免把覆盖多个 seed 的均值误当作单组指标。
+
+共 16 个完整 seed 组合。已删除 13 条中断记录及专属日志，旧压缩包一并移除；1 份完全相同的完整副本已合并，两个原来源仍记录在对应 `run.json` 中。保留的原始实验文件内容未改写。
+
+“完整”指生成 CSV 和汇总指标均已保存，不表示每篇测试文档都生成成功；失败样本记录保留。旧实验可能没有 `evaluation.json`，已有 CSV 和指标仍是完整结果。Excel 内的原运行名可通过 `archive_manifest.json` 和 `run.json` 对照。
+
+需要重新核验和刷新汇总时，运行 `python3 results/t3p8/documents/organize_results.py`。脚本只读取当前归档，不运行模型。

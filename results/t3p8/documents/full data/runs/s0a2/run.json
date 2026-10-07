@@ -1,0 +1,48 @@
+{
+  "run_id": "s0a2",
+  "category": "full data",
+  "dataset": "documents",
+  "train_num": 3,
+  "prefix_length": 8,
+  "sample_seed": 0,
+  "attack_seed": 2,
+  "repeat_id": 0,
+  "configuration": {
+    "dataset": "documents",
+    "train_num": 3,
+    "test_num": 70,
+    "repeat_id": 0,
+    "sample_seed": 0,
+    "attack_seed": 2,
+    "split_seed": 0,
+    "train_fraction": 0.3,
+    "train_pool_size": 30,
+    "token_length": 12,
+    "shadow_model": "llama",
+    "target_model": "llama",
+    "prefix_length": 8,
+    "model_dtype": "bfloat16",
+    "gradient_checkpointing": true
+  },
+  "origins": [
+    {
+      "run_id": "20260927_144503",
+      "original_run": "documents_train3-4-5_20260927_144503_54uehhb5",
+      "planned_train_counts": [
+        3,
+        4,
+        5
+      ],
+      "logs": [
+        "full data/logs/20260927_144500.log"
+      ],
+      "repeat_id": 0,
+      "original_file_prefix": "documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed0_attack_seed2",
+      "launch_summaries": []
+    }
+  ],
+  "logs": [
+    "full data/logs/20260927_144500.log"
+  ],
+  "duplicate_copies_merged": 0
+}

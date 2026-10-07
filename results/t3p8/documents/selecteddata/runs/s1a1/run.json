@@ -1,0 +1,76 @@
+{
+  "run_id": "s1a1",
+  "category": "selecteddata",
+  "dataset": "documents",
+  "train_num": 3,
+  "prefix_length": 8,
+  "sample_seed": 1,
+  "attack_seed": 1,
+  "repeat_id": 0,
+  "configuration": {
+    "dataset": "documents",
+    "train_num": 3,
+    "test_num": 26,
+    "repeat_id": 0,
+    "sample_seed": 1,
+    "attack_seed": 1,
+    "token_length": 12,
+    "shadow_model": "llama",
+    "target_model": "llama",
+    "prefix_length": 8,
+    "test_selection": {
+      "exclusion_policy": "known_documents_oom_v1",
+      "test_num_before_exclusion": 26,
+      "excluded_test_num": 0,
+      "excluded_test_samples": [],
+      "length_filter": {
+        "policy": "pre_split_length_filter_v1",
+        "tokenizer": "/root/autodl-tmp/Llama-2-7b-hf",
+        "context_limit": 4096,
+        "generation_extra_tokens": 50,
+        "prompt_token_limit": 2023,
+        "trigger_token_reserve": 12,
+        "template_token_reserve": 2,
+        "boundary_token_reserve": 8,
+        "content_token_limit_with_special_tokens": 2001,
+        "source_count": 100,
+        "kept_count": 36,
+        "excluded_count": 64,
+        "dataset": "documents",
+        "shadow_model": "llama",
+        "target_model": "llama",
+        "trigger_token_length": 12,
+        "split_seed": 0,
+        "train_fraction": 0.3,
+        "manifest_path": "/root/PLeak_skill_adapted/results/documents_train3_20261003_101628_qj26zyv6/length_filter.json"
+      }
+    },
+    "model_dtype": "bfloat16",
+    "gradient_checkpointing": true,
+    "split_seed": 0,
+    "train_fraction": 0.3,
+    "train_pool_size": 10
+  },
+  "origins": [
+    {
+      "run_id": "20261003_101628",
+      "original_run": "documents_train3_20261003_101628_qj26zyv6",
+      "planned_train_counts": [
+        3
+      ],
+      "logs": [
+        "selecteddata/logs/20261003_101624_s1_a12.log"
+      ],
+      "repeat_id": 0,
+      "original_file_prefix": "documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed1_attack_seed1",
+      "launch_summaries": [
+        "selecteddata/analysis/launch_summaries/20261003_101628.json",
+        "selecteddata/analysis/launch_summaries/20261003_101628.csv"
+      ]
+    }
+  ],
+  "logs": [
+    "selecteddata/logs/20261003_101624_s1_a12.log"
+  ],
+  "duplicate_copies_merged": 0
+}

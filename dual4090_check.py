@@ -17,9 +17,7 @@ import time
 import traceback
 
 ROOT = Path(__file__).resolve().parent
-TRIGGER = ROOT / ('results/documents_train3-4-5_20260927_144503_54uehhb5/'
-    'documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc'
-    '_repeat1_sample_seed1_attack_seed2.trigger_ids.json')
+TRIGGER = ROOT / 'results/t3p8/documents/full data/runs/s1a2/trigger_ids.json'
 
 
 def save(path, value):
