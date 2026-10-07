@@ -22,6 +22,11 @@ KNOWN_OOM_TEST_SKILLS = {
     },
 }
 
+# Backward OOM on the full skill; exclude after splitting, before sampling.
+KNOWN_OOM_TRAIN_SKILLS = {
+    "documents": {"009_baoyu-slide-deck"},
+}
+
 
 def parse_args(argv=None):
     parser = argparse.ArgumentParser(
@@ -131,6 +136,37 @@ def release_memory(*, collect_ipc=False):
     torch.cuda.empty_cache()
     if collect_ipc and torch.cuda.is_available():
         torch.cuda.ipc_collect()
+
+
+def filter_known_oom_train_samples(train_pool, dataset):
+    """Keep split membership and original pool indices; filter before sampling."""
+    if not train_pool.train:
+        raise ValueError("Training OOM exclusions apply only to the train pool")
+    blocked = KNOWN_OOM_TRAIN_SKILLS.get(dataset, set())
+    original_count = len(train_pool)
+    kept, excluded = [], []
+    for index, metadata in enumerate(train_pool.sample_metadata):
+        if Path(metadata["path"]).parent.name in blocked:
+            excluded.append({**metadata, "reason": "training_backward_cuda_oom"})
+        else:
+            kept.append(index)
+    if not kept:
+        raise ValueError("No training samples remain after known OOM exclusions")
+    train_pool.dataset = [train_pool.dataset[index] for index in kept]
+    train_pool.sample_metadata = [train_pool.sample_metadata[index] for index in kept]
+    train_pool.pool_size = len(train_pool)
+    print(f"Train pool selection: {original_count} candidates, {len(excluded)} excluded, "
+          f"{len(train_pool)} available", flush=True)
+    for sample in excluded:
+        print(f"Skipping known training OOM: {sample['path']} "
+              f"(original pool_index={sample['pool_index']})", flush=True)
+    return {
+        "exclusion_policy": "known_documents_training_oom_v1" if blocked else "none",
+        "train_pool_size_before_exclusion": original_count,
+        "train_pool_size_after_exclusion": len(train_pool),
+        "excluded_train_num": len(excluded),
+        "excluded_train_samples": excluded,
+    }
 
 
 def filter_known_oom_test_samples(testset, dataset, *, include=False):
@@ -319,9 +355,11 @@ def main(argv=None):
     testset = dataFactory.get_dataset(args.dataset, train=False, num=args.test_num,
                                      files=eligible_files)
     dataFactory.validate_split(train_pool, testset)
+    train_selection = filter_known_oom_train_samples(train_pool, args.dataset)
     test_selection = filter_known_oom_test_samples(
         testset, args.dataset, include=args.include_known_oom,
     )
+    test_selection["train_pool_selection"] = train_selection
     test_selection["length_filter"] = {
         key: value for key, value in length_filter.items()
         if key not in ("kept_samples", "excluded_samples")
