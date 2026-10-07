@@ -1,0 +1,162 @@
+{
+  "dataset": "documents",
+  "train_num": 3,
+  "prefix_length": 8,
+  "test_num": 64,
+  "token_length": 12,
+  "shadow_model": "llama",
+  "target_model": "llama",
+  "model_dtype": "bfloat16",
+  "gradient_checkpointing": true,
+  "test_selection": {
+    "exclusion_policy": "known_documents_oom_v1",
+    "test_num_before_exclusion": 70,
+    "excluded_test_num": 6,
+    "excluded_test_samples": [
+      {
+        "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/016_clause/SKILL.md",
+        "pool_index": 14,
+        "content_sha256": "d8adddd33edc24b14c213491d2d8e626929c040bbcde12b9bbbd4dee738d20cf",
+        "reason": "repeated_generation_cuda_oom"
+      },
+      {
+        "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/026_docs-cleaner/SKILL.md",
+        "pool_index": 23,
+        "content_sha256": "446c79ab268799f1b3b46db3e38f5a82c614169f55907728209fefac382426ba",
+        "reason": "repeated_generation_cuda_oom"
+      },
+      {
+        "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/091_translate-book/SKILL.md",
+        "pool_index": 35,
+        "content_sha256": "1192fea6cdaea6f9c858d31d7b444800067d9904d519e888e6d7980cf8ad5d61",
+        "reason": "repeated_generation_cuda_oom"
+      },
+      {
+        "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/090_technical-documentation/SKILL.md",
+        "pool_index": 39,
+        "content_sha256": "82289254d2d0ee6e1969cb3f24ea19b9294e15bd451ca105791d06f83625bb7c",
+        "reason": "repeated_generation_cuda_oom"
+      },
+      {
+        "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/078_research-report/SKILL.md",
+        "pool_index": 48,
+        "content_sha256": "4818ea270b2f962567da440d63aed44eb40cc219391eb0df315f714f1c8973c8",
+        "reason": "repeated_generation_cuda_oom"
+      },
+      {
+        "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/028_document-processing/SKILL.md",
+        "pool_index": 57,
+        "content_sha256": "92488b75f2c42405d5669002772de0d682ba5912273d6356e00fb97349ad6cf9",
+        "reason": "repeated_generation_cuda_oom"
+      }
+    ],
+    "train_pool_selection": {
+      "exclusion_policy": "known_documents_training_oom_v1",
+      "train_pool_size_before_exclusion": 30,
+      "train_pool_size_after_exclusion": 29,
+      "excluded_train_num": 1,
+      "excluded_train_samples": [
+        {
+          "path": "/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/009_baoyu-slide-deck/SKILL.md",
+          "pool_index": 1,
+          "content_sha256": "0e988f065a1886224a501614d059e90019360ccce9fc5f5417e8719e5777efd8",
+          "reason": "training_backward_cuda_oom"
+        }
+      ]
+    },
+    "length_filter": {
+      "policy": "none",
+      "enabled": false,
+      "source_count": 100,
+      "kept_count": 100,
+      "excluded_count": 0,
+      "dataset": "documents",
+      "shadow_model": "llama",
+      "target_model": "llama",
+      "trigger_token_length": 12,
+      "split_seed": 0,
+      "train_fraction": 0.3,
+      "manifest_path": "/root/PLeak_skill_adapted/results/documents_train3_20261007_111832_lwxm_92s/length_filter.json"
+    }
+  },
+  "sample_seeds": [
+    2
+  ],
+  "attack_seeds": [
+    1
+  ],
+  "averaging": "Equal weight per experiment; evaluator values unchanged, including zero-evaluated runs.",
+  "zero_evaluated_runs": 0,
+  "mean_over_sample_seeds": [
+    {
+      "attack_seed": 1,
+      "run_count": 1,
+      "metric_means": {
+        "total_samples": 64.0,
+        "evaluated_samples": 49.0,
+        "failed_samples": 15.0,
+        "full_skill_leak_count": 0.0,
+        "full_skill_leak_rate": 0.0,
+        "exact_markdown_match_rate": 0.0,
+        "exact_token_match_rate": 0.0,
+        "mean_common_prefix_ratio": 0.00022039754149450822,
+        "mean_token_recall": 0.3290124355275571,
+        "mean_token_precision": 0.3742681368411827,
+        "mean_rougeL_recall": 0.25793884382370935,
+        "mean_rougeL_precision": 0.2941032741760481,
+        "mean_rouge2_recall": 0.20457980159160002,
+        "mean_body_rougeL_recall": 0.27326649260662345,
+        "mean_body_rougeL_precision": 0.2859958095444277,
+        "mean_body_rouge2_recall": 0.21642444976689,
+        "eos_rate": 0.08163265306122448
+      }
+    }
+  ],
+  "mean_over_attack_seeds": [
+    {
+      "sample_seed": 2,
+      "run_count": 1,
+      "metric_means": {
+        "total_samples": 64.0,
+        "evaluated_samples": 49.0,
+        "failed_samples": 15.0,
+        "full_skill_leak_count": 0.0,
+        "full_skill_leak_rate": 0.0,
+        "exact_markdown_match_rate": 0.0,
+        "exact_token_match_rate": 0.0,
+        "mean_common_prefix_ratio": 0.00022039754149450822,
+        "mean_token_recall": 0.3290124355275571,
+        "mean_token_precision": 0.3742681368411827,
+        "mean_rougeL_recall": 0.25793884382370935,
+        "mean_rougeL_precision": 0.2941032741760481,
+        "mean_rouge2_recall": 0.20457980159160002,
+        "mean_body_rougeL_recall": 0.27326649260662345,
+        "mean_body_rougeL_precision": 0.2859958095444277,
+        "mean_body_rouge2_recall": 0.21642444976689,
+        "eos_rate": 0.08163265306122448
+      }
+    }
+  ],
+  "overall_mean": {
+    "run_count": 1,
+    "metric_means": {
+      "total_samples": 64.0,
+      "evaluated_samples": 49.0,
+      "failed_samples": 15.0,
+      "full_skill_leak_count": 0.0,
+      "full_skill_leak_rate": 0.0,
+      "exact_markdown_match_rate": 0.0,
+      "exact_token_match_rate": 0.0,
+      "mean_common_prefix_ratio": 0.00022039754149450822,
+      "mean_token_recall": 0.3290124355275571,
+      "mean_token_precision": 0.3742681368411827,
+      "mean_rougeL_recall": 0.25793884382370935,
+      "mean_rougeL_precision": 0.2941032741760481,
+      "mean_rouge2_recall": 0.20457980159160002,
+      "mean_body_rougeL_recall": 0.27326649260662345,
+      "mean_body_rougeL_precision": 0.2859958095444277,
+      "mean_body_rouge2_recall": 0.21642444976689,
+      "eos_rate": 0.08163265306122448
+    }
+  }
+}
