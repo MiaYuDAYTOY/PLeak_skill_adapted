@@ -1,0 +1,11 @@
+Results directory: results/documents_train3_20261007_224419_b8c8nk2i
+Length filter (disabled): 100 candidates, 0 excluded, 100 kept; manifest: results/documents_train3_20261007_224419_b8c8nk2i/length_filter.json
+Train pool selection: 30 candidates, 1 excluded, 29 available
+Skipping known training OOM: /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/009_baoyu-slide-deck/SKILL.md (original pool_index=1)
+Test selection: 70 selected, 6 excluded, 64 to evaluate
+Skipping known generation OOM: /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/016_clause/SKILL.md (original pool_index=14)
+Skipping known generation OOM: /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/026_docs-cleaner/SKILL.md (original pool_index=23)
+Skipping known generation OOM: /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/091_translate-book/SKILL.md (original pool_index=35)
+Skipping known generation OOM: /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/090_technical-documentation/SKILL.md (original pool_index=39)
+Skipping known generation OOM: /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/078_research-report/SKILL.md (original pool_index=48)
+Skipping known generation OOM: /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/028_document-processing/SKILL.md (original pool_index=57)
