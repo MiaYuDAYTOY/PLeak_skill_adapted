@@ -1,0 +1,33 @@
+{
+  "dataset": "documents",
+  "train_num": 3,
+  "prefix_length": 8,
+  "test_num": 70,
+  "token_length": 12,
+  "shadow_model": "llama",
+  "target_model": "llama",
+  "repeat_id": 0,
+  "sample_seed": 0,
+  "attack_seed": 2,
+  "model_dtype": "bfloat16",
+  "gradient_checkpointing": true,
+  "metrics": {
+    "total_samples": 70,
+    "evaluated_samples": 64,
+    "failed_samples": 6,
+    "full_skill_leak_count": 0,
+    "full_skill_leak_rate": 0.0,
+    "exact_markdown_match_rate": 0.0,
+    "exact_token_match_rate": 0.0,
+    "mean_common_prefix_ratio": 7.885123680214068e-05,
+    "mean_token_recall": 0.1275449250469607,
+    "mean_token_precision": 0.16526054234685567,
+    "mean_rougeL_recall": 0.08479288160914436,
+    "mean_rougeL_precision": 0.11138436259366918,
+    "mean_rouge2_recall": 0.050338145562862896,
+    "mean_body_rougeL_recall": 0.08535236763563454,
+    "mean_body_rougeL_precision": 0.11019214161826998,
+    "mean_body_rouge2_recall": 0.050587196274679495,
+    "eos_rate": 0.40625
+  }
+}

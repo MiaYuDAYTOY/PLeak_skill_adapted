@@ -1,6 +1,6 @@
 # documents · train3 · prefix8
 
-更新日期：2026-10-07。仅保留完整实验：未筛选 **7/9** 组，筛选后 **9/9** 组。
+更新日期：2026-10-08。仅保留完整实验：未筛选 **9/9** 组，筛选后 **9/9** 组。
 
 - [全部结果分析](analysis/全部结果分析.md) · [完整实验表](analysis/all_results.csv) · [全部指标与均值](analysis/all_results.json)
 - [未筛选结果](full%20data/README.md) · [筛选后结果](selecteddata/README.md)
@@ -16,8 +16,16 @@
 - `run.json`：完整配置、repeat_id、原启动时间与名称、原文件前缀和日志索引；`length_filter.json`：筛选清单（如有）。
 - 原启动级汇总存放在各数据分组的 `analysis/launch_summaries/`，避免把覆盖多个 seed 的均值误当作单组指标。
 
-共 16 个完整 seed 组合。已删除 13 条中断记录及专属日志，旧压缩包一并移除；1 份完全相同的完整副本已合并，两个原来源仍记录在对应 `run.json` 中。保留的原始实验文件内容未改写。
+共 18 个完整 seed 组合。已删除 13 条中断记录及专属日志，另清理 1 个仅有筛选清单的准备目录，旧压缩包一并移除；1 份完全相同的完整副本已合并，两个原来源仍记录在对应 `run.json` 中。保留的原始实验文件内容未改写。
 
 “完整”指生成 CSV 和汇总指标均已保存，不表示每篇测试文档都生成成功；失败样本记录保留。旧实验可能没有 `evaluation.json`，已有 CSV 和指标仍是完整结果。Excel 内的原运行名可通过 `archive_manifest.json` 和 `run.json` 对照。
 
 需要重新核验和刷新汇总时，运行 `python3 results/t3p8/documents/organize_results.py`。脚本只读取当前归档，不运行模型。
+
+## 2026-10-08 fulldata 补评
+
+未筛选旧五组已单独补算 ROUGE，新旧九组的统一结果见 [fulldata Excel](full%20data/analysis/实验汇总.xlsx) 与 [最新分析](full%20data/analysis/实验结果分析.md)。原始 metrics 与旧快照保持原值，补评结果单独存放。
+
+## fulldata 与 selecteddata 对照
+
+[对照分析与建议](analysis/fulldata_vs_selecteddata_对照分析.md) 同时报告原始范围及 21 篇内容一致的共同测试文档结果，包含九组和两种 seed 分组对照；[完整对照数据](analysis/fulldata_vs_selecteddata_comparison.json) 保存输入文件哈希与核验结果。运行 `python3 results/t3p8/documents/analysis/compare_full_selected.py` 可离线复算，不运行模型。

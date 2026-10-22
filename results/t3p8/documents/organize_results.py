@@ -202,12 +202,22 @@ def main():
     with (analysis / "all_results.csv").open("w", encoding="utf-8-sig", newline="") as f:
         columns = ["category", "sample_seed", "attack_seed", "repeat_id", "run_id", "status", "train_pool_size", "test_num",
                    "excluded_before_evaluation", *metric_fields, *DIAGNOSTICS, "source_metrics"]
-        writer = csv.DictWriter(f, fieldnames=columns)
+        writer = csv.DictWriter(f, fieldnames=columns, lineterminator="\n")
         writer.writeheader()
         for record in canonical:
             flat = {**record, **record["metrics"], **record["diagnostics"]}
             writer.writerow({k: flat.get(k, "") for k in columns})
     complete_counts = {c: groups[c]["overall"]["run_count"] for c in CATEGORIES}
+    missing_description = "；".join(
+        f"{LABELS[c]}缺少 " + "、".join(f"s{r['sample_seed']}a{r['attack_seed']}" for r in grid
+                                       if r['category'] == c and r['status'] == 'missing_completed_result')
+        for c in CATEGORIES if complete_counts[c] < 9
+    ) or "两类数据的九个 seed 组合均已补齐"
+    current_full = [r for r in canonical if r['category'] == 'full data' and r['status'] == 'complete_current_metrics']
+    current_full_description = "；".join(
+        f"{r['run_id']} 尝试 {r['metrics']['total_samples']} 篇、成功 {r['metrics']['evaluated_samples']} 篇、失败 {r['metrics']['failed_samples']} 篇"
+        for r in current_full
+    )
     status_names = {"complete_current_metrics": "完整·新指标", "complete_legacy_metrics": "完整·旧指标", "missing_completed_result": "缺少结果"}
     report = ["# documents 全部实验结果", f"更新日期：{audit['as_of']}。train_num=3，prefix_length=8，trigger token_length=12，shadow/target=llama。",
               table(["数据范围", "完整组合", "新指标", "旧指标", "缺少组合"],
@@ -226,8 +236,8 @@ def main():
                      [('full_skill_leak_rate', '完整原文前缀泄漏率'), ('mean_token_recall', 'Token recall'), ('mean_token_precision', 'Token precision'),
                       ('mean_common_prefix_ratio', '公共前缀比例'), ('mean_body_rougeL_recall', '正文 ROUGE-L recall'), ('mean_body_rouge2_recall', '正文 ROUGE-2 recall')]]),
               "## 必要说明",
-              "- 完整实验指已经保存生成 CSV 和汇总指标，允许部分测试样本生成失败；这些失败行及统计均保留。未筛选缺少 s2a2、s2a3，不为缺失组合建立空目录。",
-              "- 未筛选旧五组各尝试 70 篇、成功 64 篇；10 月 5 日 (1,3) 尝试 64 篇、成功 51 篇、失败 13 篇；10 月 7 日 (2,1) 尝试 64 篇、成功 49 篇、失败 15 篇。重合指标使用成功样本分母。",
+              "- 完整实验指已经保存生成 CSV 和汇总指标，允许部分测试样本生成失败；这些失败行及统计均保留。" + missing_description + "。",
+              "- 未筛选旧五组各尝试 70 篇、成功 64 篇；" + current_full_description + "。重合指标使用成功样本分母。",
               "- 10 月 7 日训练池由 30 篇缩为 29 篇，并排除 009_baoyu-slide-deck；同一 sample_seed 跨版本不保证抽到相同文档。训练文档、测试文档和失败文档均列在逐次清单中。",
               "- selecteddata 九组使用同一固定 26 篇测试集。完整泄漏为 4/234（1.71%）；234 为文档×seed 观测次数，并非 234 篇独立文档。",
               "- 旧五组没有新增 ROUGE 指标，本次仅校验现有结果，未加载模型或 tokenizer 补评。原始 JSON、CSV、日志中的服务器路径作为来源信息保留；本机定位使用 source_* 和 archived 字段。",
@@ -251,7 +261,7 @@ def main():
 - `run.json`：完整配置、repeat_id、原启动时间与名称、原文件前缀和日志索引；`length_filter.json`：筛选清单（如有）。
 - 原启动级汇总存放在各数据分组的 `analysis/launch_summaries/`，避免把覆盖多个 seed 的均值误当作单组指标。
 
-共 {len(canonical)} 个完整 seed 组合。已删除 {cleanup['removed_incomplete_experiments']} 条中断记录及专属日志，旧压缩包一并移除；{cleanup['merged_identical_complete_copies']} 份完全相同的完整副本已合并，两个原来源仍记录在对应 `run.json` 中。保留的原始实验文件内容未改写。
+共 {len(canonical)} 个完整 seed 组合。已删除 {cleanup['removed_incomplete_experiments']} 条中断记录及专属日志，另清理 {cleanup.get('removed_preparation_only_launches', 0)} 个仅有筛选清单的准备目录，旧压缩包一并移除；{cleanup['merged_identical_complete_copies']} 份完全相同的完整副本已合并，两个原来源仍记录在对应 `run.json` 中。保留的原始实验文件内容未改写。
 
 “完整”指生成 CSV 和汇总指标均已保存，不表示每篇测试文档都生成成功；失败样本记录保留。旧实验可能没有 `evaluation.json`，已有 CSV 和指标仍是完整结果。Excel 内的原运行名可通过 `archive_manifest.json` 和 `run.json` 对照。
 

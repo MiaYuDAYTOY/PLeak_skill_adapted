@@ -66,13 +66,17 @@ def cpu_attack(tokenizer, prefix, seed):
     import torch
     from Attack import HotFlip
     from util.template import TextTemplate
+    from util.trigger_tokens import allowed_trigger_token_ids
+    import numpy as np
     seed_all(seed)
     attack = HotFlip.__new__(HotFlip)
     attack.device = torch.device('cpu')
     attack.target_model = 'llama'
     attack.template = TextTemplate(prefix_1='', prefix_2='')
     attack.tokenizer = tokenizer
-    attack.vocab_size = factory().get_vocab_size('llama')
+    attack.vocab_size = len(tokenizer)
+    attack.allowed_trigger_ids = np.asarray(allowed_trigger_token_ids(tokenizer), dtype=np.int64)
+    attack.allowed_trigger_id_set = set(attack.allowed_trigger_ids.tolist())
     attack.user_prefix = ''
     attack.prefix_length = prefix
     attack.trigger_tokens = attack.init_triggers(12)

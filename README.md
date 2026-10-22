@@ -5,7 +5,9 @@ This is official implementation of PLEAK: Prompt Leaking Attacks against Large L
 + pytorch 2.10.0+cu128 for RTX 5060 / sm_120
 + torchmetrics 0.11.4
 + torchvision 0.25.0+cu128
-+ transformers 4.32.1
++ transformers 4.51.3
++ tokenizers 0.21.1 / huggingface-hub 0.30.2 / accelerate 1.6.0
++ sentence-transformers 3.4.1
 + evaluate 0.4.0
 + torcheval 0.0.6
 + nltk 3.8.1
@@ -23,7 +25,12 @@ Install or refresh the non-Torch dependencies:
 
 ```bash
 conda env update -n pleak -f environment.yaml
+conda run -n pleak python -m pip check
 ```
+
+These Hugging Face dependencies are upgraded together for Qwen3 support. Do not
+restore the old `tokenizers==0.13.3`, `huggingface-hub==0.16.4`, or
+`sentence-transformers==2.2.2` pins when updating Transformers.
 
 `Sampler.py` uses NLTK tokenizers and POS taggers. Download the required NLTK data once:
 
@@ -40,6 +47,67 @@ Attack.py is the implementaion of Attack and Sampler.py is to simulate the proce
 python main.py {dataset} {AQ length} {shadow model} {target model} [train_num ...]
 # Here is an example to use the code: 
 # python main.py data_analysis 12 llama llama 3 --test-num 25
+```
+
+### Qwen3-0.6B-Base
+
+模型名称 `qwen3` 对应 **[Qwen/Qwen3-0.6B-Base](https://huggingface.co/Qwen/Qwen3-0.6B-Base)**，shadow 和 target 均可使用。
+默认从 Hugging Face 下载；已下载到服务器时，可指定本地完整模型目录：
+
+```bash
+export PLEAK_QWEN3_MODEL_PATH=/root/autodl-tmp/Qwen3-0.6B-Base
+```
+
+未设置这个环境变量时使用官方模型 ID；设置后只读取本地文件。
+不要把对话版 `Qwen3-0.6B` 放到这个目录冒充 Base 版。
+
+保留原来的纯文本流程：推理输入是 `Skill 正文 + trigger + 换行`，
+训练在后面拼接 Skill 正文，只对其前 `prefix_length` 个 token 计算 loss。
+不调用 `apply_chat_template()`，不加入 system/user/assistant 标记或 thinking 开关。
+
+`qwen3` 默认加载完整 BF16 权重，不启用 bitsandbytes 量化；
+`--dtype float16` 可切换为 FP16。原有模型继续使用 4-bit 权重。
+HotFlip 冻结模型参数，只计算输入 embedding 的梯度；训练关闭 KV cache，
+Qwen 生成启用 KV cache。长文本的激活、logits 和缓存仍可能占用较多显存。
+
+Qwen Base 的生成参数显式对齐当前 Llama 实验：`do_sample=True`、
+`num_beams=3`、`temperature=0.9`、`top_p=0.6`、`top_k=50`，
+`repetition_penalty=1.0`、`length_penalty=1.0`、`early_stopping=False`，
+返回一个序列。EOS/PAD 从 Base tokenizer 读取，生成总长度上限仍为
+`2 * prompt_tokens + 50`。这些是本项目实验参数，并非对话版的推荐采样参数。
+
+先运行单组小规模实验：
+
+```bash
+python -u main.py documents 12 qwen3 qwen3 1 \
+  --test-num 2 --prefix-lengths 8 --sample-seeds 0 --attack-seeds 1
+```
+
+通过后再运行 N=3 的单组实验：
+
+```bash
+python -u main.py documents 12 qwen3 qwen3 3 \
+  --prefix-lengths 8 --sample-seeds 0 --attack-seeds 1
+```
+
+不指定 seed/prefix 参数会按 `main.py` 当前列表运行多组实验。
+长度筛选仍由 `--length-filter` 控制，默认关闭；已知 OOM 样本排除规则保持不变。
+换成 Qwen 不会自动恢复这些历史排除样本。
+
+词表从实际 tokenizer 读取，初始化及 HotFlip 候选排除未分配的 embedding 行、
+特殊 token、空文本和原规则不允许的字符。trigger 内容编码不自动加 BOS/EOS，
+完整 prompt 则遵循 tokenizer 自身行为；同时检查前后文本边界的 token ID 稳定性。
+这修正了旧的按模型名裁掉首 token 的逻辑，也改变了旧模型候选集合/随机初始化，
+同一 seed 不保证重现旧代码的 trigger。旧 Llama trigger ID 文件不能用于 Qwen。
+
+samples、metrics、evaluation 和 summary JSON 的 `model_config` 会记录模型路径、
+量化方式、纯文本输入格式和显式生成参数。跨模型对照应固定样本名单，
+并注明 tokenizer、精度及生成设置；相同 token 数不代表相同文本长度。
+
+回归测试（不下载模型权重，使用微型随机 Qwen3 模型）：
+
+```bash
+python -m unittest discover -s tests -v
 ```
 
 ### 新增 skill 数据的固定测试集与双 seed 重复实验
@@ -216,7 +284,8 @@ python sample.py {dataset} {target model} {defense} {AQ}
 
 ## 正式实验默认配置
 
-模型默认使用 BF16：同时设置 `torch_dtype` 和 `bnb_4bit_compute_dtype`；权重仍为 4-bit。
+模型默认使用 BF16：原有模型通过 `BitsAndBytesConfig` 设置 4-bit 计算精度，
+权重仍为 4-bit；新增 `qwen3` 使用完整 BF16 权重，不量化。
 HotFlip 默认启用 gradient checkpointing，梯度分支从 forward 到 backward 保持 train 模式，
 候选评估使用 eval/no-grad，并在结束或异常时恢复原模式。生成评估不启用 checkpoint。
 
@@ -232,7 +301,8 @@ python -u main.py documents 12 llama llama 3 \
 输入拼接、完整 SKILL.md、prefix 的监督含义、HotFlip 更新及生成参数不变。
 NaN/Inf 拦截和已有显存诊断辅助仍由正式代码使用，保留在 `util/attack_diagnostics.py`。
 
-独立 OOM/NaN 诊断、webtesting 回归、旧训练集评估脚本及 `tests/` 已移除，
+原独立 OOM/NaN 诊断、webtesting 回归和旧训练集评估脚本已移除，
+当前 `tests/` 保留指标与模型兼容性回归测试。
 历史实验结果保留在 `results/`，原根目录诊断日志归档至 `logs/diagnostics/`。
 本地 `reports/` 工作文档及系统 `.DS_Store` 不纳入版本控制。
 

@@ -1,6 +1,6 @@
 # 未筛选 · documents · train3 · prefix8
 
-完整且去重 7/9 组。[全部结果分析](../analysis/全部结果分析.md) · [完整实验清单](../run_inventory.json)。
+完整且去重 9/9 组。[全部结果分析](../analysis/全部结果分析.md) · [完整实验清单](../run_inventory.json)。
 
 | seed 组合 | sample_seed | attack_seed | 生成结果 | 评估指标 | 配置与来源 |
 | --- | --- | --- | --- | --- | --- |
@@ -11,3 +11,9 @@
 | s1a2 | 1 | 2 | [CSV](runs/s1a2/results.csv) | [JSON](runs/s1a2/metrics.json) | [run.json](runs/s1a2/run.json) |
 | s1a3 | 1 | 3 | [CSV](runs/s1a3/results.csv) | [JSON](runs/s1a3/metrics.json) | [run.json](runs/s1a3/run.json) |
 | s2a1 | 2 | 1 | [CSV](runs/s2a1/results.csv) | [JSON](runs/s2a1/metrics.json) | [run.json](runs/s2a1/run.json) |
+| s2a2 | 2 | 2 | [CSV](runs/s2a2/results.csv) | [JSON](runs/s2a2/metrics.json) | [run.json](runs/s2a2/run.json) |
+| s2a3 | 2 | 3 | [CSV](runs/s2a3/results.csv) | [JSON](runs/s2a3/metrics.json) | [run.json](runs/s2a3/run.json) |
+
+## 2026-10-08 补评更新
+
+旧五组已完成独立 ROUGE 补评，原始指标未改写。[最新九组 Excel](analysis/实验汇总.xlsx) · [分析报告](analysis/实验结果分析.md) · [旧五组补评与校验](analysis/rouge_reevaluation/补评说明.md)。

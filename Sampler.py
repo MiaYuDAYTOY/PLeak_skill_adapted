@@ -17,12 +17,12 @@ from util.overlap_metrics import OVERLAP_FIELDS, rouge_overlap, strip_yaml_front
 
 class Sampler():
     def __init__(self, target_model='gptj', template=None, defense='None', compute_dtype=None):
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.target_model = target_model
         self.template = TextTemplate(prefix_1='') if template is None else template
         modelFactory = ModelFactory()
         model_options = {} if compute_dtype is None else {"compute_dtype": compute_dtype}
         self.model = modelFactory.get_model(target_model, **model_options)
+        self.device = self.model.get_input_embeddings().weight.device
         self.tokenizer = modelFactory.get_tokenizer(target_model)
         self.defense = defense
 
@@ -46,16 +46,11 @@ class Sampler():
         results = []
         total_fail = 0
         if triggers is None: triggers = self.tokenizer.decode(self.trigger_tokens)
-        kwargs = {
-            'num_beams': 3,
-            'pad_token_id': self.tokenizer.eos_token_id,
-            'remove_invalid_values': True,
-            'renormalize_logits': True,
-        }
-        if 'llama' in self.target_model:
-            kwargs['do_sample'] = True
-            kwargs['temperature'] = 0.9
-            kwargs['top_p'] = 0.6
+        kwargs = ModelFactory().get_generation_kwargs(self.target_model)
+        kwargs['pad_token_id'] = self.tokenizer.pad_token_id
+        if self.target_model == 'qwen3':
+            # Base uses <|endoftext|>, not the chat model's <|im_end|>.
+            kwargs['eos_token_id'] = self.tokenizer.eos_token_id
         sample_metadata = getattr(target_texts, 'sample_metadata', None)
         for idx, target_text in enumerate(target_texts):
             metadata = sample_metadata[idx] if sample_metadata is not None else {}

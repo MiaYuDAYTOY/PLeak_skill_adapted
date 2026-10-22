@@ -1,27 +1,33 @@
 import torch
 import numpy as np
 from copy import deepcopy
-import re
 import math
 from contextlib import contextmanager
 from util.template import TextTemplate
 from util.attack_diagnostics import diagnostics_enabled, print_cuda_memory, require_finite
+from util.trigger_tokens import allowed_trigger_token_ids
 from ModelFactory import ModelFactory
 
 class HotFlip:
     def __init__(self, trigger_token_length=6, shadow_model='gpt2', step=100, template=None, init_triggers='', init_step=None, prefix_length=8, compute_dtype=None, gradient_checkpointing=True):
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.target_model = shadow_model
         self.template = TextTemplate(prefix_1='') if template is None else template
         modelFactory = ModelFactory()
         model_options = {} if compute_dtype is None else {"compute_dtype": compute_dtype}
         self.model = modelFactory.get_model(shadow_model, **model_options)
+        self.device = self.model.get_input_embeddings().weight.device
+        # HotFlip differentiates the input embeddings, not the model weights.
+        self.model.requires_grad_(False)
         if gradient_checkpointing:
             self.model.gradient_checkpointing_enable()
         print_cuda_memory("after model load")
         self.tokenizer = modelFactory.get_tokenizer(shadow_model)
-        self.vocab_size = modelFactory.get_vocab_size(shadow_model)
         self.embedding_weight = self.get_embedding_weight()
+        self.vocab_size = len(self.tokenizer)
+        self.allowed_trigger_ids = np.asarray(allowed_trigger_token_ids(
+            self.tokenizer, self.embedding_weight.shape[0],
+        ), dtype=np.int64)
+        self.allowed_trigger_id_set = set(self.allowed_trigger_ids.tolist())
         self.step = step
         self.init_step = init_step if init_step is not None else self.step
         self.prefix_length = prefix_length
@@ -48,18 +54,21 @@ class HotFlip:
                 self.model.train(previous_training)
 
     def init_triggers(self, trigger_token_length, init_trigger='', user_prefix=''):
-        init_tokens = self.tokenizer.encode(init_trigger)
+        # Encode content only. BOS/EOS behavior belongs to the tokenizer used
+        # for the complete prompt, never to a model-name-specific slice.
+        init_tokens = self.tokenizer.encode(init_trigger, add_special_tokens=False)
         len_init = len(init_tokens)
-        len_user = len(self.tokenizer.encode(user_prefix))
-        if self.target_model == 'opt' or 'llama' in self.target_model or self.target_model=='vicuna':
-            init_tokens = init_tokens[1:]
-            len_init -= 1
-            len_user -= 1
-        if len_init >= trigger_token_length:
-            triggers = np.asarray(init_tokens[:trigger_token_length])
+        len_user = len(self.tokenizer.encode(user_prefix, add_special_tokens=False))
+        available_length = trigger_token_length - len_user
+        if available_length <= 0:
+            raise ValueError("Trigger token budget must exceed the user prefix length")
+        if any(token_id not in self.allowed_trigger_id_set for token_id in init_tokens):
+            raise ValueError("Initial trigger contains disallowed token IDs")
+        if len_init >= available_length:
+            triggers = np.asarray(init_tokens[:available_length], dtype=np.int64)
             self._decode_trigger_tokens(triggers)
             return triggers
-        triggers = np.empty(trigger_token_length-len_user, dtype=int)
+        triggers = np.empty(available_length, dtype=np.int64)
         random_start = min(len_init, len(triggers))
         triggers[:random_start] = init_tokens[:random_start]
 
@@ -67,13 +76,7 @@ class HotFlip:
         # used later by Sampler.
         for _ in range(1000):
             for idx in range(random_start, len(triggers)):
-                t = np.random.randint(self.vocab_size)
-                while re.search(
-                    r"[^a-zA-Z0-9s\s]",
-                    self.tokenizer.decode([int(t)]),
-                ):
-                    t = np.random.randint(self.vocab_size)
-                triggers[idx] = int(t)
+                triggers[idx] = np.random.choice(self.allowed_trigger_ids)
 
             try:
                 self._decode_trigger_tokens(triggers)
@@ -91,6 +94,8 @@ class HotFlip:
     def _decode_trigger_tokens(self, trigger_tokens):
         """Decode IDs without changing them at the prompt boundary."""
         trigger_ids = [int(token_id) for token_id in trigger_tokens]
+        if any(token_id not in self.allowed_trigger_id_set for token_id in trigger_ids):
+            raise ValueError("Trigger contains undefined, special or disallowed token IDs")
         context = "\n" + self.template.prefix_trigger + self.user_prefix
         context_ids = self.tokenizer.encode(
             context,
@@ -119,6 +124,13 @@ class HotFlip:
             raise ValueError(
                 "trigger token IDs 在文本往返编码后发生变化"
             )
+
+        # The template's trailing newline can merge with the last trigger
+        # token (especially in byte-level BPE). Check it before candidate use.
+        prompt_ids = self.tokenizer.encode(context + trigger_text + '\n',
+                                           add_special_tokens=False)
+        if prompt_ids[:len(roundtrip_ids)] != roundtrip_ids:
+            raise ValueError("Trigger token IDs change at the trailing newline")
 
         return trigger_text
 
@@ -323,14 +335,19 @@ class HotFlip:
     def hotflip_attack(self, averaged_grad, increase_loss=False, num_candidates=30):
         require_finite(averaged_grad, "trigger gradient", "HotFlip candidate scoring")
         averaged_grad = averaged_grad
-        embedding_matrix = self.embedding_weight
+        candidate_ids = torch.as_tensor(self.allowed_trigger_ids,
+                                        device=self.embedding_weight.device)
+        embedding_matrix = self.embedding_weight.index_select(0, candidate_ids)
         averaged_grad = averaged_grad.unsqueeze(0)
         gradient_dot_embedding_matrix = torch.einsum("bij,kj->bik",
                 (averaged_grad, embedding_matrix))        
         gradient_dot_embedding_matrix *= -1 
         require_finite(gradient_dot_embedding_matrix, "candidate scores", "HotFlip candidate scoring")
-        _, best_k_ids = torch.topk(gradient_dot_embedding_matrix, num_candidates, dim=2)
-        return best_k_ids.detach().squeeze().cpu().numpy()
+        if num_candidates <= 0:
+            raise ValueError("num_candidates must be positive")
+        _, best_k_ids = torch.topk(gradient_dot_embedding_matrix,
+                                  min(num_candidates, len(self.allowed_trigger_ids)), dim=2)
+        return candidate_ids[best_k_ids].detach().squeeze(0).cpu().numpy()
 
     def replace_triggers(self, target_texts):
         print(f"init_triggers:{self.decode_triggers()}")
@@ -359,10 +376,6 @@ class HotFlip:
                 for i, token_to_flip in enumerate(self.trigger_tokens):
                     for cand in candidates[i]:
                         cand_id = int(cand)
-                        cand_text = self.tokenizer.decode([cand_id])
-                        if re.search(r"[^a-zA-Z0-9s\s]", cand_text):
-                            continue
-
                         candidate_trigger_tokens = deepcopy(self.trigger_tokens)
                         candidate_trigger_tokens[i] = cand_id
                         try:

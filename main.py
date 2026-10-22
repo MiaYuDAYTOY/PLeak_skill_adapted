@@ -57,7 +57,7 @@ def parse_args(argv=None):
     parser.add_argument("--include-known-oom", action="store_true",
                         help="Include the six documents test skills skipped by default after repeated generation OOMs")
     parser.add_argument("--dtype", choices=("float16", "bfloat16"), default="bfloat16",
-                        help="Model and 4-bit compute dtype for both attack and evaluation")
+                        help="Model dtype for attack/evaluation; also the compute dtype for quantized models")
     parser.add_argument("--gradient-checkpointing", action=argparse.BooleanOptionalAction, default=True,
                         help="Checkpoint attack forward/backward; candidate evaluation stays in eval mode")
     parser.add_argument("--prefix-lengths", type=int, nargs="+", default=None)
@@ -99,6 +99,7 @@ def execution_config(args):
     return {
         "model_dtype": getattr(args, "dtype", None),
         "gradient_checkpointing": getattr(args, "gradient_checkpointing", False),
+        "model_config": getattr(args, "model_config", None),
     }
 
 
@@ -234,9 +235,10 @@ def save_group_summary(path, runs, sample_seeds, attack_seeds):
     if not runs or actual != expected or len(runs) != len(expected):
         raise ValueError("Cannot summarize an incomplete or duplicate seed grid")
     metric_names = list(runs[0]["metrics"])
-    configurations = {(run.get("model_dtype"), run.get("gradient_checkpointing", False)) for run in runs}
+    configurations = {(run.get("model_dtype"), run.get("gradient_checkpointing", False),
+                       json.dumps(run.get("model_config"), sort_keys=True)) for run in runs}
     if len(configurations) != 1:
-        raise ValueError("Cannot summarize runs with different precision/checkpoint configurations")
+        raise ValueError("Cannot summarize runs with different model/precision/checkpoint configurations")
     if len({json.dumps(run.get("test_selection"), sort_keys=True) for run in runs}) != 1:
         raise ValueError("Cannot summarize runs with different test exclusions")
     for run in runs:
@@ -264,6 +266,7 @@ def save_group_summary(path, runs, sample_seeds, attack_seeds):
     summary.update({
         "model_dtype": runs[0].get("model_dtype"),
         "gradient_checkpointing": runs[0].get("gradient_checkpointing", False),
+        "model_config": runs[0].get("model_config"),
         "test_selection": runs[0].get("test_selection"),
         "sample_seeds": list(sample_seeds),
         "attack_seeds": list(attack_seeds),
@@ -376,6 +379,12 @@ def main(argv=None):
     import torch
     from Attack import HotFlip
     from Sampler import Sampler
+    from ModelFactory import ModelFactory
+    model_factory = ModelFactory()
+    args.model_config = {
+        "shadow": model_factory.get_runtime_config(args.shadow_model),
+        "target": model_factory.get_runtime_config(args.target_model),
+    }
     model_options = {"compute_dtype": getattr(torch, args.dtype)}
     attack_options = dict(model_options)
     attack_options["gradient_checkpointing"] = args.gradient_checkpointing
