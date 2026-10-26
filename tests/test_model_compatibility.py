@@ -183,6 +183,77 @@ class ModelCompatibilityTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'token IDs'):
             sampler.sample_sequence(['Body\n'], 'abc', trigger_token_ids=[0, 0, 0])
 
+    def test_supervised_logits_match_original_loss_and_gradients(self):
+        tokenizer = byte_tokenizer()
+        body = '# A longer skill\n' + 'Read the document carefully.\n' * 3
+        for dtype in [torch.float32, torch.bfloat16]:
+            for checkpointing in [False, True]:
+                attack = make_attack(tokenizer, checkpointing=checkpointing)
+                attack.model.to(dtype=dtype)
+                for prefix in [1, 8, 16, 32]:
+                    with self.subTest(dtype=dtype, checkpointing=checkpointing, prefix=prefix):
+                        attack.prefix_length = prefix
+                        inputs, labels, left, right = attack.make_target(
+                            0, 0, body, attack.trigger_tokens,
+                        )
+                        embeddings = attack.model.get_input_embeddings()(inputs).detach()
+                        original_input = embeddings.clone().requires_grad_(True)
+                        with attack._loss_model_mode(True):
+                            original_loss = attack.model(
+                                inputs_embeds=original_input, labels=labels,
+                                use_cache=False, return_dict=True,
+                            ).loss
+                            original_loss.backward()
+                            original_gradient = original_input.grad.detach().clone()
+
+                        compact_input = embeddings.clone().requires_grad_(True)
+                        projected_lengths, context_lengths = [], []
+                        head_hook = attack.model.lm_head.register_forward_pre_hook(
+                            lambda module, args: projected_lengths.append(args[0].shape[1]),
+                        )
+                        context_hook = attack.model.model.register_forward_pre_hook(
+                            lambda module, args, kwargs: context_lengths.append(kwargs['inputs_embeds'].shape[1]),
+                            with_kwargs=True,
+                        )
+                        try:
+                            with attack._loss_model_mode(True):
+                                compact_loss = attack._forward_loss({'inputs_embeds': compact_input}, labels)
+                                compact_loss.backward()
+                                compact_gradient = compact_input.grad.detach().clone()
+                        finally:
+                            head_hook.remove()
+                            context_hook.remove()
+                        # The full context still reaches the transformer, while
+                        # the expensive vocabulary projection sees only P rows.
+                        self.assertEqual(context_lengths, [inputs.shape[1]])
+                        self.assertEqual(projected_lengths, [prefix])
+                        tolerance = dict(rtol=1e-5, atol=1e-6) if dtype == torch.float32 else dict(rtol=0.02, atol=2e-4)
+                        torch.testing.assert_close(compact_loss, original_loss, **tolerance)
+                        torch.testing.assert_close(compact_gradient, original_gradient, **tolerance)
+                        self.assertGreater(compact_gradient[:, left:right].float().norm().item(), 0)
+
+                        with attack._loss_model_mode(False), torch.no_grad():
+                            original_score = attack.model(input_ids=inputs, labels=labels,
+                                                          use_cache=False, return_dict=True).loss
+                            compact_score = attack._forward_loss({'input_ids': inputs}, labels)
+                        torch.testing.assert_close(compact_score, original_score, **tolerance)
+
+    def test_supervised_logits_respect_causal_shift_and_sparse_batch_labels(self):
+        tokenizer = byte_tokenizer()
+        attack = make_attack(tokenizer)
+        inputs = torch.tensor([tokenizer.encode('abcdef'), tokenizer.encode('ghijkl')])
+        labels = inputs.clone()
+        labels[0, [1, 3, 4]] = -100
+        labels[1, [1, 2, 5]] = -100
+        with torch.no_grad():
+            original = attack.model(input_ids=inputs, labels=labels,
+                                    use_cache=False, return_dict=True).loss
+            compact = attack._forward_loss({'input_ids': inputs}, labels)
+        torch.testing.assert_close(compact, original, rtol=0.02, atol=2e-4)
+        labels[:, 1:] = -100
+        with self.assertRaisesRegex(ValueError, 'No supervised tokens'):
+            attack._forward_loss({'input_ids': inputs}, labels)
+
     def test_real_qwen_generation_with_cache_and_beam_sampling(self):
         tokenizer = byte_tokenizer()
         model = tiny_qwen(tokenizer).eval()

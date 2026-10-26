@@ -254,6 +254,32 @@ class HotFlip:
         lm_input= torch.tensor([target], device=self.device, dtype=torch.long)
         return lm_input, label
 
+    def _forward_loss(self, model_input, labels):
+        """Keep the full context, but project only supervised Qwen positions.
+
+        ignore_index=-100 masks loss terms, not the allocation of full-sequence
+        logits or cross-entropy intermediates. Qwen3's logits_to_keep selects
+        hidden states BEFORE the vocabulary projection. A label at position t
+        is predicted by the hidden state at t-1 (causal shift).
+        """
+        options = dict(use_cache=False, output_attentions=False,
+                       output_hidden_states=False, return_dict=True)
+        if self.model.config.model_type != 'qwen3':
+            return self.model(**model_input, labels=labels, **options).loss
+
+        shifted_labels = labels[:, 1:]
+        positions = shifted_labels.ne(-100).any(dim=0).nonzero(as_tuple=True)[0]
+        if positions.numel() == 0:
+            raise ValueError("No supervised tokens after causal label shift")
+        outputs = self.model(**model_input, logits_to_keep=positions, **options)
+        targets = shifted_labels.index_select(1, positions).to(outputs.logits.device)
+        # Match Transformers' ordinary causal LM loss: FP32 CE, mean over
+        # non-ignored labels. Do not let the model apply a second causal shift.
+        return torch.nn.functional.cross_entropy(
+            outputs.logits.float().reshape(-1, outputs.logits.shape[-1]),
+            targets.reshape(-1), ignore_index=-100,
+        )
+
     def compute_loss(self, target_texts, trigger_tokens, idx_loss,  require_grad=False):
         if not len(target_texts):
             raise ValueError("compute_loss requires at least one sample")
@@ -292,10 +318,7 @@ class HotFlip:
                         print(f"[forward] {context} inputs_embeds_dtype={inputs_embeds.dtype} "
                               f"training={self.model.training}", flush=True)
                     print_cuda_memory(f"{context} before forward")
-                    loss = self.model(
-                        **model_input, labels=label, use_cache=False,
-                        output_attentions=False, output_hidden_states=False,
-                    )[0] / len(target_texts)
+                    loss = self._forward_loss(model_input, label) / len(target_texts)
                     print_cuda_memory(f"{context} after forward")
                     require_finite(loss, "forward loss (before backward)", context)
                     loss_value = loss.item()

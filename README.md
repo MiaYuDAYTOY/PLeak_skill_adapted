@@ -62,13 +62,24 @@ export PLEAK_QWEN3_MODEL_PATH=/root/autodl-tmp/Qwen3-0.6B-Base
 不要把对话版 `Qwen3-0.6B` 放到这个目录冒充 Base 版。
 
 保留原来的纯文本流程：推理输入是 `Skill 正文 + trigger + 换行`，
-训练在后面拼接 Skill 正文，只对其前 `prefix_length` 个 token 计算 loss。
+训练实际送入模型的是 `完整 Skill + trigger + 换行 + Skill 的前 prefix_length 个 token`；
+只有最后这些目标 token 计入 loss，前面的上下文标签为 `-100`。
+文本分词时虽然先拼接了第二份完整正文，但送入模型前已截到目标前缀末尾。
 不调用 `apply_chat_template()`，不加入 system/user/assistant 标记或 thinking 开关。
 
 `qwen3` 默认加载完整 BF16 权重，不启用 bitsandbytes 量化；
 `--dtype float16` 可切换为 FP16。原有模型继续使用 4-bit 权重。
 HotFlip 冻结模型参数，只计算输入 embedding 的梯度；训练关闭 KV cache，
 Qwen 生成启用 KV cache。长文本的激活、logits 和缓存仍可能占用较多显存。
+
+Qwen 的 attack loss 使用 `logits_to_keep`，在输出词表投影**之前**选出
+有监督标签对应的预测位置（标签位置减 1），只为这些位置计算 FP32 交叉熵。
+完整 Skill 上下文仍参与 Transformer 计算，目标前缀、样本选择、候选搜索和
+逐样本 loss 平均方式不变。`prefix_length=8` 时，输出分数的序列维度为 8，
+不再随整篇 Skill 长度增长。仅把其他 labels 设为 `-100` 不能省去全长 logits。
+结果配置中的 `attack_loss=supervised_qwen_logits_v1` 标识这一实现。
+它与原来的 masked causal LM loss 数学等价，浮点计算不保证逐 bit 一致；
+也不消除 Transformer 本体或生成阶段的显存需求。
 
 Qwen Base 的生成参数显式对齐当前 Llama 实验：`do_sample=True`、
 `num_beams=3`、`temperature=0.9`、`top_p=0.6`、`top_k=50`，
