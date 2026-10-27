@@ -1,0 +1,118 @@
+Results directory: results/documents_train3-4-5_20261026_182141_jijefwes
+Length filter (disabled): 100 candidates, 0 excluded, 100 kept; manifest: results/documents_train3-4-5_20261026_182141_jijefwes/length_filter.json
+Train pool selection: 30 candidates, 1 excluded, 29 available
+Skipping known training OOM: /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/009_baoyu-slide-deck/SKILL.md (original pool_index=1)
+Test selection: 70 selected, 6 excluded, 64 to evaluate
+Skipping known generation OOM: /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/016_clause/SKILL.md (original pool_index=14)
+Skipping known generation OOM: /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/026_docs-cleaner/SKILL.md (original pool_index=23)
+Skipping known generation OOM: /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/091_translate-book/SKILL.md (original pool_index=35)
+Skipping known generation OOM: /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/090_technical-documentation/SKILL.md (original pool_index=39)
+Skipping known generation OOM: /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/078_research-report/SKILL.md (original pool_index=48)
+Skipping known generation OOM: /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/028_document-processing/SKILL.md (original pool_index=57)
+Dataset: documents
+Train num: 3
+Repeat: 0
+Sample seed: 0
+Attack seed: 1
+Execution configuration: {'model_dtype': 'bfloat16', 'gradient_checkpointing': True, 'model_config': {'shadow': {'model_path': '/root/autodl-tmp/Qwen3-0.6B-Base', 'quantization': 'none', 'prompt_format': 'plain_text', 'generation': {'num_beams': 3, 'remove_invalid_values': True, 'renormalize_logits': True, 'do_sample': True, 'temperature': 0.9, 'top_p': 0.6, 'top_k': 50, 'repetition_penalty': 1.0, 'length_penalty': 1.0, 'num_return_sequences': 1, 'early_stopping': False, 'use_cache': True}}, 'target': {'model_path': '/root/autodl-tmp/Qwen3-0.6B-Base', 'quantization': 'none', 'prompt_format': 'plain_text', 'generation': {'num_beams': 3, 'remove_invalid_values': True, 'renormalize_logits': True, 'do_sample': True, 'temperature': 0.9, 'top_p': 0.6, 'top_k': 50, 'repetition_penalty': 1.0, 'length_penalty': 1.0, 'num_return_sequences': 1, 'early_stopping': False, 'use_cache': True}}}}
+
+Train samples:
+1. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/084_resume-section-builder/SKILL.md (pool_index=28)
+2. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/042_latex/SKILL.md (pool_index=13)
+3. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/031_epub/SKILL.md (pool_index=25)
+
+Test samples:
+1. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/094_wide-slide-illustrator/SKILL.md (pool_index=0)
+2. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/082_resume-formatter/SKILL.md (pool_index=1)
+3. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/044_latex-to-typst/SKILL.md (pool_index=2)
+4. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/100_xberg/SKILL.md (pool_index=3)
+5. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/087_sheet-music-publisher/SKILL.md (pool_index=4)
+6. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/029_documentation/SKILL.md (pool_index=5)
+7. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/035_extracting-keywords/SKILL.md (pool_index=6)
+8. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/089_tech-resume-optimizer/SKILL.md (pool_index=7)
+9. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/045_ln-53-documentation-auditor/SKILL.md (pool_index=8)
+10. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/015_chunking/SKILL.md (pool_index=9)
+11. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/085_resume-tailor/SKILL.md (pool_index=10)
+12. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/071_pseudo-merge/SKILL.md (pool_index=11)
+13. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/005_application-form-filler/SKILL.md (pool_index=12)
+14. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/021_dev-slides/SKILL.md (pool_index=13)
+16. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/022_doc-coauthoring/SKILL.md (pool_index=15)
+17. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/032_executive-resume-writer/SKILL.md (pool_index=16)
+18. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/077_research-portal/SKILL.md (pool_index=17)
+19. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/058_overleap/SKILL.md (pool_index=18)
+20. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/068_pptx-visual-assets/SKILL.md (pool_index=19)
+21. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/074_redistricting-analysis/SKILL.md (pool_index=20)
+22. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/051_minimax-docx/SKILL.md (pool_index=21)
+23. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/070_proofread/SKILL.md (pool_index=22)
+25. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/099_write-well/SKILL.md (pool_index=24)
+26. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/047_markdown-unwrap/SKILL.md (pool_index=25)
+27. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/097_wiki-onboarding/SKILL.md (pool_index=26)
+28. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/001_Chat-with-PDF/SKILL.md (pool_index=27)
+29. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/073_read-docx-review/SKILL.md (pool_index=28)
+30. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/036_extracting-tables/SKILL.md (pool_index=29)
+31. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/059_pdf/SKILL.md (pool_index=30)
+32. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/093_typst-markup/SKILL.md (pool_index=31)
+33. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/004_anydoc/SKILL.md (pool_index=32)
+34. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/096_wiki-changelog/SKILL.md (pool_index=33)
+35. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/057_overleaf-section-workflow/SKILL.md (pool_index=34)
+37. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/027_document-api-endpoint/SKILL.md (pool_index=36)
+38. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/041_html-slides/SKILL.md (pool_index=37)
+39. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/056_officecli/SKILL.md (pool_index=38)
+41. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/076_report-generator/SKILL.md (pool_index=40)
+42. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/072_quarto-clean/SKILL.md (pool_index=41)
+43. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/061_pdf-extraction/SKILL.md (pool_index=42)
+44. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/043_latex-to-quarto/SKILL.md (pool_index=43)
+45. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/010_batch-extraction/SKILL.md (pool_index=44)
+46. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/083_resume-quantifier/SKILL.md (pool_index=45)
+47. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/040_google-slides/SKILL.md (pool_index=46)
+48. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/019_cv-builder/SKILL.md (pool_index=47)
+50. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/069_presentation-creator/SKILL.md (pool_index=49)
+51. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/033_extract-charts/SKILL.md (pool_index=50)
+52. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/080_resume-ats-optimizer/SKILL.md (pool_index=51)
+53. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/013_build-slides/SKILL.md (pool_index=52)
+54. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/086_resume-version-manager/SKILL.md (pool_index=53)
+55. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/037_extracting-with-ocr/SKILL.md (pool_index=54)
+56. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/018_creative-portfolio-resume/SKILL.md (pool_index=55)
+57. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/065_pptx-generator/SKILL.md (pool_index=56)
+59. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/075_reference-list-builder/SKILL.md (pool_index=58)
+60. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/046_maintaining-dbt-documentation/SKILL.md (pool_index=59)
+61. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/062_pdf-report/SKILL.md (pool_index=60)
+62. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/039_google-sheets/SKILL.md (pool_index=61)
+63. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/052_minimax-pdf/SKILL.md (pool_index=62)
+64. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/063_picking-a-format/SKILL.md (pool_index=63)
+65. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/066_pptx-quality-gates/SKILL.md (pool_index=64)
+66. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/034_extract-template/SKILL.md (pool_index=65)
+67. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/006_apsa-style/SKILL.md (pool_index=66)
+68. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/054_nutrient-document-processing/SKILL.md (pool_index=67)
+69. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/098_wiki-vitepress/SKILL.md (pool_index=68)
+70. /root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/050_mermaid-tools/SKILL.md (pool_index=69)
+
+Selection saved to: results/documents_train3-4-5_20261026_182141_jijefwes/documents_12_qwen3_qwen3_train3_test64_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed0_attack_seed1.samples.json
+init_triggers: Ke rijPathVariable Coachhapus lin Lotus Ads stickers drunkcw reinforced
+[memory] OOM sample 1 path=/root/PLeak_skill_adapted/data/skill_expansion_20260922/samples/documents/042_latex/SKILL.md stage=forward seq_len=15948 cuda:0 allocated=15.6183 GiB reserved=16.8984 GiB peak=15.6183 GiB
+Traceback (most recent call last):
+  File "/root/PLeak_skill_adapted/main.py", line 483, in <module>
+    main()
+  File "/root/PLeak_skill_adapted/main.py", line 430, in main
+    attack.replace_triggers(trainset)
+  File "/root/PLeak_skill_adapted/Attack.py", line 365, in replace_triggers
+    best_loss, trigger_grad = self.compute_loss(
+  File "/root/PLeak_skill_adapted/Attack.py", line 295, in compute_loss
+    loss = self.model(
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/generic.py", line 965, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func
+    return func(*args, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 870, in forward
+    loss = self.loss_function(logits=logits, labels=labels, vocab_size=self.config.vocab_size, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/loss/loss_utils.py", line 63, in ForCausalLMLoss
+    loss = fixed_cross_entropy(logits, shift_labels, num_items_in_batch, ignore_index, **kwargs)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/transformers/loss/loss_utils.py", line 35, in fixed_cross_entropy
+    loss = nn.functional.cross_entropy(source, target, ignore_index=ignore_index, reduction=reduction)
+  File "/root/miniconda3/envs/pleak/lib/python3.10/site-packages/torch/nn/functional.py", line 3479, in cross_entropy
+    return torch._C._nn.cross_entropy_loss(
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 9.03 GiB. GPU 0 has a total capacity of 23.52 GiB of which 6.15 GiB is free. Including non-PyTorch memory, this process has 17.36 GiB memory in use. Of the allocated memory 15.62 GiB is allocated by PyTorch, and 1.28 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
