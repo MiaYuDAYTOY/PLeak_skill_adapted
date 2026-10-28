@@ -106,9 +106,9 @@
         "mean_rougeL_recall": 0.3152442079437819,
         "mean_rougeL_precision": 0.3698003965657019,
         "mean_rouge2_recall": 0.2613665676570888,
-        "mean_body_rougeL_recall": 0.31355168506588943,
-        "mean_body_rougeL_precision": 0.3240876913669897,
-        "mean_body_rouge2_recall": 0.25518169008690983,
+        "mean_body_rougeL_recall": 0.3271985576702889,
+        "mean_body_rougeL_precision": 0.31898578345271933,
+        "mean_body_rouge2_recall": 0.2687170148975863,
         "eos_rate": 0.09803921568627451
       }
     },
@@ -154,9 +154,9 @@
         "mean_rougeL_recall": 0.21247608338459661,
         "mean_rougeL_precision": 0.24785567041576356,
         "mean_rouge2_recall": 0.16825391796680914,
-        "mean_body_rougeL_recall": 0.21445985461888648,
-        "mean_body_rougeL_precision": 0.22260917972080482,
-        "mean_body_rouge2_recall": 0.1671568239468988,
+        "mean_body_rougeL_recall": 0.2212832909210862,
+        "mean_body_rougeL_precision": 0.22005822576366962,
+        "mean_body_rouge2_recall": 0.17392448635223703,
         "eos_rate": 0.25901960784313727
       }
     }
@@ -177,9 +177,9 @@
       "mean_rougeL_recall": 0.21247608338459661,
       "mean_rougeL_precision": 0.24785567041576356,
       "mean_rouge2_recall": 0.16825391796680914,
-      "mean_body_rougeL_recall": 0.21445985461888648,
-      "mean_body_rougeL_precision": 0.22260917972080482,
-      "mean_body_rouge2_recall": 0.1671568239468988,
+      "mean_body_rougeL_recall": 0.2212832909210862,
+      "mean_body_rougeL_precision": 0.22005822576366962,
+      "mean_body_rouge2_recall": 0.17392448635223703,
       "eos_rate": 0.25901960784313727
     }
   }

@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-10-08",
+  "as_of": "2026-10-28",
   "mode": "complete experiments only; grouped by sample_seed and attack_seed",
   "scope": {
     "dataset": "documents",
@@ -27,8 +27,8 @@
     {
       "source": "results/documents_train3-4-5_20260927_144503_54uehhb5/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed0_attack_seed1.metrics.json",
       "archived": "full data/runs/s0a1/metrics.json",
-      "bytes": 691,
-      "sha256": "61c6b09830794bd8b3c44af96867f793420da36bb76a18dae3c2f11a1e081d6d",
+      "bytes": 993,
+      "sha256": "98a2bb7ea9054bb14051818a3efc9d2bf0a29b73b9949b47cc8fb364d00ba395",
       "action": "retained_complete"
     },
     {
@@ -55,8 +55,8 @@
     {
       "source": "results/documents_train3-4-5_20260927_144503_54uehhb5/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed0_attack_seed2.metrics.json",
       "archived": "full data/runs/s0a2/metrics.json",
-      "bytes": 693,
-      "sha256": "38ba08d209619360d6468b395ae29669dbab807f659d13c94a12482f8992953b",
+      "bytes": 995,
+      "sha256": "4a609f222ff3ed482fc0bdae502386ec92222894deca591add523fa5f2e38462",
       "action": "retained_complete"
     },
     {
@@ -83,8 +83,8 @@
     {
       "source": "results/documents_train3-4-5_20260927_144503_54uehhb5/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed0_attack_seed3.metrics.json",
       "archived": "full data/runs/s0a3/metrics.json",
-      "bytes": 695,
-      "sha256": "19cc7a8d5645b99110316a44876ebac19824086c5a2bee9849ea282e97914629",
+      "bytes": 998,
+      "sha256": "a3f07098f2037f330aa44719c018aac2299fd4ffba97b71c80555d1d9347c2e2",
       "action": "retained_complete"
     },
     {
@@ -111,8 +111,8 @@
     {
       "source": "results/documents_train3-4-5_20260927_144503_54uehhb5/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed1.metrics.json",
       "archived": "full data/runs/s1a1/metrics.json",
-      "bytes": 698,
-      "sha256": "3100951abac8df62d65f0918465ddc731a8aeb0861234092cec485a1491d2964",
+      "bytes": 998,
+      "sha256": "4f73fee4ae4a846e51f86d2a56756160cd328f48e1029cf2761c4289de7fdb12",
       "action": "retained_complete"
     },
     {
@@ -139,8 +139,8 @@
     {
       "source": "results/documents_train3-4-5_20260927_144503_54uehhb5/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed2.metrics.json",
       "archived": "full data/runs/s1a2/metrics.json",
-      "bytes": 698,
-      "sha256": "fae5e236e6ec57a725d54ec3ef9901545bd8fc8bc0d8bcd8ec27ae22d9e0c289",
+      "bytes": 1001,
+      "sha256": "4fb8c054d13d2339e1b2051f9c6573fc80bcac03a5ee0374b2e83a33a6b85ebc",
       "action": "retained_complete"
     },
     {
@@ -167,8 +167,8 @@
     {
       "source": "results/t3p8/documents/full data/runs/documents_train3-4-5_20260927_144503_54uehhb5/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed0_attack_seed1.metrics.json",
       "archived": "full data/runs/s0a1/metrics.json",
-      "bytes": 691,
-      "sha256": "61c6b09830794bd8b3c44af96867f793420da36bb76a18dae3c2f11a1e081d6d",
+      "bytes": 993,
+      "sha256": "98a2bb7ea9054bb14051818a3efc9d2bf0a29b73b9949b47cc8fb364d00ba395",
       "action": "retained_complete"
     },
     {
@@ -195,8 +195,8 @@
     {
       "source": "results/t3p8/documents/full data/runs/documents_train3-4-5_20260927_144503_54uehhb5/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed0_attack_seed2.metrics.json",
       "archived": "full data/runs/s0a2/metrics.json",
-      "bytes": 693,
-      "sha256": "38ba08d209619360d6468b395ae29669dbab807f659d13c94a12482f8992953b",
+      "bytes": 995,
+      "sha256": "4a609f222ff3ed482fc0bdae502386ec92222894deca591add523fa5f2e38462",
       "action": "retained_complete"
     },
     {
@@ -223,8 +223,8 @@
     {
       "source": "results/t3p8/documents/full data/runs/documents_train3-4-5_20260927_144503_54uehhb5/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed0_attack_seed3.metrics.json",
       "archived": "full data/runs/s0a3/metrics.json",
-      "bytes": 695,
-      "sha256": "19cc7a8d5645b99110316a44876ebac19824086c5a2bee9849ea282e97914629",
+      "bytes": 998,
+      "sha256": "a3f07098f2037f330aa44719c018aac2299fd4ffba97b71c80555d1d9347c2e2",
       "action": "retained_complete"
     },
     {
@@ -251,8 +251,8 @@
     {
       "source": "results/t3p8/documents/full data/runs/documents_train3-4-5_20260927_144503_54uehhb5/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed1.metrics.json",
       "archived": "full data/runs/s1a1/metrics.json",
-      "bytes": 698,
-      "sha256": "3100951abac8df62d65f0918465ddc731a8aeb0861234092cec485a1491d2964",
+      "bytes": 998,
+      "sha256": "4f73fee4ae4a846e51f86d2a56756160cd328f48e1029cf2761c4289de7fdb12",
       "action": "retained_complete"
     },
     {
@@ -279,8 +279,8 @@
     {
       "source": "results/t3p8/documents/full data/runs/documents_train3-4-5_20260927_144503_54uehhb5/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed2.metrics.json",
       "archived": "full data/runs/s1a2/metrics.json",
-      "bytes": 698,
-      "sha256": "fae5e236e6ec57a725d54ec3ef9901545bd8fc8bc0d8bcd8ec27ae22d9e0c289",
+      "bytes": 1001,
+      "sha256": "4fb8c054d13d2339e1b2051f9c6573fc80bcac03a5ee0374b2e83a33a6b85ebc",
       "action": "retained_complete"
     },
     {
@@ -314,15 +314,15 @@
     {
       "source": "results/documents_train3_20260925_131841__vszmfzn/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc.summary.csv",
       "archived": "full data/analysis/launch_summaries/20260925_131841.csv",
-      "bytes": 594,
-      "sha256": "c36002866a76d6ad0d42336fcc37c51b39042033e55944e04ee24db927d3b55b",
+      "bytes": 1082,
+      "sha256": "291472cb58734229b4d887a0910f5f176bee1c549094634a0bb9d002d3d2f845",
       "action": "retained_complete"
     },
     {
       "source": "results/documents_train3_20260925_131841__vszmfzn/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc.summary.json",
       "archived": "full data/analysis/launch_summaries/20260925_131841.json",
-      "bytes": 2040,
-      "sha256": "b18443bf62c65ccd5ef0c3da5cde5276689fb2b726d5f4a113a9d3270cbe73f5",
+      "bytes": 3006,
+      "sha256": "4b26436d1c563844fa4253ca48a0822d4d24e1dc53b0e7f772a3173a694dc71e",
       "action": "retained_complete"
     },
     {
@@ -335,8 +335,8 @@
     {
       "source": "results/documents_train3_20260925_131841__vszmfzn/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed0_attack_seed1.metrics.json",
       "archived": "full data/runs/s0a1/metrics.json",
-      "bytes": 691,
-      "sha256": "61c6b09830794bd8b3c44af96867f793420da36bb76a18dae3c2f11a1e081d6d",
+      "bytes": 993,
+      "sha256": "98a2bb7ea9054bb14051818a3efc9d2bf0a29b73b9949b47cc8fb364d00ba395",
       "action": "retained_complete"
     },
     {
@@ -356,15 +356,15 @@
     {
       "source": "results/t3p8/documents/full data/runs/documents_train3_20260925_131841__vszmfzn/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc.summary.csv",
       "archived": "full data/analysis/launch_summaries/20260925_131841.csv",
-      "bytes": 594,
-      "sha256": "c36002866a76d6ad0d42336fcc37c51b39042033e55944e04ee24db927d3b55b",
+      "bytes": 1082,
+      "sha256": "291472cb58734229b4d887a0910f5f176bee1c549094634a0bb9d002d3d2f845",
       "action": "retained_complete"
     },
     {
       "source": "results/t3p8/documents/full data/runs/documents_train3_20260925_131841__vszmfzn/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc.summary.json",
       "archived": "full data/analysis/launch_summaries/20260925_131841.json",
-      "bytes": 2040,
-      "sha256": "b18443bf62c65ccd5ef0c3da5cde5276689fb2b726d5f4a113a9d3270cbe73f5",
+      "bytes": 3006,
+      "sha256": "4b26436d1c563844fa4253ca48a0822d4d24e1dc53b0e7f772a3173a694dc71e",
       "action": "retained_complete"
     },
     {
@@ -377,8 +377,8 @@
     {
       "source": "results/t3p8/documents/full data/runs/documents_train3_20260925_131841__vszmfzn/documents_12_llama_llama_train3_test70_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed0_attack_seed1.metrics.json",
       "archived": "full data/runs/s0a1/metrics.json",
-      "bytes": 691,
-      "sha256": "61c6b09830794bd8b3c44af96867f793420da36bb76a18dae3c2f11a1e081d6d",
+      "bytes": 993,
+      "sha256": "98a2bb7ea9054bb14051818a3efc9d2bf0a29b73b9949b47cc8fb364d00ba395",
       "action": "retained_complete"
     },
     {
@@ -524,15 +524,15 @@
     {
       "source": "results/documents_train3_20261002_081135_d2pyas5e/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc.summary.csv",
       "archived": "selecteddata/analysis/launch_summaries/20261002_081135.csv",
-      "bytes": 1680,
-      "sha256": "06ccc7944afcc7d2f79726199ce523fea76c7a02606332ab62152c28ad72e809",
+      "bytes": 1675,
+      "sha256": "4870d08f382ca0b8b31d7ce138a41609cf6df15c39349ad99190cd7292e26a58",
       "action": "retained_complete"
     },
     {
       "source": "results/documents_train3_20261002_081135_d2pyas5e/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc.summary.json",
       "archived": "selecteddata/analysis/launch_summaries/20261002_081135.json",
-      "bytes": 5800,
-      "sha256": "f70548b24c1ebe25a50616161356121d53617bfbb520eadcf6d5ce95e35a274a",
+      "bytes": 5801,
+      "sha256": "d78da232ce2bd978468f2fe1ff1f95a6b5dca279012d2d01ffaa477a26b097a5",
       "action": "retained_complete"
     },
     {
@@ -580,15 +580,15 @@
     {
       "source": "results/documents_train3_20261002_081135_d2pyas5e/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed2_attack_seed2.evaluation.json",
       "archived": "selecteddata/runs/s2a2/evaluation.json",
-      "bytes": 23653,
-      "sha256": "1773bc53044d36424ea91c9be79a7f3f0ee06a9a4bb1acd1e8a6386e1c6675ac",
+      "bytes": 23670,
+      "sha256": "9fbd1a83226bb44e9aaabfa155a0953aba37dd6309d04269fa15a5d9077685b3",
       "action": "retained_complete"
     },
     {
       "source": "results/documents_train3_20261002_081135_d2pyas5e/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed2_attack_seed2.metrics.json",
       "archived": "selecteddata/runs/s2a2/metrics.json",
-      "bytes": 1947,
-      "sha256": "bd0c27a53dcdfe854f0a5ed9625875e9583fe19767d322f245c642f0f6b33cdb",
+      "bytes": 1948,
+      "sha256": "da5c7f06fbda58f8c8bbf2881b68f839b6c80de39fddacfa3eabfbef3f152a67",
       "action": "retained_complete"
     },
     {
@@ -615,15 +615,15 @@
     {
       "source": "results/documents_train3_20261002_081135_d2pyas5e/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed2_attack_seed3.evaluation.json",
       "archived": "selecteddata/runs/s2a3/evaluation.json",
-      "bytes": 24470,
-      "sha256": "4b8625291ed6f9723913181dfbbc90f70029c8127c976605f81e2d26cb158cd4",
+      "bytes": 24494,
+      "sha256": "0024e93a0226dd09c38ff710e8cc8804b674ad4d84cea03250a2f807eae8b674",
       "action": "retained_complete"
     },
     {
       "source": "results/documents_train3_20261002_081135_d2pyas5e/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed2_attack_seed3.metrics.json",
       "archived": "selecteddata/runs/s2a3/metrics.json",
-      "bytes": 1960,
-      "sha256": "4a1098f789a29bd3b6704f3917285af36628fb5d0bb2778dca33c129acda67c6",
+      "bytes": 1958,
+      "sha256": "623bc4b7fc70b5235b62726cff88e87f53b2d79b9526d40ce1bf0ad073cbb7ce",
       "action": "retained_complete"
     },
     {
@@ -664,15 +664,15 @@
     {
       "source": "results/t3p8/documents/selecteddata/runs/documents_train3_20261002_081135_d2pyas5e/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc.summary.csv",
       "archived": "selecteddata/analysis/launch_summaries/20261002_081135.csv",
-      "bytes": 1680,
-      "sha256": "06ccc7944afcc7d2f79726199ce523fea76c7a02606332ab62152c28ad72e809",
+      "bytes": 1675,
+      "sha256": "4870d08f382ca0b8b31d7ce138a41609cf6df15c39349ad99190cd7292e26a58",
       "action": "retained_complete"
     },
     {
       "source": "results/t3p8/documents/selecteddata/runs/documents_train3_20261002_081135_d2pyas5e/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc.summary.json",
       "archived": "selecteddata/analysis/launch_summaries/20261002_081135.json",
-      "bytes": 5800,
-      "sha256": "f70548b24c1ebe25a50616161356121d53617bfbb520eadcf6d5ce95e35a274a",
+      "bytes": 5801,
+      "sha256": "d78da232ce2bd978468f2fe1ff1f95a6b5dca279012d2d01ffaa477a26b097a5",
       "action": "retained_complete"
     },
     {
@@ -720,15 +720,15 @@
     {
       "source": "results/t3p8/documents/selecteddata/runs/documents_train3_20261002_081135_d2pyas5e/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed2_attack_seed2.evaluation.json",
       "archived": "selecteddata/runs/s2a2/evaluation.json",
-      "bytes": 23653,
-      "sha256": "1773bc53044d36424ea91c9be79a7f3f0ee06a9a4bb1acd1e8a6386e1c6675ac",
+      "bytes": 23670,
+      "sha256": "9fbd1a83226bb44e9aaabfa155a0953aba37dd6309d04269fa15a5d9077685b3",
       "action": "retained_complete"
     },
     {
       "source": "results/t3p8/documents/selecteddata/runs/documents_train3_20261002_081135_d2pyas5e/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed2_attack_seed2.metrics.json",
       "archived": "selecteddata/runs/s2a2/metrics.json",
-      "bytes": 1947,
-      "sha256": "bd0c27a53dcdfe854f0a5ed9625875e9583fe19767d322f245c642f0f6b33cdb",
+      "bytes": 1948,
+      "sha256": "da5c7f06fbda58f8c8bbf2881b68f839b6c80de39fddacfa3eabfbef3f152a67",
       "action": "retained_complete"
     },
     {
@@ -755,15 +755,15 @@
     {
       "source": "results/t3p8/documents/selecteddata/runs/documents_train3_20261002_081135_d2pyas5e/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed2_attack_seed3.evaluation.json",
       "archived": "selecteddata/runs/s2a3/evaluation.json",
-      "bytes": 24470,
-      "sha256": "4b8625291ed6f9723913181dfbbc90f70029c8127c976605f81e2d26cb158cd4",
+      "bytes": 24494,
+      "sha256": "0024e93a0226dd09c38ff710e8cc8804b674ad4d84cea03250a2f807eae8b674",
       "action": "retained_complete"
     },
     {
       "source": "results/t3p8/documents/selecteddata/runs/documents_train3_20261002_081135_d2pyas5e/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed2_attack_seed3.metrics.json",
       "archived": "selecteddata/runs/s2a3/metrics.json",
-      "bytes": 1960,
-      "sha256": "4a1098f789a29bd3b6704f3917285af36628fb5d0bb2778dca33c129acda67c6",
+      "bytes": 1958,
+      "sha256": "623bc4b7fc70b5235b62726cff88e87f53b2d79b9526d40ce1bf0ad073cbb7ce",
       "action": "retained_complete"
     },
     {
@@ -818,15 +818,15 @@
     {
       "source": "results/documents_train3_20261002_120822_9zuqtymn/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc.summary.csv",
       "archived": "selecteddata/analysis/launch_summaries/20261002_120822.csv",
-      "bytes": 1611,
-      "sha256": "b2e811abf4de7cf3c97e8c08f20d421179550d7eff83ea8fb0e1cc479269384f",
+      "bytes": 1605,
+      "sha256": "c648b3e057d64c03c87d9caede16c21b2fbfb8e744db5b954f3a883c984f1408",
       "action": "retained_complete"
     },
     {
       "source": "results/documents_train3_20261002_120822_9zuqtymn/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc.summary.json",
       "archived": "selecteddata/analysis/launch_summaries/20261002_120822.json",
       "bytes": 5731,
-      "sha256": "10f4596c25696ee8c11693cfb7c564dbd08605b9edece7b2b0a7a32d705a901d",
+      "sha256": "9afbc1dfc3824cd83ab29d756d1a74f5afb963d8691805bf97a7c08f2f627a3a",
       "action": "retained_complete"
     },
     {
@@ -874,15 +874,15 @@
     {
       "source": "results/documents_train3_20261002_120822_9zuqtymn/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed0_attack_seed2.evaluation.json",
       "archived": "selecteddata/runs/s0a2/evaluation.json",
-      "bytes": 24179,
-      "sha256": "f85fad490e2d58bcd3b93961bd9be65151d05956165a9e18a99e11ade7725a65",
+      "bytes": 24192,
+      "sha256": "a67aa59f5c543b250fd9be7bc7b27fb1fb9bd99ce31b34f960562d2e18d520e3",
       "action": "retained_complete"
     },
     {
       "source": "results/documents_train3_20261002_120822_9zuqtymn/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed0_attack_seed2.metrics.json",
       "archived": "selecteddata/runs/s0a2/metrics.json",
       "bytes": 1949,
-      "sha256": "d3ef03c9649383c21c44b7976c3b06b34ac1162f0e2743bafa42f8b44a5ad0b2",
+      "sha256": "059dee6754ba2bf94999300e8a1b92f1573d5c836a887868304d6dd1cf191d76",
       "action": "retained_complete"
     },
     {
@@ -958,15 +958,15 @@
     {
       "source": "results/t3p8/documents/selecteddata/runs/documents_train3_20261002_120822_9zuqtymn/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc.summary.csv",
       "archived": "selecteddata/analysis/launch_summaries/20261002_120822.csv",
-      "bytes": 1611,
-      "sha256": "b2e811abf4de7cf3c97e8c08f20d421179550d7eff83ea8fb0e1cc479269384f",
+      "bytes": 1605,
+      "sha256": "c648b3e057d64c03c87d9caede16c21b2fbfb8e744db5b954f3a883c984f1408",
       "action": "retained_complete"
     },
     {
       "source": "results/t3p8/documents/selecteddata/runs/documents_train3_20261002_120822_9zuqtymn/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc.summary.json",
       "archived": "selecteddata/analysis/launch_summaries/20261002_120822.json",
       "bytes": 5731,
-      "sha256": "10f4596c25696ee8c11693cfb7c564dbd08605b9edece7b2b0a7a32d705a901d",
+      "sha256": "9afbc1dfc3824cd83ab29d756d1a74f5afb963d8691805bf97a7c08f2f627a3a",
       "action": "retained_complete"
     },
     {
@@ -1014,15 +1014,15 @@
     {
       "source": "results/t3p8/documents/selecteddata/runs/documents_train3_20261002_120822_9zuqtymn/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed0_attack_seed2.evaluation.json",
       "archived": "selecteddata/runs/s0a2/evaluation.json",
-      "bytes": 24179,
-      "sha256": "f85fad490e2d58bcd3b93961bd9be65151d05956165a9e18a99e11ade7725a65",
+      "bytes": 24192,
+      "sha256": "a67aa59f5c543b250fd9be7bc7b27fb1fb9bd99ce31b34f960562d2e18d520e3",
       "action": "retained_complete"
     },
     {
       "source": "results/t3p8/documents/selecteddata/runs/documents_train3_20261002_120822_9zuqtymn/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed0_attack_seed2.metrics.json",
       "archived": "selecteddata/runs/s0a2/metrics.json",
       "bytes": 1949,
-      "sha256": "d3ef03c9649383c21c44b7976c3b06b34ac1162f0e2743bafa42f8b44a5ad0b2",
+      "sha256": "059dee6754ba2bf94999300e8a1b92f1573d5c836a887868304d6dd1cf191d76",
       "action": "retained_complete"
     },
     {
@@ -1112,15 +1112,15 @@
     {
       "source": "results/documents_train3_20261003_101628_qj26zyv6/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc.summary.csv",
       "archived": "selecteddata/analysis/launch_summaries/20261003_101628.csv",
-      "bytes": 1403,
-      "sha256": "ceea95ea68eb36b8772a77cf9f869037abf9416de7817ac3f2d5171119e9f551",
+      "bytes": 1402,
+      "sha256": "e83ef75ee690cadeb5b9bbb820925a00c99ca1f968a1a4f6a8a62c1749c0364f",
       "action": "retained_complete"
     },
     {
       "source": "results/documents_train3_20261003_101628_qj26zyv6/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc.summary.json",
       "archived": "selecteddata/analysis/launch_summaries/20261003_101628.json",
-      "bytes": 4893,
-      "sha256": "72599a10a6e91652ff2e67464a2d165f2470b9f233f7db150573c78cb6323d52",
+      "bytes": 4897,
+      "sha256": "a05078ab439c4fb883133ff0b34b4cdadc300aa6d75bd0f833970c752c57d408",
       "action": "retained_complete"
     },
     {
@@ -1168,15 +1168,15 @@
     {
       "source": "results/documents_train3_20261003_101628_qj26zyv6/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed1_attack_seed2.evaluation.json",
       "archived": "selecteddata/runs/s1a2/evaluation.json",
-      "bytes": 24501,
-      "sha256": "477a903dcaaba14abaac2524e27c40d691507d4549282a2d75e95a7abde63df9",
+      "bytes": 24518,
+      "sha256": "bcb07a451f38ba5a4ad2d5b8098a4700e48017163f9505bc0c6927c52244488a",
       "action": "retained_complete"
     },
     {
       "source": "results/documents_train3_20261003_101628_qj26zyv6/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed1_attack_seed2.metrics.json",
       "archived": "selecteddata/runs/s1a2/metrics.json",
-      "bytes": 1957,
-      "sha256": "f35b90789669b76e23908884678e7c1330c160c4c994e2efc5dacc4ff89a10a5",
+      "bytes": 1959,
+      "sha256": "7dfc82f8923bb43a0f734bb486db566cb2801270ab5d9c95865e6e8124aef87d",
       "action": "retained_complete"
     },
     {
@@ -1210,15 +1210,15 @@
     {
       "source": "results/t3p8/documents/selecteddata/runs/documents_train3_20261003_101628_qj26zyv6/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc.summary.csv",
       "archived": "selecteddata/analysis/launch_summaries/20261003_101628.csv",
-      "bytes": 1403,
-      "sha256": "ceea95ea68eb36b8772a77cf9f869037abf9416de7817ac3f2d5171119e9f551",
+      "bytes": 1402,
+      "sha256": "e83ef75ee690cadeb5b9bbb820925a00c99ca1f968a1a4f6a8a62c1749c0364f",
       "action": "retained_complete"
     },
     {
       "source": "results/t3p8/documents/selecteddata/runs/documents_train3_20261003_101628_qj26zyv6/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc.summary.json",
       "archived": "selecteddata/analysis/launch_summaries/20261003_101628.json",
-      "bytes": 4893,
-      "sha256": "72599a10a6e91652ff2e67464a2d165f2470b9f233f7db150573c78cb6323d52",
+      "bytes": 4897,
+      "sha256": "a05078ab439c4fb883133ff0b34b4cdadc300aa6d75bd0f833970c752c57d408",
       "action": "retained_complete"
     },
     {
@@ -1266,15 +1266,15 @@
     {
       "source": "results/t3p8/documents/selecteddata/runs/documents_train3_20261003_101628_qj26zyv6/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed1_attack_seed2.evaluation.json",
       "archived": "selecteddata/runs/s1a2/evaluation.json",
-      "bytes": 24501,
-      "sha256": "477a903dcaaba14abaac2524e27c40d691507d4549282a2d75e95a7abde63df9",
+      "bytes": 24518,
+      "sha256": "bcb07a451f38ba5a4ad2d5b8098a4700e48017163f9505bc0c6927c52244488a",
       "action": "retained_complete"
     },
     {
       "source": "results/t3p8/documents/selecteddata/runs/documents_train3_20261003_101628_qj26zyv6/documents_12_llama_llama_train3_test26_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed1_attack_seed2.metrics.json",
       "archived": "selecteddata/runs/s1a2/metrics.json",
-      "bytes": 1957,
-      "sha256": "f35b90789669b76e23908884678e7c1330c160c4c994e2efc5dacc4ff89a10a5",
+      "bytes": 1959,
+      "sha256": "7dfc82f8923bb43a0f734bb486db566cb2801270ab5d9c95865e6e8124aef87d",
       "action": "retained_complete"
     },
     {
@@ -1322,15 +1322,15 @@
     {
       "source": "results/documents_train3_20261005_100758_wzzk8_ea/documents_12_llama_llama_train3_test64_target_prefix8_dtypebfloat16_gc.summary.csv",
       "archived": "full data/analysis/launch_summaries/20261005_100758.csv",
-      "bytes": 1113,
-      "sha256": "cffbce9fc2a490f47473c212bdced1730d3998384cf073a777235d7f8566d28c",
+      "bytes": 1115,
+      "sha256": "ca125d856ad17fae341c37f04666cb28627c8adf7972ad0dd10bc8eceb11047a",
       "action": "retained_complete"
     },
     {
       "source": "results/documents_train3_20261005_100758_wzzk8_ea/documents_12_llama_llama_train3_test64_target_prefix8_dtypebfloat16_gc.summary.json",
       "archived": "full data/analysis/launch_summaries/20261005_100758.json",
-      "bytes": 5513,
-      "sha256": "f9c151379b9f1734c591f72e491afa4d168db2c68e4719c5294531879f2b2856",
+      "bytes": 5519,
+      "sha256": "5e4285dca9974d8c74dc9093a320c199b3de371829d81194490771ad5812e7c0",
       "action": "retained_complete"
     },
     {
@@ -1343,15 +1343,15 @@
     {
       "source": "results/documents_train3_20261005_100758_wzzk8_ea/documents_12_llama_llama_train3_test64_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed1_attack_seed3.evaluation.json",
       "archived": "full data/runs/s1a3/evaluation.json",
-      "bytes": 47006,
-      "sha256": "429b1c9048606e00b520cc7ee7010faa0e3cf378f82a59592ed7d30379403f79",
+      "bytes": 47057,
+      "sha256": "013f84edc0bc1b8bce43e0727366f80c6250738349a7a5b7b68aacd963e03f93",
       "action": "retained_complete"
     },
     {
       "source": "results/documents_train3_20261005_100758_wzzk8_ea/documents_12_llama_llama_train3_test64_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed1_attack_seed3.metrics.json",
       "archived": "full data/runs/s1a3/metrics.json",
-      "bytes": 3482,
-      "sha256": "8cd8c7de8d911f46a0636e8a994efead675739f7142ad48d01969aa1d7b99970",
+      "bytes": 3484,
+      "sha256": "b3e4df86184d250eb991e4b5cca3f6a68ffce7b92ef938780ff874af9e0e0377",
       "action": "retained_complete"
     },
     {
@@ -1518,15 +1518,15 @@
     {
       "source": "results/documents_train3_20261007_224727_78hft9um/documents_12_llama_llama_train3_test64_target_prefix8_dtypebfloat16_gc.summary.csv",
       "archived": "full data/analysis/launch_summaries/20261007_224727.csv",
-      "bytes": 1407,
-      "sha256": "cabea8661dba17b74ae713530de7a1b172f5e435cb2b2288bd6379e1cacb04d8",
+      "bytes": 1401,
+      "sha256": "17c3d01b1cc4820ee5c654536f7a7a2566080186b81e9822220a4a09b1e1a7fa",
       "action": "retained_complete"
     },
     {
       "source": "results/documents_train3_20261007_224727_78hft9um/documents_12_llama_llama_train3_test64_target_prefix8_dtypebfloat16_gc.summary.json",
       "archived": "full data/analysis/launch_summaries/20261007_224727.json",
-      "bytes": 7016,
-      "sha256": "d230f1acf685b10991fd872d9bbe4687a347e985ddf961e35705b272b4e61cd6",
+      "bytes": 7015,
+      "sha256": "c7acd657d94c6334b200b63f076463fcf3f6be88a215998eec26522c45558ce7",
       "action": "retained_complete"
     },
     {
@@ -1546,15 +1546,15 @@
     {
       "source": "results/documents_train3_20261007_224727_78hft9um/documents_12_llama_llama_train3_test64_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed2_attack_seed2.metrics.json",
       "archived": "full data/runs/s2a2/metrics.json",
-      "bytes": 4077,
-      "sha256": "c6d39fa4faadcd75c55a84c1c05a3f19d926e4a0edebe2d75af9e4a14ad0013a",
+      "bytes": 4076,
+      "sha256": "d42990f6eb62b0f6a784d6d61065f1dbb712e20fd02f32984f00b0f25ec69d80",
       "action": "retained_complete"
     },
     {
       "source": "results/documents_train3_20261007_224727_78hft9um/documents_12_llama_llama_train3_test64_target_prefix8_dtypebfloat16_gc_repeat0_sample_seed2_attack_seed2.evaluation.json",
       "archived": "full data/runs/s2a2/evaluation.json",
-      "bytes": 49874,
-      "sha256": "66f5b9d6563dda2cd827afeb3707f364ed5e383e20a47b29f986ad1e1edcabf7",
+      "bytes": 49890,
+      "sha256": "9a39e01caf7074679a56b7f7b556f13c537c58821c5324dce5b5dadd1b24294f",
       "action": "retained_complete"
     },
     {
@@ -1622,6 +1622,12 @@
         "full data/s2a3"
       ],
       "removed_preparation_only_launches": 1
+    },
+    {
+      "date": "2026-10-28",
+      "reevaluated_complete_groups": 18,
+      "generation_rerun": false,
+      "note": "Recomputed from saved CSV with corrected YAML front matter handling; replaced evaluation JSON in place."
     }
   ]
 }

@@ -21,13 +21,13 @@
     "exact_token_match_rate": 0.0,
     "mean_common_prefix_ratio": 5.069121816042146e-05,
     "mean_token_recall": 0.10733634997148757,
-    "mean_token_precision": 0.14521970370781578,
-    "mean_rougeL_recall": 0.0682922057840772,
-    "mean_rougeL_precision": 0.09564492873505377,
+    "mean_token_precision": 0.14521970370781576,
+    "mean_rougeL_recall": 0.06829220578407721,
+    "mean_rougeL_precision": 0.0956449287350538,
     "mean_rouge2_recall": 0.04167746102320465,
-    "mean_body_rougeL_recall": 0.07188140524253678,
-    "mean_body_rougeL_precision": 0.09260970036208421,
-    "mean_body_rouge2_recall": 0.04385765380507578,
+    "mean_body_rougeL_recall": 0.07208924119069503,
+    "mean_body_rougeL_precision": 0.09266016051187663,
+    "mean_body_rouge2_recall": 0.04392695609098503,
     "eos_rate": 0.5
   }
 }

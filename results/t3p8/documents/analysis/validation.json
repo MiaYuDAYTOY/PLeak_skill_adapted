@@ -1,10 +1,10 @@
 {
   "status": "passed",
-  "as_of": "2026-10-08",
+  "as_of": "2026-10-28",
   "mode": "complete experiments only; grouped by sample_seed and attack_seed",
   "seed_directories": 18,
-  "source_records_verified": 228,
-  "archived_files_verified": 122,
+  "source_records_verified": 227,
+  "archived_files_verified": 121,
   "launch_summaries_verified": 8,
   "unique_completed_runs": 18,
   "retained_incomplete_runs": 0,
@@ -17,6 +17,15 @@
     "removed_preparation_only_launches": 1
   },
   "missing_seed_combinations": [],
-  "old_metrics_not_reevaluated": "No model or tokenizer was run. Missing metrics remain null, never zero.",
-  "aggregation": "Equal weight over unique completed experiments in each category. A mean is null if any included experiment lacks that metric."
+  "aggregation": "Equal weight over unique completed experiments in each category. A mean is null if any included experiment lacks that metric.",
+  "reevaluation": {
+    "timestamp": "2026-10-28T11:30:25+08:00",
+    "completed_runs": 18,
+    "tokenization_and_metrics_recomputed": true,
+    "original_nonbody_metrics_reproduced": true,
+    "generation_rerun": false
+  },
+  "unavailable_preexisting_archive_artifacts": [
+    "results/t3p8/documents/selecteddata/analysis/实验汇总.xlsx"
+  ]
 }

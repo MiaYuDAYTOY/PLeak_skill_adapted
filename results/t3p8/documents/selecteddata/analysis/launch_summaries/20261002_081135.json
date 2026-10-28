@@ -86,9 +86,9 @@
         "mean_rougeL_recall": 0.11867806924293195,
         "mean_rougeL_precision": 0.11033779621997805,
         "mean_rouge2_recall": 0.07489728186722576,
-        "mean_body_rougeL_recall": 0.1017644719961919,
-        "mean_body_rougeL_precision": 0.11079622171631048,
-        "mean_body_rouge2_recall": 0.0550637868639274,
+        "mean_body_rougeL_recall": 0.12909428504029066,
+        "mean_body_rougeL_precision": 0.10173360229173224,
+        "mean_body_rouge2_recall": 0.0824189757790049,
         "eos_rate": 0.4230769230769231
       }
     },
@@ -109,9 +109,9 @@
         "mean_rougeL_recall": 0.4472414528207351,
         "mean_rougeL_precision": 0.5712018250984832,
         "mean_rouge2_recall": 0.43005788135452294,
-        "mean_body_rougeL_recall": 0.41400628644724013,
-        "mean_body_rougeL_precision": 0.4174558993972922,
-        "mean_body_rouge2_recall": 0.38870432533755994,
+        "mean_body_rougeL_recall": 0.4794897872592075,
+        "mean_body_rougeL_precision": 0.4082771608894913,
+        "mean_body_rouge2_recall": 0.4547295766199537,
         "eos_rate": 0.23076923076923078
       }
     }
@@ -134,9 +134,9 @@
         "mean_rougeL_recall": 0.21189304860561128,
         "mean_rougeL_precision": 0.24850152126196623,
         "mean_rouge2_recall": 0.18197774659119917,
-        "mean_body_rougeL_recall": 0.1969497909804934,
-        "mean_body_rougeL_precision": 0.1948157179198222,
-        "mean_body_rouge2_recall": 0.16245608562310418,
+        "mean_body_rougeL_recall": 0.2278875622658488,
+        "mean_body_rougeL_precision": 0.18873526527569576,
+        "mean_body_rouge2_recall": 0.19358289902226125,
         "eos_rate": 0.4230769230769231
       }
     }
@@ -157,9 +157,9 @@
       "mean_rougeL_recall": 0.21189304860561128,
       "mean_rougeL_precision": 0.24850152126196623,
       "mean_rouge2_recall": 0.18197774659119917,
-      "mean_body_rougeL_recall": 0.1969497909804934,
-      "mean_body_rougeL_precision": 0.1948157179198222,
-      "mean_body_rouge2_recall": 0.16245608562310418,
+      "mean_body_rougeL_recall": 0.2278875622658488,
+      "mean_body_rougeL_precision": 0.18873526527569576,
+      "mean_body_rouge2_recall": 0.19358289902226125,
       "eos_rate": 0.4230769230769231
     }
   }

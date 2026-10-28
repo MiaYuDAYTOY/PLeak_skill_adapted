@@ -52,9 +52,9 @@
     "mean_rougeL_recall": 0.39363806282870295,
     "mean_rougeL_precision": 0.6557242089072605,
     "mean_rouge2_recall": 0.3661513064487577,
-    "mean_body_rougeL_recall": 0.3616237176180764,
-    "mean_body_rougeL_precision": 0.3868787858763435,
-    "mean_body_rouge2_recall": 0.3309942545733454,
+    "mean_body_rougeL_recall": 0.3880576495398132,
+    "mean_body_rougeL_precision": 0.37732641164507014,
+    "mean_body_rouge2_recall": 0.35745123264322665,
     "eos_rate": 0.38461538461538464
   }
 }

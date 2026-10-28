@@ -92,10 +92,10 @@
       "050_mermaid-tools"
     ],
     "excluded_before_evaluation": 0,
-    "status": "complete_legacy_metrics",
+    "status": "complete_current_metrics",
     "source_metrics": "full data/runs/s0a1/metrics.json",
     "source_csv": "full data/runs/s0a1/results.csv",
-    "source_evaluation": null,
+    "source_evaluation": "full data/runs/s0a1/evaluation.json",
     "metrics": {
       "total_samples": 70,
       "evaluated_samples": 64,
@@ -107,9 +107,21 @@
       "mean_common_prefix_ratio": 5.069121816042146e-05,
       "mean_token_recall": 0.10733634997148757,
       "mean_token_precision": 0.14521970370781576,
+      "mean_rougeL_recall": 0.06829220578407721,
+      "mean_rougeL_precision": 0.0956449287350538,
+      "mean_rouge2_recall": 0.04167746102320465,
+      "mean_body_rougeL_recall": 0.07208924119069503,
+      "mean_body_rougeL_precision": 0.09266016051187663,
+      "mean_body_rouge2_recall": 0.04392695609098503,
       "eos_rate": 0.5
     },
-    "diagnostics": {},
+    "diagnostics": {
+      "empty_content_count": 27,
+      "body_rougeL_ge_0_5_count": 0,
+      "body_rougeL_ge_0_9_count": 0,
+      "median_prediction_tokens": 452.5,
+      "empty_content_rate": 0.421875
+    },
     "failed_documents": [
       "016_clause",
       "026_docs-cleaner",
@@ -121,7 +133,7 @@
     "fingerprint": {
       "results.csv": "937eef92c20d72e3099df2e52ded2053292c5c4f85a9920190b4d285945e1b83",
       "samples.json": "20ceeeff8796141c412b16cc9fae5e2cdb423efb2cc441387f190e16c0545933",
-      "metrics.json": "61c6b09830794bd8b3c44af96867f793420da36bb76a18dae3c2f11a1e081d6d",
+      "metrics.json": "98a2bb7ea9054bb14051818a3efc9d2bf0a29b73b9949b47cc8fb364d00ba395",
       "trigger_ids.json": "89ad0ab6cffc8bc3a394920d6ce4b51030ccd8ccf343dd207828084b168e28ac"
     }
   },
@@ -217,10 +229,10 @@
       "050_mermaid-tools"
     ],
     "excluded_before_evaluation": 0,
-    "status": "complete_legacy_metrics",
+    "status": "complete_current_metrics",
     "source_metrics": "full data/runs/s0a2/metrics.json",
     "source_csv": "full data/runs/s0a2/results.csv",
-    "source_evaluation": null,
+    "source_evaluation": "full data/runs/s0a2/evaluation.json",
     "metrics": {
       "total_samples": 70,
       "evaluated_samples": 64,
@@ -232,9 +244,21 @@
       "mean_common_prefix_ratio": 7.885123680214068e-05,
       "mean_token_recall": 0.1275449250469607,
       "mean_token_precision": 0.1652605423468557,
+      "mean_rougeL_recall": 0.08479288160914436,
+      "mean_rougeL_precision": 0.11138436259366916,
+      "mean_rouge2_recall": 0.05033814556286289,
+      "mean_body_rougeL_recall": 0.08726519628365577,
+      "mean_body_rougeL_precision": 0.1074801154051789,
+      "mean_body_rouge2_recall": 0.05138534313197031,
       "eos_rate": 0.40625
     },
-    "diagnostics": {},
+    "diagnostics": {
+      "empty_content_count": 22,
+      "body_rougeL_ge_0_5_count": 1,
+      "body_rougeL_ge_0_9_count": 0,
+      "median_prediction_tokens": 1113.0,
+      "empty_content_rate": 0.34375
+    },
     "failed_documents": [
       "016_clause",
       "026_docs-cleaner",
@@ -246,7 +270,7 @@
     "fingerprint": {
       "results.csv": "3849eccaa24a7a4567b52ee7a70e8b54ea1ce845048dbbf2cdb4a4f814de446f",
       "samples.json": "6bc8092f45a30dc21403a622da00926c0fc979f2901b5b8da7b66ce48b98b08b",
-      "metrics.json": "38ba08d209619360d6468b395ae29669dbab807f659d13c94a12482f8992953b",
+      "metrics.json": "4a609f222ff3ed482fc0bdae502386ec92222894deca591add523fa5f2e38462",
       "trigger_ids.json": "24565b2fabd92f01c94e42c2590b6b07ab9f7e9561f8e39c0b5af4de29250203"
     }
   },
@@ -342,10 +366,10 @@
       "050_mermaid-tools"
     ],
     "excluded_before_evaluation": 0,
-    "status": "complete_legacy_metrics",
+    "status": "complete_current_metrics",
     "source_metrics": "full data/runs/s0a3/metrics.json",
     "source_csv": "full data/runs/s0a3/results.csv",
-    "source_evaluation": null,
+    "source_evaluation": "full data/runs/s0a3/evaluation.json",
     "metrics": {
       "total_samples": 70,
       "evaluated_samples": 64,
@@ -357,9 +381,21 @@
       "mean_common_prefix_ratio": 0.0046751561226055175,
       "mean_token_recall": 0.14042014173543094,
       "mean_token_precision": 0.1835902123937038,
+      "mean_rougeL_recall": 0.10671924867476304,
+      "mean_rougeL_precision": 0.14622608770672862,
+      "mean_rouge2_recall": 0.08049849110042427,
+      "mean_body_rougeL_recall": 0.11230548511118048,
+      "mean_body_rougeL_precision": 0.11148681756055234,
+      "mean_body_rouge2_recall": 0.08397849585396458,
       "eos_rate": 0.515625
     },
-    "diagnostics": {},
+    "diagnostics": {
+      "empty_content_count": 30,
+      "body_rougeL_ge_0_5_count": 3,
+      "body_rougeL_ge_0_9_count": 3,
+      "median_prediction_tokens": 22.0,
+      "empty_content_rate": 0.46875
+    },
     "failed_documents": [
       "016_clause",
       "026_docs-cleaner",
@@ -371,7 +407,7 @@
     "fingerprint": {
       "results.csv": "62da5ebc03bd16f7482968b4c75c349e20d59fd85402cd32b96be55e2e167493",
       "samples.json": "32c4484dac9105aace2ec215b25fb72f83e551869447a83fbdbc4facb58c024a",
-      "metrics.json": "19cc7a8d5645b99110316a44876ebac19824086c5a2bee9849ea282e97914629",
+      "metrics.json": "a3f07098f2037f330aa44719c018aac2299fd4ffba97b71c80555d1d9347c2e2",
       "trigger_ids.json": "ab7b0261de408cbe0462657c22b68ac2b35e4402a2c5630e140bf34a9d9050bb"
     }
   },
@@ -467,10 +503,10 @@
       "050_mermaid-tools"
     ],
     "excluded_before_evaluation": 0,
-    "status": "complete_legacy_metrics",
+    "status": "complete_current_metrics",
     "source_metrics": "full data/runs/s1a1/metrics.json",
     "source_csv": "full data/runs/s1a1/results.csv",
-    "source_evaluation": null,
+    "source_evaluation": "full data/runs/s1a1/evaluation.json",
     "metrics": {
       "total_samples": 70,
       "evaluated_samples": 64,
@@ -482,9 +518,21 @@
       "mean_common_prefix_ratio": 0.015912872026839733,
       "mean_token_recall": 0.2384509919185686,
       "mean_token_precision": 0.3594615496219282,
+      "mean_rougeL_recall": 0.19956437101732893,
+      "mean_rougeL_precision": 0.31441858646417364,
+      "mean_rouge2_recall": 0.179782253608015,
+      "mean_body_rougeL_recall": 0.21799483479052362,
+      "mean_body_rougeL_precision": 0.2331370495240641,
+      "mean_body_rouge2_recall": 0.19531302779045184,
       "eos_rate": 0.453125
     },
-    "diagnostics": {},
+    "diagnostics": {
+      "empty_content_count": 20,
+      "body_rougeL_ge_0_5_count": 11,
+      "body_rougeL_ge_0_9_count": 7,
+      "median_prediction_tokens": 1229.0,
+      "empty_content_rate": 0.3125
+    },
     "failed_documents": [
       "016_clause",
       "026_docs-cleaner",
@@ -496,7 +544,7 @@
     "fingerprint": {
       "results.csv": "762e40cc2ed4280532db3cc5296f1d33c65bc9e6902070d95c596182bfd238b9",
       "samples.json": "ca5f2ad18a342292565b224ade64f8ed27bcbbed69e65e06334c4dece539f030",
-      "metrics.json": "3100951abac8df62d65f0918465ddc731a8aeb0861234092cec485a1491d2964",
+      "metrics.json": "4f73fee4ae4a846e51f86d2a56756160cd328f48e1029cf2761c4289de7fdb12",
       "trigger_ids.json": "160ca5df52e0193c7f4c5c783ed5ced119db5e776c2dd7b46537816fa17bc9dd"
     }
   },
@@ -592,10 +640,10 @@
       "050_mermaid-tools"
     ],
     "excluded_before_evaluation": 0,
-    "status": "complete_legacy_metrics",
+    "status": "complete_current_metrics",
     "source_metrics": "full data/runs/s1a2/metrics.json",
     "source_csv": "full data/runs/s1a2/results.csv",
-    "source_evaluation": null,
+    "source_evaluation": "full data/runs/s1a2/evaluation.json",
     "metrics": {
       "total_samples": 70,
       "evaluated_samples": 64,
@@ -607,9 +655,21 @@
       "mean_common_prefix_ratio": 0.03984936706253181,
       "mean_token_recall": 0.2670679203885877,
       "mean_token_precision": 0.41825931216117374,
+      "mean_rougeL_recall": 0.21446853394243728,
+      "mean_rougeL_precision": 0.35191152176771584,
+      "mean_rouge2_recall": 0.17304319169552182,
+      "mean_body_rougeL_recall": 0.21688696135111776,
+      "mean_body_rougeL_precision": 0.23195174106822838,
+      "mean_body_rouge2_recall": 0.17407116420010893,
       "eos_rate": 0.234375
     },
-    "diagnostics": {},
+    "diagnostics": {
+      "empty_content_count": 1,
+      "body_rougeL_ge_0_5_count": 8,
+      "body_rougeL_ge_0_9_count": 5,
+      "median_prediction_tokens": 1857.5,
+      "empty_content_rate": 0.015625
+    },
     "failed_documents": [
       "016_clause",
       "026_docs-cleaner",
@@ -621,7 +681,7 @@
     "fingerprint": {
       "results.csv": "647e254536eb2d635d1fd54b62968a527dce00dee14bd31066f26a6914ffd2d9",
       "samples.json": "93fe017726c26552c2d5a6592939218473b16321df2bbcee3bdb16fdf33a0f9e",
-      "metrics.json": "fae5e236e6ec57a725d54ec3ef9901545bd8fc8bc0d8bcd8ec27ae22d9e0c289",
+      "metrics.json": "4fb8c054d13d2339e1b2051f9c6573fc80bcac03a5ee0374b2e83a33a6b85ebc",
       "trigger_ids.json": "ec06fc34e2d50b7473c7767905c6e456f9a0ad46bd558b459af850b7a3ce65ba"
     }
   },
@@ -729,9 +789,9 @@
       "mean_rougeL_recall": 0.1454278774845715,
       "mean_rougeL_precision": 0.3918089753436908,
       "mean_rouge2_recall": 0.10775530343039,
-      "mean_body_rougeL_recall": 0.1518541111609706,
-      "mean_body_rougeL_precision": 0.1579392430695358,
-      "mean_body_rouge2_recall": 0.11159905517801641,
+      "mean_body_rougeL_recall": 0.15212404267763185,
+      "mean_body_rougeL_precision": 0.16813815302954943,
+      "mean_body_rouge2_recall": 0.11173381445275189,
       "eos_rate": 0.49019607843137253
     },
     "diagnostics": {
@@ -759,7 +819,7 @@
     "fingerprint": {
       "results.csv": "92933e0e16f6879cdec3424d960dee180e36d710264d023eda3898f0099f4e2f",
       "samples.json": "0e7fc338a17a1084c48c6b72a4367aa7d3c4d4a9bfd1dc2166cef7e39b403911",
-      "metrics.json": "8cd8c7de8d911f46a0636e8a994efead675739f7142ad48d01969aa1d7b99970",
+      "metrics.json": "b3e4df86184d250eb991e4b5cca3f6a68ffce7b92ef938780ff874af9e0e0377",
       "trigger_ids.json": "4011ac42c5178112426896c754e07dc5d5771eade63d047eb5024a1a55bbf94b"
     }
   },
@@ -1007,15 +1067,15 @@
       "mean_rougeL_recall": 0.3152442079437819,
       "mean_rougeL_precision": 0.3698003965657019,
       "mean_rouge2_recall": 0.2613665676570888,
-      "mean_body_rougeL_recall": 0.31355168506588943,
-      "mean_body_rougeL_precision": 0.3240876913669897,
-      "mean_body_rouge2_recall": 0.25518169008690983,
+      "mean_body_rougeL_recall": 0.3271985576702889,
+      "mean_body_rougeL_precision": 0.31898578345271933,
+      "mean_body_rouge2_recall": 0.2687170148975863,
       "eos_rate": 0.09803921568627451
     },
     "diagnostics": {
       "empty_content_count": 1,
-      "body_rougeL_ge_0_5_count": 10,
-      "body_rougeL_ge_0_9_count": 6,
+      "body_rougeL_ge_0_5_count": 11,
+      "body_rougeL_ge_0_9_count": 7,
       "median_prediction_tokens": 1848,
       "empty_content_rate": 0.0196078431372549
     },
@@ -1037,7 +1097,7 @@
     "fingerprint": {
       "results.csv": "d8265956d2cd211005dea7628b82c80e76c50632fad14fb73729a9316fe10be3",
       "samples.json": "e8c4a9a339ee0e1fc584ad0c53313d674b8432f3e3ec770154cd1f99cff34d2a",
-      "metrics.json": "c6d39fa4faadcd75c55a84c1c05a3f19d926e4a0edebe2d75af9e4a14ad0013a",
+      "metrics.json": "d42990f6eb62b0f6a784d6d61065f1dbb712e20fd02f32984f00b0f25ec69d80",
       "trigger_ids.json": "5658d85d1987b8da73798dc8e83fe16f68f93674827fffb464a8965b9bb5a247"
     }
   },
@@ -1332,15 +1392,15 @@
       "mean_rougeL_recall": 0.13291326905883571,
       "mean_rougeL_precision": 0.21096606058429904,
       "mean_rouge2_recall": 0.08380577119337243,
-      "mean_body_rougeL_recall": 0.10469171278882397,
-      "mean_body_rougeL_precision": 0.12831551632092913,
-      "mean_body_rouge2_recall": 0.05173709450462046,
+      "mean_body_rougeL_recall": 0.14063082972569874,
+      "mean_body_rougeL_precision": 0.12562139914693743,
+      "mean_body_rouge2_recall": 0.08765322548524948,
       "eos_rate": 0.34615384615384615
     },
     "diagnostics": {
       "empty_content_count": 6,
-      "body_rougeL_ge_0_5_count": 0,
-      "body_rougeL_ge_0_9_count": 0,
+      "body_rougeL_ge_0_5_count": 1,
+      "body_rougeL_ge_0_9_count": 1,
       "median_prediction_tokens": 767.5,
       "empty_content_rate": 0.23076923076923078
     },
@@ -1348,7 +1408,7 @@
     "fingerprint": {
       "results.csv": "651edb67caad60560a925f9f26451e9d352504d220c6d25ac867174843d1999c",
       "samples.json": "2efce708f27ea8d477677bbd240ba03f4e90731336e3d59cca71fadf26096c2b",
-      "metrics.json": "d3ef03c9649383c21c44b7976c3b06b34ac1162f0e2743bafa42f8b44a5ad0b2",
+      "metrics.json": "059dee6754ba2bf94999300e8a1b92f1573d5c836a887868304d6dd1cf191d76",
       "trigger_ids.json": "5d583bb40187bd7fb86aa0bcd8b1046c752def1d012d6408bc3f182560918b15"
     }
   },
@@ -1590,15 +1650,15 @@
       "mean_rougeL_recall": 0.39363806282870295,
       "mean_rougeL_precision": 0.6557242089072605,
       "mean_rouge2_recall": 0.3661513064487577,
-      "mean_body_rougeL_recall": 0.3616237176180764,
-      "mean_body_rougeL_precision": 0.3868787858763435,
-      "mean_body_rouge2_recall": 0.3309942545733454,
+      "mean_body_rougeL_recall": 0.3880576495398132,
+      "mean_body_rougeL_precision": 0.37732641164507014,
+      "mean_body_rouge2_recall": 0.35745123264322665,
       "eos_rate": 0.38461538461538464
     },
     "diagnostics": {
       "empty_content_count": 0,
-      "body_rougeL_ge_0_5_count": 8,
-      "body_rougeL_ge_0_9_count": 7,
+      "body_rougeL_ge_0_5_count": 9,
+      "body_rougeL_ge_0_9_count": 8,
       "median_prediction_tokens": 851.5,
       "empty_content_rate": 0.0
     },
@@ -1606,7 +1666,7 @@
     "fingerprint": {
       "results.csv": "d04812fb5605d50293f74fb02a45d65dadc90e5666a84e1093e955711d253da7",
       "samples.json": "56a17ffc680155d5033a7d27ff907d5ca5653c77f16c0769ad9eaeaaa23d6d9f",
-      "metrics.json": "f35b90789669b76e23908884678e7c1330c160c4c994e2efc5dacc4ff89a10a5",
+      "metrics.json": "7dfc82f8923bb43a0f734bb486db566cb2801270ab5d9c95865e6e8124aef87d",
       "trigger_ids.json": "1a76ac3c0f504acf4765a12e3db04653663d18a98b11c58a0804d53e6d5c7221"
     }
   },
@@ -1848,15 +1908,15 @@
       "mean_rougeL_recall": 0.11867806924293195,
       "mean_rougeL_precision": 0.11033779621997805,
       "mean_rouge2_recall": 0.07489728186722576,
-      "mean_body_rougeL_recall": 0.1017644719961919,
-      "mean_body_rougeL_precision": 0.11079622171631048,
-      "mean_body_rouge2_recall": 0.0550637868639274,
+      "mean_body_rougeL_recall": 0.12909428504029066,
+      "mean_body_rougeL_precision": 0.10173360229173224,
+      "mean_body_rouge2_recall": 0.0824189757790049,
       "eos_rate": 0.4230769230769231
     },
     "diagnostics": {
       "empty_content_count": 11,
-      "body_rougeL_ge_0_5_count": 0,
-      "body_rougeL_ge_0_9_count": 0,
+      "body_rougeL_ge_0_5_count": 1,
+      "body_rougeL_ge_0_9_count": 1,
       "median_prediction_tokens": 528.5,
       "empty_content_rate": 0.4230769230769231
     },
@@ -1864,7 +1924,7 @@
     "fingerprint": {
       "results.csv": "c8f00557fc751fb9763243c27ddb26086e8d8ce2b0a7aacdd6eabb5c398f052e",
       "samples.json": "8d0f32c3e28355fc0e9a18db751b468ad10709c249a6e85a4999c1f93dfc45d9",
-      "metrics.json": "bd0c27a53dcdfe854f0a5ed9625875e9583fe19767d322f245c642f0f6b33cdb",
+      "metrics.json": "da5c7f06fbda58f8c8bbf2881b68f839b6c80de39fddacfa3eabfbef3f152a67",
       "trigger_ids.json": "796e2bc6a2bab1de31e556ffb4e57125dd2fd5a5e9703fc3290968a479717534"
     }
   },
@@ -1934,15 +1994,15 @@
       "mean_rougeL_recall": 0.4472414528207351,
       "mean_rougeL_precision": 0.5712018250984832,
       "mean_rouge2_recall": 0.43005788135452294,
-      "mean_body_rougeL_recall": 0.41400628644724013,
-      "mean_body_rougeL_precision": 0.4174558993972922,
-      "mean_body_rouge2_recall": 0.38870432533755994,
+      "mean_body_rougeL_recall": 0.4794897872592075,
+      "mean_body_rougeL_precision": 0.4082771608894913,
+      "mean_body_rouge2_recall": 0.4547295766199537,
       "eos_rate": 0.23076923076923078
     },
     "diagnostics": {
       "empty_content_count": 2,
-      "body_rougeL_ge_0_5_count": 10,
-      "body_rougeL_ge_0_9_count": 8,
+      "body_rougeL_ge_0_5_count": 12,
+      "body_rougeL_ge_0_9_count": 10,
       "median_prediction_tokens": 852.5,
       "empty_content_rate": 0.07692307692307693
     },
@@ -1950,7 +2010,7 @@
     "fingerprint": {
       "results.csv": "b52b49778c14df07fcaec77a6cab86e481f21bdaef9fa641e9a2d8d90b922ed5",
       "samples.json": "eddd599eddfbcc333e5a5ad1618f9c31c4c9c38a513723a0a8c0209426df95d3",
-      "metrics.json": "4a1098f789a29bd3b6704f3917285af36628fb5d0bb2778dca33c129acda67c6",
+      "metrics.json": "623bc4b7fc70b5235b62726cff88e87f53b2d79b9526d40ce1bf0ad073cbb7ce",
       "trigger_ids.json": "7ba889c0af3d90777b2a5d4e401cecc810021a3fdc2394f6933ae6b26499ff3f"
     }
   }

@@ -21,13 +21,13 @@
     "exact_token_match_rate": 0.0,
     "mean_common_prefix_ratio": 0.0046751561226055175,
     "mean_token_recall": 0.14042014173543094,
-    "mean_token_precision": 0.18359021239370382,
-    "mean_rougeL_recall": 0.10671924867476303,
+    "mean_token_precision": 0.1835902123937038,
+    "mean_rougeL_recall": 0.10671924867476304,
     "mean_rougeL_precision": 0.14622608770672862,
-    "mean_rouge2_recall": 0.08049849110042426,
-    "mean_body_rougeL_recall": 0.11217697761238997,
-    "mean_body_rougeL_precision": 0.11169055998379705,
-    "mean_body_rouge2_recall": 0.0839482441598697,
+    "mean_rouge2_recall": 0.08049849110042427,
+    "mean_body_rougeL_recall": 0.11230548511118048,
+    "mean_body_rougeL_precision": 0.11148681756055234,
+    "mean_body_rouge2_recall": 0.08397849585396458,
     "eos_rate": 0.515625
   },
   "samples": [
@@ -279,11 +279,11 @@
       "rougeL_recall": 0.2508976660682226,
       "rougeL_precision": 0.24389179755671903,
       "rouge2_recall": 0.21194431971261787,
-      "body_rougeL_recall": 0.25834542815674894,
-      "body_rougeL_precision": 0.2534409112482202,
-      "body_rouge2_recall": 0.2202323330106486,
+      "body_rougeL_recall": 0.26656990807934206,
+      "body_rougeL_precision": 0.24040139616055847,
+      "body_rouge2_recall": 0.22216844143272024,
       "body_target_token_count": 2067,
-      "body_prediction_token_count": 2107,
+      "body_prediction_token_count": 2292,
       "target_token_count": 2228,
       "prediction_token_count": 2292,
       "common_prefix_token_count": 2,
@@ -1439,134 +1439,5 @@
       "full_skill_prefix": false,
       "ended_with_eos": true
     }
-  ],
-  "reevaluation": {
-    "timestamp": "2026-10-08T10:33:44",
-    "generation_rerun": false,
-    "tokenizer_source": "https://huggingface.co/hf-internal-testing/llama-tokenizer/resolve/main/tokenizer.json",
-    "tokenizer_sha256": "8eea70c4866c4f1320ba096fc986ac82038a8374dbe135212ba7628835b4a6f1",
-    "tokenizers_version": "0.22.2",
-    "tokenizer_note": "Public Llama tokenizer copy; the original server tokenizer file was unavailable. Validated against all saved per-sample fields of four newer full-data runs and every legacy aggregate metric; this establishes agreement on these saved experiments, not byte identity with the server tokenizer.",
-    "sampler_source_sha256": "3fca35df96d98ea1c2f32715c2644110646fec4c49cec20cfb9b7f8efc672e8c",
-    "overlap_source_sha256": "79366aa91781cda2e7f7284391f444549a9acf99b63b96db7eee3aad5705ec88",
-    "legacy_runs": [
-      "s0a1",
-      "s0a2",
-      "s0a3",
-      "s1a1",
-      "s1a2"
-    ],
-    "calibration_runs": [
-      "s1a3",
-      "s2a1",
-      "s2a2",
-      "s2a3"
-    ],
-    "calibration_observations": 201,
-    "legacy_observations": 320,
-    "tolerance": 1e-12,
-    "checks": {
-      "s0a1": {
-        "mode": "all_existing_legacy_metrics",
-        "evaluated_samples": 64,
-        "status": "passed"
-      },
-      "s0a2": {
-        "mode": "all_existing_legacy_metrics",
-        "evaluated_samples": 64,
-        "status": "passed"
-      },
-      "s0a3": {
-        "mode": "all_existing_legacy_metrics",
-        "evaluated_samples": 64,
-        "status": "passed"
-      },
-      "s1a1": {
-        "mode": "all_existing_legacy_metrics",
-        "evaluated_samples": 64,
-        "status": "passed"
-      },
-      "s1a2": {
-        "mode": "all_existing_legacy_metrics",
-        "evaluated_samples": 64,
-        "status": "passed"
-      },
-      "s1a3": {
-        "mode": "all_existing_metrics_and_every_sample_field",
-        "evaluated_samples": 51,
-        "status": "passed"
-      },
-      "s2a1": {
-        "mode": "all_existing_metrics_and_every_sample_field",
-        "evaluated_samples": 49,
-        "status": "passed"
-      },
-      "s2a2": {
-        "mode": "all_existing_metrics_and_every_sample_field",
-        "evaluated_samples": 51,
-        "status": "passed"
-      },
-      "s2a3": {
-        "mode": "all_existing_metrics_and_every_sample_field",
-        "evaluated_samples": 50,
-        "status": "passed"
-      }
-    },
-    "source_files_sha256": {
-      "results/t3p8/documents/full data/runs/s2a3/metrics.json": "004d30f59402f8a2e59854709d50f8d31dc0cc46239bc84c3a9af643057d545b",
-      "results/t3p8/documents/full data/runs/s2a3/trigger_ids.json": "ec1bcede581efaf4b7519abb21cd8863084034a891fba5e662f03be46feb487b",
-      "results/t3p8/documents/full data/runs/s2a3/samples.json": "6ded8fa98e45254b7ec2eae68161a9168e581592746f48a70ff4f3e2f702b62a",
-      "results/t3p8/documents/full data/runs/s2a3/length_filter.json": "04785a42aed0aab366323cffa7461490dc02a16f4b923e640415fab87e4d6bae",
-      "results/t3p8/documents/full data/runs/s2a3/run.json": "a445fcde6fa1349bff0a1ad3c4c37bba3878a011af60e5c90fedfcb32b3ce8eb",
-      "results/t3p8/documents/full data/runs/s2a3/results.csv": "06e3f253315f6e2731fd4c9b99894258d4ae52c28aa7c88db17f246b58435d03",
-      "results/t3p8/documents/full data/runs/s2a3/evaluation.json": "64541340801eaedb0e96202a1c7b24f34b76a3337cfc7dd70a949026290fbcdc",
-      "results/t3p8/documents/full data/runs/s2a2/metrics.json": "c6d39fa4faadcd75c55a84c1c05a3f19d926e4a0edebe2d75af9e4a14ad0013a",
-      "results/t3p8/documents/full data/runs/s2a2/trigger_ids.json": "5658d85d1987b8da73798dc8e83fe16f68f93674827fffb464a8965b9bb5a247",
-      "results/t3p8/documents/full data/runs/s2a2/samples.json": "e8c4a9a339ee0e1fc584ad0c53313d674b8432f3e3ec770154cd1f99cff34d2a",
-      "results/t3p8/documents/full data/runs/s2a2/length_filter.json": "04785a42aed0aab366323cffa7461490dc02a16f4b923e640415fab87e4d6bae",
-      "results/t3p8/documents/full data/runs/s2a2/run.json": "6d6d3551d0aa932c3536e84fb4b9016b26855710f6c4e562f7d51898ece1dc15",
-      "results/t3p8/documents/full data/runs/s2a2/results.csv": "d8265956d2cd211005dea7628b82c80e76c50632fad14fb73729a9316fe10be3",
-      "results/t3p8/documents/full data/runs/s2a2/evaluation.json": "66f5b9d6563dda2cd827afeb3707f364ed5e383e20a47b29f986ad1e1edcabf7",
-      "results/t3p8/documents/full data/runs/s0a1/metrics.json": "61c6b09830794bd8b3c44af96867f793420da36bb76a18dae3c2f11a1e081d6d",
-      "results/t3p8/documents/full data/runs/s0a1/trigger_ids.json": "89ad0ab6cffc8bc3a394920d6ce4b51030ccd8ccf343dd207828084b168e28ac",
-      "results/t3p8/documents/full data/runs/s0a1/samples.json": "20ceeeff8796141c412b16cc9fae5e2cdb423efb2cc441387f190e16c0545933",
-      "results/t3p8/documents/full data/runs/s0a1/run.json": "e2a5e62b337892e494e1a2166cf1899ff2e3620023e2064972daf1a41b723d7b",
-      "results/t3p8/documents/full data/runs/s0a1/results.csv": "937eef92c20d72e3099df2e52ded2053292c5c4f85a9920190b4d285945e1b83",
-      "results/t3p8/documents/full data/runs/s1a3/metrics.json": "8cd8c7de8d911f46a0636e8a994efead675739f7142ad48d01969aa1d7b99970",
-      "results/t3p8/documents/full data/runs/s1a3/trigger_ids.json": "4011ac42c5178112426896c754e07dc5d5771eade63d047eb5024a1a55bbf94b",
-      "results/t3p8/documents/full data/runs/s1a3/samples.json": "0e7fc338a17a1084c48c6b72a4367aa7d3c4d4a9bfd1dc2166cef7e39b403911",
-      "results/t3p8/documents/full data/runs/s1a3/length_filter.json": "04785a42aed0aab366323cffa7461490dc02a16f4b923e640415fab87e4d6bae",
-      "results/t3p8/documents/full data/runs/s1a3/run.json": "afa053d2a3efe4390e9205196b57d31ee473f609b966d4ee055cd978a62fe3fb",
-      "results/t3p8/documents/full data/runs/s1a3/results.csv": "92933e0e16f6879cdec3424d960dee180e36d710264d023eda3898f0099f4e2f",
-      "results/t3p8/documents/full data/runs/s1a3/evaluation.json": "429b1c9048606e00b520cc7ee7010faa0e3cf378f82a59592ed7d30379403f79",
-      "results/t3p8/documents/full data/runs/s1a2/metrics.json": "fae5e236e6ec57a725d54ec3ef9901545bd8fc8bc0d8bcd8ec27ae22d9e0c289",
-      "results/t3p8/documents/full data/runs/s1a2/trigger_ids.json": "ec06fc34e2d50b7473c7767905c6e456f9a0ad46bd558b459af850b7a3ce65ba",
-      "results/t3p8/documents/full data/runs/s1a2/samples.json": "93fe017726c26552c2d5a6592939218473b16321df2bbcee3bdb16fdf33a0f9e",
-      "results/t3p8/documents/full data/runs/s1a2/run.json": "a3429581e96324f05fad9159ca255739d3eb66cc12e0b952d067a2afa90df934",
-      "results/t3p8/documents/full data/runs/s1a2/results.csv": "647e254536eb2d635d1fd54b62968a527dce00dee14bd31066f26a6914ffd2d9",
-      "results/t3p8/documents/full data/runs/s0a3/metrics.json": "19cc7a8d5645b99110316a44876ebac19824086c5a2bee9849ea282e97914629",
-      "results/t3p8/documents/full data/runs/s0a3/trigger_ids.json": "ab7b0261de408cbe0462657c22b68ac2b35e4402a2c5630e140bf34a9d9050bb",
-      "results/t3p8/documents/full data/runs/s0a3/samples.json": "32c4484dac9105aace2ec215b25fb72f83e551869447a83fbdbc4facb58c024a",
-      "results/t3p8/documents/full data/runs/s0a3/run.json": "a7ba68022b6aae6cb0fc095f672fb9b3e4340f31847b17da3ede25aec01fae77",
-      "results/t3p8/documents/full data/runs/s0a3/results.csv": "62da5ebc03bd16f7482968b4c75c349e20d59fd85402cd32b96be55e2e167493",
-      "results/t3p8/documents/full data/runs/s2a1/metrics.json": "9b086fc33a8fdbbc030f0b0382ca4924ee97a8a1ffb6cae2e9ec19b10e648c59",
-      "results/t3p8/documents/full data/runs/s2a1/trigger_ids.json": "87648618c8a7bc61eae815fda3c21661c7d1ed3405d7fd5c048f711145d87888",
-      "results/t3p8/documents/full data/runs/s2a1/samples.json": "f0040a1220fba73486b8bb1ecb1a63f5ba94c6d5b0c252c9bfc2dae0ed6a1079",
-      "results/t3p8/documents/full data/runs/s2a1/length_filter.json": "04785a42aed0aab366323cffa7461490dc02a16f4b923e640415fab87e4d6bae",
-      "results/t3p8/documents/full data/runs/s2a1/run.json": "5f90bcddba689b63a99bdf3dc08754bb97800635431032ac866840a8d0299cc9",
-      "results/t3p8/documents/full data/runs/s2a1/results.csv": "f8088e8ed58dfb68dc1296d28fc0a52c59a8b07f7c1e2b4902cf4a327fdb6052",
-      "results/t3p8/documents/full data/runs/s2a1/evaluation.json": "a87533936a6d9f3ae2fac5834a9502c6acbd3fc527046a98e54e4ca8c5bebae9",
-      "results/t3p8/documents/full data/runs/s0a2/metrics.json": "38ba08d209619360d6468b395ae29669dbab807f659d13c94a12482f8992953b",
-      "results/t3p8/documents/full data/runs/s0a2/trigger_ids.json": "24565b2fabd92f01c94e42c2590b6b07ab9f7e9561f8e39c0b5af4de29250203",
-      "results/t3p8/documents/full data/runs/s0a2/samples.json": "6bc8092f45a30dc21403a622da00926c0fc979f2901b5b8da7b66ce48b98b08b",
-      "results/t3p8/documents/full data/runs/s0a2/run.json": "078c7ac86a684dd918de964cc5cbdfdaad45bece08dd0d57d462932c815f6635",
-      "results/t3p8/documents/full data/runs/s0a2/results.csv": "3849eccaa24a7a4567b52ee7a70e8b54ea1ce845048dbbf2cdb4a4f814de446f",
-      "results/t3p8/documents/full data/runs/s1a1/metrics.json": "3100951abac8df62d65f0918465ddc731a8aeb0861234092cec485a1491d2964",
-      "results/t3p8/documents/full data/runs/s1a1/trigger_ids.json": "160ca5df52e0193c7f4c5c783ed5ced119db5e776c2dd7b46537816fa17bc9dd",
-      "results/t3p8/documents/full data/runs/s1a1/samples.json": "ca5f2ad18a342292565b224ade64f8ed27bcbbed69e65e06334c4dece539f030",
-      "results/t3p8/documents/full data/runs/s1a1/run.json": "d0371506d79884c74f16325d850f7f55f0eba88cd34f516999db15af1a48684e",
-      "results/t3p8/documents/full data/runs/s1a1/results.csv": "762e40cc2ed4280532db3cc5296f1d33c65bc9e6902070d95c596182bfd238b9"
-    },
-    "tokenizer_download_url": "https://hf-mirror.com/hf-internal-testing/llama-tokenizer/resolve/main/tokenizer.json"
-  }
+  ]
 }

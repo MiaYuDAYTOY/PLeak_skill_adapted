@@ -9,6 +9,8 @@
   "repeat_id": 1,
   "sample_seed": 1,
   "attack_seed": 1,
+  "model_dtype": "bfloat16",
+  "gradient_checkpointing": true,
   "metrics": {
     "total_samples": 70,
     "evaluated_samples": 64,
@@ -20,8 +22,12 @@
     "mean_common_prefix_ratio": 0.015912872026839733,
     "mean_token_recall": 0.2384509919185686,
     "mean_token_precision": 0.3594615496219282,
+    "mean_rougeL_recall": 0.19956437101732893,
+    "mean_rougeL_precision": 0.31441858646417364,
+    "mean_rouge2_recall": 0.179782253608015,
+    "mean_body_rougeL_recall": 0.21799483479052362,
+    "mean_body_rougeL_precision": 0.2331370495240641,
+    "mean_body_rouge2_recall": 0.19531302779045184,
     "eos_rate": 0.453125
-  },
-  "model_dtype": "bfloat16",
-  "gradient_checkpointing": true
+  }
 }
