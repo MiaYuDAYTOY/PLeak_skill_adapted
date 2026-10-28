@@ -11,20 +11,29 @@ OVERLAP_FIELDS = ROUGE_FIELDS + tuple("body_" + name for name in ROUGE_FIELDS)
 def strip_yaml_front_matter(text):
     """Remove a leading fenced metadata block; preserve ordinary Markdown rules.
 
-    Input is normalized Markdown. Require an opening '---', a closing '---'
-    or '...', and at least one top-level YAML-style mapping key. This is a
-    conservative lexical check, not a YAML parser; never execute YAML tags.
-    Unclosed blocks and documents without front matter are left intact.
+    Input is normalized Markdown. Recognize a conservative subset of YAML:
+    top-level mapping keys, comments and indented value continuations. Require
+    an opening '---', a closing '---' or '...', and at least one mapping key.
+    Reject unindented prose instead of searching later body text for a key.
+    This is a lexical check, not a YAML parser; never execute YAML tags.
+    Unclosed, unsupported or ambiguous blocks are left intact.
     """
     lines = text.splitlines(keepends=True)
     if not lines or lines[0].strip() != "---":
         return text
-    for end in range(1, len(lines)):
-        if lines[end].strip() in ("---", "..."):
-            header = "".join(lines[1:end])
-            if re.search(r"^[A-Za-z_][\w-]*\s*:", header, re.MULTILINE):
+    has_key = False
+    for end, line in enumerate(lines[1:], start=1):
+        stripped = line.strip()
+        if stripped in ("---", "..."):
+            if has_key:
                 return "".join(lines[end + 1:]).strip()
-            break
+            return text
+        if not stripped or stripped.startswith("#"):
+            continue
+        if re.match(r"^[A-Za-z_][\w-]*\s*:(?:\s|$)", line):
+            has_key = True
+        elif not has_key or not line[0].isspace():
+            return text
     return text
 
 

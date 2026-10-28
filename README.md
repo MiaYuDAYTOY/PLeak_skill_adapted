@@ -265,9 +265,12 @@ data_analysis_12_llama_llama_train3_test25_target_prefix8_repeat0_sample_seed0_a
 
 另有 `body_rougeL_recall`、`body_rougeL_precision`、`body_rouge2_recall`：
 分别移除原文和输出开头的 YAML 元数据块后计算。只识别以 `---` 开始、
-以 `---` 或 `...` 结束且含顶层映射键的块；无文件头、未闭合块和普通
-Markdown 分隔线保留。输出已跳过文件头时直接按原样评分，不裁剪尾部、
-trigger 或重复内容。此识别为保守的文本规则，不执行 YAML。
+以 `---` 或 `...` 结束的简单顶层映射块，允许注释和缩进的字段续行。
+遇到未缩进的普通正文立即保留原文，避免把后面的 `Example:`、`Then:`
+和 Markdown 分隔线误认成文件头。无文件头、未闭合或不支持的复杂块保留。
+输出已跳过文件头时直接按原样评分，不裁剪尾部、trigger 或重复内容。
+此识别为保守的文本规则，不执行 YAML。修正识别规则后，历史 `body_*`
+指标需使用原 tokenizer 对已保存的生成文本重新评估，无需重新生成文本。
 
 全部取值为 0–1；分母为空时记 0，原文不足两个 token 时 ROUGE-2 记 0。
 采用整篇 token 序列的 ROUGE-L，不是按句子计算的 ROUGE-Lsum，也不是默认

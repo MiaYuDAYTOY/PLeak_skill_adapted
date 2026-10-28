@@ -78,6 +78,45 @@ class OverlapTests(unittest.TestCase):
         for text in ["---\n\n# Body\n---\nABC", "---\nname: demo\nABC", "# Body", ""]:
             self.assertEqual(strip_yaml_front_matter(text), text)
 
+    def test_front_matter_multiline_and_nested_values(self):
+        text = (
+            "---\n# Metadata\n\nname: demo\ndescription: >-\n"
+            "  Explain the workflow.\n  Example: keep this continuation.\n"
+            "metadata:\n  category: documents\ntags:\n  - markdown\n"
+            "---\n\n# Body\nExample:\nKeep the body.\n---\nMore body."
+        )
+        self.assertEqual(strip_yaml_front_matter(text),
+                         "# Body\nExample:\nKeep the body.\n---\nMore body.")
+
+    def test_front_matter_preserves_markdown_before_later_mapping_keys(self):
+        # Generated text often keeps the opening fence but omits YAML fields.
+        # A later prose label and horizontal rule must not consume the body.
+        cases = [
+            "---\n# Resume Quantifier\n\nUse this skill when the user:\n"
+            "- Needs metrics\n\nExample:\n- Revenue: $2M\n---\nNext bullet",
+            "---\n# Extracting tables\n\nExtract structured tables.\n"
+            "Then:\nReturn the results.\n---\n# Extracting tables\nRepeated body",
+            "---\nname: demo\n\n# Instructions\nCopy this paragraph.\n---\nTail",
+            "---\nhttps://example.com\n---\nTail",
+        ]
+        for text in cases:
+            with self.subTest(text=text):
+                self.assertEqual(strip_yaml_front_matter(text), text)
+
+    def test_evaluator_keeps_generated_body_with_orphan_opening_fence(self):
+        evaluator = sampler_evaluator()
+        body = "# Demo\n\nFollow these steps.\nExample:\nCopy the table.\n---\nFinish."
+        with contextlib.redirect_stdout(io.StringIO()):
+            report = evaluator.evaluate_skill_leakage([
+                dict(context="---\nname: demo\n---\n" + body,
+                     generation="---\n" + body)
+            ])
+        sample = report["samples"][0]
+        self.assertEqual(sample["body_target_token_count"], len(body))
+        self.assertEqual(sample["body_prediction_token_count"], len("---\n" + body))
+        self.assertEqual(sample["body_rougeL_recall"], 1)
+        self.assertEqual(sample["body_rouge2_recall"], 1)
+
     def test_evaluator_body_failed_samples_and_legacy_metrics(self):
         evaluator = sampler_evaluator()
         target = "---\r\nname: demo\r\n---\r\nABCDE"
