@@ -107,8 +107,10 @@ python -u main.py documents 12 qwen3 qwen3 3 \
 ```
 
 不指定 seed/prefix 参数会按 `main.py` 当前列表运行多组实验。
-长度筛选仍由 `--length-filter` 控制，默认关闭；已知 OOM 样本排除规则保持不变。
-换成 Qwen 不会自动恢复这些历史排除样本。
+长度筛选和历史 OOM 样本排除代码已全部注释，所有源文档都参与原有的 30% / 70% 划分。
+documents 恢复为 30 篇训练候选和 70 篇测试文档；训练时仍按指定的 train_num 抽样。
+旧参数 `--length-filter`、`--no-length-filter`、`--trigger-token-reserve` 和
+`--include-known-oom` 保留兼容，但不再改变数据选择。
 
 词表从实际 tokenizer 读取，初始化及 HotFlip 候选排除未分配的 embedding 行、
 特殊 token、空文本和原规则不允许的字符。trigger 内容编码不自动加 BOS/EOS，
@@ -138,7 +140,7 @@ python -m unittest discover -s tests -v
 本流程读取 `data/skill_expansion_20260922/samples/` 下的单个分类，
 不读取混合的 `combined_dataset.jsonl`，也不使用原来的 `data/samples/`。
 
-下表的 30 / 70 是未筛选时的规模；`main.py` 现在先筛选，再按 30% / 70% 划分，实际数量以启动日志为准。
+`main.py` 对完整数据按 30% / 70% 划分，当前各分类规模如下，实际数量以启动日志为准。
 
 | dataset 参数 | 对应分类目录 | 未筛选的训练池 / 测试池 |
 | --- | --- | --- |
@@ -157,37 +159,21 @@ python -m unittest discover -s tests -v
 dataset 参数仅接受表中的英文名称，目录名与参数一致。
 当前 DataFactory 只注册这 11 类；其他名称会明确报错。
 
-`main.py` 启动时调用 `filter_samples.py`，用目标模型的 tokenizer 对指定分类的全部
-`SKILL.md` 统计长度（包含实际输入的结尾换行和特殊 token），不截断、不改动源文件。
-只加载 tokenizer 和模型配置，不为筛选加载模型权重。
-筛选采用以下固定预算：
+`filter_samples.py` 中的历史长度筛选代码及 `main.py` 中的调用已注释。
+启动时直接使用指定分类的全部 `SKILL.md`，不按上下文预算排除文档，也不截断或改动源文件。
+生成预算保持 `2 * prompt_tokens + 50`。
 
-```text
-prompt 上限 = (模型 max_position_embeddings - 50) // 2
-预留 token = trigger 预算 + 空 trigger 模板的 token 数 + 8 个边界余量
-保留条件：正文 token 数（含特殊 token）+ 预留 token <= prompt 上限
-```
+每次启动仍保存 `results/{本次运行目录}/length_filter.json`，兼容既有结果格式：
+`policy=none`、`enabled=false`、`excluded_count=0`，并列出全部源文件。
+samples、metrics、summary 中的训练池和测试集排除策略也都记录为 `none`。
 
-4096 上下文对应 prompt 上限 2023；这不是正文上限。
-同一 shadow/target 模型默认以 AQ length 作为 trigger 预算。
-不同模型必须通过 `--trigger-token-reserve N` 显式提供目标 tokenizer 下足够的 trigger
-预算，因为 shadow 模型的 token 数不能直接当作目标模型的 token 数。
-这是训练前的预留预算，不是最终 prompt 的实测长度；跨模型运行的预留量由调用者确定。
-生成预算保持 `2 * prompt_tokens + 50`，不增加逐条生成前的长度检查。
-
-每次启动先保存 `results/{本次运行目录}/length_filter.json`，包含筛选参数、保留和排除
-清单、路径、文本 SHA-256、token 数和排除原因。即使剩余样本不足导致启动失败，清单也会保留。
-筛选每次启动只做一次；同次运行的全部训练规模、prefix 和 seed 共用合格集合。
-更换 tokenizer、trigger 预算或源数据可能改变合格集合。
-
-在合格集合内，先对 `SKILL.md` 路径排序，再用独立的 `Random(0)` 打乱，
+先对全部 `SKILL.md` 路径排序，再用独立的 `Random(0)` 打乱，
 训练池取前 `int(样本数 * 0.3)` 个（向下取整），其余全部归入测试池，即约 30% / 70%。
 完整训练池通过 `get_dataset(dataset, train=True, num=None)` 获取。
 测试集通过 `get_dataset(dataset, train=False, num=test_num)` 在循环外加载一次；
 不指定 `--test-num` 时使用完整测试池，指定时固定取测试池前 N 个。
-同一数据版本、筛选配置、dataset 和 test_num 在不同训练规模和重复运行中使用相同测试样本。
-现有 documents 已知 OOM 排除仍在划分、选取后执行，并单独记录。
-筛选后的划分属于新一批实验，池内索引不能与旧的未筛选实验直接对应。
+同一数据版本、dataset 和 test_num 在不同训练规模和重复运行中使用相同测试样本。
+历史 OOM 文档保留在其原始划分和顺序中；恢复训练候选后，相同 sample_seed 的抽样可能与排除版不同。
 增删、改名或修改源数据可能改变划分或内容，实验比较时应保持数据版本不变。
 
 每个 sample_seed 用独立的 `Random(sample_seed).sample(...)` 从完整训练池不放回抽样，
@@ -331,7 +317,7 @@ NaN/Inf 拦截和已有显存诊断辅助仍由正式代码使用，保留在 `u
 完整生成，不进行 trigger 搜索或参数网格。正式实验代码和参数保持不变。
 训练候选取当前 `TRAIN_NUMS × SAMPLE_SEEDS` 实际会选到的文件并集，使用初始化 seed=1；
 prefix 默认取当前 `PREFIX_LENGTHS` 最大值（32），以覆盖计划中的最大监督长度。
-测试候选沿用正式入口的六篇已知 OOM 排除规则（当前保留 64 篇），使用已保存的
+测试候选与正式入口一致，包含完整的 70 篇文档，使用已保存的
 sample_seed=1/attack_seed=2 trigger。两阶段独立进程，防止 OOM 状态互相影响。
 
 先在已有环境预检；只加载 tokenizer，不加载模型权重，也不要求双卡：
@@ -343,7 +329,8 @@ python -u dual4090_check.py --stage plan
 **租卡前查看预检结果。** 本地参考 tokenizer 预检发现，当前计划包含 `042_latex`，
 prefix=32 时输入为 18,113 token；单份 eager FP32 attention 矩阵约 39.1 GiB，
 已大于单张 24 GiB。按层分布模型不会拆开同一层的矩阵，因此不能期待双卡直接承载全计划。
-最长保留测试输入是 `100_xberg`（5,482 token），现有生成总长度上限 11,014。
+历史排除版最长保留测试输入为 `100_xberg`（5,482 token），生成总长度上限 11,014；
+当前已恢复全部测试文档，需重新预检确认最长输入和预算。
 以上长度需以服务器预检使用的实际 tokenizer 再确认。
 
 若需要实际 GPU 验证，在双 4090 实例上运行（环境和模型权重需预先备齐）：
@@ -361,20 +348,13 @@ CUDA_VISIBLE_DEVICES=0,1 python -u dual4090_check.py --stage all --timeout-minut
 提前 EOS 的成功生成不等于测到了最大长度峰值，单样本通过也不保证全部组合通过。
 `--model-path` 可指定同一模型权重的挂载路径；本地检查未执行 GPU 测试。
 
-## 跳过已知生成 OOM 的 documents 测试样本
+## 已停用的 documents OOM 样本排除
 
-documents 默认跳过以下六个反复生成 OOM 的测试文档：`016_clause`、
-`026_docs-cleaner`、`091_translate-book`、`090_technical-documentation`、
-`078_research-report`、`028_document-processing`。
-过滤发生在原来的 30/70 划分和 `--test-num` 选择之后，训练池、训练抽样和剩余测试顺序不变，
-源文件不删除。完整测试集实际评估 64 篇，结果文件名标为 `test64`。
-编号不前移：保留原始 `pool_index`，CSV 的 `sample_index` 和生成日志的 `Skill` 编号
-沿用从 0 开始的原测试编号；启动时的文件列表沿用从 1 开始的原编号，跳过处留空缺。
-例如原测试编号 14 被排除后，日志从 `Skill 13` 跳到 `Skill 15`；逐样本指标也使用原编号。
-指定 `--test-num N` 时仍先取原测试池前 N 篇，再排除其中的已知 OOM 文档，不补入其他样本。
+历史排除名单和筛选函数已在 `main.py` 中注释：训练候选恢复 `009_baoyu-slide-deck`；
+测试集恢复 `016_clause`、`026_docs-cleaner`、`091_translate-book`、
+`090_technical-documentation`、`078_research-report`、`028_document-processing`。
+`dual4090_check.py` 中对应的跳过逻辑也已注释。
 
-samples、metrics、summary JSON 的 `test_selection` 保存原测试数量、排除策略、
-排除数量和文件名单（含原 pool_index、内容哈希和原因）。主动排除不算运行失败；
-旧结果保留原来的 70 次尝试及 6 次 OOM，新结果记录 64 次实际评估及 6 次预先排除。
-其他类别不受影响。如需恢复原来的全部测试样本，在命令末尾加 `--include-known-oom`。
-已启动的进程不自动应用此设置，需要在下一次启动时生效。
+默认使用完整的 30 篇训练候选和 70 篇测试文档，完整测试的结果文件名标为 `test70`。
+指定 `--test-num N` 时直接取原测试池前 N 篇，不再额外排除其中的文档。
+历史结果保持原样；已启动的进程需要重新启动才会应用修改。

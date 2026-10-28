@@ -1,4 +1,4 @@
-"""One bounded dual-4090 check: longest planned training and retained test input.
+"""One bounded dual-4090 check: longest planned training and full test input.
 
 Reuses production model loading, HotFlip loss, and Sampler generation. No search.
 Each GPU stage runs in its own process, so OOM state cannot leak into the next one.
@@ -110,8 +110,9 @@ def make_plan(args):
         r.update(input_tokens=inputs.shape[1], supervised_tokens=int(labels.ne(-100).sum()))
         train_records.append(r)
     for i, path in enumerate(tests):
-        if path.parent.name in experiment.KNOWN_OOM_TEST_SKILLS.get('documents', set()):
-            continue
+        # Historical OOM exclusions are disabled, matching the experiment entry point.
+        # if path.parent.name in experiment.KNOWN_OOM_TEST_SKILLS.get('documents', set()):
+        #     continue
         r = record(path, i)
         prompt = content(path) + attack.template.format_trigger(trigger)
         length = len(tokenizer.encode(prompt, add_special_tokens=True))
@@ -120,7 +121,7 @@ def make_plan(args):
     plan = {
         'train_scope': {'train_nums': experiment.TRAIN_NUMS, 'sample_seeds': experiment.SAMPLE_SEEDS,
                         'unique_samples': len(train_records)},
-        'test_policy': 'current_known_oom_exclusions', 'retained_test_count': len(test_records),
+        'test_policy': 'none', 'retained_test_count': len(test_records),
         'prefix_length': prefix, 'train_seed': 1, 'generation_seed': 1,
         'train_trigger_ids': train_ids, 'generation_trigger_ids': test_ids,
         'generation_trigger_source': str(args.trigger_ids.resolve()), 'generation_trigger_text': trigger,

@@ -14,18 +14,19 @@ ATTACK_SEEDS = [1, 2, 3]
 TRAIN_NUMS = [3, 4, 5]
 PREFIX_LENGTHS = [8, 16, 32]
 
-# Repeated generation OOMs in the documents runs; filter only after splitting.
-KNOWN_OOM_TEST_SKILLS = {
-    "documents": {
-        "016_clause", "026_docs-cleaner", "091_translate-book",
-        "090_technical-documentation", "078_research-report", "028_document-processing",
-    },
-}
+# Historical sample exclusions are disabled; keep every source file.
+# # Repeated generation OOMs in the documents runs; filter only after splitting.
+# KNOWN_OOM_TEST_SKILLS = {
+#     "documents": {
+#         "016_clause", "026_docs-cleaner", "091_translate-book",
+#         "090_technical-documentation", "078_research-report", "028_document-processing",
+#     },
+# }
 
-# Backward OOM on the full skill; exclude after splitting, before sampling.
-KNOWN_OOM_TRAIN_SKILLS = {
-    "documents": {"009_baoyu-slide-deck"},
-}
+# # Backward OOM on the full skill; exclude after splitting, before sampling.
+# KNOWN_OOM_TRAIN_SKILLS = {
+#     "documents": {"009_baoyu-slide-deck"},
+# }
 
 
 def parse_args(argv=None):
@@ -36,14 +37,14 @@ def parse_args(argv=None):
     parser.add_argument("token_length", type=int)
     parser.add_argument("shadow_model")
     parser.add_argument("target_model")
+    # Keep legacy launch commands compatible; these flags no longer filter data.
     parser.add_argument(
         "--length-filter", action=argparse.BooleanOptionalAction, default=False,
-        help="Enable startup length filtering; disabled by default (known OOM exclusions still apply)",
+        help="Legacy option (ignored): sample length filtering is disabled",
     )
     parser.add_argument(
         "--trigger-token-reserve", type=int, default=None,
-        help="Startup filter's target-tokenizer trigger budget; defaults to token_length "
-             "for the same model, required for different shadow/target models",
+        help="Legacy option (ignored): no trigger budget is used to filter samples",
     )
     parser.add_argument(
         "train_nums", type=int, nargs="*", default=TRAIN_NUMS,
@@ -55,7 +56,7 @@ def parse_args(argv=None):
     )
     parser.add_argument("--results-dir", type=Path, default=Path("results"))
     parser.add_argument("--include-known-oom", action="store_true",
-                        help="Include the six documents test skills skipped by default after repeated generation OOMs")
+                        help="Legacy option (ignored): all known OOM samples are included")
     parser.add_argument("--dtype", choices=("float16", "bfloat16"), default="bfloat16",
                         help="Model dtype for attack/evaluation; also the compute dtype for quantized models")
     parser.add_argument("--gradient-checkpointing", action=argparse.BooleanOptionalAction, default=True,
@@ -66,17 +67,19 @@ def parse_args(argv=None):
     args = parser.parse_args(argv)
     if args.token_length <= 0:
         parser.error("token_length must be positive")
-    if (args.length_filter and args.trigger_token_reserve is not None
-            and args.trigger_token_reserve <= 0):
-        parser.error("--trigger-token-reserve must be positive")
-    if (args.length_filter and args.shadow_model != args.target_model
-            and args.trigger_token_reserve is None):
-        parser.error("Different shadow/target models require --trigger-token-reserve "
-                     "expressed in target tokenizer tokens")
-    if (args.length_filter and args.shadow_model == args.target_model
-            and args.trigger_token_reserve is not None
-            and args.trigger_token_reserve < args.token_length):
-        parser.error("--trigger-token-reserve must be at least token_length for the same model")
+    # Length-filter flags are ignored, so their budget checks are disabled.
+    # if (args.length_filter and args.trigger_token_reserve is not None
+    #         and args.trigger_token_reserve <= 0):
+    #     parser.error("--trigger-token-reserve must be positive")
+    # if (args.length_filter and args.shadow_model != args.target_model
+    #         and args.trigger_token_reserve is None):
+    #     parser.error("Different shadow/target models require --trigger-token-reserve "
+    #                  "expressed in target tokenizer tokens")
+    # if (args.length_filter and args.shadow_model == args.target_model
+    #         and args.trigger_token_reserve is not None
+    #         and args.trigger_token_reserve < args.token_length):
+    #     parser.error("--trigger-token-reserve must be at least token_length for the same model")
+
     if any(num <= 0 for num in args.train_nums):
         parser.error("train_nums must all be positive")
     if len(set(args.train_nums)) != len(args.train_nums):
@@ -139,65 +142,66 @@ def release_memory(*, collect_ipc=False):
         torch.cuda.ipc_collect()
 
 
-def filter_known_oom_train_samples(train_pool, dataset):
-    """Keep split membership and original pool indices; filter before sampling."""
-    if not train_pool.train:
-        raise ValueError("Training OOM exclusions apply only to the train pool")
-    blocked = KNOWN_OOM_TRAIN_SKILLS.get(dataset, set())
-    original_count = len(train_pool)
-    kept, excluded = [], []
-    for index, metadata in enumerate(train_pool.sample_metadata):
-        if Path(metadata["path"]).parent.name in blocked:
-            excluded.append({**metadata, "reason": "training_backward_cuda_oom"})
-        else:
-            kept.append(index)
-    if not kept:
-        raise ValueError("No training samples remain after known OOM exclusions")
-    train_pool.dataset = [train_pool.dataset[index] for index in kept]
-    train_pool.sample_metadata = [train_pool.sample_metadata[index] for index in kept]
-    train_pool.pool_size = len(train_pool)
-    print(f"Train pool selection: {original_count} candidates, {len(excluded)} excluded, "
-          f"{len(train_pool)} available", flush=True)
-    for sample in excluded:
-        print(f"Skipping known training OOM: {sample['path']} "
-              f"(original pool_index={sample['pool_index']})", flush=True)
-    return {
-        "exclusion_policy": "known_documents_training_oom_v1" if blocked else "none",
-        "train_pool_size_before_exclusion": original_count,
-        "train_pool_size_after_exclusion": len(train_pool),
-        "excluded_train_num": len(excluded),
-        "excluded_train_samples": excluded,
-    }
+# Historical OOM filters are retained as comments for reference.
+# def filter_known_oom_train_samples(train_pool, dataset):
+#     """Keep split membership and original pool indices; filter before sampling."""
+#     if not train_pool.train:
+#         raise ValueError("Training OOM exclusions apply only to the train pool")
+#     blocked = KNOWN_OOM_TRAIN_SKILLS.get(dataset, set())
+#     original_count = len(train_pool)
+#     kept, excluded = [], []
+#     for index, metadata in enumerate(train_pool.sample_metadata):
+#         if Path(metadata["path"]).parent.name in blocked:
+#             excluded.append({**metadata, "reason": "training_backward_cuda_oom"})
+#         else:
+#             kept.append(index)
+#     if not kept:
+#         raise ValueError("No training samples remain after known OOM exclusions")
+#     train_pool.dataset = [train_pool.dataset[index] for index in kept]
+#     train_pool.sample_metadata = [train_pool.sample_metadata[index] for index in kept]
+#     train_pool.pool_size = len(train_pool)
+#     print(f"Train pool selection: {original_count} candidates, {len(excluded)} excluded, "
+#           f"{len(train_pool)} available", flush=True)
+#     for sample in excluded:
+#         print(f"Skipping known training OOM: {sample['path']} "
+#               f"(original pool_index={sample['pool_index']})", flush=True)
+#     return {
+#         "exclusion_policy": "known_documents_training_oom_v1" if blocked else "none",
+#         "train_pool_size_before_exclusion": original_count,
+#         "train_pool_size_after_exclusion": len(train_pool),
+#         "excluded_train_num": len(excluded),
+#         "excluded_train_samples": excluded,
+#     }
 
 
-def filter_known_oom_test_samples(testset, dataset, *, include=False):
-    """Preserve the original split, selected prefix, order and pool indices."""
-    if testset.train:
-        raise ValueError("Known OOM exclusions apply only to the test set")
-    blocked = set() if include else KNOWN_OOM_TEST_SKILLS.get(dataset, set())
-    original_count = len(testset)
-    kept, excluded = [], []
-    for index, metadata in enumerate(testset.sample_metadata):
-        if Path(metadata["path"]).parent.name in blocked:
-            excluded.append({**metadata, "reason": "repeated_generation_cuda_oom"})
-        else:
-            kept.append(index)
-    if not kept:
-        raise ValueError("No test samples remain after known OOM exclusions")
-    testset.dataset = [testset.dataset[index] for index in kept]
-    testset.sample_metadata = [testset.sample_metadata[index] for index in kept]
-    selection = {
-        "exclusion_policy": "known_documents_oom_v1" if blocked else "none",
-        "test_num_before_exclusion": original_count,
-        "excluded_test_num": len(excluded),
-        "excluded_test_samples": excluded,
-    }
-    print(f"Test selection: {original_count} selected, {len(excluded)} excluded, "
-          f"{len(testset)} to evaluate", flush=True)
-    for sample in excluded:
-        print(f"Skipping known generation OOM: {sample['path']} "
-              f"(original pool_index={sample['pool_index']})", flush=True)
-    return selection
+# def filter_known_oom_test_samples(testset, dataset, *, include=False):
+#     """Preserve the original split, selected prefix, order and pool indices."""
+#     if testset.train:
+#         raise ValueError("Known OOM exclusions apply only to the test set")
+#     blocked = set() if include else KNOWN_OOM_TEST_SKILLS.get(dataset, set())
+#     original_count = len(testset)
+#     kept, excluded = [], []
+#     for index, metadata in enumerate(testset.sample_metadata):
+#         if Path(metadata["path"]).parent.name in blocked:
+#             excluded.append({**metadata, "reason": "repeated_generation_cuda_oom"})
+#         else:
+#             kept.append(index)
+#     if not kept:
+#         raise ValueError("No test samples remain after known OOM exclusions")
+#     testset.dataset = [testset.dataset[index] for index in kept]
+#     testset.sample_metadata = [testset.sample_metadata[index] for index in kept]
+#     selection = {
+#         "exclusion_policy": "known_documents_oom_v1" if blocked else "none",
+#         "test_num_before_exclusion": original_count,
+#         "excluded_test_num": len(excluded),
+#         "excluded_test_samples": excluded,
+#     }
+#     print(f"Test selection: {original_count} selected, {len(excluded)} excluded, "
+#           f"{len(testset)} to evaluate", flush=True)
+#     for sample in excluded:
+#         print(f"Skipping known generation OOM: {sample['path']} "
+#               f"(original pool_index={sample['pool_index']})", flush=True)
+#     return selection
 
 
 def save_selection(path, args, train_pool, trainset, testset, repeat_id, sample_seed,
@@ -308,27 +312,39 @@ def main(argv=None):
     sample_seeds = SAMPLE_SEEDS if args.sample_seeds is None else args.sample_seeds
     attack_seeds = ATTACK_SEEDS if args.attack_seeds is None else args.attack_seeds
     from DataFactory import DataFactory
-    from filter_samples import filter_skill_files, save_filter_manifest
-    from util.template import TextTemplate
+    # from filter_samples import filter_skill_files, save_filter_manifest
+    # from util.template import TextTemplate
 
     dataFactory = DataFactory()
     files = dataFactory.get_files(args.dataset)
-    tokenizer = None
-    context_limit = None
-    if args.length_filter:
-        from ModelFactory import ModelFactory
-        modelFactory = ModelFactory()
-        tokenizer = modelFactory.get_tokenizer(args.target_model)
-        context_limit = modelFactory.get_context_limit(args.target_model)
-    eligible_files, length_filter = filter_skill_files(
-        files, tokenizer,
-        context_limit=context_limit,
-        trigger_token_reserve=(args.token_length if args.trigger_token_reserve is None
-                               else args.trigger_token_reserve),
-        template=TextTemplate(prefix_1="", prefix_2=""),
-        enabled=args.length_filter,
-    )
-    del tokenizer
+    # Startup length filtering is disabled for the full dataset.
+    # tokenizer = None
+    # context_limit = None
+    # if args.length_filter:
+    #     from ModelFactory import ModelFactory
+    #     modelFactory = ModelFactory()
+    #     tokenizer = modelFactory.get_tokenizer(args.target_model)
+    #     context_limit = modelFactory.get_context_limit(args.target_model)
+    # eligible_files, length_filter = filter_skill_files(
+    #     files, tokenizer,
+    #     context_limit=context_limit,
+    #     trigger_token_reserve=(args.token_length if args.trigger_token_reserve is None
+    #                            else args.trigger_token_reserve),
+    #     template=TextTemplate(prefix_1="", prefix_2=""),
+    #     enabled=args.length_filter,
+    # )
+    # del tokenizer
+
+    eligible_files = files
+    length_filter = {
+        "policy": "none",
+        "enabled": False,
+        "source_count": len(files),
+        "kept_count": len(files),
+        "excluded_count": 0,
+        "kept_samples": [{"path": str(path.resolve())} for path in files],
+        "excluded_samples": [],
+    }
     length_filter.update({
         "dataset": args.dataset,
         "shadow_model": args.shadow_model,
@@ -344,24 +360,40 @@ def main(argv=None):
         dir=args.results_dir,
     ))
     manifest_path = run_dir / "length_filter.json"
-    # Save even when filtering leaves insufficient data for the requested run.
-    save_filter_manifest(manifest_path, length_filter)
+    # Preserve the selection manifest format with filtering disabled.
+    # save_filter_manifest(manifest_path, length_filter)
+    save_json(manifest_path, length_filter)
     print(f"Results directory: {run_dir}", flush=True)
-    print(f"Length filter ({'enabled' if args.length_filter else 'disabled'}): "
+    print(f"Length filter (disabled): "
           f"{length_filter['source_count']} candidates, "
           f"{length_filter['excluded_count']} excluded, "
           f"{length_filter['kept_count']} kept; manifest: {manifest_path}", flush=True)
 
-    # Split the selected candidates, identically for every experiment.
+    # Split all source files, identically for every experiment.
     train_pool = dataFactory.get_dataset(args.dataset, train=True, num=None,
                                         files=eligible_files)
     testset = dataFactory.get_dataset(args.dataset, train=False, num=args.test_num,
                                      files=eligible_files)
     dataFactory.validate_split(train_pool, testset)
-    train_selection = filter_known_oom_train_samples(train_pool, args.dataset)
-    test_selection = filter_known_oom_test_samples(
-        testset, args.dataset, include=args.include_known_oom,
-    )
+    # Keep known OOM samples in both pools; no post-split exclusions.
+    # train_selection = filter_known_oom_train_samples(train_pool, args.dataset)
+    # test_selection = filter_known_oom_test_samples(
+    #     testset, args.dataset, include=args.include_known_oom,
+    # )
+
+    train_selection = {
+        "exclusion_policy": "none",
+        "train_pool_size_before_exclusion": len(train_pool),
+        "train_pool_size_after_exclusion": len(train_pool),
+        "excluded_train_num": 0,
+        "excluded_train_samples": [],
+    }
+    test_selection = {
+        "exclusion_policy": "none",
+        "test_num_before_exclusion": len(testset),
+        "excluded_test_num": 0,
+        "excluded_test_samples": [],
+    }
     test_selection["train_pool_selection"] = train_selection
     test_selection["length_filter"] = {
         key: value for key, value in length_filter.items()
