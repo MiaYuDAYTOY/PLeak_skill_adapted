@@ -83,7 +83,9 @@ class Sampler():
                         "推理输入中的 trigger token IDs 与训练 IDs 不一致"
                     )
 
-            kwargs['max_length'] = target_length*2 + length
+            # Override checkpoint defaults such as Qwen Base's 2048 new tokens.
+            # This keeps the original total budget: 2 * prompt_tokens + length.
+            kwargs['max_new_tokens'] = target_length + length
             kwargs['input_ids'] = target_tokens.input_ids
             kwargs['attention_mask'] = target_tokens.attention_mask
             try:
@@ -135,6 +137,7 @@ class Sampler():
                 print(
                     f"\n===== Skill {sample_index} =====\n"
                     f"prompt tokens: {target_length}\n"
+                    f"max new tokens: {kwargs['max_new_tokens']}\n"
                     f"generated tokens: {len(raw_generation_ids)}\n"
                     f"ended with EOS: {ended_with_eos}\n"
                     f"raw generation repr: {raw_generation[:500]!r}\n"

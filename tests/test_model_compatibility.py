@@ -174,7 +174,8 @@ class ModelCompatibilityTests(unittest.TestCase):
         kwargs = generate.call_args.kwargs
         self.assertEqual(kwargs['input_ids'][0].tolist(), tokenizer.encode('Body\nabc\n'))
         self.assertEqual(kwargs['eos_token_id'], tokenizer.eos_token_id)
-        self.assertEqual(kwargs['max_length'], 2 * len(tokenizer.encode('Body\nabc\n')) + 50)
+        self.assertEqual(kwargs['max_new_tokens'], len(tokenizer.encode('Body\nabc\n')) + 50)
+        self.assertNotIn('max_length', kwargs)
         self.assertEqual((kwargs['do_sample'], kwargs['num_beams'], kwargs['top_k']), (True, 3, 50))
         self.assertEqual((kwargs['temperature'], kwargs['top_p']), (0.9, 0.6))
         self.assertTrue(kwargs['use_cache'])
@@ -182,6 +183,27 @@ class ModelCompatibilityTests(unittest.TestCase):
         self.assertEqual(rows[0]['status'], 'ok')
         with self.assertRaisesRegex(ValueError, 'token IDs'):
             sampler.sample_sequence(['Body\n'], 'abc', trigger_token_ids=[0, 0, 0])
+
+    def test_sampler_generation_overrides_checkpoint_length_defaults(self):
+        tokenizer = byte_tokenizer()
+        for inherited_limit in [2, 2048]:
+            with self.subTest(inherited_limit=inherited_limit):
+                model = tiny_qwen(tokenizer).eval()
+                model.generation_config.max_new_tokens = inherited_limit
+                # Force generation to reach the budget instead of drawing EOS.
+                model.generation_config.suppress_tokens = [tokenizer.eos_token_id]
+                with patch.object(ModelFactory, 'get_model', return_value=model), \
+                        patch.object(ModelFactory, 'get_tokenizer', return_value=tokenizer):
+                    sampler = Sampler(target_model='qwen3')
+                with contextlib.redirect_stdout(io.StringIO()), \
+                        patch('transformers.generation.utils.logger.warning') as warning:
+                    rows = sampler.sample_sequence(['Body\n', 'Longer body\n'], 'abc', length=3)
+                warning.assert_not_called()
+                for row in rows:
+                    self.assertEqual(row['status'], 'ok', row['error'])
+                    self.assertEqual(row['generated_token_count'], row['prompt_token_count'] + 3)
+                    self.assertFalse(row['ended_with_eos'])
+                self.assertEqual(model.generation_config.max_new_tokens, inherited_limit)
 
     def test_supervised_logits_match_original_loss_and_gradients(self):
         tokenizer = byte_tokenizer()

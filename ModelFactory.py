@@ -73,6 +73,7 @@ class ModelFactory():
             'attack_loss': ('supervised_qwen_logits_v1' if name == 'qwen3'
                             else 'full_causal_lm'),
             'generation': self.get_generation_kwargs(name),
+            'generation_length_policy': 'explicit_prompt_plus_length_v1',
         }
 
     def get_context_limit(self, name):

@@ -86,6 +86,11 @@ Qwen Base 的生成参数显式对齐当前 Llama 实验：`do_sample=True`、
 `repetition_penalty=1.0`、`length_penalty=1.0`、`early_stopping=False`，
 返回一个序列。EOS/PAD 从 Base tokenizer 读取，生成总长度上限仍为
 `2 * prompt_tokens + 50`。这些是本项目实验参数，并非对话版的推荐采样参数。
+代码通过显式设置 `max_new_tokens = prompt_tokens + length` 实现这一预算
+（`length` 默认 50），不再同时传 `max_length`，避免 Qwen Base 随模型附带的
+`max_new_tokens=2048` 覆盖实验设置。日志会打印每条样本的 `max new tokens`，
+结果配置以 `generation_length_policy=explicit_prompt_plus_length_v1` 标识修复后的规则。
+已有 trigger 不受这次生成预算修复影响；旧版生成结果需重新采样、评估后才能按同一预算比较。
 
 先运行单组小规模实验：
 
