@@ -1,0 +1,13 @@
+GPU0：等待 prefix8 六组补跑，PID=167772
+上一任务日志：logs/train3_prefix8_s12_a123_qwen3_20261101_131341.log
+prefix8 补跑完成，开始 train3 / prefix16 九组实验。
+Traceback (most recent call last):
+  File "/root/PLeak_skill_adapted/main.py", line 515, in <module>
+    main()
+  File "/root/PLeak_skill_adapted/main.py", line 314, in main
+    from DataFactory import DataFactory
+  File "/root/PLeak_skill_adapted/DataFactory.py", line 4, in <module>
+    from util.data import SkillDataset
+  File "/root/PLeak_skill_adapted/util/data.py", line 2, in <module>
+    from datasets import load_dataset
+ModuleNotFoundError: No module named 'datasets'

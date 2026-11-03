@@ -1,0 +1,13 @@
+GPU1：等待 train5 全部实验，PID=25937
+上一任务日志：logs/train5_qwen3_20261029_152528.log
+train5 全部完成，开始 train3 / prefix32 九组实验。
+Traceback (most recent call last):
+  File "/root/PLeak_skill_adapted/main.py", line 515, in <module>
+    main()
+  File "/root/PLeak_skill_adapted/main.py", line 314, in main
+    from DataFactory import DataFactory
+  File "/root/PLeak_skill_adapted/DataFactory.py", line 4, in <module>
+    from util.data import SkillDataset
+  File "/root/PLeak_skill_adapted/util/data.py", line 2, in <module>
+    from datasets import load_dataset
+ModuleNotFoundError: No module named 'datasets'
