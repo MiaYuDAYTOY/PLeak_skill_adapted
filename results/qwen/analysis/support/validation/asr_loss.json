@@ -1,0 +1,8 @@
+{
+  "primary_runs": 81,
+  "superseded_runs": 1,
+  "loss_series_matched": 82,
+  "full_prefix_successes": 366,
+  "primary_test_outputs": 5670,
+  "checks": "All ASR counts checked against per-document full_skill_prefix; all 81 primary loss endpoints and update counts match analysis_data.json; full run identity and source log matched."
+}

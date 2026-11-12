@@ -205,6 +205,25 @@ class ModelCompatibilityTests(unittest.TestCase):
                     self.assertFalse(row['ended_with_eos'])
                 self.assertEqual(model.generation_config.max_new_tokens, inherited_limit)
 
+    def test_sampler_keeps_generated_markdown_whitespace(self):
+        tokenizer = byte_tokenizer()
+        model = tiny_qwen(tokenizer).eval()
+        text = '# 中文\n\nSave as .docx or .pdf\n    code = 1\nTRIGGER\nTRIGGER\n末行'
+        output_ids = tokenizer.encode(text, add_special_tokens=False) + [tokenizer.eos_token_id]
+        with patch.object(ModelFactory, 'get_model', return_value=model), \
+                patch.object(ModelFactory, 'get_tokenizer', return_value=tokenizer):
+            sampler = Sampler(target_model='qwen3')
+
+        def return_saved_tokens(**kwargs):
+            return torch.cat([kwargs['input_ids'], torch.tensor([output_ids])], dim=1)
+
+        with patch.object(model, 'generate', side_effect=return_saved_tokens), \
+                contextlib.redirect_stdout(io.StringIO()):
+            rows = sampler.sample_sequence(['Body\n'], 'abc')
+        self.assertEqual(rows[0]['generation'], text)
+        self.assertEqual(rows[0]['raw_generation'], text + tokenizer.eos_token)
+        self.assertEqual(rows[0]['raw_generation_ids'], output_ids)
+
     def test_supervised_logits_match_original_loss_and_gradients(self):
         tokenizer = byte_tokenizer()
         body = '# A longer skill\n' + 'Read the document carefully.\n' * 3

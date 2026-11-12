@@ -1,0 +1,120 @@
+{
+  "dataset": "documents",
+  "train_num": 5,
+  "test_num": 70,
+  "repeat_id": 1,
+  "sample_seed": 1,
+  "attack_seed": 1,
+  "token_length": 12,
+  "shadow_model": "qwen3",
+  "target_model": "qwen3",
+  "prefix_length": 32,
+  "test_selection": {
+    "exclusion_policy": "none",
+    "test_num_before_exclusion": 70,
+    "excluded_test_num": 0,
+    "excluded_test_samples": [],
+    "train_pool_selection": {
+      "exclusion_policy": "none",
+      "train_pool_size_before_exclusion": 30,
+      "train_pool_size_after_exclusion": 30,
+      "excluded_train_num": 0,
+      "excluded_train_samples": []
+    },
+    "length_filter": {
+      "policy": "none",
+      "enabled": false,
+      "source_count": 100,
+      "kept_count": 100,
+      "excluded_count": 0,
+      "dataset": "documents",
+      "shadow_model": "qwen3",
+      "target_model": "qwen3",
+      "trigger_token_length": 12,
+      "split_seed": 0,
+      "train_fraction": 0.3,
+      "manifest_path": "/root/PLeak_skill_adapted/results/documents_train5_20261029_152530_3j74k_mn/length_filter.json"
+    }
+  },
+  "model_dtype": "bfloat16",
+  "gradient_checkpointing": true,
+  "model_config": {
+    "shadow": {
+      "model_path": "/root/autodl-tmp/Qwen3-0.6B-Base",
+      "quantization": "none",
+      "prompt_format": "plain_text",
+      "attack_loss": "supervised_qwen_logits_v1",
+      "generation": {
+        "num_beams": 3,
+        "remove_invalid_values": true,
+        "renormalize_logits": true,
+        "do_sample": true,
+        "temperature": 0.9,
+        "top_p": 0.6,
+        "top_k": 50,
+        "repetition_penalty": 1.0,
+        "length_penalty": 1.0,
+        "num_return_sequences": 1,
+        "early_stopping": false,
+        "use_cache": true
+      },
+      "generation_length_policy": "explicit_prompt_plus_length_v1"
+    },
+    "target": {
+      "model_path": "/root/autodl-tmp/Qwen3-0.6B-Base",
+      "quantization": "none",
+      "prompt_format": "plain_text",
+      "attack_loss": "supervised_qwen_logits_v1",
+      "generation": {
+        "num_beams": 3,
+        "remove_invalid_values": true,
+        "renormalize_logits": true,
+        "do_sample": true,
+        "temperature": 0.9,
+        "top_p": 0.6,
+        "top_k": 50,
+        "repetition_penalty": 1.0,
+        "length_penalty": 1.0,
+        "num_return_sequences": 1,
+        "early_stopping": false,
+        "use_cache": true
+      },
+      "generation_length_policy": "explicit_prompt_plus_length_v1"
+    }
+  },
+  "metrics": {
+    "total_samples": 70,
+    "evaluated_samples": 70,
+    "failed_samples": 0,
+    "full_skill_leak_count": 2,
+    "full_skill_leak_rate": 0.02857142857142857,
+    "exact_markdown_match_rate": 0.0,
+    "exact_token_match_rate": 0.0,
+    "mean_common_prefix_ratio": 0.03883906562882736,
+    "mean_token_recall": 0.7539950154999382,
+    "mean_token_precision": 0.787247046271449,
+    "mean_rougeL_recall": 0.7451357711965952,
+    "mean_rougeL_precision": 0.7787163031195691,
+    "mean_rouge2_recall": 0.7433563381338038,
+    "mean_body_rougeL_recall": 0.7868192585709095,
+    "mean_body_rougeL_precision": 0.7776146174961355,
+    "mean_body_rouge2_recall": 0.784422895361876,
+    "eos_rate": 0.7285714285714285
+  },
+  "reevaluation": {
+    "generation_decode_policy": "preserve_whitespace_skip_special_v1",
+    "generation_rerun": false,
+    "original_run_id": "documents_train5_20261029_152530_3j74k_mn/documents_12_qwen3_qwen3_train5_test70_target_prefix32_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed1",
+    "original_evaluation": "results/qwen/qwen3/documents/train5/test70/launches/documents_train5_20261029_152530_3j74k_mn/documents_12_qwen3_qwen3_train5_test70_target_prefix32_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed1.evaluation.json",
+    "source_files_sha256": {
+      "results/qwen/qwen3/documents/train5/test70/launches/documents_train5_20261029_152530_3j74k_mn/documents_12_qwen3_qwen3_train5_test70_target_prefix32_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed1.samples.json": "e769806d0b8cd705e332fed982ef24c1afaad83617bae1cf0fc015f25738c747",
+      "results/qwen/qwen3/documents/train5/test70/launches/documents_train5_20261029_152530_3j74k_mn/documents_12_qwen3_qwen3_train5_test70_target_prefix32_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed1.csv": "9a07b42483d2b8752288b3a9f05902333da1ec7eadc2f21868568925b9781d7c",
+      "results/qwen/qwen3/documents/train5/test70/launches/documents_train5_20261029_152530_3j74k_mn/documents_12_qwen3_qwen3_train5_test70_target_prefix32_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed1.metrics.json": "f87357b8aaaf90ac6b075794751c5ca7b815312536e3f1cd9b888cdfcbffed06",
+      "results/qwen/qwen3/documents/train5/test70/launches/documents_train5_20261029_152530_3j74k_mn/documents_12_qwen3_qwen3_train5_test70_target_prefix32_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed1.evaluation.json": "7b49e847b2b9986ba05cb9b809cc13aab13fac1144817591117ffbfee6872944",
+      "results/qwen/qwen3/documents/train5/test70/launches/documents_train5_20261029_152530_3j74k_mn/documents_12_qwen3_qwen3_train5_test70_target_prefix32_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed1.trigger_ids.json": "10c6d19d1500a59ce80b66e3d038f8a733442d098f7ca37b9718b03c5a9d2623"
+    },
+    "tokenizer_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+    "calibration": "all_original_sample_fields_and_metrics_match_1e-12",
+    "changed_generation_records": 27
+  }
+}

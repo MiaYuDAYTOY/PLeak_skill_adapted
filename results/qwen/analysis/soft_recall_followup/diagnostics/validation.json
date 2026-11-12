@@ -1,0 +1,17 @@
+{
+  "runs": 81,
+  "outputs": 5670,
+  "skills": 70,
+  "local_context_mismatch": [],
+  "rule_version": "unique16gram_runs24_v2_conservative_omission",
+  "metric_policy": "unchanged corrected evaluator fields",
+  "primary_counts": {
+    "repetitive_loop": 1893,
+    "high_coverage_other": 2972,
+    "empty_or_near_empty": 364,
+    "internal_skips": 138,
+    "other_uncertain": 230,
+    "shifted_start": 54,
+    "prefix_copy_then_stop": 19
+  }
+}

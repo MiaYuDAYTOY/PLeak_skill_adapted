@@ -2,6 +2,7 @@ import os
 
 import torch
 from transformers import AutoConfig, AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+from util.generation_text import GENERATION_DECODE_POLICY
 
 
 class ModelFactory():
@@ -74,6 +75,7 @@ class ModelFactory():
                             else 'full_causal_lm'),
             'generation': self.get_generation_kwargs(name),
             'generation_length_policy': 'explicit_prompt_plus_length_v1',
+            'generation_decode_policy': GENERATION_DECODE_POLICY,
         }
 
     def get_context_limit(self, name):

@@ -1,0 +1,150 @@
+{
+  "n_verified_local_sources": 70,
+  "correlations": [
+    {
+      "feature": "body_tokens",
+      "spearman": -0.15307497156854166,
+      "partial_rank_controlling_length": null
+    },
+    {
+      "feature": "frontmatter_chars",
+      "spearman": 0.025195086961899676,
+      "partial_rank_controlling_length": 0.0664310182200498
+    },
+    {
+      "feature": "heading_per_100lines",
+      "spearman": -0.12394583058201201,
+      "partial_rank_controlling_length": -0.19703075389262065
+    },
+    {
+      "feature": "list_char_fraction",
+      "spearman": 0.15202519464613767,
+      "partial_rank_controlling_length": 0.1338725493813657
+    },
+    {
+      "feature": "table_char_fraction",
+      "spearman": -0.20471028047602077,
+      "partial_rank_controlling_length": -0.1585665693287145
+    },
+    {
+      "feature": "code_char_fraction",
+      "spearman": -0.14926839917463228,
+      "partial_rank_controlling_length": -0.15836134887444378
+    },
+    {
+      "feature": "inline_code_per_1000chars",
+      "spearman": -0.13465343254865575,
+      "partial_rank_controlling_length": -0.13734012797697773
+    },
+    {
+      "feature": "non_ascii_fraction",
+      "spearman": -0.15288057632708302,
+      "partial_rank_controlling_length": -0.11765341935943574
+    },
+    {
+      "feature": "digit_fraction",
+      "spearman": -0.05362610445280377,
+      "partial_rank_controlling_length": -0.0391156380146973
+    },
+    {
+      "feature": "duplicate_line_char_fraction",
+      "spearman": -0.09356529991019151,
+      "partial_rank_controlling_length": -0.08531089876215989
+    },
+    {
+      "feature": "lexical_unique_fraction",
+      "spearman": -0.006211180124223601,
+      "partial_rank_controlling_length": -0.22372509088943196
+    },
+    {
+      "feature": "empty_whitespace",
+      "spearman": -0.42405872775037246,
+      "partial_rank_controlling_length": -0.49476084547602717
+    },
+    {
+      "feature": "trigger_repeated_10plus",
+      "spearman": -0.492018118471105,
+      "partial_rank_controlling_length": -0.49009576864430876
+    },
+    {
+      "feature": "dominant_repeated_line",
+      "spearman": -0.6761019221259494,
+      "partial_rank_controlling_length": -0.6710261709421053
+    },
+    {
+      "feature": "output_source_char_ratio",
+      "spearman": 0.12193158953722334,
+      "partial_rank_controlling_length": 0.10229155530911885
+    }
+  ],
+  "band_diagnostics": {
+    "recall_lt_20": {
+      "n": 2237,
+      "recall": 0.04234545081940336,
+      "empty_whitespace": 0.09029950827000446,
+      "trigger_repeated_10plus": 0.4282521233795262,
+      "dominant_repeated_line": 0.6347787215020116,
+      "at_budget": 0.970049172999553,
+      "eos": 0.029950827000447027,
+      "any_collapse_flag": 0.7724631202503353
+    },
+    "recall_20_to_95": {
+      "n": 716,
+      "recall": 0.7409771992568022,
+      "empty_whitespace": 0.0,
+      "trigger_repeated_10plus": 0.030726256983240222,
+      "dominant_repeated_line": 0.012569832402234637,
+      "at_budget": 0.8798882681564246,
+      "eos": 0.12011173184357542,
+      "any_collapse_flag": 0.04189944134078212
+    },
+    "recall_ge_95": {
+      "n": 2717,
+      "recall": 0.996171975001968,
+      "empty_whitespace": 0.0,
+      "trigger_repeated_10plus": 0.0,
+      "dominant_repeated_line": 0.0,
+      "at_budget": 0.7821126242178874,
+      "eos": 0.21825542878174456,
+      "any_collapse_flag": 0.0
+    }
+  },
+  "bool_feature_groups": {
+    "body_starts_html_comment": [
+      {
+        "body_starts_html_comment": false,
+        "n": 69,
+        "mean_recall": 0.5920623517474481
+      },
+      {
+        "body_starts_html_comment": true,
+        "n": 1,
+        "mean_recall": 0.2818422261078436
+      }
+    ],
+    "has_input_arguments": [
+      {
+        "has_input_arguments": false,
+        "n": 63,
+        "mean_recall": 0.6082866183633734
+      },
+      {
+        "has_input_arguments": true,
+        "n": 7,
+        "mean_recall": 0.4017267913984625
+      }
+    ],
+    "metadata_has_long_banner": [
+      {
+        "metadata_has_long_banner": false,
+        "n": 65,
+        "mean_recall": 0.576304811272611
+      },
+      {
+        "metadata_has_long_banner": true,
+        "n": 5,
+        "mean_recall": 0.7348663527924092
+      }
+    ]
+  }
+}

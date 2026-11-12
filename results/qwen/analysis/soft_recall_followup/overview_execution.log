@@ -1,0 +1,42 @@
+ train_num  prefix_length                metric   n     mean   median       sd  min      q10      q25      q75      q90  max  run_count  run_mean_sd  run_mean_median  run_mean_min  run_mean_max
+         3              8    body_rougeL_recall 630 0.533034 0.819662 0.461414  0.0 0.007843 0.026241 0.999329 1.000000  1.0          9     0.261318         0.612388      0.091387      0.848732
+         3              8    body_rouge2_recall 630 0.518758 0.834358 0.475966  0.0 0.000000 0.000000 0.998848 0.999646  1.0          9     0.267919         0.585230      0.066902      0.843002
+         3              8 body_rougeL_precision 630 0.491016 0.699588 0.423071  0.0 0.006979 0.027990 0.915928 0.964527  1.0          9     0.241856         0.561292      0.085880      0.758406
+         3             16    body_rougeL_recall 630 0.533156 0.851966 0.465634  0.0 0.009755 0.032352 0.999334 1.000000  1.0          9     0.299724         0.625588      0.063357      0.847885
+         3             16    body_rouge2_recall 630 0.517827 0.851362 0.480820  0.0 0.000000 0.000000 0.998848 0.999729  1.0          9     0.305492         0.612335      0.042154      0.843374
+         3             16 body_rougeL_precision 630 0.495473 0.722793 0.431957  0.0 0.008818 0.029204 0.922030 0.976954  1.0          9     0.284485         0.590888      0.057069      0.826805
+         3             32    body_rougeL_recall 630 0.611441 0.941975 0.452696  0.0 0.011249 0.040417 0.999507 1.000000  1.0          9     0.309076         0.694601      0.048461      0.879118
+         3             32    body_rouge2_recall 630 0.598465 0.950911 0.466609  0.0 0.000000 0.000000 0.999037 1.000000  1.0          9     0.318129         0.682759      0.019360      0.876554
+         3             32 body_rougeL_precision 630 0.568159 0.812717 0.417322  0.0 0.010191 0.036559 0.937881 0.974502  1.0          9     0.285893         0.642572      0.045009      0.790878
+         4              8    body_rougeL_recall 630 0.603932 0.955682 0.458054  0.0 0.008683 0.049929 0.999642 1.000000  1.0          9     0.262496         0.570704      0.222748      0.897155
+         4              8    body_rouge2_recall 630 0.589034 0.955945 0.474788  0.0 0.000000 0.008003 0.999329 1.000000  1.0          9     0.272656         0.549494      0.192474      0.896056
+         4              8 body_rougeL_precision 630 0.573398 0.846106 0.434507  0.0 0.007872 0.044483 0.964738 0.993933  1.0          9     0.260527         0.530849      0.196692      0.889319
+         4             16    body_rougeL_recall 630 0.608655 0.941975 0.456526  0.0 0.011096 0.033751 0.999507 1.000000  1.0          9     0.272354         0.742332      0.070598      0.861869
+         4             16    body_rouge2_recall 630 0.596510 0.949985 0.470490  0.0 0.000000 0.000000 0.999238 1.000000  1.0          9     0.278406         0.726023      0.046181      0.857541
+         4             16 body_rougeL_precision 630 0.573321 0.844913 0.430440  0.0 0.009389 0.031062 0.960302 0.982674  1.0          9     0.256268         0.734084      0.073632      0.807701
+         4             32    body_rougeL_recall 630 0.507310 0.363689 0.471904  0.0 0.008287 0.020694 0.999334 1.000000  1.0          9     0.301445         0.513172      0.070681      0.900741
+         4             32    body_rouge2_recall 630 0.493552 0.363360 0.485048  0.0 0.000000 0.000000 0.998912 1.000000  1.0          9     0.308011         0.500998      0.048240      0.897762
+         4             32 body_rougeL_precision 630 0.473389 0.535714 0.437277  0.0 0.006565 0.019372 0.923866 0.969378  1.0          9     0.279578         0.466756      0.071502      0.841588
+         5              8    body_rougeL_recall 630 0.616787 0.945869 0.449251  0.0 0.000238 0.051786 0.999507 1.000000  1.0          9     0.260186         0.741160      0.096510      0.946366
+         5              8    body_rouge2_recall 630 0.604139 0.950761 0.463867  0.0 0.000000 0.004781 0.999306 1.000000  1.0          9     0.267301         0.727294      0.075254      0.945257
+         5              8 body_rougeL_precision 630 0.578879 0.837350 0.422339  0.0 0.000224 0.053589 0.954839 0.993112  1.0          9     0.238526         0.675633      0.089730      0.848223
+         5             16    body_rougeL_recall 630 0.662737 0.990377 0.436322  0.0 0.007727 0.110660 0.999931 1.000000  1.0          9     0.222919         0.716526      0.251087      0.892736
+         5             16    body_rouge2_recall 630 0.648860 0.988920 0.454559  0.0 0.000000 0.029942 0.999353 1.000000  1.0          9     0.234459         0.710318      0.217797      0.887617
+         5             16 body_rougeL_precision 630 0.629160 0.867582 0.408440  0.0 0.010191 0.115516 0.964685 0.992852  1.0          9     0.204701         0.683211      0.255038      0.839786
+         5             32    body_rougeL_recall 630 0.611623 0.953473 0.448261  0.0 0.002671 0.068834 0.999507 1.000000  1.0          9     0.192082         0.636439      0.330893      0.841454
+         5             32    body_rouge2_recall 630 0.597046 0.957165 0.464682  0.0 0.000000 0.014271 0.999238 1.000000  1.0          9     0.198634         0.636319      0.297361      0.827614
+         5             32 body_rougeL_precision 630 0.576833 0.837282 0.416170  0.0 0.004734 0.084641 0.953005 0.988621  1.0          9     0.186182         0.590857      0.326850      0.795654
+               metric          component  sum_squares  fraction                                                                                                          note
+   body_rougeL_recall         skill_main    92.848833  0.078123 Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+   body_rougeL_recall           run_main   372.522473  0.313442 Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+   body_rougeL_recall skill_run_residual   723.117623  0.608434 Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+   body_rouge2_recall         skill_main    98.793984  0.077897 Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+   body_rouge2_recall           run_main   393.453575  0.310229 Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+   body_rouge2_recall skill_run_residual   776.020712  0.611874 Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+body_rougeL_precision         skill_main    77.102096  0.074516 Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+body_rougeL_precision           run_main   330.724873  0.319632 Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+body_rougeL_precision skill_run_residual   626.876691  0.605851 Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+               metric  pair_count  median_spearman  min_spearman  max_spearman
+   body_rougeL_recall          36         0.494497      0.189607      0.650669
+   body_rouge2_recall          36         0.496022      0.184535      0.657953
+body_rougeL_precision          36         0.483895      0.262357      0.691086

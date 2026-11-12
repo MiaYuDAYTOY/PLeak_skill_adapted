@@ -1,0 +1,19 @@
+Wrote report_zh.md 21873 characters
+{
+  "primary_runs": 81,
+  "outputs": 5670,
+  "skills": 70,
+  "joined_metric_agreement": true,
+  "unique_output_keys": true,
+  "all_type_slices_sum_to_denominator": true,
+  "source_hashes_rechecked": 339,
+  "sources_unchanged": true,
+  "formal_log_budget_records_verified": 5670,
+  "budget_policy": "max_new_tokens=prompt_token_count+50",
+  "python_scripts_compiled": 8,
+  "analyst_reviewed_records": 56,
+  "local_report_links_valid": true,
+  "visual_review": "Three core figures directly viewed: output types/stops, matched loss curves, 70x9 Skill heatmap; labels/denominators readable. Other plots saved from same validated data.",
+  "no_model_calls": true,
+  "no_training": true
+}

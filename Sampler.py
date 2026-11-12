@@ -13,6 +13,7 @@ from nltk import pos_tag, word_tokenize
 import json
 from collections import Counter
 from util.overlap_metrics import OVERLAP_FIELDS, rouge_overlap, strip_yaml_front_matter
+from util.generation_text import decode_generation
 
 
 class Sampler():
@@ -94,17 +95,11 @@ class Sampler():
 
                 new_token_tensor = gt[0, target_length:]
                 raw_generation_ids = new_token_tensor.detach().cpu().tolist()
-                raw_generation = self.tokenizer.decode(
-                    raw_generation_ids,
+                raw_generation = decode_generation(
+                    self.tokenizer, raw_generation_ids,
                     skip_special_tokens=False,
-                    clean_up_tokenization_spaces=False,
                 )
-                generation = self.tokenizer.decode(
-                    raw_generation_ids,
-                    skip_special_tokens=True,
-                    clean_up_tokenization_spaces=True,
-                )
-                generation = self.postprocess(generation, triggers)
+                generation = decode_generation(self.tokenizer, raw_generation_ids)
 
                 if self.defender is not None:
                     generation = self.defender.defend(
@@ -163,29 +158,6 @@ class Sampler():
                     }
                 )
         return results
-
-    def postprocess(self, text, triggers):
-        
-        ret = text
-        sentences = []
-        sentences_filtered = [self.sentence_to_char(self.template.format_trigger(triggers)), self.sentence_to_char('text:'+triggers)]
-        text.replace('.', '\n')
-        for t in text.split('\n')[:-1]:
-            t_filtered = self.sentence_to_char(t.replace(self.template.prefix_trigger, ''))
-            if t_filtered == '':continue
-            if t_filtered not in sentences_filtered and t_filtered != '':
-                if t_filtered in  ''.join(sentences_filtered): break
-                sentences_filtered.append(t_filtered)
-                sentences.append(t)
-        if len(sentences)==0:
-            ret = text.split('\n')
-            ret = ret[1] if len(ret) > 1 else ret[0]
-        else:
-            ret = '.'.join(sentences)+'.'
-        ret = ret.replace(self.tokenizer.eos_token, '')
-        
-
-        return text
 
     def sentence_to_tokens(self, sentence):
         ret_tokens = [word for word, pos in pos_tag(word_tokenize(sentence), tagset='universal') if pos.startswith('N') or pos.startswith('A') or pos.startswith('V') or pos.startswith('X')]

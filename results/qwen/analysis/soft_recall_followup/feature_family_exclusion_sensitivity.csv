@@ -1,0 +1,13 @@
+subset,n_documents,feature,spearman
+all70,70,body_tokens,-0.15307497156854166
+all70,70,separator_count,-0.3934852560175168
+all70,70,has_input_arguments,-0.4159702951019387
+all70,70,code_fraction,-0.14926839917463228
+exclude_christopherkenny,61,body_tokens,-0.045161290322580636
+exclude_christopherkenny,61,separator_count,-0.2515323633783433
+exclude_christopherkenny,61,has_input_arguments,
+exclude_christopherkenny,61,code_fraction,-0.22807606671522754
+christopherkenny_only,9,body_tokens,-0.65
+christopherkenny_only,9,separator_count,-0.8108270322272662
+christopherkenny_only,9,has_input_arguments,-0.7245688373094719
+christopherkenny_only,9,code_fraction,-0.13333333333333333

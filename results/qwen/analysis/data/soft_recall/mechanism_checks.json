@@ -1,0 +1,10 @@
+{
+  "officecli_n_runs": 81,
+  "officecli_n_recall_ge90": 60,
+  "officecli_ge90_missing_flow": 47,
+  "officecli_ge90_missing_flow_with_following": 47,
+  "officecli_ge90_missing_image": 54,
+  "officecli_ge90_missing_image_with_following": 54,
+  "unique_training_skills": 12,
+  "lexical_similarity_recall_spearman": 0.060484647012509836
+}

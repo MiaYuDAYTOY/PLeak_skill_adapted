@@ -1,0 +1,120 @@
+{
+  "dataset": "documents",
+  "train_num": 4,
+  "test_num": 70,
+  "repeat_id": 1,
+  "sample_seed": 1,
+  "attack_seed": 1,
+  "token_length": 12,
+  "shadow_model": "qwen3",
+  "target_model": "qwen3",
+  "prefix_length": 16,
+  "test_selection": {
+    "exclusion_policy": "none",
+    "test_num_before_exclusion": 70,
+    "excluded_test_num": 0,
+    "excluded_test_samples": [],
+    "train_pool_selection": {
+      "exclusion_policy": "none",
+      "train_pool_size_before_exclusion": 30,
+      "train_pool_size_after_exclusion": 30,
+      "excluded_train_num": 0,
+      "excluded_train_samples": []
+    },
+    "length_filter": {
+      "policy": "none",
+      "enabled": false,
+      "source_count": 100,
+      "kept_count": 100,
+      "excluded_count": 0,
+      "dataset": "documents",
+      "shadow_model": "qwen3",
+      "target_model": "qwen3",
+      "trigger_token_length": 12,
+      "split_seed": 0,
+      "train_fraction": 0.3,
+      "manifest_path": "/root/PLeak_skill_adapted/results/documents_train4_20261029_152530_ad5iwmy6/length_filter.json"
+    }
+  },
+  "model_dtype": "bfloat16",
+  "gradient_checkpointing": true,
+  "model_config": {
+    "shadow": {
+      "model_path": "/root/autodl-tmp/Qwen3-0.6B-Base",
+      "quantization": "none",
+      "prompt_format": "plain_text",
+      "attack_loss": "supervised_qwen_logits_v1",
+      "generation": {
+        "num_beams": 3,
+        "remove_invalid_values": true,
+        "renormalize_logits": true,
+        "do_sample": true,
+        "temperature": 0.9,
+        "top_p": 0.6,
+        "top_k": 50,
+        "repetition_penalty": 1.0,
+        "length_penalty": 1.0,
+        "num_return_sequences": 1,
+        "early_stopping": false,
+        "use_cache": true
+      },
+      "generation_length_policy": "explicit_prompt_plus_length_v1"
+    },
+    "target": {
+      "model_path": "/root/autodl-tmp/Qwen3-0.6B-Base",
+      "quantization": "none",
+      "prompt_format": "plain_text",
+      "attack_loss": "supervised_qwen_logits_v1",
+      "generation": {
+        "num_beams": 3,
+        "remove_invalid_values": true,
+        "renormalize_logits": true,
+        "do_sample": true,
+        "temperature": 0.9,
+        "top_p": 0.6,
+        "top_k": 50,
+        "repetition_penalty": 1.0,
+        "length_penalty": 1.0,
+        "num_return_sequences": 1,
+        "early_stopping": false,
+        "use_cache": true
+      },
+      "generation_length_policy": "explicit_prompt_plus_length_v1"
+    }
+  },
+  "metrics": {
+    "total_samples": 70,
+    "evaluated_samples": 70,
+    "failed_samples": 0,
+    "full_skill_leak_count": 12,
+    "full_skill_leak_rate": 0.17142857142857143,
+    "exact_markdown_match_rate": 0.0,
+    "exact_token_match_rate": 0.0,
+    "mean_common_prefix_ratio": 0.2227655682813439,
+    "mean_token_recall": 0.8542065054237391,
+    "mean_token_precision": 0.8255987841240048,
+    "mean_rougeL_recall": 0.8394298848601107,
+    "mean_rougeL_precision": 0.8115189374832773,
+    "mean_rouge2_recall": 0.8346729376664651,
+    "mean_body_rougeL_recall": 0.847853205055168,
+    "mean_body_rougeL_precision": 0.7897199122210257,
+    "mean_body_rouge2_recall": 0.8411790899234293,
+    "eos_rate": 0.04285714285714286
+  },
+  "reevaluation": {
+    "generation_decode_policy": "preserve_whitespace_skip_special_v1",
+    "generation_rerun": false,
+    "original_run_id": "documents_train4_20261029_152530_ad5iwmy6/documents_12_qwen3_qwen3_train4_test70_target_prefix16_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed1",
+    "original_evaluation": "results/qwen/qwen3/documents/train4/test70/launches/documents_train4_20261029_152530_ad5iwmy6/documents_12_qwen3_qwen3_train4_test70_target_prefix16_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed1.evaluation.json",
+    "source_files_sha256": {
+      "results/qwen/qwen3/documents/train4/test70/launches/documents_train4_20261029_152530_ad5iwmy6/documents_12_qwen3_qwen3_train4_test70_target_prefix16_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed1.samples.json": "e0e17886a6a3adf29b3a50d96cccf6745aa06d881ad0d76eae65b6bf0bcb072d",
+      "results/qwen/qwen3/documents/train4/test70/launches/documents_train4_20261029_152530_ad5iwmy6/documents_12_qwen3_qwen3_train4_test70_target_prefix16_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed1.csv": "c956c67a2815044a149f2ecfed940dcc7bb7da6007932c473c1e079c0b18ca4a",
+      "results/qwen/qwen3/documents/train4/test70/launches/documents_train4_20261029_152530_ad5iwmy6/documents_12_qwen3_qwen3_train4_test70_target_prefix16_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed1.metrics.json": "cc053a99a9ccdbda161409da01f1fe677a9c363a38aec7fa6ba201d50be231c7",
+      "results/qwen/qwen3/documents/train4/test70/launches/documents_train4_20261029_152530_ad5iwmy6/documents_12_qwen3_qwen3_train4_test70_target_prefix16_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed1.evaluation.json": "86657eb8e2027d14100aa2b03bd2e2db5e31ce386a7d7883cb4c6b7a4ffb2119",
+      "results/qwen/qwen3/documents/train4/test70/launches/documents_train4_20261029_152530_ad5iwmy6/documents_12_qwen3_qwen3_train4_test70_target_prefix16_dtypebfloat16_gc_repeat1_sample_seed1_attack_seed1.trigger_ids.json": "be50f753fadbd49e80605b31bcc8a65b9dfc3c568490889e558158f846c40a14"
+    },
+    "tokenizer_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+    "calibration": "all_original_sample_fields_and_metrics_match_1e-12",
+    "changed_generation_records": 32
+  }
+}

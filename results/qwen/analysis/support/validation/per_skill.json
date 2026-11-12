@@ -1,0 +1,30 @@
+{
+  "skills": 70,
+  "primary_runs": 81,
+  "records": 5670,
+  "skill_configuration_groups": 630,
+  "per_sample_metrics": [
+    "rougeL_recall",
+    "rougeL_precision",
+    "rouge2_recall",
+    "body_rougeL_recall",
+    "body_rougeL_precision",
+    "body_rouge2_recall",
+    "body_target_token_count",
+    "body_prediction_token_count",
+    "target_token_count",
+    "prediction_token_count",
+    "common_prefix_token_count",
+    "common_prefix_ratio",
+    "token_recall",
+    "token_precision",
+    "exact_markdown_match",
+    "exact_token_match",
+    "full_skill_prefix",
+    "ended_with_eos"
+  ],
+  "full_prefix_successes": 366,
+  "exact_markdown_matches": 18,
+  "skills_with_any_full_prefix_success": 41,
+  "test_identity_order_verified": true
+}

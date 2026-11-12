@@ -1,0 +1,33 @@
+{
+  "reviewed_records": 56,
+  "initial_packet_records": 72,
+  "unreviewed_packet_records": 18,
+  "method": "Purposive stratified review, not random error-rate estimation; same cases informed rule refinement",
+  "initial_to_final_changes_among_reviewed": 11,
+  "observations": {
+    "loop": 6,
+    "high_restart": 6,
+    "partial_restart": 4,
+    "shift_restart": 4,
+    "empty": 3,
+    "empty_loop": 3,
+    "unrelated": 3,
+    "template_loop": 3,
+    "restructure": 2,
+    "shift": 2,
+    "high_reformat": 2,
+    "internal_skip": 2,
+    "rewrite_continue": 2,
+    "restructure_loop": 2,
+    "metadata_rewrite": 2,
+    "reformat_omit": 2,
+    "loop_shift": 1,
+    "partial_omit": 1,
+    "short_uncertain": 1,
+    "internal_skip_loop": 1,
+    "high_extra": 1,
+    "shift_loop": 1,
+    "prefix_stop_budget": 1,
+    "prefix_stop_eos": 1
+  }
+}

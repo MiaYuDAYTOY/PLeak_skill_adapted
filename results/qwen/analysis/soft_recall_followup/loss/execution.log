@@ -1,0 +1,36 @@
+       initial_loss  final_loss  relative_loss_drop  accepted_updates  body_rougeL_recall   low_lt02
+count     81.000000   81.000000           81.000000         81.000000           81.000000  81.000000
+mean       1.196507    0.365891            0.680239         21.382716            0.587631   0.394533
+std        0.630927    0.227839            0.109110          5.510372            0.257918   0.271622
+min        0.448551    0.106672            0.450770         11.000000            0.048461   0.000000
+25%        0.557199    0.203890            0.596956         17.000000            0.410842   0.157143
+50%        1.044410    0.290044            0.698745         21.000000            0.636439   0.314286
+75%        1.936320    0.444496            0.760313         24.000000            0.800673   0.585714
+max        2.189339    1.145803            0.901562         38.000000            0.946366   0.957143
+
+SELECTED
+  train_num  prefix_length  sample_seed lower_recall_run higher_recall_run  recall_gap  lower_recall_final_loss  higher_recall_final_loss  absolute_final_loss_gap  better_recall_has_lower_loss  body_rouge2_recall_gap  body_rougeL_precision_gap
+         3             32            1     t3_p32_s1_a2      t3_p32_s1_a3    0.830657                 0.199020                  0.152523                 0.046497                          True                0.857194                   0.740383
+         4             32            2     t4_p32_s2_a1      t4_p32_s2_a3    0.583717                 0.142597                  0.135331                 0.007266                          True                0.600424                   0.542048
+         5              8            2      t5_p8_s2_a3       t5_p8_s2_a1    0.720588                 0.655313                  0.354657                 0.300656                          True                0.735648                   0.668324
+
+WITHIN CONDITION CORRELATIONS
+             feature                metric  centered_pearson  bootstrap_lower  bootstrap_upper  clusters  replicates
+         final_loss    body_rougeL_recall         -0.475228        -0.633594        -0.277886         9        3000
+         final_loss    body_rouge2_recall         -0.476063        -0.632370        -0.277018         9        3000
+         final_loss body_rougeL_precision         -0.500961        -0.654130        -0.300274         9        3000
+         final_loss              low_lt02          0.456610         0.266907         0.622002         9        3000
+ relative_loss_drop    body_rougeL_recall          0.572450         0.342575         0.755502         9        3000
+ relative_loss_drop    body_rouge2_recall          0.572605         0.338224         0.759151         9        3000
+ relative_loss_drop body_rougeL_precision          0.601061         0.359839         0.773288         9        3000
+ relative_loss_drop              low_lt02         -0.553871        -0.740809        -0.318727         9        3000
+   accepted_updates    body_rougeL_recall          0.146651         0.017685         0.308668         9        3000
+   accepted_updates    body_rouge2_recall          0.145080         0.016910         0.305272         9        3000
+   accepted_updates body_rougeL_precision          0.165714         0.032684         0.329857         9        3000
+   accepted_updates              low_lt02         -0.125681        -0.301100         0.019810         9        3000
+early_drop_fraction    body_rougeL_recall         -0.436277        -0.652281        -0.151117         9        3000
+early_drop_fraction    body_rouge2_recall         -0.433825        -0.647501        -0.147072         9        3000
+early_drop_fraction body_rougeL_precision         -0.423611        -0.644670        -0.130168         9        3000
+early_drop_fraction              low_lt02          0.418421         0.088272         0.639807         9        3000
+
+DIRECTION 54 81 large gap 45 64

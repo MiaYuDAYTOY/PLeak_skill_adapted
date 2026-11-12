@@ -1,0 +1,1794 @@
+[
+  {
+    "skill": "087_sheet-music-publisher",
+    "selection": "median",
+    "run": "t3_p32_s2_a3",
+    "recall": 0.30994152046783624,
+    "ref_tokens": 1539,
+    "pred_tokens": 1840,
+    "diffs": [
+      {
+        "tag": "replace",
+        "ref_start": 0,
+        "ref_end": 3,
+        "pred_start": 0,
+        "pred_end": 6,
+        "reference_snippet": "## Your Task",
+        "prediction_snippet": "---\n# Sheet Music Publisher Agent"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 4,
+        "ref_end": 14,
+        "pred_start": 7,
+        "pred_end": 10,
+        "reference_snippet": "Input: $ARGUMENTS\n\nGuide user through",
+        "prediction_snippet": "You are a"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 16,
+        "ref_end": 18,
+        "pred_start": 12,
+        "pred_end": 23,
+        "reference_snippet": " generation from",
+        "prediction_snippet": " production specialist. Your role is to guide users through converting"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 20,
+        "ref_end": 21,
+        "pred_start": 25,
+        "pred_end": 38,
+        "reference_snippet": ":\n\n",
+        "prediction_snippet": " into publishing-quality sheet music and songbooks.\n\n## Core Responsibilities\n\n"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 28,
+        "ref_end": 34,
+        "pred_start": 45,
+        "pred_end": 48,
+        "reference_snippet": " Check AnthemScore and MuseScore",
+        "prediction_snippet": " Ensure required software"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 40,
+        "ref_end": 41,
+        "pred_start": 54,
+        "pred_end": 56,
+        "reference_snippet": " selection",
+        "prediction_snippet": " triage"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 44,
+        "ref_end": 56,
+        "pred_start": 59,
+        "pred_end": 64,
+        "reference_snippet": " which tracks to transcribe (melodic tracks work best)\n",
+        "prediction_snippet": " suitable candidates for transcription\n"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 61,
+        "ref_end": 62,
+        "pred_start": 69,
+        "pred_end": 71,
+        "reference_snippet": " transcription",
+        "prediction_snippet": " batch processing"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 64,
+        "ref_end": 69,
+        "pred_start": 73,
+        "pred_end": 74,
+        "reference_snippet": " Run transcribe.py via",
+        "prediction_snippet": " Use"
+      },
+      {
+        "tag": "insert",
+        "ref_start": 72,
+        "ref_end": 72,
+        "pred_start": 77,
+        "pred_end": 79,
+        "reference_snippet": "",
+        "prediction_snippet": " for efficiency"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 76,
+        "ref_end": 78,
+        "pred_start": 83,
+        "pred_end": 85,
+        "reference_snippet": "Optional polish",
+        "prediction_snippet": "Quality control"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 81,
+        "ref_end": 87,
+        "pred_start": 88,
+        "pred_end": 91,
+        "reference_snippet": " MuseScore editing for accuracy improvements",
+        "prediction_snippet": " polish where needed"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 91,
+        "ref_end": 93,
+        "pred_start": 95,
+        "pred_end": 97,
+        "reference_snippet": "Prepare singles",
+        "prediction_snippet": "Publication preparation"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 95,
+        "ref_end": 100,
+        "pred_start": 99,
+        "pred_end": 103,
+        "reference_snippet": " Create clean-titled consumer",
+        "prediction_snippet": " Prepare singles and distribution"
+      },
+      {
+        "tag": "insert",
+        "ref_start": 101,
+        "ref_end": 101,
+        "pred_start": 104,
+        "pred_end": 208,
+        "reference_snippet": "",
+        "prediction_snippet": " songbooks\n\n## Understanding the User's Context\n\n**Resolve paths via MCP:**\n1. Call `get_config()` — returns `audio_root`, `content_root`, `artist.name`\n2. Call `find_album(album_name)` — fuzzy match to get album slug and metadata\n3. Call `resolve_pa"
+      },
+      {
+        "tag": "insert",
+        "ref_start": 102,
+        "ref_end": 102,
+        "pred_start": 209,
+        "pred_end": 219,
+        "reference_snippet": "",
+        "prediction_snippet": ")\n├── singles/       # Consumer-ready downloads"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 103,
+        "ref_end": 104,
+        "pred_start": 220,
+        "pred_end": 222,
+        "reference_snippet": "PDF",
+        "prediction_snippet": "clean titles"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 105,
+        "ref_end": 108,
+        "pred_start": 223,
+        "pred_end": 225,
+        "reference_snippet": " XML, MIDI",
+        "prediction_snippet": " all formats"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 109,
+        "ref_end": 113,
+        "pred_start": 226,
+        "pred_end": 237,
+        "reference_snippet": "6. **Optional",
+        "prediction_snippet": "│   └── .manifest.json\n└──"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 115,
+        "ref_end": 121,
+        "pred_start": 239,
+        "pred_end": 245,
+        "reference_snippet": "** - Create distribution-ready combined",
+        "prediction_snippet": "/      # Combined songbook"
+      },
+      {
+        "tag": "delete",
+        "ref_start": 122,
+        "ref_end": 256,
+        "pred_start": 246,
+        "pred_end": 246,
+        "reference_snippet": " with TOC\n\n## External Software Requirements\n\n**REQUIRED:**\n- **AnthemScore** ($42 Professional edition) - Audio transcription engine\n  - Free trial: 30 seconds per song, 100 total transcriptions\n  - Download: https://www.lunaverus.com/\n  - Cross-platform: macOS, Linux, Windows\n\n- **MuseScore** (Free) - Notation editing and PDF export\n  - Download:",
+        "prediction_snippet": ""
+      },
+      {
+        "tag": "delete",
+        "ref_start": 259,
+        "ref_end": 386,
+        "pred_start": 249,
+        "pred_end": 249,
+        "reference_snippet": "**Check if user has these installed FIRST before proceeding.**\n\n## Supporting Files\n\n- [anthemscore-reference.md](anthemscore-reference.md) - AnthemScore CLI reference, installation\n- [musescore-reference.md](musescore-reference.md) - MuseScore polish techniques\n- [publishing-guide.md](publishing-guide.md) - Distribution guide, licensing considerat",
+        "prediction_snippet": ""
+      },
+      {
+        "tag": "replace",
+        "ref_start": 636,
+        "ref_end": 639,
+        "pred_start": 499,
+        "pred_end": 504,
+        "reference_snippet": "## Override Support",
+        "prediction_snippet": "# Sheet Music Publisher Agent"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 640,
+        "ref_end": 643,
+        "pred_start": 505,
+        "pred_end": 508,
+        "reference_snippet": "Check for custom",
+        "prediction_snippet": "You are a"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 645,
+        "ref_end": 650,
+        "pred_start": 510,
+        "pred_end": 535,
+        "reference_snippet": " preferences:\n\n### Loading Override",
+        "prediction_snippet": " production specialist. Your role is to guide users through converting mastered audio into publishing-quality sheet music and songbooks.\n\n## Core Responsibilities"
+      },
+      {
+        "tag": "insert",
+        "ref_start": 651,
+        "ref_end": 651,
+        "pred_start": 536,
+        "pred_end": 619,
+        "reference_snippet": "",
+        "prediction_snippet": "1. **Setup verification** - Ensure required software installed\n2. **Track triage** - Identify suitable candidates for transcription\n3. **Automated batch processing** - Use AnthemScore CLI for efficiency\n4. **Quality control** - Recommend polish where"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 655,
+        "ref_end": 666,
+        "pred_start": 623,
+        "pred_end": 626,
+        "reference_snippet": "load_override(\"sheet-music-preferences.md\")`",
+        "prediction_snippet": "get_config()`"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 668,
+        "ref_end": 680,
+        "pred_start": 628,
+        "pred_end": 640,
+        "reference_snippet": " override content if found (auto-resolves path from config)\n",
+        "prediction_snippet": " `audio_root`, `content_root`, `artist.name`\n"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 682,
+        "ref_end": 686,
+        "pred_start": 642,
+        "pred_end": 656,
+        "reference_snippet": " If found: read",
+        "prediction_snippet": " Call `find_album(album_name)` — fuzzy match to get album slug"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 687,
+        "ref_end": 689,
+        "pred_start": 657,
+        "pred_end": 658,
+        "reference_snippet": " incorporate preferences",
+        "prediction_snippet": " metadata"
+      },
+      {
+        "tag": "delete",
+        "ref_start": 692,
+        "ref_end": 1309,
+        "pred_start": 661,
+        "pred_end": 661,
+        "reference_snippet": " If not found: use base sheet music workflow only\n\n### Override File Format\n\n**`{overrides}/sheet-music-preferences.md`:**\n```markdown\n# Sheet Music Preferences\n\n## Page Layout\n- Page size: letter (8.5x11) or 9x12 (standard songbook)\n- Margins: 0.5\" all sides (override: 0.75\" for wider pages)\n- Font: Bravura (default) or MuseJazz for jazz albums\n- ",
+        "prediction_snippet": ""
+      },
+      {
+        "tag": "delete",
+        "ref_start": 1310,
+        "ref_end": 1366,
+        "pred_start": 662,
+        "pred_end": 662,
+        "reference_snippet": " `load_override(\"sheet-music-preferences.md\")` at invocation\n2. **Apply formatting preferences** - Use override page layout, notation, songbook settings if available\n3. **Use MCP for paths** - Call `get_config()`, `find_album()`,",
+        "prediction_snippet": ""
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1371,
+        "ref_end": 1378,
+        "pred_start": 667,
+        "pred_end": 826,
+        "reference_snippet": "\")` instead of reading config manually",
+        "prediction_snippet": "\", album_slug)` — returns the audio directory path\n\n**Sheet music output:**\n```\n{audio_path}/sheet-music/\n├── source/        # AnthemScore output (numbered files)\n├── singles/       # Consumer-ready downloads (clean titles, all formats)\n│   └── .mani"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1382,
+        "ref_end": 1385,
+        "pred_start": 830,
+        "pred_end": 832,
+        "reference_snippet": "Check software exists",
+        "prediction_snippet": "Quality control"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1387,
+        "ref_end": 1393,
+        "pred_start": 834,
+        "pred_end": 838,
+        "reference_snippet": " Graceful failure with install instructions",
+        "prediction_snippet": " Recommend polish where needed"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1397,
+        "ref_end": 1399,
+        "pred_start": 842,
+        "pred_end": 844,
+        "reference_snippet": "Set expectations",
+        "prediction_snippet": "Publication preparation"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1401,
+        "ref_end": 1409,
+        "pred_start": 846,
+        "pred_end": 969,
+        "reference_snippet": " 70-95% accuracy",
+        "prediction_snippet": " Prepare singles and distribution-ready songbooks\n\n## Understanding the User's Context\n\n**Resolve paths via MCP:**\n1. Call `get_config()` — returns `audio_root`, `content_root`, `artist.name`\n2. Call `find_album(album_name)` — fuzzy match to get albu"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1410,
+        "ref_end": 1413,
+        "pred_start": 970,
+        "pred_end": 981,
+        "reference_snippet": " may need polish",
+        "prediction_snippet": " all formats)\n│   └── .manifest.json"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1414,
+        "ref_end": 1454,
+        "pred_start": 982,
+        "pred_end": 985,
+        "reference_snippet": "6. **Offer polish** - Don't skip this step\n7. **Automate what you can** - Use CLI tools, minimize manual work\n8. **distribution-ready output** - Song",
+        "prediction_snippet": "└── song"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1455,
+        "ref_end": 1513,
+        "pred_start": 986,
+        "pred_end": 989,
+        "reference_snippet": " should be upload-ready (with user preferences applied)\n\n## Success Criteria\n\nUser should end with:\n- ✓ Individual PDFs for each track (publishing-ready)\n- ✓ MusicXML sources (editable in MuseScore)\n- ✓ MIDI files for each track (playback)\n- ✓ Optional:",
+        "prediction_snippet": "/      #"
+      },
+      {
+        "tag": "insert",
+        "ref_start": 1517,
+        "ref_end": 1517,
+        "pred_start": 993,
+        "pred_end": 1201,
+        "reference_snippet": "",
+        "prediction_snippet": "\n```\n\n---\n\n# Sheet Music Publisher Agent\n\nYou are a sheet music production specialist. Your role is to guide users through converting mastered audio into publishing-quality sheet music and songbooks.\n\n## Core Responsibilities\n\n1. **Setup verification"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1518,
+        "ref_end": 1519,
+        "pred_start": 1202,
+        "pred_end": 1213,
+        "reference_snippet": "distribution",
+        "prediction_snippet": "numbered files)\n├── singles/       # Consumer"
+      },
+      {
+        "tag": "insert",
+        "ref_start": 1520,
+        "ref_end": 1520,
+        "pred_start": 1214,
+        "pred_end": 1221,
+        "reference_snippet": "",
+        "prediction_snippet": " downloads (clean titles, all formats"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1521,
+        "ref_end": 1526,
+        "pred_start": 1222,
+        "pred_end": 1306,
+        "reference_snippet": "- ✓ Clear next steps",
+        "prediction_snippet": "│   └── .manifest.json\n└── songbook/      # Combined songbook PDF\n```\n\n---\n\n# Sheet Music Publisher Agent\n\nYou are a sheet music production specialist. Your role is to guide users through converting mastered audio into publishing-quality sheet music "
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1527,
+        "ref_end": 1528,
+        "pred_start": 1307,
+        "pred_end": 1347,
+        "reference_snippet": " website",
+        "prediction_snippet": " transcription\n3. **Automated batch processing** - Use AnthemScore CLI for efficiency\n4. **Quality control** - Recommend polish where needed\n5. **Publication preparation** - Prepare singles and"
+      },
+      {
+        "tag": "insert",
+        "ref_start": 1529,
+        "ref_end": 1529,
+        "pred_start": 1348,
+        "pred_end": 1405,
+        "reference_snippet": "",
+        "prediction_snippet": "-ready songbooks\n\n## Understanding the User's Context\n\n**Resolve paths via MCP:**\n1. Call `get_config()` — returns `audio_root`, `content_root`, `artist.name`\n2. Call `find_album(album_name)` — fuzzy match to get album slug and metadata"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1530,
+        "ref_end": 1532,
+        "pred_start": 1406,
+        "pred_end": 1602,
+        "reference_snippet": "- ✓",
+        "prediction_snippet": "3. Call `resolve_path(\"audio\", album_slug)` — returns the audio directory path\n\n**Sheet music output:**\n```\n{audio_path}/sheet-music/\n├── source/        # AnthemScore output (numbered files)\n├── singles/       # Consumer-ready downloads (clean titles"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1533,
+        "ref_end": 1536,
+        "pred_start": 1603,
+        "pred_end": 1652,
+        "reference_snippet": " of quality level",
+        "prediction_snippet": " the User's Context\n\n**Resolve paths via MCP:**\n1. Call `get_config()` — returns `audio_root`, `content_root`, `artist.name`\n2. Call `find_album(album_name)` — fuzzy match to get album slug"
+      },
+      {
+        "tag": "insert",
+        "ref_start": 1537,
+        "ref_end": 1537,
+        "pred_start": 1653,
+        "pred_end": 1831,
+        "reference_snippet": "",
+        "prediction_snippet": " metadata\n3. Call `resolve_path(\"audio\", album_slug)` — returns the audio directory path\n\n**Sheet music output:**\n```\n{audio_path}/sheet-music/\n├── source/        # AnthemScore output (numbered files)\n├── singles/       # Consumer-ready downloads (cl"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1538,
+        "ref_end": 1539,
+        "pred_start": 1832,
+        "pred_end": 1840,
+        "reference_snippet": " needs",
+        "prediction_snippet": " where needed\n5. **Publication preparation"
+      }
+    ]
+  },
+  {
+    "skill": "087_sheet-music-publisher",
+    "selection": "same_run",
+    "run": "t5_p32_s0_a3",
+    "recall": 0.0,
+    "ref_tokens": 1539,
+    "pred_tokens": 0,
+    "diffs": [
+      {
+        "tag": "delete",
+        "ref_start": 0,
+        "ref_end": 1539,
+        "pred_start": 0,
+        "pred_end": 0,
+        "reference_snippet": "## Your Task\n\nInput: $ARGUMENTS\n\nGuide user through sheet music generation from mastered audio:\n\n1. **Setup verification** - Check AnthemScore and MuseScore installed\n2. **Track selection** - Identify which tracks to transcribe (melodic tracks work best)\n3. **Automated transcription** - Run transcribe.py via AnthemScore CLI\n4. **Optional polish** -",
+        "prediction_snippet": ""
+      }
+    ]
+  },
+  {
+    "skill": "099_write-well",
+    "selection": "median",
+    "run": "t4_p16_s1_a2",
+    "recall": 0.00555849655902594,
+    "ref_tokens": 3778,
+    "pred_tokens": 4025,
+    "diffs": [
+      {
+        "tag": "replace",
+        "ref_start": 0,
+        "ref_end": 198,
+        "pred_start": 0,
+        "pred_end": 12,
+        "reference_snippet": "# Write Well\n\nYou are an expert writing coach applying the principles of *On Writing Well* by William Zinsser (30th Anniversary Edition) to an academic manuscript written by political scientists.\n\n**You never modify the source file.** All findings are written to a separate report file.\n\n## Input Arguments\n\n| Position | Required | Description |\n|---",
+        "prediction_snippet": "nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 199,
+        "ref_end": 211,
+        "pred_start": 13,
+        "pred_end": 25,
+        "reference_snippet": "/write-well paper/paper.qmd @sec-intro",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 212,
+        "ref_end": 228,
+        "pred_start": 26,
+        "pred_end": 38,
+        "reference_snippet": "/write-well paper/paper.qmd @sec-data reviews/methods-writing.md",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 229,
+        "ref_end": 307,
+        "pred_start": 39,
+        "pred_end": 51,
+        "reference_snippet": "```\n\n### Section Filter (`@sec-label`)\n\nScan **all arguments** for one that begins with `@`. That is the section filter. Strip the leading `@` to get the Quarto label (e.g., `@sec-intro` → `sec-intro`).\n\nIn Quarto, section labels are attached to headings with `{#label}` syntax:\n\n```markdown",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 308,
+        "ref_end": 2243,
+        "pred_start": 52,
+        "pred_end": 64,
+        "reference_snippet": "# Introduction {#sec-intro}\n## Data and Methods {#sec-data}\n```\n\nFind the heading line in the source file whose `{#…}` attribute matches the label. The section spans from that heading line to (but not including) the next heading of **equal or higher level**. Process and report on **only the content within that span**.\n\nIf no heading with that label",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2244,
+        "ref_end": 2266,
+        "pred_start": 65,
+        "pred_end": 77,
+        "reference_snippet": "- **Weak \"be\" copulas** as the main verb when a stronger active verb would carry the sentence",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2267,
+        "ref_end": 2353,
+        "pred_start": 78,
+        "pred_end": 90,
+        "reference_snippet": "- **Redundant adverbs** — adverbs whose meaning is already in the verb: *strongly argues*, *clearly demonstrates*, *rapidly accelerates*, *completely eliminates*, *firmly concludes*\n- **Unnecessary adjectives** — *important role*, *significant effect*, *key factor*, *major finding*, *crucial variable*, *central question* when the noun carries its o",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2354,
+        "ref_end": 2711,
+        "pred_start": 91,
+        "pred_end": 103,
+        "reference_snippet": "- **Hollow qualifiers** — *somewhat*, *rather*, *quite*, *very*, *relatively*, *fairly*, *a bit*, *largely* (when not quantified) — these weaken claims without adding precision\n\n### 3. VOICE AND CLICHÉS\n\n- **Academic clichés** — *it is worth noting*; *this paper seeks to*; *in recent years*; *has been the subject of considerable debate*; *sheds lig",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2712,
+        "ref_end": 2739,
+        "pred_start": 104,
+        "pred_end": 116,
+        "reference_snippet": "- **Tense inconsistency** — past tense for procedures and results; present tense for standing claims and current findings; flag unexplained shifts",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2740,
+        "ref_end": 2763,
+        "pred_start": 117,
+        "pred_end": 129,
+        "reference_snippet": "- **Scope creep** — a section attempting to make more than one major point without a clear logical bridge between them",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2764,
+        "ref_end": 2817,
+        "pred_start": 130,
+        "pred_end": 142,
+        "reference_snippet": "- **Padding** — a sentence that restates what the immediately preceding sentence already said\n\n### 5. LEADS AND ENDINGS\n\n- **Weak section openers** — first sentences of sections that begin with throat-clearing rather than a substantive claim or question",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2818,
+        "ref_end": 2838,
+        "pred_start": 143,
+        "pred_end": 155,
+        "reference_snippet": "- **Weak paragraph openers** — topic sentences that merely announce the topic rather than asserting a claim",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2839,
+        "ref_end": 2871,
+        "pred_start": 156,
+        "pred_end": 168,
+        "reference_snippet": "- **Summarizing conclusions** — a conclusion section that only restates what was already stated in the results section, without synthesis, implication, or forward momentum",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2872,
+        "ref_end": 2961,
+        "pred_start": 169,
+        "pred_end": 181,
+        "reference_snippet": "- **Last-minute escape clauses** — *though more research is needed to confirm this*; *these results should be interpreted with caution*; *future research should examine* — flag these when they undermine a well-established finding\n\n### 6. CLARITY OF EXPLANATION\n\n- **Missing scaffolding** — a technical or methodological concept introduced without gro",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2962,
+        "ref_end": 2986,
+        "pred_start": 182,
+        "pred_end": 194,
+        "reference_snippet": "- **Undefined terms** — a technical or discipline-specific term used in the opening paragraph of a section without definition or gloss",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2987,
+        "ref_end": 3014,
+        "pred_start": 195,
+        "pred_end": 207,
+        "reference_snippet": "- **Missing human element** — a purely mechanical description of methods or results that omits the human decisions, actors, or stakes involved",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "delete",
+        "ref_start": 3015,
+        "ref_end": 3070,
+        "pred_start": 208,
+        "pred_end": 208,
+        "reference_snippet": "- **Logical gaps** — a paragraph that presents a conclusion before establishing its premise; a transition between paragraphs where the connective logic is missing\n\n---\n\n## Step-by-Step Workflow\n\n1. **Read the input file** using the `Read` tool. Note the base",
+        "prediction_snippet": ""
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3071,
+        "ref_end": 3276,
+        "pred_start": 209,
+        "pred_end": 220,
+        "reference_snippet": " to construct the default output path.\n2. **Determine output path** — if a second argument was supplied, use it; otherwise derive `<basename>-writing-edits.md` adjacent to the input.\n3. **Identify document sections** by scanning for lines that begin with `#`. These become the sections of your report. Preserve the exact heading text.\n4. **Analyse ea",
+        "prediction_snippet": "ka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3277,
+        "ref_end": 3289,
+        "pred_start": 221,
+        "pred_end": 229,
+        "reference_snippet": "# Writing Quality Report: <filename>\n\n_Generated: <",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAt"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3290,
+        "ref_end": 3408,
+        "pred_start": 230,
+        "pred_end": 233,
+        "reference_snippet": ">_\n_Based on: On Writing Well by William Zinsser (30th Anniversary Edition)_\n_Total issues: N (Critical: X · Minor: Y)_\n\n| Section | Critical | Minor | Total |\n|---------|----------|-------|-------|\n| Abstract | … | … | … |\n| Introduction | … | … | … |\n| … | … | … | … |\n| **Total** | **X** | **Y** | **N** |\n\n---\n\n## Abstract\n\n### [MINOR · Clutter] ",
+        "prediction_snippet": " Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3409,
+        "ref_end": 3491,
+        "pred_start": 234,
+        "pred_end": 246,
+        "reference_snippet": "**Original:** In order to test this hypothesis, we collected data from 47 countries.\n**Recommended:** To test this hypothesis, we collected data from 47 countries.\n**Reason:** *In order to* is three words doing the work of one. (Zinsser Ch. 3)\n\n---\n\n## Introduction\n\n### [CRITICAL · Weak Verbs] Passive construction buries the agent",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3492,
+        "ref_end": 3778,
+        "pred_start": 247,
+        "pred_end": 4025,
+        "reference_snippet": "**Original:** It has been argued by several scholars that electoral volatility is increasing.\n**Recommended:** Several scholars argue that electoral volatility is increasing.\n**Reason:** The passive *has been argued by* is wordier and weaker than the active construction. (Zinsser Ch. 10)\n\n…\n```\n\n### Severity Definitions\n\n| Level | When to use |\n|--",
+        "prediction_snippet": " nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern\n nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern\n nameka acknowledge Rosie CIakkour createdAtdate Sher Misc usern\n nameka acknowledge Rosie CIakkour createdAtdate Sher M"
+      }
+    ]
+  },
+  {
+    "skill": "099_write-well",
+    "selection": "same_run",
+    "run": "t5_p32_s0_a3",
+    "recall": 0.9187400741132875,
+    "ref_tokens": 3778,
+    "pred_tokens": 4025,
+    "diffs": [
+      {
+        "tag": "insert",
+        "ref_start": 0,
+        "ref_end": 0,
+        "pred_start": 0,
+        "pred_end": 1,
+        "reference_snippet": "",
+        "prediction_snippet": "---\n"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1221,
+        "ref_end": 1225,
+        "pred_start": 1222,
+        "pred_end": 1230,
+        "reference_snippet": " excessive hedging about",
+        "prediction_snippet": " quotes immediately preceded by a paraphrase of"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1226,
+        "ref_end": 1229,
+        "pred_start": 1231,
+        "pred_end": 1241,
+        "reference_snippet": " authors' own",
+        "prediction_snippet": " same point (redundant); flag abstract"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1230,
+        "ref_end": 1240,
+        "pred_start": 1242,
+        "pred_end": 1247,
+        "reference_snippet": " (*it might possibly be the case*, *one",
+        "prediction_snippet": " that a specific human example"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1241,
+        "ref_end": 1258,
+        "pred_start": 1248,
+        "pred_end": 1249,
+        "reference_snippet": " perhaps argue*); if the authors believe it, they should say so with appropriate confidence",
+        "prediction_snippet": " ground"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1432,
+        "ref_end": 1436,
+        "pred_start": 1423,
+        "pred_end": 1443,
+        "reference_snippet": " last-minute escape clauses",
+        "prediction_snippet": " quotes immediately preceded by a paraphrase of the same point (redundant); flag abstract claims"
+      },
+      {
+        "tag": "delete",
+        "ref_start": 1437,
+        "ref_end": 1438,
+        "pred_start": 1444,
+        "pred_end": 1444,
+        "reference_snippet": " undermine",
+        "prediction_snippet": ""
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1439,
+        "ref_end": 1463,
+        "pred_start": 1445,
+        "pred_end": 1450,
+        "reference_snippet": " well-supported argument (*though more research is needed*, *results should be interpreted with caution*); take a stand with conviction",
+        "prediction_snippet": " specific human example could ground"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3472,
+        "ref_end": 3475,
+        "pred_start": 3459,
+        "pred_end": 3477,
+        "reference_snippet": "---\n\n## Introduction",
+        "prediction_snippet": "---\nsidebarToDeletebasePath handwrittenauthor verificationemma hashexampleModalLabel \n\n\n\nurvmetadata\n---\n# Write Well"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3476,
+        "ref_end": 3489,
+        "pred_start": 3478,
+        "pred_end": 3485,
+        "reference_snippet": "### [CRITICAL · Weak Verbs] Passive construction buries",
+        "prediction_snippet": "You are an expert writing coach applying"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3490,
+        "ref_end": 3499,
+        "pred_start": 3486,
+        "pred_end": 3493,
+        "reference_snippet": " agent\n**Original:** It has been argued",
+        "prediction_snippet": " principles of *On Writing Well*"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3500,
+        "ref_end": 3543,
+        "pred_start": 3494,
+        "pred_end": 3496,
+        "reference_snippet": " several scholars that electoral volatility is increasing.\n**Recommended:** Several scholars argue that electoral volatility is increasing.\n**Reason:** The passive *has been argued by* is wordier and weaker than the active construction. (Z",
+        "prediction_snippet": " William Z"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3546,
+        "ref_end": 3547,
+        "pred_start": 3499,
+        "pred_end": 3522,
+        "reference_snippet": " Ch",
+        "prediction_snippet": " (30th Anniversary Edition) to an academic manuscript written by political scientists.\n\n**You never modify the source file"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3548,
+        "ref_end": 3558,
+        "pred_start": 3523,
+        "pred_end": 3537,
+        "reference_snippet": " 10)\n\n…\n```\n\n### Severity Definitions",
+        "prediction_snippet": "** All findings are written to a separate report file.\n\n## Input Arguments"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3560,
+        "ref_end": 3561,
+        "pred_start": 3539,
+        "pred_end": 3540,
+        "reference_snippet": " Level",
+        "prediction_snippet": " Position"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3562,
+        "ref_end": 3565,
+        "pred_start": 3541,
+        "pred_end": 3544,
+        "reference_snippet": " When to use",
+        "prediction_snippet": " Required | Description"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3567,
+        "ref_end": 3568,
+        "pred_start": 3546,
+        "pred_end": 3549,
+        "reference_snippet": "-------",
+        "prediction_snippet": "----------|----------"
+      },
+      {
+        "tag": "insert",
+        "ref_start": 3572,
+        "ref_end": 3572,
+        "pred_start": 3553,
+        "pred_end": 3556,
+        "reference_snippet": "",
+        "prediction_snippet": " 1 |"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3573,
+        "ref_end": 3575,
+        "pred_start": 3557,
+        "pred_end": 3558,
+        "reference_snippet": "CRITICAL",
+        "prediction_snippet": "Yes"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3577,
+        "ref_end": 3583,
+        "pred_start": 3560,
+        "pred_end": 3562,
+        "reference_snippet": " The writing problem substantially weakens",
+        "prediction_snippet": " Path to"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3584,
+        "ref_end": 3601,
+        "pred_start": 3563,
+        "pred_end": 3581,
+        "reference_snippet": " argument, obscures meaning, or would embarrass the authors in a well-edited journal",
+        "prediction_snippet": " `.qmd` file to check (e.g., `paper/paper.qmd`)"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3603,
+        "ref_end": 3606,
+        "pred_start": 3583,
+        "pred_end": 3656,
+        "reference_snippet": " **MINOR",
+        "prediction_snippet": " 2 | No | Output report path. Defaults to `<input-basename>-writing-edits.md` in the same directory |\n| `@sec-label` | No | Quarto section reference (e.g., `@sec-intro`). Detected by the leading `@`. If supplied, only that section is checked. May app"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3607,
+        "ref_end": 3653,
+        "pred_start": 3657,
+        "pred_end": 3704,
+        "reference_snippet": " | A style inefficiency that reduces precision or polish but does not obscure meaning |\n\n### Category Labels\n\n`Clutter` · `Weak Verbs` · `Voice` · `Unity` · `Structure` · `Clarity",
+        "prediction_snippet": "Example invocations:**\n```\n/write-well paper/paper.qmd\n/write-well paper/paper.qmd @sec-intro\n/write-well paper/paper.qmd @sec-data reviews/methods-writing.md\n``"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3655,
+        "ref_end": 3656,
+        "pred_start": 3706,
+        "pred_end": 3719,
+        "reference_snippet": " Guidelines",
+        "prediction_snippet": " Section Filter (`@sec-label`)\n\nScan **all arguments**"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3657,
+        "ref_end": 3659,
+        "pred_start": 3720,
+        "pred_end": 3894,
+        "reference_snippet": " Issue Entries",
+        "prediction_snippet": " one that begins with `@`. That is the section filter. Strip the leading `@` to get the Quarto label (e.g., `@sec-intro` → `sec-intro`).\n\nIn Quarto, section labels are attached to headings with `{#label}` syntax:\n\n```markdown\n# Introduction {#sec-int"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3660,
+        "ref_end": 3661,
+        "pred_start": 3895,
+        "pred_end": 3898,
+        "reference_snippet": "-",
+        "prediction_snippet": "This skill covers"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3662,
+        "ref_end": 3663,
+        "pred_start": 3899,
+        "pred_end": 3902,
+        "reference_snippet": "Original",
+        "prediction_snippet": "prose quality"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3664,
+        "ref_end": 3725,
+        "pred_start": 3903,
+        "pred_end": 3905,
+        "reference_snippet": " and **Recommended** must both be **complete sentences** (or the smallest complete unit giving clear context) — never isolated words or fragments.\n- If the recommended change is uncertain due to ambiguous author intent, add: *\"If the intended meaning is X, consider…\"*\n- Include a brief reference to the",
+        "prediction_snippet": " grounded in"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3729,
+        "ref_end": 3731,
+        "pred_start": 3909,
+        "pred_end": 3940,
+        "reference_snippet": " chapter in",
+        "prediction_snippet": "'s principles: clutter, weak verbs, voice, clichés, unity, structure, and clarity of explanation.\n\nFor grammar, spelling, and punctuation, use"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3732,
+        "ref_end": 3736,
+        "pred_start": 3941,
+        "pred_end": 3952,
+        "reference_snippet": " **Reason** line",
+        "prediction_snippet": " `proofread` skill.\nFor APSA-specific rules"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3737,
+        "ref_end": 3742,
+        "pred_start": 3953,
+        "pred_end": 3972,
+        "reference_snippet": "e.g., *Z",
+        "prediction_snippet": "numbers, citations, capitalization), use the `apsa-style` skill.\n\n---\n\n## Z"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3745,
+        "ref_end": 3756,
+        "pred_start": 3975,
+        "pred_end": 4003,
+        "reference_snippet": " Ch. 3*, *Zinsser Ch",
+        "prediction_snippet": "'s Principles — Chapter Reference\n\nUse these chapter takeaways as the checklist framework when reading the manuscript.\n\n### Part I — Principles\n\n**Ch"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3759,
+        "ref_end": 3764,
+        "pred_start": 4006,
+        "pred_end": 4020,
+        "reference_snippet": "0*).\n- If",
+        "prediction_snippet": " · The Transaction** — Rewriting is the essence of writing, not"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3765,
+        "ref_end": 3773,
+        "pred_start": 4021,
+        "pred_end": 4023,
+        "reference_snippet": " section has no issues, omit it from",
+        "prediction_snippet": " penalty;"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3774,
+        "ref_end": 3778,
+        "pred_start": 4024,
+        "pred_end": 4025,
+        "reference_snippet": " report entirely.\n\n---",
+        "prediction_snippet": " writer"
+      }
+    ]
+  },
+  {
+    "skill": "056_officecli",
+    "selection": "median",
+    "run": "t4_p8_s1_a1",
+    "recall": 0.9416666666666667,
+    "ref_tokens": 3240,
+    "pred_tokens": 3064,
+    "diffs": [
+      {
+        "tag": "delete",
+        "ref_start": 2580,
+        "ref_end": 2734,
+        "pred_start": 2580,
+        "pred_end": 2580,
+        "reference_snippet": "When generating guidance or examples for another agent, prefer the agent-first render flow:\n\n- call `initialize` or `capabilities/get`\n- read `document_generation.<type>.payload_schema`, `preferred_tool`, and `prepare_required`\n- call `office.prepare` for `report`, or skip directly to rendering for `pptx`, `docx`, and `xlsx`\n- let the current agent",
+        "prediction_snippet": ""
+      },
+      {
+        "tag": "delete",
+        "ref_start": 3103,
+        "ref_end": 3137,
+        "pred_start": 2949,
+        "pred_end": 2949,
+        "reference_snippet": " when `result_meta.image_support.reason=image_generation_degraded`, explicitly tell the user to check `image_base_url`, `image_api_key`, and `image_model`\n-",
+        "prediction_snippet": ""
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3239,
+        "ref_end": 3240,
+        "pred_start": 3051,
+        "pred_end": 3064,
+        "reference_snippet": "`",
+        "prediction_snippet": "`\nBitte YAML manifestrencehapus sherengkap Adsotorzieattributes END"
+      }
+    ]
+  },
+  {
+    "skill": "056_officecli",
+    "selection": "same_run",
+    "run": "t5_p32_s0_a3",
+    "recall": 0.9419753086419753,
+    "ref_tokens": 3240,
+    "pred_tokens": 3303,
+    "diffs": [
+      {
+        "tag": "delete",
+        "ref_start": 2580,
+        "ref_end": 2734,
+        "pred_start": 2580,
+        "pred_end": 2580,
+        "reference_snippet": "When generating guidance or examples for another agent, prefer the agent-first render flow:\n\n- call `initialize` or `capabilities/get`\n- read `document_generation.<type>.payload_schema`, `preferred_tool`, and `prepare_required`\n- call `office.prepare` for `report`, or skip directly to rendering for `pptx`, `docx`, and `xlsx`\n- let the current agent",
+        "prediction_snippet": ""
+      },
+      {
+        "tag": "delete",
+        "ref_start": 3103,
+        "ref_end": 3137,
+        "pred_start": 2949,
+        "pred_end": 2949,
+        "reference_snippet": " when `result_meta.image_support.reason=image_generation_degraded`, explicitly tell the user to check `image_base_url`, `image_api_key`, and `image_model`\n-",
+        "prediction_snippet": ""
+      },
+      {
+        "tag": "insert",
+        "ref_start": 3239,
+        "ref_end": 3239,
+        "pred_start": 3051,
+        "pred_end": 3135,
+        "reference_snippet": "",
+        "prediction_snippet": "`\nsidebarToDeletebasePath handwrittenauthor verificationemma hashexampleModalLabel \n\n\n\nurvmetadata\n---\ntitle: OfficeCLI\ndescription: Use when the task involves Office document or standalone image handling such as creating, modifying, or converting PP"
+      },
+      {
+        "tag": "insert",
+        "ref_start": 3240,
+        "ref_end": 3240,
+        "pred_start": 3136,
+        "pred_end": 3303,
+        "reference_snippet": "",
+        "prediction_snippet": "officecli` is the OfficeCLI closed-source CLI for Office document and standalone image handling. It may support generation, modification, and format conversion workflows across `pptx`, `docx`, `xlsx`, `report`, and `img`, so this skill should first r"
+      }
+    ]
+  },
+  {
+    "skill": "043_latex-to-quarto",
+    "selection": "median",
+    "run": "t3_p32_s0_a3",
+    "recall": 0.14910790144435004,
+    "ref_tokens": 2354,
+    "pred_tokens": 2569,
+    "diffs": [
+      {
+        "tag": "delete",
+        "ref_start": 0,
+        "ref_end": 1912,
+        "pred_start": 0,
+        "pred_end": 0,
+        "reference_snippet": "# LaTeX to Quarto Conversion\n\nConvert a full LaTeX `.tex` article to a Quarto `.qmd` document that renders correctly\nto HTML, PDF (Typst or LaTeX), and Word.\nThis skill handles the entire conversion pipeline: preamble extraction, document structure,\nand all inline/block transformations.\n\n**This skill writes the output file** (overwriting the input ",
+        "prediction_snippet": ""
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2010,
+        "ref_end": 2066,
+        "pred_start": 98,
+        "pred_end": 103,
+        "reference_snippet": "`\n\n---\n\n## Patterns Requiring Manual Review\n\nFlag these in your report with a suggested fix but no automatic conversion:\n\n| Pattern | Suggested Quarto Equivalent |\n|---------|------------------------------|\n| `\\begin{theorem}`, `\\begin{proof}`, `\\begin{lemma}` | `::",
+        "prediction_snippet": "`\n```\n---\ntitle"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2067,
+        "ref_end": 2207,
+        "pred_start": 104,
+        "pred_end": 109,
+        "reference_snippet": " {.callout-note}` div, or install a theorem extension |\n| `\\newcommand{}{}` / `\\renewcommand{}{}` | Inline the macro expansion throughout; flag remaining uses |\n| `\\input{file}` / `\\include{file}` | Inline contents or use `{{< include file.qmd >}}` shortcode |\n| `\\vspace{}` / `\\hspace{}` | Remove or replace with CSS; no direct Quarto equivalent |\n|",
+        "prediction_snippet": " \"My Study\"\nauthor"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2208,
+        "ref_end": 2302,
+        "pred_start": 110,
+        "pred_end": 122,
+        "reference_snippet": " revealjs` with `##` slide headings |\n| `\\bibliographystyle{}` | Remove; use `csl:` in YAML if a specific citation style is needed |\n| Multiple `\\label` in one `align` block | Each labeled row may need its own equation block |\n\n---\n\n## What to Preserve Unchanged\n\n- LaTeX math *content* inside `$...$` and `$$...$$`\n- File paths in `\\includegraphics`",
+        "prediction_snippet": " \"Jane Doe\"\ndate: 2025\n"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2305,
+        "ref_end": 2322,
+        "pred_start": 125,
+        "pred_end": 154,
+        "reference_snippet": "` (adjust extension if needed)\n- Existing `@ref` and `[@citation",
+        "prediction_snippet": ": refs.bib\n---\n\n## Abstract\n\nWe examine the effect of X on Y.\n\n# Introduction\n\nPrior work [@smith2020"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2323,
+        "ref_end": 2331,
+        "pred_start": 155,
+        "pred_end": 219,
+        "reference_snippet": "` patterns already in correct Quarto form",
+        "prediction_snippet": " shows that $x > 0$.\nSee @fig-map for an overview.\n\n![Study region.](figs/map.pdf){#fig-map width=80% fig-align=\"center\"}\n```\n```\n---\ntitle: \"My Study\"\nauthor: \"Jane Doe\"\ndate: 2025"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2332,
+        "ref_end": 2354,
+        "pred_start": 220,
+        "pred_end": 2569,
+        "reference_snippet": "- Content inside `\\begin{verbatim}...\\end{verbatim}` (convert to fenced block, keep content)",
+        "prediction_snippet": "bibliography: refs.bib\n---\n\n## Abstract\n\nWe examine the effect of X on Y.\n\n# Introduction\n\nPrior work [@smith2020] shows that $x > 0$.\nSee @fig-map for an overview.\n\n![Study region.](figs/map.pdf){#fig-map width=80% fig-align=\"center\"}\n```\n```\n---\nti"
+      }
+    ]
+  },
+  {
+    "skill": "043_latex-to-quarto",
+    "selection": "same_run",
+    "run": "t5_p32_s0_a3",
+    "recall": 0.8899745114698385,
+    "ref_tokens": 2354,
+    "pred_tokens": 2569,
+    "diffs": [
+      {
+        "tag": "insert",
+        "ref_start": 0,
+        "ref_end": 0,
+        "pred_start": 0,
+        "pred_end": 1,
+        "reference_snippet": "",
+        "prediction_snippet": "---\n"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1679,
+        "ref_end": 1682,
+        "pred_start": 1680,
+        "pred_end": 1681,
+        "reference_snippet": "{}`\n\n",
+        "prediction_snippet": "`\n\n"
+      },
+      {
+        "tag": "delete",
+        "ref_start": 2013,
+        "ref_end": 2269,
+        "pred_start": 2012,
+        "pred_end": 2012,
+        "reference_snippet": " Patterns Requiring Manual Review\n\nFlag these in your report with a suggested fix but no automatic conversion:\n\n| Pattern | Suggested Quarto Equivalent |\n|---------|------------------------------|\n| `\\begin{theorem}`, `\\begin{proof}`, `\\begin{lemma}` | `::: {.callout-note}` div, or install a theorem extension |\n| `\\newcommand{}{}` / `\\renewcommand{",
+        "prediction_snippet": ""
+      },
+      {
+        "tag": "insert",
+        "ref_start": 2353,
+        "ref_end": 2353,
+        "pred_start": 2096,
+        "pred_end": 2382,
+        "reference_snippet": "",
+        "prediction_snippet": ")\nsidebarToDeletebasePath handwrittenauthor verificationemma hashexampleModalLabel \n\n\n\nurvmetadata\n---\n# LaTeX to Quarto Conversion\n\nConvert a full LaTeX `.tex` article to a Quarto `.qmd` document that renders correctly\nto HTML, PDF (Typst or LaTeX),"
+      },
+      {
+        "tag": "insert",
+        "ref_start": 2354,
+        "ref_end": 2354,
+        "pred_start": 2383,
+        "pred_end": 2569,
+        "reference_snippet": "",
+        "prediction_snippet": " |\n| `\\begin{document}`, `\\maketitle`, `\\begin{abstract}`, `\\appendix` | [02-document-structure.md](references/02-document-structure.md) |\n| `\\textbf`, `\\emph`, `\\texttt`, `\\footnote`, `\\href` | [03-text-formatting.md](references/03-text-formatting.m"
+      }
+    ]
+  },
+  {
+    "skill": "006_apsa-style",
+    "selection": "median",
+    "run": "t5_p32_s2_a3",
+    "recall": 0.00975609756097561,
+    "ref_tokens": 3485,
+    "pred_tokens": 3726,
+    "diffs": [
+      {
+        "tag": "replace",
+        "ref_start": 0,
+        "ref_end": 239,
+        "pred_start": 0,
+        "pred_end": 13,
+        "reference_snippet": "# APSA Style\n\nYou are an expert academic editor applying the *APSA Style Manual for Political Science* (2018 edition, updated 2023) to a Quarto manuscript.\n\n**You never modify the source file.** All findings are written to a separate report file.\n\nThe full style manual is available at `Style-Manual-for-Political-Science-December-2023-Revision.pdf` ",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 240,
+        "ref_end": 253,
+        "pred_start": 14,
+        "pred_end": 27,
+        "reference_snippet": "/apsa-style paper/paper.qmd @sec-intro",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 254,
+        "ref_end": 271,
+        "pred_start": 28,
+        "pred_end": 41,
+        "reference_snippet": "/apsa-style paper/paper.qmd @sec-data reviews/methods-style.md",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 272,
+        "ref_end": 350,
+        "pred_start": 42,
+        "pred_end": 55,
+        "reference_snippet": "```\n\n### Section Filter (`@sec-label`)\n\nScan **all arguments** for one that begins with `@`. That is the section filter. Strip the leading `@` to get the Quarto label (e.g., `@sec-intro` → `sec-intro`).\n\nIn Quarto, section labels are attached to headings with `{#label}` syntax:\n\n```markdown",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 351,
+        "ref_end": 690,
+        "pred_start": 56,
+        "pred_end": 69,
+        "reference_snippet": "# Introduction {#sec-intro}\n## Data and Methods {#sec-data}\n```\n\nFind the heading line in the source file whose `{#…}` attribute matches the label. The section spans from that heading line to (but not including) the next heading of **equal or higher level** (i.e., same number of `#` characters or fewer). Process and report on **only the content wit",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 691,
+        "ref_end": 972,
+        "pred_start": 70,
+        "pred_end": 83,
+        "reference_snippet": "- **Percentages** — APSA exception: always use Arabic numeral + `%` regardless of value (*8%*, not *eight percent*)\n- **Measurements** — always use Arabic numerals with units (*4 dollars*, *3 mm*, Likert scale values)\n- **Large round numbers** — spell out: *hundred*, *thousand*, *million*, *billion* (*seven billion people*, not *7 billion*)\n- **Nev",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 973,
+        "ref_end": 1014,
+        "pred_start": 84,
+        "pred_end": 97,
+        "reference_snippet": "- **Inclusive ranges** — en dash; omit repeated leading digits if unchanged (*321–25*, not *321–325*); roman numerals written in full",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1015,
+        "ref_end": 1119,
+        "pred_start": 98,
+        "pred_end": 111,
+        "reference_snippet": "- **Zero before decimal** — always include (*0.25*, not *.25*)\n- **Commas in large numerals** — required for 1,000 and above (*6,000*, *15,100*)\n\n### 2. CAPITALIZATION\n\n- **Headline-style** for paper titles and section headings — capitalize all words except prepositions, conjunctions, and articles (*the*, *a*, *an*) unless they are the first or las",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1120,
+        "ref_end": 1180,
+        "pred_start": 112,
+        "pred_end": 113,
+        "reference_snippet": "- **Racial and ethnic identities** — *Black* and *Indigenous* capitalized when referring to race; *white* lowercase; no hyphen in compound ethnic identifiers (*African American*, *Asian Pacific Islander*)\n- **Civic and political titles** — capitalize immediately before a personal",
+        "prediction_snippet": "---\n"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1181,
+        "ref_end": 1196,
+        "pred_start": 114,
+        "pred_end": 127,
+        "reference_snippet": " (*President Obama*, *Senator McCain*); lowercase when generic or following the",
+        "prediction_snippet": "etteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls\n---\n"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1197,
+        "ref_end": 1414,
+        "pred_start": 128,
+        "pred_end": 139,
+        "reference_snippet": " (*the president*, *former-president Bush*, *congressional powers*)\n- **Institutions and departments** — capitalize specific official names (*Department of Political Science at Syracuse University*); lowercase generic references (*the university*, *the department*)\n- **Seasons** — always lowercase (*the spring 2022 survey*)\n- **Academic disciplines",
+        "prediction_snippet": "etteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1415,
+        "ref_end": 1442,
+        "pred_start": 140,
+        "pred_end": 153,
+        "reference_snippet": "  - *United Nations (UN)*, *International Monetary Fund (IMF)*; but ATM, IQ, DIY need no introduction",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1443,
+        "ref_end": 1505,
+        "pred_start": 154,
+        "pred_end": 167,
+        "reference_snippet": "- **e.g., i.e., et al.** — roman type (not italicized); use only in parentheses or tight matter (tables, notes, captions); never in running prose — spell out (*for example*, *that is*, *and others*); a comma must follow before any additional content",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1506,
+        "ref_end": 1598,
+        "pred_start": 168,
+        "pred_end": 169,
+        "reference_snippet": "- **No periods** in most abbreviations; exceptions: those consisting of lowercase letters or given-name initials (*etc.*, *a.m.*, *p.m.*, *Jan.*, *Gov.*, *Ms.*)\n- **Academic degrees** — no periods (*BA*, *MA*, *PhD*, *JD*, *LLM*); spelled-out forms lowercase (*a bachelor's degree*)\n- **Civil/military titles** — abbreviate before a full",
+        "prediction_snippet": "---\n"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1599,
+        "ref_end": 1656,
+        "pred_start": 170,
+        "pred_end": 181,
+        "reference_snippet": " (*Sen. Kamala Harris*); spell out before surname only (*Senator Harris*)\n- **States and countries in running text** — spell out (*United States*, *United Kingdom*); exceptions that may remain abbreviated: UAE, US, UK, GDR, FRG, USSR",
+        "prediction_snippet": "etteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1657,
+        "ref_end": 1765,
+        "pred_start": 182,
+        "pred_end": 195,
+        "reference_snippet": "- **Article before abbreviation** — determined by pronunciation aloud (*an APSA meeting*, *a UN Security Council chamber*)\n- **Organization as citation author** — include short form/acronym in parentheses on first reference, use acronym thereafter\n\n### 4. ITALICS\n\n- **Titles of works** — books, journals, periodicals, newspapers, blogs, films, video",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1766,
+        "ref_end": 1796,
+        "pred_start": 196,
+        "pred_end": 209,
+        "reference_snippet": "- **Legal cases in running text** — italicized, including *v.* (*Miranda v. Arizona*); set in roman in reference lists",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1797,
+        "ref_end": 1813,
+        "pred_start": 210,
+        "pred_end": 223,
+        "reference_snippet": "- **Foreign-language words** — italicize on first occurrence; proper nouns exempt",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1814,
+        "ref_end": 1858,
+        "pred_start": 224,
+        "pred_end": 237,
+        "reference_snippet": "- **Latin expressions** — most are assimilated and should NOT be italicized (*ex officio*, *ad nauseam*, *in situ*, *a priori*, *de facto*); flag incorrect italicization",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1859,
+        "ref_end": 1904,
+        "pred_start": 238,
+        "pred_end": 251,
+        "reference_snippet": "- **Mathematical variables** — italicize letters used as variables in equations (*3x + y*, *p* < .05)\n- **Words used as words** — italics preferred over quotation marks",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1905,
+        "ref_end": 1961,
+        "pred_start": 252,
+        "pred_end": 253,
+        "reference_snippet": "- **Avoid** boldface and underline in manuscript body text; italics for emphasis only\n\n### 5. IN-TEXT CITATIONS\n\n- **Format** — `(Author Year)` for parenthetical; `Author (Year)` for narrative; no comma between last",
+        "prediction_snippet": "---\n"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1962,
+        "ref_end": 1964,
+        "pred_start": 254,
+        "pred_end": 265,
+        "reference_snippet": " and year",
+        "prediction_snippet": "etteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 1965,
+        "ref_end": 2018,
+        "pred_start": 266,
+        "pred_end": 279,
+        "reference_snippet": "- **Page numbers** — required for direct quotes and specific data; comma after year, then page numbers (*Jentleson 2015, 12–14*); omit *p.* or *pp.* unless needed to avoid ambiguity",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2019,
+        "ref_end": 2078,
+        "pred_start": 280,
+        "pred_end": 281,
+        "reference_snippet": "- **Two or three authors** — cite all names every time; use *and*, not `&` (*Roberts, Smith, and Haptonstahl 2016*)\n- **Four or more authors** — *et al.* in roman type after first author's",
+        "prediction_snippet": "---\n"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2079,
+        "ref_end": 2140,
+        "pred_start": 282,
+        "pred_end": 295,
+        "reference_snippet": " (*Angel et al. 1986*)\n- **Multiple sources in one citation** — same parentheses, separated by semicolons, alphabetized (*Hauck 2000; Jordan et al. 1999*)\n- **Same author, different years** — can omit",
+        "prediction_snippet": "etteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls\n---\n"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2141,
+        "ref_end": 2214,
+        "pred_start": 296,
+        "pred_end": 307,
+        "reference_snippet": " on second source (*Barbarosa 1973; 1978*)\n- **Same author, same year** — add lowercase letter to year (*Frankly 1957a, 1957b*)\n- **Citation placement** — before the final period for regular inline citations; after the final period for block quotes",
+        "prediction_snippet": "etteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2215,
+        "ref_end": 2382,
+        "pred_start": 308,
+        "pred_end": 321,
+        "reference_snippet": "- **Block quotes** — 100+ words or 2+ paragraphs; not enclosed in quotation marks; citation follows end punctuation; introduced by a sentence ending with a period (or colon if *as follows* or similar)\n\n### 6. NEUTRAL AND UNBIASED LANGUAGE\n\nPer the APSA Style Manual (pp. 25–27):\n\n- **Gender neutrality** — avoid gendered pronouns when the referent is",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2383,
+        "ref_end": 2435,
+        "pred_start": 322,
+        "pred_end": 335,
+        "reference_snippet": "- **Racial / ethnic identity** — *Black* and *Indigenous* capitalized when referring to race; *white* lowercase; omit hyphen in compound ethnic identifiers (*African American*, *Asian Pacific Islander*); use current, respectful terminology",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2436,
+        "ref_end": 2470,
+        "pred_start": 336,
+        "pred_end": 349,
+        "reference_snippet": "- **LGBTQ+ language** — *transgender* is an adjective, never a noun (not *transgendered*); use specific identity terms when applicable",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2471,
+        "ref_end": 2502,
+        "pred_start": 350,
+        "pred_end": 363,
+        "reference_snippet": "- **Disability language** — people-first terminology preferred (*person with Down syndrome*); flag potentially offensive terms unless contextually essential and enclosed in quotation marks",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2503,
+        "ref_end": 2828,
+        "pred_start": 364,
+        "pred_end": 365,
+        "reference_snippet": "- **Unnecessary personal characteristics** — flag references to race, gender, age, etc. that are not essential to the manuscript's argument\n\n### 7. APSA COMMONLY USED TERMS\n\nFlag incorrect forms and suggest the APSA-preferred spelling:\n\n| Incorrect | Correct |\n|-----------|---------|\n| *advisor* | *adviser* |\n| *co-author*, *co-editor* | *coauthor*",
+        "prediction_snippet": "---\n"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 2829,
+        "ref_end": 3040,
+        "pred_start": 366,
+        "pred_end": 377,
+        "reference_snippet": " to construct the default output path.\n2. **Determine output path** — if a second argument was supplied, use it; otherwise derive `<basename>-style-edits.md` adjacent to the input.\n3. **Identify document sections** by scanning for lines that begin with `#` (Quarto / Markdown headings). These become the sections of your report. Preserve the exact he",
+        "prediction_snippet": "etteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3041,
+        "ref_end": 3174,
+        "pred_start": 378,
+        "pred_end": 391,
+        "reference_snippet": "# APSA Style Report: <filename>\n\n_Generated: <date>_\n_Style guide: APSA Style Manual for Political Science (2018, updated 2023)_\n_Total issues: N (Critical: X · Minor: Y)_\n\n| Section | Critical | Minor | Total |\n|---------|----------|-------|-------|\n| Abstract | … | … | … |\n| Introduction | … | … | … |\n| … | … | … | … |\n| **Total** | **X** | **Y**",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3175,
+        "ref_end": 3234,
+        "pred_start": 392,
+        "pred_end": 405,
+        "reference_snippet": "**Original:** We analyzed 3 cases across 5 countries.\n**Recommended:** We analyzed three cases across five countries.\n**Reason:** APSA requires spelling out cardinal numbers zero through nine in running text.\n\n---\n\n## Introduction\n\n### [CRITICAL · Citation] Ampersand used in narrative citation",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3235,
+        "ref_end": 3485,
+        "pred_start": 406,
+        "pred_end": 3726,
+        "reference_snippet": "**Original:** As Smith & Jones (2019) argue, polarization has increased.\n**Recommended:** As Smith and Jones (2019) argue, polarization has increased.\n**Reason:** APSA uses *and*, not `&`, when citing two or three authors.\n\n…\n```\n\n### Severity Definitions\n\n| Level | When to use |\n|-------|-------------|\n| **CRITICAL** | Violates a clear APSA rule i",
+        "prediction_snippet": "---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls\n---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationControls\n---\n nameetteVN markdown contributor yaml molhos\n      \n Cheers confirmationCont"
+      }
+    ]
+  },
+  {
+    "skill": "006_apsa-style",
+    "selection": "same_run",
+    "run": "t5_p32_s0_a3",
+    "recall": 0.9374461979913917,
+    "ref_tokens": 3485,
+    "pred_tokens": 3726,
+    "diffs": [
+      {
+        "tag": "insert",
+        "ref_start": 0,
+        "ref_end": 0,
+        "pred_start": 0,
+        "pred_end": 1,
+        "reference_snippet": "",
+        "prediction_snippet": "---\n"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3216,
+        "ref_end": 3219,
+        "pred_start": 3217,
+        "pred_end": 3222,
+        "reference_snippet": "---\n\n## Introduction",
+        "prediction_snippet": "---\n# APSA Style"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3220,
+        "ref_end": 3242,
+        "pred_start": 3223,
+        "pred_end": 3240,
+        "reference_snippet": "### [CRITICAL · Citation] Ampersand used in narrative citation\n**Original:** As Smith & Jones",
+        "prediction_snippet": "You are an expert academic editor applying the *APSA Style Manual for Political Science*"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3246,
+        "ref_end": 3249,
+        "pred_start": 3244,
+        "pred_end": 3246,
+        "reference_snippet": "9) argue",
+        "prediction_snippet": "8 edition"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3250,
+        "ref_end": 3262,
+        "pred_start": 3247,
+        "pred_end": 3249,
+        "reference_snippet": " polarization has increased.\n**Recommended:** As Smith and Jones (",
+        "prediction_snippet": " updated "
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3264,
+        "ref_end": 3266,
+        "pred_start": 3251,
+        "pred_end": 3253,
+        "reference_snippet": "19",
+        "prediction_snippet": "23"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3267,
+        "ref_end": 3273,
+        "pred_start": 3254,
+        "pred_end": 3260,
+        "reference_snippet": " argue, polarization has increased.\n",
+        "prediction_snippet": " to a Quarto manuscript.\n\n"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3274,
+        "ref_end": 3283,
+        "pred_start": 3261,
+        "pred_end": 3286,
+        "reference_snippet": "Reason:** APSA uses *and*, not",
+        "prediction_snippet": "You never modify the source file.** All findings are written to a separate report file.\n\nThe full style manual is available at"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3284,
+        "ref_end": 3292,
+        "pred_start": 3287,
+        "pred_end": 3317,
+        "reference_snippet": "&`, when citing two or three authors",
+        "prediction_snippet": "Style-Manual-for-Political-Science-December-2023-Revision.pdf` in the repository root. Consult it for edge cases"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3293,
+        "ref_end": 3299,
+        "pred_start": 3318,
+        "pred_end": 3321,
+        "reference_snippet": "…\n```\n\n### Severity Definitions",
+        "prediction_snippet": "## Input Arguments"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3301,
+        "ref_end": 3302,
+        "pred_start": 3323,
+        "pred_end": 3324,
+        "reference_snippet": " Level",
+        "prediction_snippet": " Position"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3303,
+        "ref_end": 3306,
+        "pred_start": 3325,
+        "pred_end": 3328,
+        "reference_snippet": " When to use",
+        "prediction_snippet": " Required | Description"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3308,
+        "ref_end": 3309,
+        "pred_start": 3330,
+        "pred_end": 3333,
+        "reference_snippet": "-------",
+        "prediction_snippet": "----------|----------"
+      },
+      {
+        "tag": "insert",
+        "ref_start": 3313,
+        "ref_end": 3313,
+        "pred_start": 3337,
+        "pred_end": 3340,
+        "reference_snippet": "",
+        "prediction_snippet": " 1 |"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3314,
+        "ref_end": 3316,
+        "pred_start": 3341,
+        "pred_end": 3342,
+        "reference_snippet": "CRITICAL",
+        "prediction_snippet": "Yes"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3318,
+        "ref_end": 3338,
+        "pred_start": 3344,
+        "pred_end": 3365,
+        "reference_snippet": " Violates a clear APSA rule in a way that would cause rejection or embarrassment; or creates ambiguity",
+        "prediction_snippet": " Path to the `.qmd` file to check (e.g., `paper/paper.qmd`)"
+      },
+      {
+        "tag": "insert",
+        "ref_start": 3340,
+        "ref_end": 3340,
+        "pred_start": 3367,
+        "pred_end": 3502,
+        "reference_snippet": "",
+        "prediction_snippet": " 2 | No | Output report path. Defaults to `<input-basename>-style-edits.md` in the same directory |\n| `@sec-label` | No | Quarto section reference (e.g., `@sec-intro`). Detected by the leading `@`. If supplied, only that section is checked. May appea"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3341,
+        "ref_end": 3343,
+        "pred_start": 3503,
+        "pred_end": 3505,
+        "reference_snippet": "MINOR",
+        "prediction_snippet": "all arguments"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3344,
+        "ref_end": 3347,
+        "pred_start": 3506,
+        "pred_end": 3609,
+        "reference_snippet": " | Departs",
+        "prediction_snippet": " for one that begins with `@`. That is the section filter. Strip the leading `@` to get the Quarto label (e.g., `@sec-intro` → `sec-intro`).\n\nIn Quarto, section labels are attached to headings with `{#label}` syntax:\n\n```markdown\n# Introduction {#sec"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3348,
+        "ref_end": 3353,
+        "pred_start": 3610,
+        "pred_end": 3662,
+        "reference_snippet": " APSA preference but meaning",
+        "prediction_snippet": " that heading line to (but not including) the next heading of **equal or higher level** (i.e., same number of `#` characters or fewer). Process and report on **only the content within that span**.\n\nIf no heading with that label"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3354,
+        "ref_end": 3359,
+        "pred_start": 3663,
+        "pred_end": 3702,
+        "reference_snippet": " clear; or involves a",
+        "prediction_snippet": " found, stop and tell the user. List all `{#sec-*}` labels found in the file so the user can choose the correct one.\n\n## Scope\n\nThis skill covers **APSA-specific"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3360,
+        "ref_end": 3377,
+        "pred_start": 3703,
+        "pred_end": 3708,
+        "reference_snippet": " choice with a standard correct form |\n\n### Category Labels\n\n`Numbers` · `Capital",
+        "prediction_snippet": " rules**: numbers, capital"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3378,
+        "ref_end": 3383,
+        "pred_start": 3709,
+        "pred_end": 3711,
+        "reference_snippet": "` · `Abbrev",
+        "prediction_snippet": ", abbrev"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3384,
+        "ref_end": 3388,
+        "pred_start": 3712,
+        "pred_end": 3714,
+        "reference_snippet": "` · `It",
+        "prediction_snippet": ", it"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3390,
+        "ref_end": 3417,
+        "pred_start": 3716,
+        "pred_end": 3721,
+        "reference_snippet": "` · `Citation` · `Neutral Language` · `Terminology`\n\n### Guidelines for Issue Entries\n\n- **Original**",
+        "prediction_snippet": ", in-text citations,"
+      },
+      {
+        "tag": "replace",
+        "ref_start": 3418,
+        "ref_end": 3485,
+        "pred_start": 3722,
+        "pred_end": 3726,
+        "reference_snippet": " **Recommended** must both be **complete sentences** (or the smallest complete unit giving clear context) — never isolated words.\n- If the recommended change is uncertain due to ambiguous author intent, add: *\"If the intended meaning is X, consider…\"*\n- If a section has no issues, omit it from the report entirely.\n\n---",
+        "prediction_snippet": " commonly used terms."
+      }
+    ]
+  }
+]

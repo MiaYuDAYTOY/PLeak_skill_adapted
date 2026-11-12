@@ -312,29 +312,10 @@ def main(argv=None):
     sample_seeds = SAMPLE_SEEDS if args.sample_seeds is None else args.sample_seeds
     attack_seeds = ATTACK_SEEDS if args.attack_seeds is None else args.attack_seeds
     from DataFactory import DataFactory
-    # from filter_samples import filter_skill_files, save_filter_manifest
-    # from util.template import TextTemplate
 
     dataFactory = DataFactory()
     files = dataFactory.get_files(args.dataset)
     # Startup length filtering is disabled for the full dataset.
-    # tokenizer = None
-    # context_limit = None
-    # if args.length_filter:
-    #     from ModelFactory import ModelFactory
-    #     modelFactory = ModelFactory()
-    #     tokenizer = modelFactory.get_tokenizer(args.target_model)
-    #     context_limit = modelFactory.get_context_limit(args.target_model)
-    # eligible_files, length_filter = filter_skill_files(
-    #     files, tokenizer,
-    #     context_limit=context_limit,
-    #     trigger_token_reserve=(args.token_length if args.trigger_token_reserve is None
-    #                            else args.trigger_token_reserve),
-    #     template=TextTemplate(prefix_1="", prefix_2=""),
-    #     enabled=args.length_filter,
-    # )
-    # del tokenizer
-
     eligible_files = files
     length_filter = {
         "policy": "none",

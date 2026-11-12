@@ -1,0 +1,10 @@
+metric,component,sum_squares,fraction,note
+body_rougeL_recall,skill_main,92.8488331858098,0.07812343129776729,Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+body_rougeL_recall,run_main,372.522472689153,0.313442105877247,Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+body_rougeL_recall,skill_run_residual,723.1176230344278,0.6084344628249859,Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+body_rouge2_recall,skill_main,98.79398383006239,0.0778967558112136,Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+body_rouge2_recall,run_main,393.45357542117074,0.31022898256994497,Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+body_rouge2_recall,skill_run_residual,776.0207120166256,0.6118742616188415,Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+body_rougeL_precision,skill_main,77.10209587571836,0.0745161139711274,Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+body_rougeL_precision,run_main,330.72487341553324,0.3196324572063904,Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution
+body_rougeL_precision,skill_run_residual,626.8766909880935,0.6058514288224823,Balanced 70x81 descriptive SS; residual includes interaction and generation randomness; no causal attribution

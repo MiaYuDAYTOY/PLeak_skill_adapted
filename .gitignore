@@ -1,4 +1,7 @@
 __pycache__/
 *.py[cod]
 .DS_Store
-/reports/
+node_modules/
+*.pid
+*.inspect.ndjson
+workbook_inspection.ndjson

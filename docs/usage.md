@@ -1,0 +1,357 @@
+# 完整使用说明
+
+[返回项目首页](../README.md)。以下命令均在项目根目录运行。
+
+# PLEAK: Prompt Leaking Attacks against Large Language Model Applications
+This is official implementation of PLEAK: Prompt Leaking Attacks against Large Language Model Applications.
+## Requirements
++ python 3.10
++ pytorch 2.10.0+cu128 for RTX 5060 / sm_120
++ torchmetrics 0.11.4
++ torchvision 0.25.0+cu128
++ transformers 4.51.3
++ tokenizers 0.21.1 / huggingface-hub 0.30.2 / accelerate 1.6.0
++ sentence-transformers 3.4.1
++ evaluate 0.4.0
++ torcheval 0.0.6
++ nltk 3.8.1
+
+For this RTX 5060 Laptop GPU environment, install PyTorch separately from the official CUDA 12.8 wheel index. The original paper's PyTorch 2.0.1 / CUDA 11.7 setup is historical reference only and does not support this GPU's `sm_120` capability.
+
+```bash
+conda activate pleak
+python -m pip install torch==2.10.0 torchvision==0.25.0 --index-url https://download.pytorch.org/whl/cu128
+```
+
+`environment.yaml` intentionally manages only non-Torch project dependencies, so do not use an old environment file that installs `pytorch=2.0.1`, `pytorch-cuda=11.7`, old `torchvision`, old `torchaudio`, or `torchtext==0.15.2` into this environment.
+
+Install or refresh the non-Torch dependencies:
+
+```bash
+conda env update -n pleak -f environment.yaml
+conda run -n pleak python -m pip check
+```
+
+These Hugging Face dependencies are upgraded together for Qwen3 support. Do not
+restore the old `tokenizers==0.13.3`, `huggingface-hub==0.16.4`, or
+`sentence-transformers==2.2.2` pins when updating Transformers.
+
+`Sampler.py` uses NLTK tokenizers and POS taggers. Download the required NLTK data once:
+
+```bash
+python -m nltk.downloader punkt averaged_perceptron_tagger universal_tagset
+```
+
+## Code Usage
+Attack.py is the implementaion of Attack and Sampler.py is to simulate the process how LLMs generate response for user.
+
+### Generate AQ for target mode
+
+```bash
+python main.py {dataset} {AQ length} {shadow model} {target model} [train_num ...]
+# Here is an example to use the code: 
+# python main.py data_analysis 12 llama llama 3 --test-num 25
+```
+
+### Qwen3-0.6B-Base
+
+模型名称 `qwen3` 对应 **[Qwen/Qwen3-0.6B-Base](https://huggingface.co/Qwen/Qwen3-0.6B-Base)**，shadow 和 target 均可使用。
+默认从 Hugging Face 下载；已下载到服务器时，可指定本地完整模型目录：
+
+```bash
+export PLEAK_QWEN3_MODEL_PATH=/root/autodl-tmp/Qwen3-0.6B-Base
+```
+
+未设置这个环境变量时使用官方模型 ID；设置后只读取本地文件。
+不要把对话版 `Qwen3-0.6B` 放到这个目录冒充 Base 版。
+
+保留原来的纯文本流程：推理输入是 `Skill 正文 + trigger + 换行`，
+训练实际送入模型的是 `完整 Skill + trigger + 换行 + Skill 的前 prefix_length 个 token`；
+只有最后这些目标 token 计入 loss，前面的上下文标签为 `-100`。
+文本分词时虽然先拼接了第二份完整正文，但送入模型前已截到目标前缀末尾。
+不调用 `apply_chat_template()`，不加入 system/user/assistant 标记或 thinking 开关。
+
+`qwen3` 默认加载完整 BF16 权重，不启用 bitsandbytes 量化；
+`--dtype float16` 可切换为 FP16。原有模型继续使用 4-bit 权重。
+HotFlip 冻结模型参数，只计算输入 embedding 的梯度；训练关闭 KV cache，
+Qwen 生成启用 KV cache。长文本的激活、logits 和缓存仍可能占用较多显存。
+
+Qwen 的 attack loss 使用 `logits_to_keep`，在输出词表投影**之前**选出
+有监督标签对应的预测位置（标签位置减 1），只为这些位置计算 FP32 交叉熵。
+完整 Skill 上下文仍参与 Transformer 计算，目标前缀、样本选择、候选搜索和
+逐样本 loss 平均方式不变。`prefix_length=8` 时，输出分数的序列维度为 8，
+不再随整篇 Skill 长度增长。仅把其他 labels 设为 `-100` 不能省去全长 logits。
+结果配置中的 `attack_loss=supervised_qwen_logits_v1` 标识这一实现。
+它与原来的 masked causal LM loss 数学等价，浮点计算不保证逐 bit 一致；
+也不消除 Transformer 本体或生成阶段的显存需求。
+
+Qwen Base 的生成参数显式对齐当前 Llama 实验：`do_sample=True`、
+`num_beams=3`、`temperature=0.9`、`top_p=0.6`、`top_k=50`，
+`repetition_penalty=1.0`、`length_penalty=1.0`、`early_stopping=False`，
+返回一个序列。EOS/PAD 从 Base tokenizer 读取，生成总长度上限仍为
+`2 * prompt_tokens + 50`。这些是本项目实验参数，并非对话版的推荐采样参数。
+代码通过显式设置 `max_new_tokens = prompt_tokens + length` 实现这一预算
+（`length` 默认 50），不再同时传 `max_length`，避免 Qwen Base 随模型附带的
+`max_new_tokens=2048` 覆盖实验设置。日志会打印每条样本的 `max new tokens`，
+结果配置以 `generation_length_policy=explicit_prompt_plus_length_v1` 标识修复后的规则。
+已有 trigger 不受这次生成预算修复影响；旧版生成结果需重新采样、评估后才能按同一预算比较。
+
+先运行单组小规模实验：
+
+```bash
+python -u main.py documents 12 qwen3 qwen3 1 \
+  --test-num 2 --prefix-lengths 8 --sample-seeds 0 --attack-seeds 1
+```
+
+通过后再运行 N=3 的单组实验：
+
+```bash
+python -u main.py documents 12 qwen3 qwen3 3 \
+  --prefix-lengths 8 --sample-seeds 0 --attack-seeds 1
+```
+
+不指定 seed/prefix 参数会按 `main.py` 当前列表运行多组实验。
+长度筛选和历史 OOM 样本排除代码已全部注释，所有源文档都参与原有的 30% / 70% 划分。
+documents 恢复为 30 篇训练候选和 70 篇测试文档；训练时仍按指定的 train_num 抽样。
+旧参数 `--length-filter`、`--no-length-filter`、`--trigger-token-reserve` 和
+`--include-known-oom` 保留兼容，但不再改变数据选择。
+
+词表从实际 tokenizer 读取，初始化及 HotFlip 候选排除未分配的 embedding 行、
+特殊 token、空文本和原规则不允许的字符。trigger 内容编码不自动加 BOS/EOS，
+完整 prompt 则遵循 tokenizer 自身行为；同时检查前后文本边界的 token ID 稳定性。
+这修正了旧的按模型名裁掉首 token 的逻辑，也改变了旧模型候选集合/随机初始化，
+同一 seed 不保证重现旧代码的 trigger。旧 Llama trigger ID 文件不能用于 Qwen。
+
+samples、metrics、evaluation 和 summary JSON 的 `model_config` 会记录模型路径、
+量化方式、纯文本输入格式和显式生成参数。跨模型对照应固定样本名单，
+并注明 tokenizer、精度及生成设置；相同 token 数不代表相同文本长度。
+
+回归测试（不下载模型权重，使用微型随机 Qwen3 模型）：
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+### 新增 skill 数据的固定测试集与双 seed 重复实验
+
+`main.py` 用 `TRAIN_NUMS = [3, 4, 5]` 和 `PREFIX_LENGTHS = [8, 16, 32]`
+配置列表循环。四层循环依次为 `train_num → prefix_length → sample_seed → attack_seed`。
+`SAMPLE_SEEDS = [0, 1, 2]` 控制训练集选择，
+`ATTACK_SEEDS = [1, 2, 3]` 控制 attack 的随机过程。
+每批训练样本固定后，遍历三个 attack seed，各自重新执行完整 attack / training / evaluation。
+命令行省略训练规模时使用 `TRAIN_NUMS`；也可在第 5 个位置起传入一个或多个数覆盖列表。
+默认一次启动共运行 3 × 3 × 3 × 3 = 81 次，所有训练规模和重复实验共用一次加载的测试集。
+本流程读取 `data/skill_expansion_20260922/samples/` 下的单个分类，
+不读取混合的 `combined_dataset.jsonl`，也不使用原来的 `data/samples/`。
+
+`main.py` 对完整数据按 30% / 70% 划分，当前各分类规模如下，实际数量以启动日志为准。
+
+| dataset 参数 | 对应分类目录 | 未筛选的训练池 / 测试池 |
+| --- | --- | --- |
+| `documents` | `documents` | 30 / 70 |
+| `data_analysis` | `data_analysis` | 30 / 70 |
+| `software_development` | `software_development` | 30 / 70 |
+| `information_retrieval` | `information_retrieval` | 30 / 70 |
+| `workflow` | `workflow` | 30 / 70 |
+| `content_creation` | `content_creation` | 30 / 70 |
+| `scientific_research` | `scientific_research` | 30 / 70 |
+| `security` | `security` | 30 / 70 |
+| `cloud` | `cloud` | 30 / 70 |
+| `marketing` | `marketing` | 30 / 70 |
+| `product_management` | `product_management` | 30 / 70 |
+
+dataset 参数仅接受表中的英文名称，目录名与参数一致。
+当前 DataFactory 只注册这 11 类；其他名称会明确报错。
+
+历史长度筛选已停用，相应的全注释脚本已在目录清理时移除。
+启动时直接使用指定分类的全部 `SKILL.md`，不按上下文预算排除文档，也不截断或改动源文件。
+生成预算保持 `2 * prompt_tokens + 50`。
+
+每次启动仍保存 `results/{本次运行目录}/length_filter.json`，兼容既有结果格式：
+`policy=none`、`enabled=false`、`excluded_count=0`，并列出全部源文件。
+samples、metrics、summary 中的训练池和测试集排除策略也都记录为 `none`。
+
+先对全部 `SKILL.md` 路径排序，再用独立的 `Random(0)` 打乱，
+训练池取前 `int(样本数 * 0.3)` 个（向下取整），其余全部归入测试池，即约 30% / 70%。
+完整训练池通过 `get_dataset(dataset, train=True, num=None)` 获取。
+测试集通过 `get_dataset(dataset, train=False, num=test_num)` 在循环外加载一次；
+不指定 `--test-num` 时使用完整测试池，指定时固定取测试池前 N 个。
+同一数据版本、dataset 和 test_num 在不同训练规模和重复运行中使用相同测试样本。
+历史 OOM 文档保留在其原始划分和顺序中；恢复训练候选后，相同 sample_seed 的抽样可能与排除版不同。
+增删、改名或修改源数据可能改变划分或内容，实验比较时应保持数据版本不变。
+
+每个 sample_seed 用独立的 `Random(sample_seed).sample(...)` 从完整训练池不放回抽样，
+不受 attack 对全局随机数状态的消耗影响。不同 repeat 可重复选择同一文件；
+改变 train_num 会重新抽样，不要求不同 N 的训练集嵌套。
+同一 N 和 sample_seed 在不同 prefix_length / attack_seed 下使用相同训练样本。
+repeat_id 表示抽样重复编号；改变 attack seed 不会重新抽样或改变训练集。
+训练数和测试数必须为正且不超过对应池大小，否则报错。
+程序在训练前检查样本路径和实际输入文本的 SHA-256，拒绝重复或 train/test 重叠。
+这检查的是同一文件和完全相同文本，不保证不同文件之间不存在语义相似性。
+
+```bash
+# 一个类别、一个 N、默认三个 prefix：3 × 3 × 3，共 27 次
+python main.py data_analysis 12 llama llama 3 --test-num 25
+
+# 使用完整测试池；训练规模不能超过训练池
+python main.py software_development 12 llama llama
+
+# 也可通过参数覆盖列表，只运行 N=3 和 N=5
+python main.py software_development 12 llama llama 3 5
+
+# 文档处理示例；实际可用样本数在启动时检查
+python main.py documents 12 llama llama 3
+```
+
+每次启动创建新的 `results/{dataset}_train{N列表}_{时间}_{唯一后缀}/` 目录
+（可用 `--results-dir` 修改父目录），重复启动也不会覆盖历史结果。
+每次实验开始前打印并写入 `.samples.json`，记录 dataset、train_num、test_num、
+repeat_id、sample_seed、attack_seed、划分参数、模型参数，以及训练/测试样本的绝对路径、
+零起始的池内索引和文本 SHA-256。
+例如 sample_seed=0、attack_seed=1 会生成以下三个文件，每个双 seed 组合各有对应文件：
+
+```text
+data_analysis_12_llama_llama_train3_test25_target_prefix8_repeat0_sample_seed0_attack_seed1.samples.json
+data_analysis_12_llama_llama_train3_test25_target_prefix8_repeat0_sample_seed0_attack_seed1.trigger_ids.json
+data_analysis_12_llama_llama_train3_test25_target_prefix8_repeat0_sample_seed0_attack_seed1.csv
+```
+
+每次实验都重新创建 HotFlip 和 Sampler，并用 attack_seed 设置 Python、NumPy、PyTorch 的随机状态。
+评估沿用该次实验的随机状态；此处不另增评估 seed。
+样本选择可复现；GPU 数值计算和生成结果仍受硬件及库版本影响。
+`Attack.py`、HotFlip、loss 和 `Sampler.py` 的算法逻辑未修改。
+
+每组 `train_num × prefix_length` 完成全部双 seed 实验后，打印并保存三类均值：
+
+| 汇总字段 | 求平均的维度 | 默认结果数量 |
+| --- | --- | --- |
+| `mean_over_sample_seeds` | 固定 attack_seed，对 3 个 sample_seed 等权平均 | 3 组 |
+| `mean_over_attack_seeds` | 固定 sample_seed，对 3 个 attack_seed 等权平均 | 3 组 |
+| `overall_mean` | 全部 9 次实验等权平均 | 1 组 |
+
+汇总覆盖现有评估返回的所有数值指标，包括完整泄漏率、精确匹配率、
+公共前缀比例、token recall/precision、EOS 比例及样本计数。
+每次实验额外保存 `*.metrics.json`，记录参数、双 seed 和原始评估值；
+每组参数生成 `*_train{N}_test{T}_target_prefix{P}.summary.json` 及对应的
+`.summary.csv`（默认 7 行，`average_over` 标明平均维度，空白 seed 表示该维度被平均）。
+不同参数组独立汇总，不混合训练规模或 prefix_length。
+
+采用实验级算术平均，不按每次成功生成的样本数加权。
+单次评估继续沿用 Sampler 的规则：失败生成不参与该次指标平均；
+若全部生成失败，其返回的零值仍按一次实验计入跨 seed 均值。
+汇总保留失败样本计数均值及 `zero_evaluated_runs`，不修改原指标定义。
+若某组实验中途报错，已完成的逐次文件保留，未完成的 seed 组合不会被当作完整组汇总。
+
+### 原文重合指标（ROUGE）
+
+生成文本采用 `generation_decode_policy=preserve_whitespace_skip_special_v1`：
+`generation` 解码时跳过 tokenizer 定义的特殊 token，关闭
+`clean_up_tokenization_spaces`，保留标点前空格、换行、缩进、重复段和 trigger 回显。
+`raw_generation` 同样关闭空格清理，并保留特殊 token；`raw_generation_ids`
+保存模型实际生成的 token。旧的无效 `postprocess()` 已移除。
+评估仍对原文和输出统一规范化换行并去除首尾空白，因此“完全匹配”是规范化文本匹配。
+历史输出需要从保存的 token 用对应 tokenizer 重新解码、重评；不能把原有
+`generation` 直接当成新口径，也不能把新旧指标混合汇总。
+
+评估新增以下逐条指标，使用目标模型的同一个 tokenizer 对规范化后的
+`context` 和 `generation` 重新编码，排除特殊 token，保留大小写和标点：
+
+| 字段 | 定义 |
+| --- | --- |
+| `rougeL_recall` | 最长公共子序列长度 / 原文 token 数 |
+| `rougeL_precision` | 最长公共子序列长度 / 输出 token 数 |
+| `rouge2_recall` | 按原文出现次数截断的重合 bigram 数 / 原文 bigram 数 |
+
+另有 `body_rougeL_recall`、`body_rougeL_precision`、`body_rouge2_recall`：
+分别移除原文和输出开头的 YAML 元数据块后计算。只识别以 `---` 开始、
+以 `---` 或 `...` 结束的简单顶层映射块，允许注释和缩进的字段续行。
+遇到未缩进的普通正文立即保留原文，避免把后面的 `Example:`、`Then:`
+和 Markdown 分隔线误认成文件头。无文件头、未闭合或不支持的复杂块保留。
+输出已跳过文件头时直接按原样评分，不裁剪尾部、trigger 或重复内容。
+此识别为保守的文本规则，不执行 YAML。修正识别规则后，历史 `body_*`
+指标需使用原 tokenizer 对已保存的生成文本重新评估，无需重新生成文本。
+
+全部取值为 0–1；分母为空时记 0，原文不足两个 token 时 ROUGE-2 记 0。
+采用整篇 token 序列的 ROUGE-L，不是按句子计算的 ROUGE-Lsum，也不是默认
+英文分词的 ROUGE；跨实验比较须保持 tokenizer 和预处理一致。
+LCS 允许少量增删改、但保持匹配顺序；它可能跨重复段匹配，不保证有一段
+连续的完整副本。复制两遍不会让 recall 超过 1，但会降低 precision。
+指标定义参考 [ROUGE 原论文](https://aclanthology.org/W04-1013/)。
+
+`*.metrics.json` 和跨 seed 的 `.summary.json/.csv` 自动包含六个对应的
+`mean_...` 字段，沿用成功生成样本等权平均、失败生成排除的规则。
+新增 `*.evaluation.json` 保存同次实验的配置、汇总指标与逐条 `samples`
+（包含样本索引、路径及正文 token 数）。原始生成 CSV 和旧指标保持原有含义。
+已有历史结果不会自动补算；新指标在后续运行时生成。
+
+## 正式实验默认配置
+
+模型默认使用 BF16：原有模型通过 `BitsAndBytesConfig` 设置 4-bit 计算精度，
+权重仍为 4-bit；新增 `qwen3` 使用完整 BF16 权重，不量化。
+HotFlip 默认启用 gradient checkpointing，梯度分支从 forward 到 backward 保持 train 模式，
+候选评估使用 eval/no-grad，并在结束或异常时恢复原模式。生成评估不启用 checkpoint。
+
+```bash
+# 单组实验：默认 BF16 + checkpoint，无需额外开关
+python -u main.py documents 12 llama llama 3 \
+  --prefix-lengths 8 --sample-seeds 0 --attack-seeds 1
+```
+
+原来的 `--dtype bfloat16 --gradient-checkpointing` 命令仍然兼容。
+如需显式覆盖，可以使用 `--dtype float16` 或 `--no-gradient-checkpointing`。
+实际配置继续写入 samples、metrics、summary JSON 和结果文件名。
+输入拼接、完整 SKILL.md、prefix 的监督含义、HotFlip 更新及生成参数不变。
+NaN/Inf 拦截和已有显存诊断辅助仍由正式代码使用，保留在 `util/attack_diagnostics.py`。
+
+原独立 OOM/NaN 诊断、webtesting 回归和旧训练集评估脚本已移除，
+当前 `tests/` 保留指标与模型兼容性回归测试。
+历史实验结果保留在 `results/`，诊断日志归档至 `reports/diagnostics/`，实验日志随对应结果归档。
+系统缓存、PID 记录与运行库链接不纳入版本控制。
+
+## 一次双 RTX 4090 容量检查
+
+`scripts/dual4090_check.py` 只做一次最长训练样本的 forward/backward，以及一次最长保留测试样本的
+完整生成，不进行 trigger 搜索或参数网格。正式实验代码和参数保持不变。
+训练候选取当前 `TRAIN_NUMS × SAMPLE_SEEDS` 实际会选到的文件并集，使用初始化 seed=1；
+prefix 默认取当前 `PREFIX_LENGTHS` 最大值（32），以覆盖计划中的最大监督长度。
+测试候选与正式入口一致，包含完整的 70 篇文档，使用已保存的
+sample_seed=1/attack_seed=2 trigger。两阶段独立进程，防止 OOM 状态互相影响。
+
+先在已有环境预检；只加载 tokenizer，不加载模型权重，也不要求双卡：
+
+```bash
+python -u scripts/dual4090_check.py --stage plan
+```
+
+**租卡前查看预检结果。** 本地参考 tokenizer 预检发现，当前计划包含 `042_latex`，
+prefix=32 时输入为 18,113 token；单份 eager FP32 attention 矩阵约 39.1 GiB，
+已大于单张 24 GiB。按层分布模型不会拆开同一层的矩阵，因此不能期待双卡直接承载全计划。
+历史排除版最长保留测试输入为 `100_xberg`（5,482 token），生成总长度上限 11,014；
+当前已恢复全部测试文档，需重新预检确认最长输入和预算。
+以上长度需以服务器预检使用的实际 tokenizer 再确认。
+
+若需要实际 GPU 验证，在双 4090 实例上运行（环境和模型权重需预先备齐）：
+
+```bash
+mkdir -p logs
+set -o pipefail
+CUDA_VISIBLE_DEVICES=0,1 python -u scripts/dual4090_check.py --stage all --timeout-minutes 20 2>&1 \
+  | tee "logs/dual4090_$(date +%Y%m%d_%H%M%S).log"
+```
+
+默认两阶段总预算 20 分钟，超时结束子进程，不自动重试；**脚本不会释放实例或停止计费**。
+`reports/diagnostics/dual4090_*/` 保存候选名单、选中样本、实际 device map、每卡显存峰值、耗时、梯度
+有限性和生成输出。要求实际使用两张 4090 且无 CPU/disk offload；超时与 OOM 分开报告。
+提前 EOS 的成功生成不等于测到了最大长度峰值，单样本通过也不保证全部组合通过。
+`--model-path` 可指定同一模型权重的挂载路径；本地检查未执行 GPU 测试。
+
+## 已停用的 documents OOM 样本排除
+
+历史排除名单和筛选函数已在 `main.py` 中注释：训练候选恢复 `009_baoyu-slide-deck`；
+测试集恢复 `016_clause`、`026_docs-cleaner`、`091_translate-book`、
+`090_technical-documentation`、`078_research-report`、`028_document-processing`。
+`scripts/dual4090_check.py` 中对应的跳过逻辑也已注释。
+
+默认使用完整的 30 篇训练候选和 70 篇测试文档，完整测试的结果文件名标为 `test70`。
+指定 `--test-num N` 时直接取原测试池前 N 篇，不再额外排除其中的文档。
+历史结果保持原样；已启动的进程需要重新启动才会应用修改。

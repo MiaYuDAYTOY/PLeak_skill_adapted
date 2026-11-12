@@ -1,0 +1,101 @@
+t3_p8_s0_a1 audited
+t3_p8_s0_a2 audited
+t3_p8_s0_a3 audited
+t3_p8_s1_a1 audited
+t3_p8_s1_a2 audited
+t3_p8_s1_a3 audited
+t3_p8_s2_a1 audited
+t3_p8_s2_a2 audited
+t3_p8_s2_a3 audited
+t3_p16_s0_a1 audited
+t3_p16_s0_a2 audited
+t3_p16_s0_a3 audited
+t3_p16_s1_a1 audited
+t3_p16_s1_a2 audited
+t3_p16_s1_a3 audited
+t3_p16_s2_a1 audited
+t3_p16_s2_a2 audited
+t3_p16_s2_a3 audited
+t3_p32_s0_a1 audited
+t3_p32_s0_a2 audited
+t3_p32_s0_a3 audited
+t3_p32_s1_a1 audited
+t3_p32_s1_a2 audited
+t3_p32_s1_a3 audited
+t3_p32_s2_a1 audited
+t3_p32_s2_a2 audited
+t3_p32_s2_a3 audited
+t4_p8_s0_a1 audited
+t4_p8_s0_a2 audited
+t4_p8_s0_a3 audited
+t4_p8_s1_a1 audited
+t4_p8_s1_a2 audited
+t4_p8_s1_a3 audited
+t4_p8_s2_a1 audited
+t4_p8_s2_a2 audited
+t4_p8_s2_a3 audited
+t4_p16_s0_a1 audited
+t4_p16_s0_a2 audited
+t4_p16_s0_a3 audited
+t4_p16_s1_a1 audited
+t4_p16_s1_a2 audited
+t4_p16_s1_a3 audited
+t4_p16_s2_a1 audited
+t4_p16_s2_a2 audited
+t4_p16_s2_a3 audited
+t4_p32_s0_a1 audited
+t4_p32_s0_a2 audited
+t4_p32_s0_a3 audited
+t4_p32_s1_a1 audited
+t4_p32_s1_a2 audited
+t4_p32_s1_a3 audited
+t4_p32_s2_a1 audited
+t4_p32_s2_a2 audited
+t4_p32_s2_a3 audited
+t5_p8_s0_a1 audited
+t5_p8_s0_a2 audited
+t5_p8_s0_a3 audited
+t5_p8_s1_a1 audited
+t5_p8_s1_a2 audited
+t5_p8_s1_a3 audited
+t5_p8_s2_a1 audited
+t5_p8_s2_a2 audited
+t5_p8_s2_a3 audited
+t5_p16_s0_a1 audited
+t5_p16_s0_a2 audited
+t5_p16_s0_a3 audited
+t5_p16_s1_a1 audited
+t5_p16_s1_a2 audited
+t5_p16_s1_a3 audited
+t5_p16_s2_a1 audited
+t5_p16_s2_a2 audited
+t5_p16_s2_a3 audited
+t5_p32_s0_a1 audited
+t5_p32_s0_a2 audited
+t5_p32_s0_a3 audited
+t5_p32_s1_a1 audited
+t5_p32_s1_a2 audited
+t5_p32_s1_a3 audited
+t5_p32_s2_a1 audited
+t5_p32_s2_a2 audited
+t5_p32_s2_a3 audited
+{
+  "primary_runs": 81,
+  "outputs": 5670,
+  "skills": 70,
+  "identical_test_order": true,
+  "factorial_complete": true,
+  "raw_decode_exact_agreements": 5670,
+  "metric_max_absolute_error": 0,
+  "metric_mismatches": [],
+  "excluded_index_records": [
+    {
+      "run_id": "documents_train4_20261029_152530_ad5iwmy6/documents_12_qwen3_qwen3_train4_test70_target_prefix32_dtypebfloat16_gc_repeat2_sample_seed2_attack_seed3",
+      "role": "superseded",
+      "status": "complete"
+    }
+  ],
+  "tokenizer_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+  "previous_soft_recall_actual_path": "results/qwen/analysis/data/soft_recall",
+  "user_requested_soft_recall_path_exists": false
+}

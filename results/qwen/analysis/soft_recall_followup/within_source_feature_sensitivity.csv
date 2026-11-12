@@ -1,0 +1,10 @@
+feature,within_source_rank_correlation,n_documents,n_source_families,note
+body_tokens,-0.18555878733878056,70,26,Descriptive residual ranks; singleton families contribute zero; not causal adjustment
+separator_count,-0.45410622080021823,70,26,Descriptive residual ranks; singleton families contribute zero; not causal adjustment
+has_input_arguments,-0.3592169116645154,70,26,Descriptive residual ranks; singleton families contribute zero; not causal adjustment
+code_fraction,-0.4264524490827067,70,26,Descriptive residual ranks; singleton families contribute zero; not causal adjustment
+table_fraction,-0.10966729005651984,70,26,Descriptive residual ranks; singleton families contribute zero; not causal adjustment
+has_report_template,-0.17989410993523683,70,26,Descriptive residual ranks; singleton families contribute zero; not causal adjustment
+example_heading_count,-0.04874168533120148,70,26,Descriptive residual ranks; singleton families contribute zero; not causal adjustment
+cjk_fraction,-0.07467912339467359,70,26,Descriptive residual ranks; singleton families contribute zero; not causal adjustment
+repeat_line_fraction,-0.25369458869541345,70,26,Descriptive residual ranks; singleton families contribute zero; not causal adjustment

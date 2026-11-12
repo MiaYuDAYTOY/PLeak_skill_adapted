@@ -1,0 +1,130 @@
+{
+  "n_outputs": 5670,
+  "n_docs": 70,
+  "n_runs": 81,
+  "context_hash_checks": 5670,
+  "n_train_unique": 11,
+  "rank_correlation_min": 0.1896072084682006,
+  "rank_correlation_median": 0.4944974192983991,
+  "rank_correlation_max": 0.6506692327880325,
+  "all9_top20": [
+    "001_Chat-with-PDF",
+    "054_nutrient-document-processing"
+  ],
+  "all9_bottom20": [
+    "016_clause",
+    "070_proofread",
+    "043_latex-to-quarto"
+  ],
+  "patterns": {
+    "frequent_low_occasional_near1": 48,
+    "other": 22
+  },
+  "variance_descriptive": {
+    "skill": 0.07812343129776729,
+    "run": 0.313442105877247,
+    "interaction_and_sampling_residual": 0.6084344628249857
+  },
+  "within_run_correlations": {
+    "body_tokens": {
+      "median": -0.1622324179528957,
+      "min": -0.3999113931092273,
+      "max": 0.26466064784177423
+    },
+    "cjk_fraction": {
+      "median": -0.014271475006763498,
+      "min": -0.29294176225944607,
+      "max": 0.22810278343885737
+    },
+    "code_fraction": {
+      "median": 0.08929905111875018,
+      "min": -0.3039210969397854,
+      "max": 0.6680060406375643
+    },
+    "digit_fraction": {
+      "median": 0.048254147552896164,
+      "min": -0.2322534081426523,
+      "max": 0.418792652521425
+    },
+    "enhanced_metadata_banner": {
+      "median": 0.09609090072408072,
+      "min": -0.2632292700726535,
+      "max": 0.3802986603212867
+    },
+    "example_heading_count": {
+      "median": 0.058777889438590955,
+      "min": -0.22742200320707806,
+      "max": 0.40330303824701585
+    },
+    "has_input_arguments": {
+      "median": -0.22554803816538524,
+      "min": -0.4591717152059197,
+      "max": 0.11728609872272734
+    },
+    "has_report_template": {
+      "median": 0.06428089943355879,
+      "min": -0.39449622304432447,
+      "max": 0.3362973015112648
+    },
+    "has_role_statement": {
+      "median": -0.1286180282377182,
+      "min": -0.4537062973605678,
+      "max": 0.17771605459886955
+    },
+    "heading_density": {
+      "median": 0.05579299054387165,
+      "min": -0.5322136310753931,
+      "max": 0.4371187972453025
+    },
+    "list_fraction": {
+      "median": 0.029065254176538255,
+      "min": -0.40661609206653204,
+      "max": 0.42133712781075483
+    },
+    "mean_max_train_word_trigram_jaccard": {
+      "median": 0.06215988739788312,
+      "min": -0.2613490549068199,
+      "max": 0.346968816993762
+    },
+    "mean_train_heading_level_jaccard": {
+      "median": 0.057636029047595995,
+      "min": -0.33757559883411087,
+      "max": 0.32482528768155766
+    },
+    "metadata_chars": {
+      "median": -0.11614013169936155,
+      "min": -0.3518121557833801,
+      "max": 0.33327526688596926
+    },
+    "non_ascii_fraction": {
+      "median": -0.07393466465476861,
+      "min": -0.26260887021208423,
+      "max": 0.19108588642952173
+    },
+    "repeat_line_fraction": {
+      "median": 0.038270014530750365,
+      "min": -0.4463907564849571,
+      "max": 0.5356778493218594
+    },
+    "repeat_paragraph_fraction": {
+      "median": -0.051867047392972154,
+      "min": -0.2785986879823458,
+      "max": 0.21603407265395072
+    },
+    "separator_count": {
+      "median": -0.21463508315519333,
+      "min": -0.4587892563191967,
+      "max": 0.07633856412039165
+    },
+    "starts_html_comment": {
+      "median": -0.11619433782515938,
+      "min": -0.20536494974689248,
+      "max": 0.1757811777354975
+    },
+    "table_fraction": {
+      "median": -0.14979042200977782,
+      "min": -0.4223654678155574,
+      "max": 0.3299658087254725
+    }
+  }
+}

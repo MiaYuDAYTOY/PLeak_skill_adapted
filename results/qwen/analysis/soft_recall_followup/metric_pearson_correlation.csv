@@ -1,0 +1,4 @@
+,body_rougeL_recall,body_rouge2_recall,body_rougeL_precision
+body_rougeL_recall,1.0,0.9988226787626269,0.9827556914038884
+body_rouge2_recall,0.9988226787626269,1.0,0.9824607224797471
+body_rougeL_precision,0.9827556914038884,0.9824607224797471,1.0
